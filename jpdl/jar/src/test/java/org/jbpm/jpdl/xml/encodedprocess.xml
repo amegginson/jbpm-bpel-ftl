@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<process-definition name='español'>
+  <start-state>
+    <transition to='árbol' />
+  </start-state>
+  <node name='árbol'>
+    <transition to='león' />
+  </node>
+  <node name='león'>
+    <transition to='uña' />
+  </node>
+  <end-state name='uña' />
+</process-definition>

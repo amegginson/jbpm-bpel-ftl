@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+	    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	    xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.0.xsd"
+	    no-conversation-view-id="/ReportList.xhtml"
+	    login-required="true">
+
+	<begin-conversation join="true" />
+
+	<action execute="#{reportHome.wire}" />
+
+	<param name="reportFrom" />
+	<param name="reportId" value="#{reportHome.reportId}" />
+
+	<navigation from-action="#{reportHome.persist}">
+		<rule if-outcome="failed">
+			<redirect view-id="/ReportEdit.xhtml" />
+		</rule>
+		<rule if-outcome="persisted">
+			<end-conversation />
+			<redirect view-id="/Report.xhtml" />
+		</rule>
+	</navigation>
+
+	<navigation from-action="#{reportHome.update}">
+		<rule if-outcome="failed">
+			<redirect view-id="/ReportEdit.xhtml" />
+		</rule>
+		<rule if-outcome="updated">
+			<end-conversation />
+			<redirect view-id="/Report.xhtml" />
+		</rule>
+	</navigation>
+
+	<navigation from-action="#{reportHome.remove}">
+		<end-conversation />
+		<redirect view-id="/ReportList.xhtml" />
+	</navigation>
+</page>

@@ -1,0 +1,116 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+								xmlns:s="http://jboss.com/products/seam/taglib"
+								xmlns:ui="http://java.sun.com/jsf/facelets"
+								xmlns:f="http://java.sun.com/jsf/core"
+								xmlns:h="http://java.sun.com/jsf/html"
+								xmlns:rich="http://richfaces.org/rich" 
+								template="layout/template.xhtml">
+	<ui:define name="body">
+		
+		<s:div>
+			<h:messages globalOnly="true" styleClass="message" id="globalMessages" />
+			<rich:panel>
+				<f:facet name="header">Report Details</f:facet>
+				<s:decorate id="id" template="layout/display.xhtml">
+					<ui:define name="label">ID</ui:define>
+	            #{reportHome.instance.id}
+	      </s:decorate>
+
+				<s:decorate id="name" template="layout/display.xhtml">
+					<ui:define name="label">Name</ui:define>
+	            #{reportHome.instance.name}
+	      </s:decorate>
+
+				<s:decorate id="reportType" template="layout/display.xhtml">
+					<ui:define name="label">Report Type</ui:define>
+	            #{reportHome.instance.reportType}
+	      </s:decorate>
+
+				<s:decorate id="summary" template="layout/display.xhtml">
+					<ui:define name="label">Summary</ui:define>
+	            #{reportHome.instance.summary}
+	      </s:decorate>
+
+				<s:decorate id="description" template="layout/display.xhtml">
+					<ui:define name="label">Description</ui:define>
+	            #{reportHome.instance.description}
+	      </s:decorate>
+	      
+	      <s:decorate id="reportSource" template="layout/display.xhtml">
+          <ui:define name="label">Report Source</ui:define>
+          <s:link view="/download.jasper.seam" value="Source">   
+            <f:param name="reportId" value="#{reportHome.instance.id}"/>
+          </s:link>
+          &#160;|&#160;
+          <s:link view="/download.jasper.compiled.seam" value="Compiled">   
+            <f:param name="reportId" value="#{reportHome.instance.id}"/>
+          </s:link>
+        </s:decorate>
+				<div style="clear: both" />
+				<div>
+				  <span class="name">Download</span> 
+				  <s:link view="/download.jasper.pdf.seam">
+				    <h:graphicImage value="/img/common/reports-icons/pdf.gif" />&#160;PDF
+            <f:param name="reportId" value="#{reportHome.instance.id}"/>
+          </s:link>
+          &#160;
+          <s:link view="/download.jasper.xml.seam">
+            <h:graphicImage value="/img/common/reports-icons/xml.gif" />&#160;XML
+            <f:param name="reportId" value="#{reportHome.instance.id}"/>
+          </s:link>
+          &#160;
+          <s:link view="/download.jasper.xls.seam">
+            <h:graphicImage value="/img/common/reports-icons/xls.gif" />&#160;XLS
+            <f:param name="reportId" value="#{reportHome.instance.id}"/>
+          </s:link>
+          &#160;
+          <s:link view="/download.jasper.csv.seam">
+            <h:graphicImage value="/img/common/reports-icons/csv.gif" />&#160;CSV
+            <f:param name="reportId" value="#{reportHome.instance.id}"/>
+          </s:link>
+          &#160;
+          <s:link view="/download.jasper.rtf.seam">
+            <h:graphicImage value="/img/common/reports-icons/rtf.gif" />&#160;RTF
+            <f:param name="reportId" value="#{reportHome.instance.id}"/>
+          </s:link>
+          &#160;
+          <s:link view="/download.jasper.odt.seam">
+            <h:graphicImage value="/img/common/reports-icons/odt.gif" />&#160;ODT
+            <f:param name="reportId" value="#{reportHome.instance.id}"/>
+          </s:link>          
+				</div>
+				
+				<rich:spacer />
+				<rich:panel>
+				  <f:facet name="header">Sub Report(s)</f:facet>
+					<h:outputText value="No sub reports are associated with this report" rendered="#{empty reportHome.jasperReports}" />
+					
+					<rich:dataTable value="#{reportHome.jasperReports}" var="jasperReport" rendered="#{not empty reportHome.jasperReports}" id="subJasperReportsTable">
+					  <h:column>
+	            <f:facet name="header">ID</f:facet>
+	            #{jasperReport.id}
+	          </h:column>
+	          <h:column>
+	            <f:facet name="header">Name</f:facet>
+	            #{jasperReport.name}
+	          </h:column>
+	          <h:column>
+	            <f:facet name="header">Action</f:facet>
+	            <s:link action="#{reportHome.jasperReports}" value="Delete">
+	              <f:param name="subReportId" value="#{jasperReport.id}"/>
+	            </s:link>
+	          </h:column>
+					</rich:dataTable>
+				</rich:panel>
+				
+				<div class="actionButtons">
+	        <s:button view="/ReportEdit.xhtml" id="edit" value="Edit" /> 
+	        <s:button view="/#{empty reportFrom ? 'ReportList' : reportFrom}.xhtml" id="done" value="Done" />
+	      </div>
+			</rich:panel>
+		</s:div>
+	</ui:define>
+</ui:composition>

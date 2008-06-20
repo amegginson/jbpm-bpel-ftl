@@ -1,0 +1,66 @@
+<div xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:s="http://jboss.com/products/seam/taglib"
+	xmlns:rich="http://richfaces.org/rich"
+	xmlns:a="http://richfaces.org/a4j">
+	<rich:toolBar rendered="#{identity.loggedIn}"> 
+		<h:form>
+			<rich:toolBarGroup>
+				<rich:dropDownMenu value="Administration" >
+          <rich:menuItem submitMode="none">
+            <h:outputLink value="DashboardQueryList.seam" onclick="document.location.href='DashboardQueryList.seam'">
+              <h:outputText value="Dashboard Queries" styleClass="menu"></h:outputText>
+            </h:outputLink>
+          </rich:menuItem>
+          <rich:menuItem submitMode="none">
+            <h:outputLink value="ReportList.seam" onclick="document.location.href='ReportList.seam'">
+              <h:outputText value="Reports" styleClass="menu" />
+            </h:outputLink>
+          </rich:menuItem>
+          
+          <rich:separator />
+          
+          <rich:menuGroup value="Identities">
+            <rich:menuItem submitMode="none">
+              <h:outputLink value="UsersList.seam" onclick="document.location.href='UsersList.seam'">
+                <h:outputText value="Users" styleClass="menu" />
+              </h:outputLink>
+            </rich:menuItem>
+            <rich:menuItem submitMode="none">
+              <h:outputLink value="GroupsList.seam" onclick="document.location.href='GroupsList.seam'">
+                <h:outputText value="Groups" styleClass="menu" />
+              </h:outputLink>
+            </rich:menuItem>
+            <rich:menuItem value="Memberships" disabled="true"/>
+          </rich:menuGroup>
+				</rich:dropDownMenu>
+	  
+				<rich:dropDownMenu value="BAM">
+				  <rich:menuItem submitMode="none">
+            <h:outputLink value="dashboard.seam" onclick="document.location.href='dashboard.seam'">
+              <h:outputText value="Dashboard" styleClass="menu"></h:outputText>
+            </h:outputLink>
+          </rich:menuItem>
+            
+          <rich:menuItem submitMode="none">
+            <h:outputLink value="dashboard-statistics.seam" onclick="document.location.href='dashboard-statistics.seam'">
+              <h:outputText value="Processes Statistics" styleClass="menu"></h:outputText>
+            </h:outputLink>
+          </rich:menuItem>
+	          
+	        <rich:separator />
+					<rich:menuItem value="Run Process Simulator" action="#{simulator.simulate}" />
+					
+				</rich:dropDownMenu>
+			</rich:toolBarGroup>
+		</h:form>
+	
+		<rich:toolBarGroup location="right">
+			<h:outputText value="You're logged in as #{identity.username}" rendered="#{identity.loggedIn}" />
+			<s:link view="/login.xhtml" value="Login" rendered="#{not identity.loggedIn}" />
+			<s:link view="/home.xhtml" action="#{identity.logout}" value="Logout" rendered="#{identity.loggedIn}" />
+		</rich:toolBarGroup>
+	</rich:toolBar>
+</div>

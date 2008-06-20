@@ -1,0 +1,948 @@
+<chapter id="graphorientedprogramming">
+  <title>Graph Oriented Programming</title>
+
+  <section id="gopintroduction">
+    <title>Introduction</title>
+
+    <para>This chapter can be considered the manifest for JBoss jBPM.  It gives a complete overview 
+      of the vision and ideas behind current strategy and future directions of the JBoss jBPM project.  
+      This vision significantly differs from the traditional approach.
+    </para>
+
+    <para>First of all, we believe in multiple process languages.  There are different 
+      environments and different purposes that require a their own specific process language.
+    </para>
+    
+    <para>Secondly, Graph Oriented Programming is a new implementation technique that serves 
+      as a basis for all graph based process languages.
+    </para>
+    
+    <para>The main benefit of our approach is that it defines one base technology for all 
+      types of process languages.
+    </para>
+
+    <para>Current software development relies more and more on domain specific languages.
+      A typical Java developer will use quite a few domain specific languages.  The XML-files in 
+      a project that are input for various frameworks can be considered domain specific languages.
+    </para>
+
+    <figure id="languages.overview.image">
+      <title>Positioning of graph based languages</title>
+      <mediaobject><imageobject><imagedata align="center" fileref="images/languages.overview.jpg"/></imageobject></mediaobject>
+    </figure>
+
+    <para>Domain specific languages for workflow, BPM, orchestration and pageflow are based on 
+      the execution of a directed graph.  Others like hibernate mapping files, ioc-configuration 
+      are not.  Graph Oriented Programming is the foundation for all domain specific languages
+      that are based on executing a graph.
+    </para>
+
+    <para>Graph Oriented Programming is a very simple technique that describes how graphs can be 
+      defined and executed on a plain OO programming language.
+    </para>
+  
+    <para>In <xref linkend="applicationdomains"/>, we'll cover the most often used process languages 
+      that can be implemented using Graph Oriented Programming like workflow, BPM, orchestration 
+      and pageflow.
+    </para>
+
+    <section id="domainspecificlanguages">
+      <title>Domain specific languages</title>
+      
+      <para>Each process language can be considered a Domain Specific Language (DSL).  The 
+        DSL perspective gives developers good insight in how process languages are related to plain 
+        OO programming.
+      </para>
+      
+      <para>This section might give the impression that we're focussed solely on programming 
+        environments.  None is less true.  Graph Oriented Programming includes the whole BPM product 
+        continuum from API libraries to fully fledged BPM suite products.  BPM suite products are 
+        complete software development environments that are centered around business processes.  In 
+        that type of products, coding in programming languages is avoided as much as possible.
+      </para>
+      
+      <para>An important aspect of domain specific languages is that each language has a certain 
+        grammar. That grammar can be expressed as a domain model. In case of java this is Class, 
+        Method, Field, Constructor,...  In jPDL this is Node, Transition, Action,...  In rules, 
+        this is condition, concequence,...
+      </para>
+       
+      <para>The main idea of DSL is that developers think in those grammars when authoring artifacts 
+        for a specific language.   The IDE is build around the grammar of a language.  Then, there 
+        can be different editors to author the artifacts.  E.g. a jPDL process has a graphical editor 
+        and a XML source view editor.  Also there can be different ways to store the same artifact: 
+        for jPDL, this could be a process XML file or the serialized object graph of nodes and transition 
+        objects.   Another (theoretic) example is java: you could use the java class file format on the 
+        system.  When a user starts the editor, the sources are generated.  When a user saves the 
+        compiled class is saved....
+      </para>
+ 
+      <para>Where ten years ago, the biggest part of a developer was spend on writing code.  Now a 
+        shift has taken place towards learning and using domain specific languages.  This trend will 
+        still continue and the result is that developers will have a big choice between frameworks 
+        and writing software in the host platform.  JBoss SEAM is a very big step in that direction.
+      </para>
+ 
+      <para>Some of those languages are based on execution of a graph.  E.g. jPDL for workflow in Java, 
+        BPEL for service orchestration, SEAM pageflow,...   Graph Oriented Programming is a common 
+        foundation for all these type of domain specific languages.
+      </para>
+ 
+      <para>In the future, for each language, a developer will be able to choose an editor that suites 
+        him/her best.  E.g. a hard core programmer probably will prefer to edit java in the src file 
+        format cause that works really fast.  But a less experienced java developer might choose a point 
+        and click editor to compose a functionality that will result in a java class.  The java source 
+        editing will be much more flexible.
+      </para>
+
+      <para>Another way of looking at these domain specific languages (including the programming 
+        languages) is from the perspective of structuring software.  Object Oriented Programming (OOP)
+        adds structure by grouping methods with their data. Aspect Oriented Programming (AOP) adds a 
+        way to extract cross cutting concerns. Dependency Injection (DI) and Inversion of Control (IoC) 
+        frameworks adds easy wiring of object graphs.  Also graph based execution languages (as covered 
+        here) can be helpful to tackle complexity by structuring part of your software project around 
+        the execution of a graph.
+      </para>
+      
+      <para>An intial explanation on Domain Specific Languages (DSL) can be found 
+        <ulink url="http://www.martinfowler.com/bliki/DomainSpecificLanguage.html">on Martin Fowler's 
+        bliki</ulink>.  But the vision behind it is better elaborated in 
+        <ulink url="http://www.martinfowler.com/articles/languageWorkbench.html">Martin's article about 
+        'Language Workbenches'</ulink>.
+      </para>
+    </section>
+
+    <section id="featuresofgraphbasedlanguages">
+      <title>Features of graph based languages</title>
+
+      <para>There are numerous graph based process languages.  There are big differences in the 
+        environment and focus. For instance, BPEL is intended as an XML based service orchestation 
+        component on top of an Enterprise Service Bus (ESB) architecture.  And a pageflow process 
+        language might define how the pages of a webapplication can be navigated.  These are two 
+        completely different environments.
+      </para>
+
+      <para>Despite all these differences, there are two features that you'll find in almost every 
+        process language: support for wait states and a graphical represenation.  This is no 
+        coincidence because it's exactly those two features that are not sufficiently supported in 
+        plain Object Oriented (OO) programming languages like Java.
+      </para>
+
+      <para>Graph Oriented Programming is a technique to implement these two features 
+        in an OO programming language.  The dependency of Graph Oriented Programming on OO 
+        programming implies that all concrete process languages, implemented on top 
+        of Graph Oriented Programming, will have to be developed in OOP.  But this does not mean 
+        that the process languages themselves expose any of this OOP nature.  E.g. BPEL doesn't 
+        have any relation to OO programming and it can be implemented on top of Graph Oriented 
+        Programming.
+      </para>
+
+      <section id="supportforwaitstates">
+        <title>Support for wait states</title>
+        
+        <para>An imperative programming language like Java are used to express a sequence of 
+          instructions to be executed by one system.  There is no wait instruction.  An imperative 
+          language is perfect for describing e.g. one request response cycle in a server.  The 
+          system is continuously executing the sequence of instructions till the request is 
+          handled and the response is complete.
+        </para>
+        
+        <para>But one such request is typically part of a bigger scenario.  E.g. a client 
+          submits a purchase order, this purchase order is to be validated by a purchase 
+          order manager.  After approval, the information must be entered in the ERP system.
+          Many requests to the server are part of the same bigger scenario.
+        </para>
+        
+        <para>So process languages are languages to describe the bigger scenario.  A very 
+          important distinction we must make here is scenarios that are executable on one 
+          system (orchestration) and scenarios that describe the protocol between multiple
+          systems (choreography).  The Graph Oriented Programming implementation technique 
+          is only targets process languages that are executable on one machine 
+          (orchestration).  
+        </para>
+        
+        <para>So an orchestration process describes the overall scenario in terms of one system.
+          For example: A process is started when a client submits an order.  The next step 
+          in the process is the order manager's approval.  So the system must add an entry 
+          in the task list of the order manager and the <emphasis role="bold">wait</emphasis> 
+          till the order manager provides the required input.  When the input is received, the 
+          process continues execution.  Now a message is sent to the ERP system and again this 
+          system will <emphasis role="bold">wait</emphasis> until the response comes back.
+        </para>
+        
+        <para>So to describe the overall scenario for one system, we need a mechanism to 
+          cope with wait states.
+        </para>
+        
+        <para>In most of the application domains, the execution must be persisted during the 
+          wait states.   That is why blocking threads is not sufficient.  Clever Java programmers 
+          might think about the Object.wait() and Object.notify(); methods.  Those could
+          be used to simulate wait states but the problem is that threads are not persistable.
+        </para>
+        
+        <para>Continuations is a technique to make the thread (and the context variables) 
+          persistable.  This could be a sufficient to solve the wait state problem.  But 
+          as we will discuss in the next section, also a graphical representation is important 
+          for many of the application domains.  And continuations is a technique that is based 
+          on imperative programming, so it's unsuitable for the graphical representation.
+        </para>
+
+        <para>So an important aspect of the support for wait states is that executions need to 
+          be persistable.  Different application domains might have different requirements for 
+          persisting such an execution.  For most workflow, BPM and orchestration applications, 
+          the execution needs to be persisted in a relational database.  Typically, a state 
+          transition in the process execution will correspond with one transaction in the 
+          database.
+        </para>
+      </section>
+
+      <section id="graphicalrepresentation">
+        <title>Graphical representation</title>
+        
+        <para>Some aspects of software development can benefit very well from a graph based 
+          approach.  Business Process Management is one of the most obvious application domains 
+          of graph based languages.  In that example, the communication between a business analyst 
+          and the developer is improved using the graph based diagram of the business process as 
+          the common language.  See also <xref linkend="bpm" />.  
+        </para>
+        
+        <para>Another aspect that can benefit from a graphical representation is pageflow.
+          In this case, the pages, navigation and action commands are shown and linked together 
+          in the  graphical representation.
+        </para>
+        
+        <para>In Graph Oriented Programming we target graph diagrams that represent some form 
+          of execution.  That is a clear differentiation with for instance UML class 
+          diagrams, which represent a static model of the OO data structure.
+        </para>
+        
+        <para>Also the graphical representation can be seen as a missing feature in OO programming.  
+          There is no sensible way in which the execution of an OO program can be represented 
+          graphically.  So there is no direct relation between an OO program and the graphical 
+          view.
+        </para>
+
+        <para>In Graph Oriented Programming, the description of the graph is central and it 
+          is a real software artifact like e.g. an XML file that describes the process graph. 
+          Since the graphical view is an intrinsic part of the software, it is always in sync. 
+          There is no need for a manual translation from the graphical requirements into a 
+          software design.  The software is structured around the graph.
+        </para>
+        
+      </section>
+    </section>
+  </section>
+
+  <section id="gop">
+    <title>Graph Oriented Programming</title>
+    <para>What we present here is an implementation technique for graph based execution 
+      languages.  The technique presented here is based on runtime interpretation of a 
+      graph.  Other techniques for graph execution are based on message queues or 
+      code generation.
+    </para>
+
+    <para>This section will explain the strategy on how graph execution can be implemented on 
+      top of an OO programming language.  For those who are familiar with design patterns, it's
+      a combination of the command pattern and the chain of responsibility pattern.
+    </para>
+
+    <para>We'll start off with the simplest possible model and then extend it bit by bit.
+    </para>
+
+    <section id="thegraphstructure">
+      <title>The graph structure</title>
+      <para>First of all, the structure of the graph is represented with the classes 
+        <literal>Node</literal> and <literal>Transition</literal>.  A transition has a direction
+        so the nodes have leaving- and arriving transitions.
+      </para>
+      <figure id="node.transition.classes.image">
+        <title>Node and Transition classes</title>
+        <mediaobject><imageobject><imagedata align="center" fileref="images/node.transition.classes.gif"/></imageobject></mediaobject>
+      </figure>
+      <para>A node is a command and has an <literal>execute</literal> method.  Subclasses 
+        of Node are supposed to override the execute method to implement some specific 
+        behaviour for that node type.
+      </para>
+    </section>
+
+    <section id="anexecution">
+      <title>An execution</title>
+      <para>The execution model that we defined on this graph structure might look similar 
+        to finite state machines or UML state diagrams.  In fact Graph Oriented Programming 
+        can be used to implement those kinds of behaviours, but it also can do much more.
+      </para>
+      <para>An execution (also known as a token) is represented with a class called 
+        <literal>Execution</literal>. An execution has a reference to the current node.
+      </para>
+      <figure id="execution.class.image">
+        <title>The Execution class</title>
+        <mediaobject><imageobject><imagedata align="center" fileref="images/execution.class.gif"/></imageobject></mediaobject>
+      </figure>
+      <para>Transitions are able to pass the execution from a source node to a destination 
+        node with the method <literal>take</literal>.
+      </para>
+      <figure id="transition.take.method.image">
+        <title>The Transition take method</title>
+        <mediaobject><imageobject><imagedata align="center" fileref="images/transition.take.method.gif"/></imageobject></mediaobject>
+      </figure>
+      <para>When an execution arrives in a node, that node is executed.  The Node's execute
+        method is also responsible for propagating the execution.  Propagating the execution 
+        means that a node can pass the execution that arrived in the node over one 
+        of its leaving transitions to the next node.
+      </para>
+      <figure id="node.execute.method.image">
+        <title>The Node execute method</title>
+        <mediaobject><imageobject><imagedata align="center" fileref="images/node.execute.method.gif"/></imageobject></mediaobject>
+      </figure>
+      <para>When a node's execute method does not propagate the execution, it behaves as a 
+        wait state.  Also when a new execution is created, it is initialized in some 
+        start node and then waits for an event.
+      </para>
+      <para>An event is given to an execution and it can trigger the execution to 
+        start moving.  If the event given to an execution relates to a leaving transition 
+        of the current node, the execution takes that transition.  The execution then will 
+        continue to propagate until it enters another node that behaves as a wait state.
+      </para>
+      <figure id="execution.event.method.image">
+        <title>The Execution event method</title>
+        <mediaobject><imageobject><imagedata align="center" fileref="images/execution.event.method.gif"/></imageobject></mediaobject>
+      </figure>
+    </section>
+    
+    <section id="aprocesslanguage">
+      <title>A process language</title>
+      <para>So now we can already see that the two main features are supported : wait states 
+        and a graphical representation.  During wait states, an Execution just points to a node 
+        in the graph.  Both the process graph and the Execution can be persisted: E.g. to a 
+        relational database with an O/R mapper like hibernate or by serializing the object graph 
+        to a file.  Also you can see that the nodes and transitions form a graph and hence 
+        there is a direct coupling with a graphical representation.
+      </para>
+      <para>A process language is nothing more than a set of Node-implementations.  Each 
+        Node-implementation corresponds with a process construct.  The exact behaviour of 
+        the process construct is implemented by overriding the execute method.
+      </para>
+      <para>Here we show an example process language with 4 process constructs: a start state,
+        a decision, a task and an end state.  This example is unrelated to the jPDL process 
+        language.
+      </para>
+      <figure id="example.process.language.image">
+        <title>An example process language</title>
+        <mediaobject><imageobject><imagedata align="center" fileref="images/example.process.language.jpg"/></imageobject></mediaobject>
+      </figure>
+      <para>Concrete node objects can now be used to create process graphs in our example 
+        process language.  
+      </para>
+      <figure id="example.process.image">
+        <title>An example process</title>
+        <mediaobject><imageobject><imagedata align="center" fileref="images/example.process.jpg"/></imageobject></mediaobject>
+      </figure>
+      <para>When creating a new execution for this process, we start by positioning the execution 
+        in the start node.  So as long as the execution does not receive an event, the execution 
+        will remain positioned in the start state.
+      </para>
+      <figure id="new.execution.image">
+        <title>A new execution</title>
+        <mediaobject><imageobject><imagedata align="center" fileref="images/new.execution.jpg"/></imageobject></mediaobject>
+      </figure>
+      <para>Now let's look at what happens when an event is fired.  In this initial situation, we 
+        fire the default event that will correspond with the default transition.  
+      </para>
+      <para>That is done by invoking the event method on the execution object.  The event method will 
+        propagate find the default leaving transition and pass the execution over the transition by 
+        invoking the take method on the transition and passing itself in as a parameter.
+      </para>
+      <para>The transition will pass on the execution to the decision node and invoke the 
+        execute method.  Let's assume the decision's execute implementation performs a calculation 
+        and decides to propagate the execution by sending the 'yes'-event to the execution.  
+        That will cause the execution to continue over the 'yes' transition and the execution 
+        will arrive in the task 'doubleCheck'.
+      </para>
+      <para>Let's assume that the execute implementation of the doubleCheck's task node is 
+        adds an entry into the checker's task list and then waits for the checker's input by 
+        not propagating the execution further.
+      </para>
+      <para>Now, the execution will remain positioned in the doubleCheck task node.  All 
+        nested invocations will start to return until the original event method returns.
+      </para>
+      <figure id="wait.state.image">
+        <title>An execution in the 'doubleCheck' wait state</title>
+        <mediaobject><imageobject><imagedata align="center" fileref="images/wait.state.jpg"/></imageobject></mediaobject>
+      </figure>
+    </section>
+
+    <section id="gopactions">
+      <title>Actions</title>
+      <para>In some application domains there must be a way to include the execution 
+        of programming logic without introducing a node for it.   In Business Process 
+        Management for example this is a very important aspect.  The business analyst 
+        is in charge of the graphical representation and the developer is responsible 
+        for making it executable.  It is not acceptable if the developer must change the 
+        graphical diagram to include a technical detail in which the business analyst 
+        is not interested.
+      </para>
+      <para>An <literal>Action</literal> is also a commands with an execute method.
+        Actions can be associated with events.
+      </para>
+      <para>There are 2 basic events fired by the Node class while an execution is 
+        executing: <literal>node-leave</literal> and <literal>node-enter</literal>.
+        Along with the events that cause transitions to be taken this gives already
+        a good freedom of injecting programming logic into the execution of a graph.
+      </para>
+      <figure id="hidden.actions.image">
+        <title>Actions that are normally hidden from the graphical view</title>
+        <mediaobject><imageobject><imagedata align="center" fileref="images/hidden.actions.jpg"/></imageobject></mediaobject>
+      </figure>
+      <para>Each event can be associated with a list of actions.  All the actions 
+        will be executed with the event fires.
+      </para>
+    </section>
+
+    <section id="synchronousexecution">
+      <title>Synchronous execution</title>
+      <para>The default propagation of execution is synchronous.  In <xref linkend="asynchronouscontinuationsingop" /> 
+      we'll see how this default behaviour can be changed.
+      </para>
+      <para>An execution starts when an event is send to the execution.  That execution will start to propagate 
+      over a transition and enters a node.  If the node decides to propagate the execution, the take method is 
+      invoked on a leaving transition and the execution propagates further.  By default, all of these propagations 
+      are done as nested method calls.  Which means that the original <literal>event</literal>-method will 
+      only return when the execution has entered a new wait state.  So the execution can have travelled 
+      over multiple nodes during one invocation of the <literal>event</literal>-method.
+      </para>
+      <para>Typically, a signal method is invoked inside of a transaction.  This implies that in one 
+      transaction, the execution can potentially move over multiple nodes on the process graph.  
+      That results in significant performance benefits over systems that need one transaction per node.
+      </para>
+      <para>Another benefit of synchronous execution is more options for exception handling.  If all nodes 
+      are executed synchonously, all propagations of executions will be nested method invocations.  The 
+      caller that invoked the signal method will know that a new wait state has been reached without 
+      problems when the signal method returns.
+      </para>
+    </section>
+
+    <section id="codeexample">
+      <title>Code example</title>
+      <para>In order for people to get acquinted with the principles of Graph Oriented Programming,
+        we have developed these 4 classes in less then 130 lines of code.  You can just read 
+        the code to get an idea or you can actually start playing with them and implement your 
+        own node types.
+      </para>
+      <para>Here's the example code:
+      </para>
+      <itemizedlist>
+        <listitem><ulink url="http://docs.jboss.com/jbpm/gop/Execution.java.html"><emphasis role="bold"><literal>Execution.java</literal></emphasis></ulink></listitem>
+        <listitem><ulink url="http://docs.jboss.com/jbpm/gop/Node.java.html"><emphasis role="bold"><literal>Node.java</literal></emphasis></ulink></listitem>
+        <listitem><ulink url="http://docs.jboss.com/jbpm/gop/Transition.java.html"><emphasis role="bold"><literal>Transition.java</literal></emphasis></ulink></listitem>
+        <listitem><ulink url="http://docs.jboss.com/jbpm/gop/Action.java.html"><emphasis role="bold"><literal>Action.java</literal></emphasis></ulink></listitem>
+      </itemizedlist>
+      <para>You can also <ulink url="http://docs.jboss.com/jbpm/gop/jbpm.gop.zip">download the whole (297KB) 
+        source project</ulink> and start playing with it yourself.  It includes an eclipse project so just 
+        importing it in your eclipse as a project should get you going.  Also there are a set of tests that 
+        show basic process execution and the advanced graph execution concepts covered in the next section.
+      </para>
+    </section>
+
+  </section>
+
+  <section id="extendinggop">
+    <title>Extensionding Graph Oriented Programming</title>
+    <para>The previous section introduced the plain Graph Oriented Programming model in its 
+      simplest form.  This section will discuss various aspects of graph based languages and 
+      how Graph Oriented Programming can be used or extended to meet these requirements.
+    </para>
+    <section>
+      <title>Process variables</title>
+      <para>Process variables maintain the contextual data of a process execution.  In an 
+        insurance claim process, the 'claimed amount', 'approved amount' and 'isPaid' 
+        could be good examples of process variables.  In many ways, they are similar to the 
+        member fields of a class.
+      </para>
+      <para>Graph Oriented Programming can be easily extended with support for process variables
+        by associating a set of key-value pairs that are associated with an execution.  
+        <link linkend="concurrentexecutions">Concurrent 
+        execution paths</link> and <link linkend="processcompositioningop">process composition</link> 
+        will complicate things a bit.  Scoping rules will define the visibility of process 
+        variables in case of concurrent paths of execution or subprocesses.
+      </para>
+      <para><ulink url="http://is.tm.tue.nl/research/patterns/download/data_patterns%20BETA%20TR.pdf">'Workflow 
+        Data Patterns'</ulink> is an extensive research report on the types of scoping that can be applied to 
+        process variables in the context of subprocessing and concurrent executions.
+      </para>
+    </section>
+
+    <section id="concurrentexecutions">
+      <title>Concurrent executions</title>
+      <para>Suppose that you're developing a 'sale' process with a graph based process language for 
+        workflow.  After the client submitted the order, there is a sequence of activities for billing 
+        the client and there's also a sequence of activities for shipping the items to the client.  
+        As you can imagine, the billing activies and shipping activities can be done in parallel.
+      </para>
+      <para>In that case, one execution will not be sufficient to keep track of the whole process 
+        state.  Let's go though the steps to extend the Graph Oriented Programming model and 
+        add support for concurrent executions.
+      </para>
+      <para>First, let's rename the execution to an execution path.  Then we can introduce a new concept 
+        called a process execution.  A process execution represents one complete execution of a process 
+        and it contains many execution paths.
+      </para>
+      <para>The execution paths can be ordered hierarchically.  Meaning that 
+        one root execution path is created when a new process execution is instantiated.  When 
+        the root execution path is forked into multiple concurrent execution paths, the root is the 
+        parent and the newly created execution paths are all children of the root.  This way, 
+        implementation of a join can become straightforward: the implementation of the join  
+        just has to verify if all sibling-execution-paths are already positioned in the join node.
+        If that is the case, the parent execution path can resume execution leaving the join node.
+      </para>
+      <para>While the hierarchical execution paths and the join implementation based on sibling 
+        execution paths covers a large part of the use cases, other concurrency behaviour might 
+        be desirable in specific circumstances.  For example when multiple merges relate to one 
+        split.  In such a situation, other combinations of runtime data and merge implementations 
+        are required. 
+      </para>
+      <figure id="concurrent.executions.image">
+        <title>Concurrent paths of execution</title>
+        <mediaobject><imageobject><imagedata align="center" fileref="images/concurrent.executions.jpg"/></imageobject></mediaobject>
+      </figure>
+      <para>Multiple concurrent paths of execution are often mixed up with multithreaded programming.
+        Especially in the context of workflow and BPM, these are quite different.  A process specifies 
+        a state machine.  Consider for a moment a state machine as being always in a stable state
+        and state transitions are instantanious.  Then you can interpret concurrent paths of execution 
+        by looking at the events that cause the state transitions.  Concurrent execution then means 
+        that the events that can be handled are unrelated between the concurrent paths of execution.
+        Now let's assume that state transitions in the process execution relates to a database 
+        transition (as explained in <xref linkend="persistenceandtransactions" />), then you see that 
+        multithreaded programming is actually not even required to support concurrent paths of 
+        execution.
+      </para>
+    </section>
+
+    <section id="processcompositioningop">
+      <title>Process composition</title>
+      <para>Process composition is the ability to include a sub process as part of a super process.
+        This advanced feature makes it possible to add abstraction to process modelling.  For the 
+        business analyst, this feature is important to handle break down large models in smaller 
+        blocks.
+      </para>
+      <para>The main idea is that the super process has a node in the graph that represents a complete 
+        execution of the sub process.  When an execution enters the sub-process-node in the super process, 
+        several things are to be considered:
+      </para>
+      <itemizedlist>
+        <listitem>First of all, a new execution is created for the sub process.
+        </listitem>
+        <listitem>Optionally some of information stored in the process variables of the super process 
+          can be injected from the super process execution into the sub process execution.
+          The most easy form is that the sub process node is configured with a set of variables that 
+          are just copied from the super process variables to the sub process variables.
+        </listitem>
+        <listitem>The start-node of the sub process should have only one leaving transition.  
+          Process languages that support multiple leaving transitions must have a mechanism 
+          to choose one of those transitions based on the process variables of the super process. 
+        </listitem>
+        <listitem>The sub process execution is launched by sending an event that corresponds to the 
+          default leaving transition of its start state.
+        </listitem>
+      </itemizedlist>
+      
+      <para>After the sub process entered a wait state, the super process execution will be pointing 
+        to the sub-process-node and the sub process execution will be pointing to some wait state.
+      </para>
+      
+      <para>When the sub process execution finishes, the super process execution can continue.  
+        The following aspects need to be considered at that time:
+      </para>
+      <itemizedlist>
+        <listitem>Process variable information may need to be copied back from the sub process 
+          execution into the super process execution.
+        </listitem>
+        <listitem>The super process execution should continue.  Typically, process languages allow 
+          only one leaving transition on a sub process node.  In that case the super process execution 
+          is propagated over that default single leaving transition.
+        </listitem>
+        <listitem>In case a sub process node is allowed more than one leaving transition, a mechanism 
+          has to be introduced to select a leaving transition.  This selection can be based on either 
+          the sub process execution's variables or the end state of the sub process (a typical 
+          state machine can have multiple end states).
+        </listitem>
+      </itemizedlist>
+
+      <para>WS-BPEL has an implicit notion of subprocessing, rather then an explicit.  An 
+        <literal>invoke</literal> will start of a new sub process.  Then the super process will 
+        have a <literal>receive</literal> activity that will wait till the sub process ends.
+        So the usual <literal>invoke</literal> and <literal>receive</literal> are used instead of 
+        a special activity.
+      </para>
+    </section>
+
+    <section id="asynchronouscontinuationsingop">
+      <title>Asynchronous continuations</title>
+      <para>Above, we saw that the default behaviour is to execute processes synchronously
+        until there is a wait state.  And typically this overall state-change is packaged in one transaction.
+        In this section, you'll see how you can demarcate transaction boundaries in the process language.
+        Asynchronous continuations means that a process can continue asynchronously.  This means that the 
+        first transaction will send a message.  That message represents a continuation command.  Then the 
+        message receiver executes the command in a second transaction.  Then the process has continued its 
+        automatic execution, but it was split over 2 transactions.
+      </para>
+      <para>To add asynchronous continuations to graph oriented programming, a messaging system is required.
+        Such a system that integrates with your programming logic and allows for transactional
+        sending and receiving of messages.  Messaging systems are also know as message oriented middleware (MOM)
+        and Java Message Service (JMS) is the standard API to use such systems.
+      </para>
+      <para>There are 3 places where execution can be continued asynchronously:
+      </para>
+      <itemizedlist>
+        <listitem>Just before the node's execute method.  Which is after entering the node.</listitem>
+        <listitem>When execution is about to be propagated over a transition.  Which is before leaving a node.</listitem>
+        <listitem>Every action can be executed asynchonously as well.</listitem>
+      </itemizedlist>
+      <para>Let's consider the first situation in detail as it is indicated in the following figure.  Suppose 
+        some event caused an execution to start propagating over the graph and now a transition is about to 
+        invoke the execute method on the 'generatePdf' node.  Instead of invoking the execute method on the 
+        'generatePdf' node directly, a new command message is being created with a pointer to the execution.
+        The command message should be interpreted as "continue this execution by executing the node".  This 
+        message is sent over the message queue to the command executor.  The command executor take the 
+        message from the queue and invokes the node's execute method with the execution as a parameter.
+      </para>
+      <figure id="async.continuation.image">
+        <title>Asynchonous continuation</title>
+        <mediaobject><imageobject><imagedata align="center" fileref="images/async.continuation.jpg"/></imageobject></mediaobject>
+      </figure>
+      <para>Note that there are two separate transactions involved now.  One transaction that originated from the 
+        original event.  That transaction contains moving the execution in the 'generatePdf' node and sending 
+        the command message.  In a second transaction, the command message was consumed and the node's 
+        execute method was invoked with the execution as a parameter.  Inbetween the two transactions, the 
+        execution should be blocked for incoming events.
+      </para>
+    </section>
+
+    <section id="persistenceandtransactions">
+      <title>Persistence and Transactions</title>
+      <para>Both process definition information (like Node, Transition and Action) and 
+        execution information (like Execution) can be stored in a relational database.  
+        An ORM solution (like eg Hibernate/EJB3) can be used to perform the mapping 
+        between the database records and the OOP objects. 
+      </para>
+      <para>All process definition information is static.  Hence it can be cached in 
+        memory.  This gives a serious performance boost.  Only the runtime execution 
+        data will have to be loaded from the DB in each transaction.
+      </para>
+      <para>A transaction typically corrensponds to the event method on the Execution.
+        A transaction starts when an event is being processed.  The event method will 
+        trigger execution to continue till a new wait state is 
+        reached.  When that happens, the Execution's event method returns and the 
+        transaction can be ended.
+      </para>
+      <para>The overall change of the event method invocation is that the Execution has moved
+        it's node pointer from one node to another.  The ORM solution can calculate the difference 
+        between the original database state and the updated java objects.  Those changes 
+        are then flushed to the database at the end of the Execution's event method.
+        In our example here this will be a SQL update statement on the execution, that 
+        sets the node pointer to the new (wait-state)node.
+      </para>
+      <para>ORM solutions like hibernate/EJB3 work with a different set of objects in each 
+        session.   This implies that all access to Node implementations is serialized and 
+        removes the necessity to write thread safe code as long as the node uses the execution 
+        data (and not static variables, for instance).
+      </para>
+    </section>
+
+    <section id="servicesandenvironment">
+      <title>Services and environment</title>
+      <para>Nodes might want to make use of pluggable services or new node implementations 
+        might want to use new services, unknown at design time.  To accomodate this, a services 
+        framework can be added to Graph Oriented Programming so that nodes can access 
+        arbitrary services and configurations.
+      </para>
+      <para>Basically, there are 2 options: 
+        <itemizedlist>
+          <listitem>Passing down an execution context object (that would wrap the Execution 
+          object that is passed in the explanation above)</listitem>
+          <listitem>A thread local execution context</listitem>
+        </itemizedlist>
+      </para>
+      <para>The execution context contains access to services that are made available 
+        by 'the environment'.  The environment is the client code (the code that invokes
+        the <literal>Execution.event(String)</literal> plus an optional container in which 
+        this client code runs.
+      </para>
+      <para>Examples of services are a timer service, an asynchonous messaging service,
+        a database service (java.sql.Connection),... 
+      </para>
+    </section>
+  </section>
+
+  <section id="considerations">
+    <title>Considerations</title>
+    <section id="runtimedataisolation">
+      <title>Runtime data isolation</title>
+      <para>Graph oriented programming clearly separates the definition 
+      data (nodes, transitions and actions) from the runtime data (execution).
+      </para>
+      <para>So instead of just propagating the execution that entered the node, any node implementation can 
+      decide to rearrange the whole runtime data that represents the execution.   This creates a lot of 
+      flexibility for implementing different flavours of fork.split and join/merge behaviour.
+      </para>
+      <para>Also, the definition information is static and never changes.  This is important for all kinds of 
+      performance optimizations.  
+      </para>
+    </section>
+
+    <section id="gopcomparedtoothertechniques">
+      <title>GOP compared to other techniques</title>
+      <para>In this section we describe how graph oriented programming compares to other 
+      implementation techniques used for graph based execution languages.
+      </para>
+      <para>In MOM based execution engines, an execution is represented by a message that travels along 
+      message queues.  Each node in a process graph is represented by a message queue in the system.  
+      Actually, graph oriented programming is a superset of MOM based execution.  In GOP, by default, 
+      the calculation to move an execution from one wait state to another is done synchronously.  Later 
+      in this paper, we’ll cover the asynchronous continuations extension that explains how MOM can be 
+      used to make one step in the process asynchronous.  So MOM based execution is similar to graph oriented 
+      programming where all the nodes are executed asynchronously.
+      </para>
+      <para>Another technique used to implement workflow, BPM and orchestration systems is code generation.  
+      In that approach, the graph based process is translated into imperative programming logic like Java.  
+      The generated programming logic has a method for each external trigger that can be given after a wait state.  Those methods will calculate the transition to a new wait state.  This technique is limitated in process versioning capabilities and in practice, the code generation has proven to be impractical and a bottleneck in the software development process.
+      </para>
+    </section>
+    
+    <section id="gopcomparedtopetrinets">
+      <title>GOP compared to petri nets</title>
+      <para>The academic world, for a long time, has focussed on petri nets for workflow and business process 
+      modelling, mainly because petri nets was the only mathematically defined model that supports 
+      concurrent paths of execution.  Because of the mathematical foundations, many interesting algorithms for 
+      validation and completeness could be defined.
+      </para>
+      <para>The biggest difference between petri nets and graph oriented programming is their nature.  Petri 
+      nets is a mathematical model, while graph oriented programming is an implementation technique or a design 
+      pattern.
+      </para>
+      <para>Graph oriented programming can be used to implement petri nets.  Petri net places and petri net 
+      transitions can be implemented as two different node types.  Petri net arcs correspond to GOP transitions.  
+      A petri net token corresponds to a GOP execution.
+      </para>
+      <para>The higher level extensions that have been defined on top of petri nets can also be defined in terms 
+      of graph oriented programming.
+      </para>
+      <para>Graph oriented programming on itself doesn’t support analytical algorithms as they are defined on 
+      petri nets.  That is because grpah oriented programming doesn’t have a concrete interpretation.  Analythical 
+      algorithms can only be defined on models that have a deterministic design time interpretation.  Graph 
+      oriented programming on the other hand also supports nodes that have an undeterministic design time 
+      interpretation.  GOP node implementations can potentially do any type of calculation at runtime and decide 
+      only then how the execution is propagated.  Analytical algorithms can only be defined on concrete process 
+      languages, for which the nodes implementations give a deterministic design-time interpretation to the node 
+      types.
+      </para>
+    </section>
+  </section>
+
+  <section id="applicationdomains">
+    <title>Application domains</title>
+
+    <section id="bpm">
+      <title>Business Process Management (BPM)</title>
+
+      <section>
+        <title>Different aspects of BPM</title>
+        <para>The goal of BPM is to make an organisation run 
+          more efficient.  The first step is analysing and describing how work gets done in 
+          an organisation.  Let's define a business process is a description of the way that 
+          people and systems work together to get a perticular job done. Once business processes 
+          are described, the search for optimisations can begin.
+        </para>
+
+        <para>Sometimes business processes have evolved organically and merely looking at the 
+          overall business process shows some obvious inefficiencies.  Searching for modifications 
+          that make a business process more efficient is called Business Process Reengineering 
+          (BPR).  Once a large part of a business process is automated, statistics and audit 
+          trails can help to find and identify these inefficiencies.
+        </para>
+      
+        <para>Another way to improve efficiency can be to automate whole or parts of the 
+          business process using information technology.
+        </para>
+      
+        <para>Automating and modifying business processes are the most common ways of 
+          making an organisation run more efficient.  Important is to note that those are 
+          parts of business process management in general.
+        </para>
+
+        <para>Managers continiously break down jobs into steps to be executed by their team 
+          members.  For example a software development manager that organises a team-building 
+          event.  In that case, the description of the business process might be done only in 
+          the head of the manager.  Other situations like handling an insurance claim for 
+          a large insurance company require a more formal approach to BPM.
+        </para>
+      
+        <para>The total gain that can be obtained from managing business processes 
+          is the efficiency improvements times the number of executions of the process.
+          The cost of managing business processes formally is the extra effort that is 
+          spent on analysing, describing, improving and automating the business processes.
+          So that cost has to be taken into consideration when determining which processes 
+          will be selected for formal management and/or automation.   This explains the 
+          focus on procedures with a high recurrence rate.
+        </para>
+      </section>
+      
+      <section>
+        <title>Goals of BPM systems</title>
+        <para>The main goal of BPM systems is to facilitate the automation of business processes.
+          In building software for business processes, two roles can be distinguished: 
+          The business analyst and the developer.  In small teams, these two roles can of course 
+          be fullfilled by one person.  The business analyst studies and describes the business 
+          process and specifies the software requirements, while the developer creates executable 
+          software.
+        </para>
+        <para>Traditional BPM suites try to start from the business analyst's model and 
+          work their way down towards executable software.  They try to minimize the need
+          for technical skills so that the business analyst can produce executable software.
+          All of this is centralized around the graphical diagram so inevitably, technical 
+          details ripple through in the analyst's world.
+        </para>
+        <figure id="traditional.bpm.approach.image">
+          <title>Traditional BPM approach</title> 
+          <mediaobject><imageobject><imagedata align="center" fileref="images/traditional.bpm.approach.jpg"/></imageobject></mediaobject>
+        </figure>
+        <para>In our vision, the central idea is that the business analyst and the developer 
+          communicate in a common language with the help of the graphical view of the process.
+          Technical skills will always be necessary when developing software.  The business analyst 
+          is responsible for the graphical view and should not be forced to deal with technical 
+          aspects of the process.  Without those technical aspects the process will not be fully 
+          defined and hence it won't be executable.  The developer is responsible for the technical 
+          implementation aspects.  Technical aspects should not require diagram changes.
+        </para>
+        <figure id="improved.bpm.approach.image">
+          <title>Improved BPM approach</title> 
+          <mediaobject><imageobject><imagedata align="center" fileref="images/improved.bpm.approach.jpg"/></imageobject></mediaobject>
+        </figure>
+      </section>
+    </section>
+
+    <section>
+      <title>Service orchestration</title>
+      <para>The most recognized name in service orchestration languages is BPEL.  Service 
+        orchestration is to be seen in the context of an Enterprise Service Bus.  An enterprise 
+        service bus is a central communication backbone on a coorporate level.  It integrates 
+        many diverse systems and it is based on XML technology. 
+      </para>
+      <para>Suppose you have services A, B and C on your enterprise service bus.  Service 
+        orchestration is a graph based execution language fror writing a new services as a 
+        function of existing services.  E.g. A new service D can be written as a function of 
+        existing services A, B and C in an orchestration script.
+      </para>
+      <figure id="service.orchestration.image">
+        <title>Service </title>
+        <mediaobject><imageobject><imagedata align="center" fileref="images/service.orchestration.jpg"/></imageobject></mediaobject>
+      </figure>
+    </section>
+
+  </section>
+
+  <section id="embeddinggraphbasedlanguages">
+    <title>Embedding graph based languages</title>
+    <para>When the BPM engine can be completely integrated into a software development 
+      project and when even the BPM engine's database tables in integrated into the project's 
+      database, then we speak of an Embeddable BPM engine.  That is the goal we target with 
+      Graph Oriented Programming: a common foundation for implementing graph based languages.
+    </para>
+  </section>
+
+  <section id="market">
+    <title>Market</title>
+
+    <section id="theultimateprocesslanguage">
+      <title>The ultimate process language</title>
+      <para>Traditionally, the vendors have been searching for the ultimate process 
+        language.  The approach is to specify a process language as a set of constructs.  
+        Each construct has a graphical representation and a runtime behaviour.  In 
+        other words, each construct is a node type in the process graph.  And a 
+        process language is just a set of node constructs.
+      </para>
+      
+      <para>The idea was that the vendors were searching for the best set of process 
+        constructs to form a universally applicable process language.  This vision is 
+        still found a lot today and we call it searching for the ultimate process language.  
+      </para>
+      
+      <para>We believe that the focus should not be on trying to find the ultimate process 
+        language, but rather in finding a common foundation that can be used as a basis for 
+        process languages in different scenarios and different environment.  Graph Oriented 
+        Programming as we present it next is to be seen as such a foundation.
+      </para>
+    </section>    
+
+    <section id="fragmentation">
+      <title>Fragmentation</title>
+
+      <para>The current landscape of workflow, BPM and orchestration solutions is completely 
+        fragmented.  In this section we'll describe two dimensions in this fragmentation.  The 
+        first dimension is called the BPM product continuum and it's shown in the next picture.
+        The term was originally coined by Derek Miers and Paul Harmon in 'The 2005 BPM Suites 
+        Report'.  
+      </para>
+        
+      <para>On the left, you can see the programming languages.  This side of the continuum is 
+        targeted towards the IT developers.  Programming languages are the most flexible and 
+        it integrates completely with the other software developed for a perticular project. But 
+        it takes quite a bit of programming to implement a business process.  
+      </para>
+      
+      <para>On the right, there are the BPM suites.  These BPM suites are complete software 
+        development environments targetted to be used by business analysts.  Software is developed 
+        around business processes.  No programming has to be done to create executable software in 
+        these BPM suites.
+      </para>
+      
+      <figure id="bpm.product.continuum">
+        <title>The BPM product continuum.</title>
+        <mediaobject><imageobject><imagedata align="center" fileref="images/bpm.product.continuum.jpg"/></imageobject></mediaobject>
+      </figure>
+      
+      <para>Traditional products mark 1 spot in the BPM 
+        product continuum.  To be complete, these products tend to aim for the far right of the 
+        continuum.  This is problematic because it results in monolithic system that is very hard 
+        to integrate into a project combines plain OOP software with business processes.  
+      </para>
+      
+      <para>Graph Oriented Programming can be built as a simple library that integrates nice with 
+        plain programming environment.  On the other hand, this library can be packaged and 
+        predeployed on a server to become a BPM server.  Then other products added and packaged 
+        together with the BPM server to become a complete BPM suite.
+      </para>
+      
+      <para>The net result is that solutions based on Graph Oriented Programming can target the 
+        whole continuum.  Depending on the requirements in a perticular project, the BPM suite
+        can be peeled and customized to the right level of integration with the software 
+        development environment.
+      </para>
+  
+      <para>The other dimension of fragmentation is the application domain.  As show above, a BPM 
+        application domain is completely different from service orchestration or pageflow.  Also 
+        in this dimension, traditional products target one single application domain, where 
+        Graph Oriented Programming covers the whole range.
+      </para>
+      
+      <para>If we set this out in a graph, this gives a clear insight in the current market 
+        fragmentation.  In the graph based languages market, prices are high and volumes are low.
+        Consolidation is getting started and this technology aims to be a common foundation for 
+        what is now a fragmented and confusing market landscape.
+      </para>
+
+      <figure id="two.dim.fragmentation">
+        <title>Two dimensions of fragmentation.</title>
+        <mediaobject><imageobject><imagedata align="center" fileref="images/two.dim.fragmentation.jpg"/></imageobject></mediaobject>
+      </figure>
+    </section>
+
+    <section id="otherimplementationtechniques">
+      <title>Other implementation techniques</title>
+      <para>Based on message queues.
+      </para>
+      <para>Based on code generation.
+      </para>
+    </section>
+  </section>
+
+</chapter>

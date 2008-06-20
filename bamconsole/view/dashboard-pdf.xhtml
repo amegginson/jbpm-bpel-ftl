@@ -1,0 +1,159 @@
+<p:document xmlns:ui="http://java.sun.com/jsf/facelets"
+            xmlns:f="http://java.sun.com/jsf/core"
+            xmlns:p="http://jboss.com/products/seam/pdf"
+            xmlns:s="http://jboss.com/products/seam/taglib"
+            xmlns:h="http://java.sun.com/jsf/html"
+            xmlns:rich="http://richfaces.org/rich"
+            title="Dashboard Queries"
+            keywords="dashboard, bam"
+            subject="Dashboard Queries"
+            author="System"
+            creator="JBoss BAM">
+  
+  <f:facet name="header">
+    <p:font size="10">
+      <p:header borderWidthTop="0" borderWidthBottom="1" alignment="left">Dashboard Queries</p:header>
+      <p:footer borderWidthTop="1" borderWidthBottom="0" alignment="right">Dashboard Queries [<p:pageNumber />]</p:footer>
+    </p:font>
+  </f:facet>
+  
+  <p:font size="24">
+    <p:paragraph>Dashboard</p:paragraph>
+  </p:font>
+  
+  <p:stroke id="solid-thin" width="1" cap="round" join="bevel" dash="1" />
+  <p:stroke id="solid-thick" width="1" cap="round" join="bevel" dash="1" />
+  <ui:repeat value="#{DashboardQueryHandler.chartsList}" var="chart">
+    <p:font size="20">
+      <p:paragraph>'#{chart.title}' Chart </p:paragraph>
+    </p:font>
+    <s:div styleClass="centered" rendered="#{chart.chartType.equals('bar-chart')}">
+      <p:barchart title="#{chart.title}"  
+                  orientation="#{chart.orientation}"
+                  is3D="#{chart.is3d}"   
+                  legend="#{chart.legend}"
+                  width="#{chart.width}" 
+                  height="#{chart.height}" 
+                  domainAxisLabel="#{chart.domainAxisLabel}"
+                  domainAxisPaint="#{chart.domainAxisPaint}"
+                  domainGridlinesVisible="#{chart.domainGridlinesVisible}"
+                  domainGridlinePaint="#{chart.domainGridlinePaint}"
+                  domainGridlineStroke="#{chart.domainGridlineStroke}"
+                  rangeAxisLabel="#{chart.rangeAxisLabel}"
+                  rangeAxisPaint="#{chart.rangeAxisPaint}"
+                  rangeGridlinesVisible="#{chart.rangeGridlinesVisible}"
+                  rangeGridlinePaint="#{chart.rangeGridlinePaint}"
+                  rangeGridlineStroke="#{chart.rangeGridlineStroke}"
+                  borderVisible="#{chart.borderVisible}"
+                  borderPaint="#{chart.borderPaint}"
+                  borderBackgroundPaint="#{chart.borderBackgroundPaint}"
+                  borderStroke="#{chart.borderStroke}"
+                  plotOutlinePaint="#{chart.plotOutlinePaint}"
+                  plotOutlineStroke="#{chart.plotOutlineStroke}"
+                  plotBackgroundPaint="#{chart.plotBackgroundPaint}"
+                  plotForegroundAlpha="#{chart.plotForegroundAlpha}"
+                  plotBackgroundAlpha="#{chart.plotBackgroundAlpha}"
+                  legendItemPaint="#{chart.legendItemPaint}"
+                  legendBackgroundPaint="#{chart.legendBackgroundPaint}"
+                  titlePaint="#{chart.titlePaint}"
+                  titleBackgroundPaint="#{chart.titleBackgroundPaint}">
+	      <ui:repeat value="#{chart.data}" var="dataset">
+	        <p:series key="#{dataset.id}">
+	          <ui:repeat value="#{chart.categories}" var="category">
+	            <p:data key="#{category}" value="#{dataset.values[category]}" />
+	          </ui:repeat>
+	        </p:series>
+	      </ui:repeat>
+	    </p:barchart>   			 
+    </s:div>
+    
+    <s:div styleClass="centered" rendered="#{chart.chartType.equals('pie-chart')}">
+      <p:piechart title="#{chart.title}"
+                  orientation="#{chart.orientation}"
+                  is3D="#{chart.is3d}"
+                  legend="#{chart.legend}"
+                  width="#{chart.width}" 
+                  height="#{chart.height}"
+                  domainAxisLabel="#{chart.domainAxisLabel}"
+                  domainAxisPaint="#{chart.domainAxisPaint}"
+                  domainGridlinesVisible="#{chart.domainGridlinesVisible}"
+                  domainGridlinePaint="#{chart.domainGridlinePaint}"
+                  domainGridlineStroke="#{chart.domainGridlineStroke}"
+                  rangeAxisLabel="#{chart.rangeAxisLabel}"
+                  rangeAxisPaint="#{chart.rangeAxisPaint}"
+                  rangeGridlinesVisible="#{chart.rangeGridlinesVisible}"
+                  rangeGridlinePaint="#{chart.rangeGridlinePaint}"
+                  rangeGridlineStroke="#{chart.rangeGridlineStroke}"
+                  borderVisible="#{chart.borderVisible}"
+                  borderPaint="#{chart.borderPaint}"
+                  borderBackgroundPaint="#{chart.borderBackgroundPaint}"
+                  borderStroke="#{chart.borderStroke}"
+                  plotOutlinePaint="#{chart.plotOutlinePaint}"
+                  plotOutlineStroke="#{chart.plotOutlineStroke}"
+                  plotBackgroundPaint="#{chart.plotBackgroundPaint}"
+                  plotForegroundAlpha="#{chart.plotForegroundAlpha}"
+                  plotBackgroundAlpha="#{chart.plotBackgroundAlpha}"
+                  legendItemPaint="#{chart.legendItemPaint}"
+                  legendBackgroundPaint="#{chart.legendBackgroundPaint}"
+                  titlePaint="#{chart.titlePaint}"
+                  titleBackgroundPaint="#{chart.titleBackgroundPaint}">
+        <ui:repeat value="#{chart.categories}" var="category">
+          <p:series key="#{category}">
+            <ui:repeat value="#{chart.data}" var="dataset">
+              <p:data key="#{dataset.id}" value="#{dataset.values[category]}" />
+            </ui:repeat>
+          </p:series>
+        </ui:repeat>
+      </p:piechart>
+    </s:div>
+    
+    <s:div styleClass="centered" rendered="#{chart.chartType.equals('line-chart')}">
+      <p:linechart title="#{chart.title}"
+                  orientation="#{chart.orientation}"
+                  is3D="#{chart.is3d}"
+                  legend="#{chart.legend}"
+                  width="#{chart.width}" 
+                  height="#{chart.height}"
+                  domainAxisLabel="#{chart.domainAxisLabel}"
+                  domainAxisPaint="#{chart.domainAxisPaint}"
+                  domainGridlinesVisible="#{chart.domainGridlinesVisible}"
+                  domainGridlinePaint="#{chart.domainGridlinePaint}"
+                  domainGridlineStroke="#{chart.domainGridlineStroke}"
+                  rangeAxisLabel="#{chart.rangeAxisLabel}"
+                  rangeAxisPaint="#{chart.rangeAxisPaint}"
+                  rangeGridlinesVisible="#{chart.rangeGridlinesVisible}"
+                  rangeGridlinePaint="#{chart.rangeGridlinePaint}"
+                  rangeGridlineStroke="#{chart.rangeGridlineStroke}"
+                  borderVisible="#{chart.borderVisible}"
+                  borderPaint="#{chart.borderPaint}"
+                  borderBackgroundPaint="#{chart.borderBackgroundPaint}"
+                  borderStroke="#{chart.borderStroke}"
+                  plotOutlinePaint="#{chart.plotOutlinePaint}"
+                  plotOutlineStroke="#{chart.plotOutlineStroke}"
+                  plotBackgroundPaint="#{chart.plotBackgroundPaint}"
+                  plotForegroundAlpha="#{chart.plotForegroundAlpha}"
+                  plotBackgroundAlpha="#{chart.plotBackgroundAlpha}"
+                  legendItemPaint="#{chart.legendItemPaint}"
+                  legendBackgroundPaint="#{chart.legendBackgroundPaint}"
+                  titlePaint="#{chart.titlePaint}"
+                  titleBackgroundPaint="#{chart.titleBackgroundPaint}">
+        <ui:repeat value="#{chart.categories}" var="category">
+          <p:series key="#{category}">
+            <ui:repeat value="#{chart.data}" var="dataset">    
+              <p:data key="#{dataset.id}" value="#{dataset.values[category]}" />
+            </ui:repeat>
+          </p:series>
+        </ui:repeat>
+      </p:linechart>
+    </s:div>
+    
+    <p:font size="16">
+      <p:paragraph>Query details for <p:text value="#{chart.title}" /></p:paragraph>
+    </p:font>
+    <p:font size="12" style="oblique">
+      <p:paragraph><p:text value="#{chart.description}" /></p:paragraph>
+    </p:font>
+    <p:newPage />
+  </ui:repeat>
+  
+</p:document>

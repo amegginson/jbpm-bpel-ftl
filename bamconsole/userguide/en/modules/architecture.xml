@@ -1,0 +1,104 @@
+<chapter id="architecture">
+	<title>Architecture</title>
+
+	<para>
+		This chapter aims at describing the architecture of the BAM
+		framework
+	</para>
+
+	<section id="architectural_diagram">
+		<title>Architectural Diagram</title>
+		<para>
+			This diagram aims at highlighting the main components of the
+			JBoss BAM solution. The BAM solution is built using
+			<ulink url="http://labs.jboss.com/jbossseam">
+				JBoss Seam
+			</ulink>
+		</para>
+		<figure id="bam.architecture.image">
+			<title>BAM Architecture</title>
+			<mediaobject>
+				<imageobject>
+					<imagedata align="center"
+						fileref="images/bam-architecture.jpg" />
+				</imageobject>
+			</mediaobject>
+		</figure>
+	</section>
+
+	<section id="components">
+		<title>Components</title>
+		<para>
+			The architecture is made of the following principal
+			components.
+		</para>
+
+		<section id="dashboard">
+			<title>Dashboard</title>
+			<para>
+				The dashboard is the UI where all the dashboard queries
+				are rendered.
+			</para>
+		</section>
+
+		<section id="dashboard_queries_engine">
+			<title>Dashboard Queries</title>
+			<para>
+				The dashboard queries are the core of the engines and
+				query the database to provide snapshots of the actual
+				data. These are entities that contain the query and the
+				format of the rendered output such as a bar chart or pie
+				chart.
+			</para>
+		</section>
+
+		<section id="reports_engine">
+			<title>Reports Engine</title>
+			<para>
+				JBoss BAM allows the integration of reporting tools
+				through the integration of reporting engines. Currently
+				Jasper Reports is shipped with the solution and provides
+				the end-users the option of building their own reports
+				and integrate them with the solution.
+			</para>
+		</section>
+
+		<section id="alert_engine">
+			<title>Alert Engine</title>
+			<para>
+				The alert engines is a core component of the system that
+				provides a methodology of sending a alert or
+				notification through a number of patterns. This engine
+				is still under-construction and will initially support
+				the communication of alert throughout email, future
+				notifications will be enabled through different
+				protocols such as SMS, Blackburry, etc...
+			</para>
+			<note>
+				<para>
+					This is component is still under construction.
+				</para>
+			</note>
+		</section>
+
+		<section id="rules_engine">
+			<title>Rules Engines</title>
+			<para>
+				The rules engine is the bridge between the Alert Engine
+				and the Dashboard Queries Engine. This components links
+				notifications to queries in the sense that whenever a
+				query returns a result that meets a rule, then the
+				appropriate alert from the alert_engine is triggered to
+				notify the destination personnel of the action to
+				execute. are rendered.
+			</para>
+			<note>
+				<para>
+					This is component is still under construction.
+				</para>
+			</note>
+		</section>
+
+	</section>
+
+</chapter>

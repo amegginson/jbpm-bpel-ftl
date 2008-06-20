@@ -1,0 +1,98 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich" 
+                template="layout/template.xhtml">
+  <ui:define name="body">
+    
+    <s:div>
+      <h:messages globalOnly="true" styleClass="message" id="globalMessages" />
+      <rich:panel>
+        <f:facet name="header">Group Details</f:facet>
+        <s:decorate id="id" template="layout/display.xhtml">
+          <ui:define name="label">ID</ui:define>
+              #{groupHome.instance.id}
+        </s:decorate>
+
+        <s:decorate id="name" template="layout/display.xhtml">
+          <ui:define name="label">Name</ui:define>
+              #{groupHome.instance.name}
+        </s:decorate>
+
+        <s:decorate id="type" template="layout/display.xhtml">
+          <ui:define name="label">Type</ui:define>
+              #{groupHome.instance.type}
+        </s:decorate>
+        
+        <s:div rendered="#{groupHome.instance.parent != null}">
+          <div style="clear: both;">
+            <s:decorate id="parentGroup" template="layout/display.xhtml">
+              <ui:define name="label">Parent Group</ui:define>
+              #{groupHome.instance.parent.name}
+            </s:decorate>
+          </div>
+        </s:div>
+        
+        <div class="actionButtons">
+          <s:button view="/GroupEdit.xhtml" id="edit" value="Edit" />
+          <s:button view="/#{empty groupFrom ? 'GroupsList' : groupFrom}.xhtml" id="done" value="Done" />
+        </div>
+      
+        <rich:spacer />
+        
+        <rich:simpleTogglePanel rendered="#{not empty groupHome.instance.children}" switchType="client">
+          <f:facet name="header">Sub Groups</f:facet>
+	        <h:outputText value="This group contains #{groupHome.children.size} sub-group(s)." />
+	            
+	        <rich:dataTable id="childrenGroupsList" 
+	                         var="childGroup"
+	                       value="#{groupHome.children}">
+	          <h:column>
+	            <f:facet name="header">
+	              <h:outputText styleClass="columnHeader" value="Id" />
+	            </f:facet>
+	            <h:outputText value="#{childGroup.id}" />
+	          </h:column>
+	          <h:column>
+	            <f:facet name="header">
+	              <h:outputText styleClass="columnHeader" value="Name" />
+	            </f:facet>
+	            <h:outputText value="#{childGroup.name}" />
+	          </h:column>
+	          <h:column>
+	            <f:facet name="header">
+	              <h:outputText styleClass="columnHeader" value="Type" />
+	            </f:facet>
+	            <h:outputText value="#{childGroup.type}" />
+	          </h:column>
+	          <h:column>
+	            <f:facet name="header">
+	              <h:outputText styleClass="columnHeader" value="Action" />
+	            </f:facet>
+	            <div class="centered">
+	              <s:link view="/#{empty from ? 'Group' : from}.xhtml"
+	                        id="groupSelect">                
+	                <f:param name="groupId" 
+	                        value="#{childGroup.id}"/>
+	                <h:graphicImage value="/img/common/select-icon.gif" title="Select" alt="Select" />
+	              </s:link>
+	              <span>&#160;|&#160;</span> 
+	              <s:link view="/#{empty from ? 'GroupEdit' : from}.xhtml"
+	                        id="groupEdit">
+	                <f:param name="groupId" 
+	                        value="#{childGroup.id}"/>
+	                <h:graphicImage value="/img/common/edit-icon.gif" title="Edit" alt="Edit" />                        
+	              </s:link>
+	            </div>
+	          </h:column>
+	        </rich:dataTable>
+        </rich:simpleTogglePanel>
+      </rich:panel>
+    </s:div>
+  </ui:define>
+</ui:composition>

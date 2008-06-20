@@ -1,0 +1,33 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JBoss jBPM Graphical Designer jPDL Plug-in
+Bundle-SymbolicName: org.jbpm.gd.jpdl;singleton:=true
+Bundle-Version: 3.2.0.alpha1
+Bundle-ClassPath: ui.jar
+Bundle-Activator: org.jbpm.gd.jpdl.Plugin
+Bundle-Vendor: JBoss, a Division of Red Hat
+Export-Package: org.jbpm.gd.jpdl,
+ org.jbpm.gd.jpdl.command,
+ org.jbpm.gd.jpdl.deployment,
+ org.jbpm.gd.jpdl.dialog,
+ org.jbpm.gd.jpdl.editor,
+ org.jbpm.gd.jpdl.model,
+ org.jbpm.gd.jpdl.notation,
+ org.jbpm.gd.jpdl.part,
+ org.jbpm.gd.jpdl.policy,
+ org.jbpm.gd.jpdl.prefs,
+ org.jbpm.gd.jpdl.properties,
+ org.jbpm.gd.jpdl.resource,
+ org.jbpm.gd.jpdl.taskform,
+ org.jbpm.gd.jpdl.util,
+ org.jbpm.gd.jpdl.wizard,
+ org.jbpm.gd.jpdl.xml
+Require-Bundle: org.eclipse.core.variables,
+ org.eclipse.debug.core,
+ org.eclipse.jdt.core,
+ org.eclipse.jdt.debug.ui,
+ org.eclipse.jdt.launching,
+ org.eclipse.jdt.ui,
+ org.jbpm.gd.common,
+ com.ibm.icu
+Eclipse-LazyStart: true

@@ -1,0 +1,1944 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN" "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+
+<taglib xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd" version="2.1">
+    <tlib-version>1.2</tlib-version>
+    <short-name>jbpm</short-name>
+    <uri>http://jbpm.org/jbpm4jsf/core</uri>
+    <description><![CDATA[JSF Tag Library for jBPM applications.]]></description>
+
+    <tag>
+        <name>addComment</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Add a comment to a task or token.]]></description>
+        <attribute>
+            <name>comment</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression that returns the comment text to add.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>target</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression that returns the node to add a comment to.]]></description>
+            <deferred-value>
+                <type>org.jbpm.graph.def.GraphElement</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>applyVariableMap</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Apply a variable map to a token, task, or process instance]]></description>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>target</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The token, task, or process instance to apply the variables to.]]></description>
+            <deferred-value>
+                <type>java.lang.Object</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>variableMap</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The variable map to apply.]]></description>
+            <deferred-value>
+                <type>org.jbpm.jsf.core.impl.UpdatesHashMap</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>assignTask</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Assign a task to an actor.]]></description>
+        <attribute>
+            <name>actorId</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The actor ID to which the task should be assigned.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>overwriteSwimlane</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A flag that indicates whether the swimlane should be overwritten.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>task</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The task instance to assign.]]></description>
+            <deferred-value>
+                <type>org.jbpm.taskmgmt.exe.TaskInstance</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>cancel</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Cancel a running task instance, token, or process instance.]]></description>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>value</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The item to cancel.]]></description>
+            <deferred-value>
+                <type>java.lang.Object</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>completeTask</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Complete a task.]]></description>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>task</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression that resolves to the task instance to complete.]]></description>
+            <deferred-value>
+                <type>org.jbpm.taskmgmt.exe.TaskInstance</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>transition</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression that resolves to either the name of a transition, or the transition object to take upon completing this task.]]></description>
+            <deferred-value>
+                <type>java.lang.Object</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>delete</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Delete a process, process instance, or job.]]></description>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>value</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The item to delete.]]></description>
+            <deferred-value>
+                <type>java.lang.Object</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>deployProcess</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Deploy a new process archive.]]></description>
+        <attribute>
+            <name>archive</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The source of the archive, as an input stream or a byte array.]]></description>
+            <deferred-value>
+                <type>java.lang.Object</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>target</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression into which the new process definition will be inserted.]]></description>
+            <deferred-value>
+                <type>org.jbpm.graph.def.ProcessDefinition</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>getDiagramInfo</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Read process definition diagram information from the database.]]></description>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>process</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The the process definition to read diagram information for.]]></description>
+            <deferred-value>
+                <type>org.jbpm.graph.def.ProcessDefinition</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>target</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression into which the diagram information should be stored.]]></description>
+            <deferred-value>
+                <type>java.lang.Object</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>getProcessLogs</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Get the process logs from a process instance.]]></description>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>processInstance</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The process instance whose process logs are to be read.]]></description>
+            <deferred-value>
+                <type>org.jbpm.graph.exe.ProcessInstance</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>type</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The process log type.  This may be a literal Class object, or the name of a class, or one of the following shortcut names:<ul><li><code>variable</code></li><li><code>variableUpdate</code></li><li><code>variableCreate</code></li><li><code>variableDelete</code></li><li><code>action</code></li><li><code>node</code></li><li><code>processInstanceCreate</code></li><li><code>processInstanceEnd</code></li><li><code>processState</code></li><li><code>signal</code></li><li><code>tokenCreate</code></li><li><code>tokenEnd</code></li><li><code>transition</code></li><li><code>composite</code></li><li><code>message</code></li><li><code>swimlane</code></li><li><code>swimlaneAssign</code></li><li><code>swimlaneCreate</code></li><li><code>task</code></li><li><code>taskAssign</code></li><li><code>taskCreate</code></li><li><code>taskEnd</code></li></ul>]]></description>
+            <deferred-value>
+                <type>java.lang.Object</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>getTaskFormInfo</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Read process definition task form information from the database.]]></description>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>process</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The the process definition to read task form information for.]]></description>
+            <deferred-value>
+                <type>org.jbpm.graph.def.ProcessDefinition</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>target</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression into which the task form information should be stored.  This will be in the form of a map whose keys are task names and whose values are the name of the task form file, if any.]]></description>
+            <deferred-value>
+                <type>java.util.Map</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>getVariable</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Get the value of a process variable.]]></description>
+        <attribute>
+            <name>entity</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The token, task, or process instance from which the variable value should be retrieved.]]></description>
+            <deferred-value>
+                <type>java.lang.Object</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>name</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The name of the variable to remove.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>target</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression into which the variable value will be stored.]]></description>
+            <deferred-value>
+                <type>java.lang.Object</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>getVariableMap</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Get the variable map from a token, process instance, or task.]]></description>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>target</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression into which the variable map will be stored.]]></description>
+            <deferred-value>
+                <type>java.util.Map</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>value</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The entity from which the variable should be retrieved.]]></description>
+            <deferred-value>
+                <type>java.lang.Object</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>includeProcessFile</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Include a process file.]]></description>
+        <attribute>
+            <name>file</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The name of a file within the process to include.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>process</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The process definition from which the file should be read.]]></description>
+            <deferred-value>
+                <type>org.jbpm.graph.def.ProcessDefinition</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>jbpmActionListener</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Call a user-defined action, providing the action with a JbpmJsfContext.]]></description>
+        <attribute>
+            <name>listener</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression that resolves to the listener to execute.  Either this or the 'type' attribute must be given.]]></description>
+            <deferred-value>
+                <type>org.jbpm.jsf.JbpmActionListener</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>type</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The type of the action.  Can be an EL expression which resolves to a literal Class object, or the name of a class as a String.  Either this or the 'listener' attribute must be given.]]></description>
+            <deferred-value>
+                <type>java.lang.Object</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>listJobs</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[List all jobs in the database.]]></description>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>target</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression into which the list will be stored.]]></description>
+            <deferred-value>
+                <type>java.util.List</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>listProcesses</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Read a list of process definitions from the database.]]></description>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>target</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression into which the process definition list should be stored.]]></description>
+            <deferred-value>
+                <type>java.util.List</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>listProcessInstances</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Read a list of process instances from a process definition.]]></description>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>processId</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The numeric ID of the process definition whose instances are to be read.]]></description>
+            <deferred-value>
+                <type>long</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>target</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression into which the process instance list should be stored.]]></description>
+            <deferred-value>
+                <type>java.util.List</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>listTasks</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Read a list of task instances from the database.]]></description>
+        <attribute>
+            <name>includeEnded</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A flag specifying whether ended tasks should be included.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>target</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression into which the task instance list should be stored.]]></description>
+            <deferred-value>
+                <type>java.util.List</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>listTasksForActor</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Read a list of task instances assigned to an actor ID.]]></description>
+        <attribute>
+            <name>actorId</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The actor ID whose task instances are to be read.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>target</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression into which the task instance list should be stored.]]></description>
+            <deferred-value>
+                <type>java.util.List</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>listTasksForProcess</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Read a list of task instances from a process definition.]]></description>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>process</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The process whose task instances are to be read.]]></description>
+            <deferred-value>
+                <type>org.jbpm.graph.def.ProcessDefinition</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>target</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression into which the task instance list should be stored.]]></description>
+            <deferred-value>
+                <type>java.util.List</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>listTasksForProcessInstance</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Read a list of task instances from a process instance.]]></description>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>processInstance</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The process instance whose task instances are to be read.]]></description>
+            <deferred-value>
+                <type>org.jbpm.graph.exe.ProcessInstance</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>target</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression into which the task instance list should be stored.]]></description>
+            <deferred-value>
+                <type>java.util.List</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>listTokens</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Read a token list from a process instance.]]></description>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>processInstance</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The process instalce to read the token list from.]]></description>
+            <deferred-value>
+                <type>org.jbpm.graph.exe.ProcessInstance</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>target</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression into which the token list should be stored.]]></description>
+            <deferred-value>
+                <type>java.util.List</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>loadJob</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Read a job instance from the database.]]></description>
+        <attribute>
+            <name>id</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The ID of the job to load.]]></description>
+            <deferred-value>
+                <type>long</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>target</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression into which the job should be stored.]]></description>
+            <deferred-value>
+                <type>org.jbpm.job.Job</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>loadProcess</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Read a process definition from the database.]]></description>
+        <attribute>
+            <name>id</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The ID of the process definition to load.]]></description>
+            <deferred-value>
+                <type>long</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>target</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression into which the process definition should be stored.]]></description>
+            <deferred-value>
+                <type>org.jbpm.graph.def.ProcessDefinition</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>loadProcessInstance</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Read a process instance from the database.]]></description>
+        <attribute>
+            <name>forUpdate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean that controls whether the process instance is to be read for update. This typically entails using a <code>SELECT ... FOR UPDATE</code> statement, when database persistence is involved.  By default, this flag is <code>false</code> if the action is invoked during the <code>RENDER_RESPONSE</code> phase, and <code>true</code> otherwise.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>id</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The ID of the process instance to load.]]></description>
+            <deferred-value>
+                <type>long</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>target</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression into which the process instance should be stored.]]></description>
+            <deferred-value>
+                <type>org.jbpm.graph.exe.ProcessInstance</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>loadTask</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Read a task instance from the database.]]></description>
+        <attribute>
+            <name>forUpdate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean that controls whether the task instance is to be read for update. This typically entails using a <code>SELECT ... FOR UPDATE</code> statement, when database persistence is involved.  By default, this flag is <code>false</code> if the action is invoked during the <code>RENDER_RESPONSE</code> phase, and <code>true</code> otherwise.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>id</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The ID of the task instance to load.]]></description>
+            <deferred-value>
+                <type>long</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>target</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression into which the task instance should be stored.]]></description>
+            <deferred-value>
+                <type>org.jbpm.taskmgmt.exe.TaskInstance</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>loadToken</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Read a token from the database.]]></description>
+        <attribute>
+            <name>forUpdate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean that controls whether the token is to be read for update. This typically entails using a <code>SELECT ... FOR UPDATE</code> statement, when database persistence is involved.  By default, this flag is <code>false</code> if the action is invoked during the <code>RENDER_RESPONSE</code> phase, and <code>true</code> otherwise.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>id</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The ID of the token to load.]]></description>
+            <deferred-value>
+                <type>long</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>target</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression into which the token should be stored.]]></description>
+            <deferred-value>
+                <type>org.jbpm.graph.exe.Token</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>moveToken</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Move a token to a new node.  Note that this does not affect any tasks that may be active and associated with this token.]]></description>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>node</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression which resolves to the node to move the token to, or the name of the node.]]></description>
+            <deferred-value>
+                <type>java.lang.Object</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>token</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression which resolves to the token that is to be moved.]]></description>
+            <deferred-value>
+                <type>org.jbpm.graph.exe.Token</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>removeVariable</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Remove a process variable.  Optionally store the old value into an EL expression.]]></description>
+        <attribute>
+            <name>entity</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The token, task, or process instance from which the variable should be removed.]]></description>
+            <deferred-value>
+                <type>java.lang.Object</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>name</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The name of the variable to remove.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>target</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An optional EL expression into which the old variable value will be stored.]]></description>
+            <deferred-value>
+                <type>java.lang.Object</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>resume</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Resume a running task, token, or process instance.]]></description>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>value</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The item to resume.]]></description>
+            <deferred-value>
+                <type>java.lang.Object</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>signal</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Signal a token or process instance.  Optionally specify the transition.]]></description>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>transition</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The transition, or transition name, to signal the item along.]]></description>
+            <deferred-value>
+                <type>java.lang.Object</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>value</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The item to signal.]]></description>
+            <deferred-value>
+                <type>java.lang.Object</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>startProcess</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Start a process.]]></description>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>process</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The process definition to begin executing.]]></description>
+            <deferred-value>
+                <type>org.jbpm.graph.def.ProcessDefinition</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>target</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression into which the new process instance will be stored.]]></description>
+            <deferred-value>
+                <type>org.jbpm.graph.exe.ProcessInstance</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>startTask</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Mark a task as started.]]></description>
+        <attribute>
+            <name>actorId</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The actor to assign the task to.  If not given, the current actor is not changed.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>overwriteSwimlane</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A flag specifying whether the swimlane will be overwritten.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>task</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The task to mark as started.]]></description>
+            <deferred-value>
+                <type>org.jbpm.taskmgmt.exe.TaskInstance</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>suspend</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Suspend a running task, token, or process instance.]]></description>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>value</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The item to suspend.]]></description>
+            <deferred-value>
+                <type>java.lang.Object</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>taskForm</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Represents the task form action source.]]></description>
+        <attribute>
+            <name>buttonTarget</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression into which the type of button clicked will be stored.  It will be one of: <ul><li><code>cancel</code></li><li><code>save</code></li><li><code>transition</code></li></ul>]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>transitionTarget</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression into which the submitted transition name will be stored (if any).]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>updateTaskStart</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Update the start date of a started task.]]></description>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>startDate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The start date to assign.  If not given, the current date will be used.]]></description>
+            <deferred-value>
+                <type>java.util.Date</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>task</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The task instance to update.]]></description>
+            <deferred-value>
+                <type>org.jbpm.taskmgmt.exe.TaskInstance</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>updateVariable</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Update a process variable.  Optionally store the old value into an EL expression.]]></description>
+        <attribute>
+            <name>entity</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The token, task, or process instance for which the variable should be updated.]]></description>
+            <deferred-value>
+                <type>java.lang.Object</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>name</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The name of the variable to update.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>target</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An optional EL expression into which the old variable value will be stored.]]></description>
+            <deferred-value>
+                <type>java.lang.Object</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>value</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The new variable value.]]></description>
+            <deferred-value>
+                <type>java.lang.Object</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+</taglib>

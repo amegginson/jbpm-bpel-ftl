@@ -1,0 +1,4 @@
+<jbpm-configuration>
+  <jbpm-context />
+  <string name="resource.hibernate.cfg.xml" value="org/jbpm/perf/memleaktest.hibernate.cfg.xml" />
+</jbpm-configuration>

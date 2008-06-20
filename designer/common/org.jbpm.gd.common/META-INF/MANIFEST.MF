@@ -1,0 +1,33 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JBoss jBPM Graphical Designer Common Plug-in
+Bundle-SymbolicName: org.jbpm.gd.common;singleton:=true
+Bundle-Version: 3.2.0.alpha1
+Bundle-Vendor: JBoss, a Division of Red Hat
+Require-Bundle: org.eclipse.core.runtime;visibility:=reexport,
+ org.eclipse.core.resources;visibility:=reexport,
+ org.eclipse.draw2d;visibility:=reexport,
+ org.eclipse.gef;visibility:=reexport,
+ org.eclipse.jface.text,
+ org.eclipse.ui;visibility:=reexport,
+ org.eclipse.ui.ide;visibility:=reexport,
+ org.eclipse.ui.views;visibility:=reexport,
+ org.eclipse.ui.views.properties.tabbed;visibility:=reexport,
+ org.eclipse.ui.workbench.texteditor,
+ org.eclipse.wst.sse.core;visibility:=reexport,
+ org.eclipse.wst.sse.ui;visibility:=reexport,
+ org.eclipse.wst.xml.ui;visibility:=reexport
+Export-Package: org.jbpm.gd.common,
+ org.jbpm.gd.common.command,
+ org.jbpm.gd.common.editor,
+ org.jbpm.gd.common.figure,
+ org.jbpm.gd.common.model,
+ org.jbpm.gd.common.notation,
+ org.jbpm.gd.common.part,
+ org.jbpm.gd.common.policy,
+ org.jbpm.gd.common.properties,
+ org.jbpm.gd.common.registry,
+ org.jbpm.gd.common.util,
+ org.jbpm.gd.common.xml
+Eclipse-LazyStart: true
+Bundle-Activator: org.jbpm.gd.common.Activator

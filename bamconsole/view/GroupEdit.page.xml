@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+	    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	    xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.0.xsd"
+	    no-conversation-view-id="/GroupsList.xhtml"
+	    login-required="true">
+
+	<begin-conversation join="true" />
+
+	<param name="groupFrom" />
+	<param name="groupId" value="#{groupHome.groupId}" />
+	
+	<navigation from-action="#{groupHome.persist}">
+		<rule if-outcome="failed">
+			<redirect view-id="/GroupEdit.xhtml" />
+		</rule>
+		<rule if-outcome="persisted">
+			<end-conversation />
+			<redirect view-id="/Group.xhtml" />
+		</rule>
+	</navigation>
+
+	<navigation from-action="#{groupHome.update}">
+		<rule if-outcome="failed">
+			<redirect view-id="/GroupEdit.xhtml" />
+		</rule>
+		<rule if-outcome="updated">
+			<end-conversation />
+			<redirect view-id="/Group.xhtml" />
+		</rule>
+	</navigation>
+
+	<navigation from-action="#{groupHome.remove}">
+		<end-conversation />
+		<redirect view-id="/GroupsList.xhtml">
+		  <param name="type" value=""/>
+		</redirect>
+	</navigation>
+</page>

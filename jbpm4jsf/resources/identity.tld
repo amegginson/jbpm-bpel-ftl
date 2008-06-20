@@ -1,0 +1,620 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE taglib PUBLIC "-//Sun Microsystems, Inc.//DTD JSP Tag Library 1.2//EN" "http://java.sun.com/dtd/web-jsptaglibrary_1_2.dtd">
+
+<taglib xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-jsptaglibrary_2_1.xsd" version="2.1">
+    <tlib-version>1.2</tlib-version>
+    <short-name>id</short-name>
+    <uri>http://jbpm.org/jbpm4jsf/identity</uri>
+    <description><![CDATA[JSF Tag Library for jBPM applications.]]></description>
+
+    <tag>
+        <name>addMembership</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Add a group membership to a user.]]></description>
+        <attribute>
+            <name>group</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The group that the user should become a member of.]]></description>
+            <deferred-value>
+                <type>org.jbpm.identity.Group</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>role</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The name of the role.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>target</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression into which the created membership should be stored.]]></description>
+            <deferred-value>
+                <type>org.jbpm.identity.Membership</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>user</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The user to whom the membership is granted.]]></description>
+            <deferred-value>
+                <type>org.jbpm.identity.User</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>createGroup</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Create a new group and save it in the database.]]></description>
+        <attribute>
+            <name>groupName</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The name of the group to create.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>parentGroup</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The parent group, if any.]]></description>
+            <deferred-value>
+                <type>org.jbpm.identity.Group</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>target</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression into which the created group should be stored.]]></description>
+            <deferred-value>
+                <type>org.jbpm.identity.Group</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>type</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The type of the new group.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>createUser</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Create a new user and save it in the database.]]></description>
+        <attribute>
+            <name>email</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The email of the new user.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>password</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The password of the new user.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>passwordConfirm</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The password of the new user again.  If this value does not match the value of the <code>password</code> attribute, user creation will fail.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>target</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression into which the created user should be stored.]]></description>
+            <deferred-value>
+                <type>org.jbpm.identity.User</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>userName</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The user name of the user to create.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>deleteGroup</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Delete a group from the database.]]></description>
+        <attribute>
+            <name>group</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The group to delete.]]></description>
+            <deferred-value>
+                <type>org.jbpm.identity.Group</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>deleteMembership</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Delete a membership from the database.]]></description>
+        <attribute>
+            <name>membershipId</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The ID of the membership to delete.]]></description>
+            <deferred-value>
+                <type>long</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>user</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The user containing the membership to delete.]]></description>
+            <deferred-value>
+                <type>org.jbpm.identity.User</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>deleteUser</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Delete a user from the database.]]></description>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>user</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The user to delete.]]></description>
+            <deferred-value>
+                <type>org.jbpm.identity.User</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>listGroups</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Read the list of groups from the database.]]></description>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>target</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression into which the group list should be stored.]]></description>
+            <deferred-value>
+                <type>java.util.List</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>listUsers</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Read the list of users from the database.]]></description>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>target</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression into which the user list should be stored.]]></description>
+            <deferred-value>
+                <type>java.util.List</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>loadGroup</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Read a group from the database.]]></description>
+        <attribute>
+            <name>id</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The ID of the group to load.]]></description>
+            <deferred-value>
+                <type>long</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>target</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression into which the group should be stored.]]></description>
+            <deferred-value>
+                <type>org.jbpm.identity.Group</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>loadGroupByName</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Read a group from the database by name.]]></description>
+        <attribute>
+            <name>groupName</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The name of the group to load.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>target</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression into which the group should be stored.]]></description>
+            <deferred-value>
+                <type>org.jbpm.identity.Group</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+
+    <tag>
+        <name>loadUser</name>
+        <tag-class/>
+        <tei-class/>
+        <body-content>JSP</body-content>
+        <description><![CDATA[Read a user from the database.]]></description>
+        <attribute>
+            <name>id</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[The ID of the user to load.]]></description>
+            <deferred-value>
+                <type>long</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>name</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A different name to use for this action.  Action names are used by some navigation handlers.]]></description>
+            <deferred-value>
+                <type>java.lang.String</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>navigate</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that can be used to control whether navigation will be attempted after this action completes.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>target</name>
+            <required>true</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[An EL expression into which the user should be stored.]]></description>
+            <deferred-value>
+                <type>org.jbpm.identity.User</type>
+            </deferred-value>
+        </attribute>
+        <attribute>
+            <name>unless</name>
+            <required>false</required>
+            <rtexprvalue>false</rtexprvalue>
+            <description><![CDATA[A boolean expression that, if true, will prevent this action from being run.]]></description>
+            <deferred-value>
+                <type>boolean</type>
+            </deferred-value>
+        </attribute>
+    </tag>
+</taglib>

@@ -1,0 +1,180 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:s="http://jboss.com/products/seam/taglib"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:a4j="http://richfaces.org/a4j"
+  xmlns:p="http://jboss.com/products/seam/pdf"
+  template="layout/template.xhtml">
+
+  <ui:define name="body">
+    <rich:panel>
+      <f:facet name="header">Dashboard</f:facet>
+      <p>Welcome to the main dashboard. The aim of the dashboard is to provide a high level overview of the contained jBPM instances. </p>
+      <table>        
+        <tr>
+          <td class="property">Total number of deployed process definitions: </td>          
+          <td class="property"><h:outputText value="#{DashboardQueryHandler.renderSingleResultNamedJbpmNamedQuery('GraphSession.NumberOfDeployedProcesses')}" /> </td>
+        </tr>
+        <tr>
+          <td class="property">Total number of active process instances </td>
+          <td class="property"><h:outputText value="#{DashboardQueryHandler.renderSingleResultNamedJbpmNamedQuery('GraphSession.NumberOfActiveProcessInstances')}" /> </td>          
+        </tr>
+      </table>
+      <p>Further process information and details can be found <s:link view="/dashboard-statistics.xhtml"> here</s:link></p>
+      <p:stroke id="solid-thin" width="1" cap="round" join="bevel" dash="1" />    
+      <p:stroke id="solid-thick" width="1" cap="round" join="bevel" dash="1" />
+      <ui:repeat value="#{DashboardQueryHandler.chartsList}" var="chart">
+        <rich:simpleTogglePanel label="Chart details for #{chart.title}" switchType="client" rendered="#{chart.chartType.equals('bar-chart')}">
+          <s:div styleClass="centered" >
+            <p:barchart title="#{chart.title}"  
+                  orientation="#{chart.orientation}"
+                  is3D="#{chart.is3d}"   
+                  legend="#{chart.legend}"
+                  width="#{chart.width}" 
+                  height="#{chart.height}" 
+                  domainAxisLabel="#{chart.domainAxisLabel}"
+                  domainAxisPaint="#{chart.domainAxisPaint}"
+                  domainGridlinesVisible="#{chart.domainGridlinesVisible}"
+                  domainGridlinePaint="#{chart.domainGridlinePaint}"
+                  domainGridlineStroke="#{chart.domainGridlineStroke}"
+                  rangeAxisLabel="#{chart.rangeAxisLabel}"
+                  rangeAxisPaint="#{chart.rangeAxisPaint}"
+                  rangeGridlinesVisible="#{chart.rangeGridlinesVisible}"
+                  rangeGridlinePaint="#{chart.rangeGridlinePaint}"
+                  rangeGridlineStroke="#{chart.rangeGridlineStroke}"
+                  borderVisible="#{chart.borderVisible}"
+                  borderPaint="#{chart.borderPaint}"
+                  borderBackgroundPaint="#{chart.borderBackgroundPaint}"
+                  borderStroke="#{chart.borderStroke}"
+                  plotOutlinePaint="#{chart.plotOutlinePaint}"
+                  plotOutlineStroke="#{chart.plotOutlineStroke}"
+                  plotBackgroundPaint="#{chart.plotBackgroundPaint}"
+                  plotForegroundAlpha="#{chart.plotForegroundAlpha}"
+                  plotBackgroundAlpha="#{chart.plotBackgroundAlpha}"
+                  legendItemPaint="#{chart.legendItemPaint}"
+                  legendBackgroundPaint="#{chart.legendBackgroundPaint}"
+                  titlePaint="#{chart.titlePaint}"
+                  titleBackgroundPaint="#{chart.titleBackgroundPaint}">
+              <ui:repeat value="#{chart.data}" var="dataset">
+                <p:series key="#{dataset.id}">
+                  <ui:repeat value="#{chart.categories}" var="category">
+                    <p:data key="#{category}" value="#{dataset.values[category]}" />
+                  </ui:repeat>
+                </p:series>
+              </ui:repeat>
+            </p:barchart>
+          </s:div>
+          <div>
+            <h3>Query Details</h3>
+            <h:outputText value="#{chart.description}"/>
+          </div>
+        </rich:simpleTogglePanel>
+        
+        <rich:simpleTogglePanel label="Chart details for #{chart.title} " switchType="client" rendered="#{chart.chartType.equals('pie-chart')}">
+          <s:div styleClass="centered" >
+            <p:piechart title="#{chart.title}"
+		              orientation="#{chart.orientation}"
+		              is3D="#{chart.is3d}"
+		              legend="#{chart.legend}"
+		              width="#{chart.width}" 
+                  height="#{chart.height}"
+		              domainAxisLabel="#{chart.domainAxisLabel}"
+		              domainAxisPaint="#{chart.domainAxisPaint}"
+		              domainGridlinesVisible="#{chart.domainGridlinesVisible}"
+		              domainGridlinePaint="#{chart.domainGridlinePaint}"
+		              domainGridlineStroke="#{chart.domainGridlineStroke}"
+		              rangeAxisLabel="#{chart.rangeAxisLabel}"
+		              rangeAxisPaint="#{chart.rangeAxisPaint}"
+		              rangeGridlinesVisible="#{chart.rangeGridlinesVisible}"
+		              rangeGridlinePaint="#{chart.rangeGridlinePaint}"
+		              rangeGridlineStroke="#{chart.rangeGridlineStroke}"
+		              borderVisible="#{chart.borderVisible}"
+		              borderPaint="#{chart.borderPaint}"
+		              borderBackgroundPaint="#{chart.borderBackgroundPaint}"
+		              borderStroke="#{chart.borderStroke}"
+		              plotOutlinePaint="#{chart.plotOutlinePaint}"
+		              plotOutlineStroke="#{chart.plotOutlineStroke}"
+		              plotBackgroundPaint="#{chart.plotBackgroundPaint}"
+		              plotForegroundAlpha="#{chart.plotForegroundAlpha}"
+		              plotBackgroundAlpha="#{chart.plotBackgroundAlpha}"
+		              legendItemPaint="#{chart.legendItemPaint}"
+		              legendBackgroundPaint="#{chart.legendBackgroundPaint}"
+		              titlePaint="#{chart.titlePaint}"
+		              titleBackgroundPaint="#{chart.titleBackgroundPaint}">
+		          <ui:repeat value="#{chart.categories}" var="category">
+		            <p:series key="#{category}">
+		              <ui:repeat value="#{chart.data}" var="dataset">
+		                <p:data key="#{dataset.id}" value="#{dataset.values[category]}" />
+		              </ui:repeat>
+		            </p:series>
+		          </ui:repeat>
+		        </p:piechart>
+          </s:div>
+          <div>
+            <h3>Query Details</h3>
+            <h:outputText value="#{chart.description}"/>
+          </div>
+        </rich:simpleTogglePanel>
+        
+        <rich:simpleTogglePanel label="Chart details for #{chart.title} " switchType="client" rendered="#{chart.chartType.equals('line-chart')}">
+          <s:div styleClass="centered" >
+            <p:linechart title="#{chart.title}"
+		              orientation="#{chart.orientation}"
+		              is3D="#{chart.is3d}"
+		              legend="#{chart.legend}"
+		              width="#{chart.width}" 
+                  height="#{chart.height}"
+		              domainAxisLabel="#{chart.domainAxisLabel}"
+		              domainAxisPaint="#{chart.domainAxisPaint}"
+		              domainGridlinesVisible="#{chart.domainGridlinesVisible}"
+		              domainGridlinePaint="#{chart.domainGridlinePaint}"
+		              domainGridlineStroke="#{chart.domainGridlineStroke}"
+		              rangeAxisLabel="#{chart.rangeAxisLabel}"
+		              rangeAxisPaint="#{chart.rangeAxisPaint}"
+		              rangeGridlinesVisible="#{chart.rangeGridlinesVisible}"
+		              rangeGridlinePaint="#{chart.rangeGridlinePaint}"
+		              rangeGridlineStroke="#{chart.rangeGridlineStroke}"
+		              borderVisible="#{chart.borderVisible}"
+		              borderPaint="#{chart.borderPaint}"
+		              borderBackgroundPaint="#{chart.borderBackgroundPaint}"
+		              borderStroke="#{chart.borderStroke}"
+		              plotOutlinePaint="#{chart.plotOutlinePaint}"
+		              plotOutlineStroke="#{chart.plotOutlineStroke}"
+		              plotBackgroundPaint="#{chart.plotBackgroundPaint}"
+		              plotForegroundAlpha="#{chart.plotForegroundAlpha}"
+		              plotBackgroundAlpha="#{chart.plotBackgroundAlpha}"
+		              legendItemPaint="#{chart.legendItemPaint}"
+		              legendBackgroundPaint="#{chart.legendBackgroundPaint}"
+		              titlePaint="#{chart.titlePaint}"
+		              titleBackgroundPaint="#{chart.titleBackgroundPaint}">
+		          <ui:repeat value="#{chart.categories}" var="category">
+		            <p:series key="#{category}">
+		              <ui:repeat value="#{chart.data}" var="dataset">    
+		                <p:data key="#{dataset.id}" value="#{dataset.values[category]}" />
+		              </ui:repeat>
+		            </p:series>
+		          </ui:repeat>
+		        </p:linechart>         
+          </s:div>
+          <div>
+            <h3>Query Details</h3>
+            <h:outputText value="#{chart.description}"/>
+          </div>
+        </rich:simpleTogglePanel>
+        <rich:spacer />
+      </ui:repeat>
+      
+      <p>Further process information and details can be found <s:link view="/dashboard-statistics.xhtml"> here</s:link></p>
+      <s:div id="right-aligned">
+	      <s:link view="/dashboard-pdf.xhtml" target="blank">
+	        <h:graphicImage value="/img/common/pdf.gif" title="Generate PDF"/>
+	      </s:link>
+      </s:div>
+    </rich:panel>
+    
+  </ui:define>
+</ui:composition>

@@ -1,0 +1,164 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:a="http://richfaces.org/a4j"
+                xmlns:rich="http://richfaces.org/rich"
+                template="layout/template.xhtml">
+  
+	<ui:define name="body">
+	  <h:messages globalOnly="true" styleClass="message" id="globalMessages"/>
+    <h:form id="userEdit" styleClass="edit">
+      <rich:panel>
+        <f:facet name="header">#{userHome.managed ? 'Update' : 'Add'} User Details</f:facet>
+        <s:decorate id="nameDecoration" template="layout/edit.xhtml">
+          <ui:define name="label">Username</ui:define>
+          <h:inputText id="name" 
+                 required="true"
+                     size="24"
+                maxlength="32"
+                    value="#{userHome.name}"
+                 disabled="#{userHome.managed}">
+            <a:support event="onblur" reRender="nameDecoration" bypassUpdates="true"/>
+          </h:inputText>
+        </s:decorate>
+        
+        <s:div rendered="#{not userHome.managed}">
+          <s:decorate id="passwordDecoration" template="layout/edit.xhtml">
+            <ui:define name="label">Password</ui:define>
+            <h:inputSecret id="password" 
+                        value="#{userHome.password}" 
+                         size="24" />
+          </s:decorate>
+
+          <s:decorate id="confirmedPasswordDecoration" template="layout/edit.xhtml">
+            <ui:define name="label">Confirm Password</ui:define>
+             <h:inputSecret id="confirmedPassword" 
+                         value="#{userHome.confirmedPassword}" 
+                         size="24"/>
+          </s:decorate>
+        </s:div>
+        
+        <s:decorate id="emailDecoration" template="layout/edit.xhtml">
+          <ui:define name="label">Email</ui:define>
+          <h:inputText id="email" 
+                 required="true"
+                     size="24"
+                maxlength="32"
+                    value="#{userHome.email}">
+            <a:support event="onblur" reRender="emailDecoration" bypassUpdates="true"/>
+          </h:inputText>
+        </s:decorate>
+        
+        <s:div id="captcha" rendered="#{!userHome.managed}">
+          <div style="clear:both">
+            <span class="name">Verification text:</span>
+	          <span class="name">
+		          <h:graphicImage value="/seam/resource/captcha" />
+		        </span>
+		        <span class="value">
+							<h:inputText id="verifyCaptcha" value="#{captcha.response}" required="true" size="24">
+							  <s:validateAll>
+                  <ui:insert/>
+                </s:validateAll>
+							</h:inputText>
+						</span>
+					</div>
+				</s:div>
+				
+        <div style="clear:both">
+          <span class="required"><sup>*</sup></span>Indicates required fields.
+        </div>
+        
+        <rich:spacer />
+        
+        <s:div rendered="#{userHome.managed}">
+          <div style="clear:both">
+            Click <a href="javascript:collapse.slideit()">here</a> to change password
+          </div>
+        </s:div>
+        
+        <div id="changePassword" style="clear:both; width: 290px;">
+          <s:decorate id="currentPassword" template="layout/edit.xhtml">
+            <ui:define name="label">Current Password</ui:define>
+            <h:inputSecret id="oldPassword" 
+                         value="#{userHome.currentPassword}" 
+                         size="24"/>
+          </s:decorate>
+          
+          <s:decorate id="newPassword" template="layout/edit.xhtml">
+            <ui:define name="label">New Password</ui:define>
+            <h:inputSecret id="confirmedPassword" 
+                         value="#{userHome.newPassword}" 
+                         size="24"/>
+          </s:decorate>
+          
+          <s:decorate id="confirmNewPassword" template="layout/edit.xhtml">
+            <ui:define name="label">Confirm New Password</ui:define>
+            <h:inputSecret id="confirmedPassword" 
+                         value="#{userHome.confirmedNewPassword}" 
+                         size="24"/>
+          </s:decorate>
+          
+          <div class="rightActionButtons">
+            <h:commandButton id="changePasswordCmd" 
+                          value="Update Password" 
+                         action="#{userHome.changePassword}" />
+          </div>
+        </div>
+        
+        <div class="actionButtons">
+          <h:commandButton id="save" 
+                        value="Save" 
+                        action="#{userHome.persist}"
+                      rendered="#{not userHome.managed}"/>  
+                                      
+          <h:commandButton id="update" 
+                        value="Update" 
+                       action="#{userHome.update}"
+                     rendered="#{userHome.managed}">
+          </h:commandButton>
+                                    
+                    
+          <s:button id="cancel" 
+                 value="Cancel"
+           propagation="end" 
+                  view="/#{empty userFrom ? 'UsersList' : userFrom}.xhtml"
+              rendered="#{!userHome.managed}"/>
+        </div>
+      </rich:panel> 
+      
+      <script type="text/javascript">
+        var collapse=new animatedcollapse("changePassword", 800, true);
+      </script>
+      <script type="text/javascript">
+	      function confirmDelete() {
+					return confirm("Are you sure you want to remove this user?");
+				}
+      </script>
+    </h:form>
+    
+    <rich:modalPanel id="deleteUserPanel" width="320" height="120">
+      <f:facet name="header">
+        <h:outputText value="Action Confirmation" />
+      </f:facet>
+      <f:facet name="controls">
+        <h:graphicImage value="/img/common/close.gif" style="cursor:pointer" onclick="Richfaces.hideModalPanel('deleteUserPanel')" />
+      </f:facet>
+      <h:form>
+        <p>This operation cannot be undone. Are you sure you want to delete the selected user?</p>
+	      <div id="centerActionButtons">
+	        <h:commandButton value="Close" onclick="Richfaces.hideModalPanel('deleteUserPanel')" />
+	        <h:commandButton id="deleteBtn" 
+	                      value="Delete" 
+	                     action="#{userHome.remove}">
+	        </h:commandButton>
+	      </div>
+      </h:form>
+    </rich:modalPanel>
+  </ui:define>
+</ui:composition>

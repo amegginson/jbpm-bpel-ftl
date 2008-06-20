@@ -1,0 +1,150 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:rich="http://richfaces.org/rich"
+                xmlns:a="http://richfaces.org/a4j"
+                template="layout/template.xhtml">
+                       
+	<ui:define name="body">
+    <h:form id="dashboardQuerySearch" styleClass="edit">
+      <rich:simpleTogglePanel label="Query Search" switchType="ajax">        
+        <s:decorate template="layout/display.xhtml">
+          <ui:define name="label">Name</ui:define>
+	        <h:inputText id="name" value="#{dashboardQueryList.dashboardQuery.name}">
+            <a:support event="onkeyup" reRender="searchResults" />
+          </h:inputText>
+        </s:decorate>
+        <s:decorate template="layout/display.xhtml">
+          <ui:define name="label">Description</ui:define>
+          <h:inputText id="description" value="#{dashboardQueryList.dashboardQuery.description}">
+            <a:support event="onkeyup" reRender="searchResults" />
+          </h:inputText>
+        </s:decorate>
+        <!--  
+        <s:decorate template="layout/display.xhtml">
+          <ui:define name="label">Query Type</ui:define>
+          <h:selectOneMenu value="#{dashboardQueryList.dashboardQuery.queryType}" id="queryType">
+            <f:selectItem itemLabel="HQL" itemValue="HQL" />
+            <f:selectItem itemLabel="SQL" itemValue="SQL" />
+          </h:selectOneMenu>                  
+        </s:decorate>
+        -->
+        <div class="actionButtons">
+          <h:commandButton id="search" value="Search" action="/DashboardQueryList.xhtml"/>
+        </div>
+      </rich:simpleTogglePanel>
+	  </h:form>
+	  <rich:spacer />
+	  <a:outputPanel id="searchResults">
+      <rich:panel>
+        <f:facet name="header">Dashboard Queries</f:facet>
+        <div class="results" id="dashboardQueryList">
+	
+          <h:outputText value="The system does not contain any query." 
+                     rendered="#{empty dashboardQueryList.resultList}"/>
+	               
+          <rich:dataTable id="dashboardQueryList" 
+                         var="dashboardQuery"
+                       value="#{dashboardQueryList.resultList}" 
+                    rendered="#{not empty dashboardQueryList.resultList}">
+            <h:column>
+              <f:facet name="header">
+                <s:link styleClass="columnHeader"
+                             value="Id #{dashboardQueryList.order=='id asc' ? messages.down : ( dashboardQueryList.order=='id desc' ? messages.up : '' )}">
+                    <f:param name="order" value="#{dashboardQueryList.order=='id asc' ? 'id desc' : 'id asc'}"/>
+	              </s:link>
+	            </f:facet>
+	            #{dashboardQuery.id}
+            </h:column>
+            <h:column>
+              <f:facet name="header">
+                <s:link styleClass="columnHeader"
+	                           value="Name #{dashboardQueryList.order=='name asc' ? messages.down : ( dashboardQueryList.order=='name desc' ? messages.up : '' )}">
+                  <f:param name="order" value="#{dashboardQueryList.order=='name asc' ? 'name desc' : 'name asc'}"/>
+                </s:link>
+              </f:facet>
+	            #{dashboardQuery.name}
+            </h:column>
+            <h:column>
+              <f:facet name="header">
+                <s:link styleClass="columnHeader"
+	                           value="Description #{dashboardQueryList.order=='description asc' ? messages.down : ( dashboardQueryList.order=='description desc' ? messages.up : '' )}">
+                  <f:param name="order" value="#{dashboardQueryList.order=='description asc' ? 'description desc' : 'description asc'}"/>
+	              </s:link>
+              </f:facet>
+              #{dashboardQuery.description}
+            </h:column>
+            <h:column>
+              <f:facet name="header">
+                <s:link styleClass="columnHeader"
+	                             value="Query Type #{dashboardQueryList.order=='queryType asc' ? messages.down : ( dashboardQueryList.order=='queryType desc' ? messages.up : '' )}">
+	                    <f:param name="order" value="#{dashboardQueryList.order=='queryType asc' ? 'queryType desc' : 'queryType asc'}"/>
+	                </s:link>
+	            </f:facet>
+	            #{dashboardQuery.queryType}
+            </h:column>
+	          <h:column>
+              <f:facet name="header">Action</f:facet>
+	            <s:link view="/#{empty from ? 'DashboardQuery' : from}.xhtml"
+	                      id="dashboardQuerySelect">
+	              <f:param name="dashboardQueryId" 
+	                      value="#{dashboardQuery.id}"/>
+	              <h:graphicImage value="/img/common/select-icon.gif" title="Select"/>
+	            </s:link>
+	            <span>&#160;|&#160;</span> 
+	            <s:link view="/#{empty from ? 'DashboardQueryEdit' : from}.xhtml" 
+	                      id="dashboardQueryEdit">
+	              <f:param name="dashboardQueryId" 
+	                      value="#{dashboardQuery.id}"/>
+	              <h:graphicImage value="/img/common/edit-icon.gif" title="Edit" />
+	            </s:link>
+	          </h:column>
+	        </rich:dataTable>
+		    </div>
+		    <div class="tableControl"> 
+		      <s:link view="/DashboardQueryList.xhtml" 
+		          rendered="#{dashboardQueryList.previousExists}" 
+		             value="#{messages.left}#{messages.left} First Page"
+		                id="firstPage">
+		        <f:param name="firstResult" value="0"/>
+		      </s:link>
+		          
+		      <s:link view="/DashboardQueryList.xhtml" 
+		          rendered="#{dashboardQueryList.previousExists}" 
+		             value="#{messages.left} Previous Page"
+		                id="previousPage">
+		        <f:param name="firstResult" 
+		                value="#{dashboardQueryList.previousFirstResult}"/>
+		      </s:link>
+		          
+		      <s:link view="/DashboardQueryList.xhtml" 
+		          rendered="#{dashboardQueryList.nextExists}" 
+		             value="Next Page #{messages.right}"
+		                id="nextPage">
+		        <f:param name="firstResult" value="#{dashboardQueryList.nextFirstResult}"/>
+		      </s:link>
+		          
+		      <s:link view="/DashboardQueryList.xhtml" 
+		          rendered="#{dashboardQueryList.nextExists}" 
+		             value="Last Page #{messages.right}#{messages.right}"
+		                id="lastPage">
+		        <f:param name="firstResult" value="#{dashboardQueryList.lastFirstResult}"/>
+		      </s:link>
+		    </div>
+		      
+		    <s:div styleClass="actionButtons" rendered="#{empty from}">
+		      <s:button view="/DashboardQueryEdit.xhtml"
+		                  id="create" 
+		               value="Create Dashboard Query">
+		        <f:param name="dashboardQueryId"/>
+		      </s:button>
+		    </s:div>
+	    </rich:panel>
+	  </a:outputPanel>
+	</ui:define>
+</ui:composition>

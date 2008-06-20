@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping auto-import="false" default-access="field">
+  <subclass name="org.jbpm.context.exe.variableinstance.JcrNodeInstance" 
+            extends="org.jbpm.context.exe.VariableInstance" 
+            discriminator-value="J">
+
+    <!-- 
+    NOTE: these propertynames don't match the column names very well.
+    The motivation for this was to keep the database schema unchanged 
+    between jBPM 3.1 and jBPM 3.2
+    -->
+
+    <property name="repository" column="LONGIDCLASS_" />
+    <property name="workspace" column="STRINGIDCLASS_" />
+    <property name="path" column="STRINGVALUE_" length="4000" />
+
+  </subclass>
+</hibernate-mapping>

@@ -1,0 +1,184 @@
+<chapter id="reports">
+	<title>Reports Engine</title>
+	<para>
+		The BAM solution integrates a reporting engine that allows end
+		users to create their own reports using reporting frameworks and
+		integrate the reports into the system to be persisted and
+		rendered.
+	</para>
+
+	<para>
+		The reporting engine job is to expose the data of the system and
+		its integrated database into the reporting tool so that reports
+		can be built, saved into the system and rendered. This feature
+		would allow the same report to be built once and the data can be
+		gathered at any point in time and exported into different
+		formats such as PDF, XML or HTML.
+	</para>
+
+	<para>
+		At the current state, the frameworks only supports one reporting
+		tool. The engine has already the handlers to integrate
+		<ulink url="http://www.jasperforge.org">Jasper Reports</ulink>
+		. Future plans of the console plan to integrate advanced
+		features of Jasper Reports and more reporting frameworks such as
+		<ulink url="www.eclipse.org/birt/">Eclipse BIRT</ulink>
+		.
+		<note>
+			This tutorial provides a tutorial on how to use Jasper
+			within the JBoss BAM solution, however it's not meant to be
+			a Jasper Reports tutorial.
+		</note>
+	</para>
+
+	<section id="reports_jasper">
+		<title>Jasper Reports - Step By Step Guide</title>
+		<para>
+			This is a step by step guide on how to build reports using
+			<ulink url="http://jasperforge.org/sf/projects/ireport">
+				iReport
+			</ulink>
+			and integrate them into the BAM solution. Prior to starting
+			please make sure that you have iReport installed. The
+			tutorial is built at the version 2.0.4 of Jasper Reports and
+			iReport.
+		</para>
+
+		<section>
+			<title>Jasper Report Design</title>
+			<para>
+				The report we are aiming to build has the following
+				data:
+			</para>
+			<figure id="report.design">
+				<title>Report Design</title>
+				<mediaobject>
+					<imageobject>
+						<imagedata align="center"
+							fileref="images/report-design.jpg" />
+					</imageobject>
+				</mediaobject>
+			</figure>
+			<para>Our report contains the following elements:</para>
+			<itemizedlist>
+				<listitem>
+					Parameters:
+					<para>
+						We will add the report title parameter to the
+						report. This variable is passed on from the
+						reporting engine to the report prior to
+						rendering.
+					</para>
+					<figure id="report.parameters">
+						<title>Report Parameters</title>
+						<mediaobject>
+							<imageobject>
+								<imagedata align="center"
+									fileref="images/report-parameter.jpg" />
+							</imageobject>
+						</mediaobject>
+					</figure>
+				</listitem>
+
+				<listitem>
+					Query:
+					<para>
+						Add in the following query to the report. Select
+						<menuchoice>
+							<guimenu>Data</guimenu>
+							<guimenuitem>Report Query</guimenuitem>
+						</menuchoice>
+						and type in the following SQL query:
+						<para>
+							<programlisting>
+								select processdef1_.NAME_ as
+								proc_def_name, count(processdef1_.NAME_)
+								proc_def_count from JBPM_PROCESSINSTANCE
+								processins0_, JBPM_PROCESSDEFINITION
+								processdef1_ where
+								processins0_.PROCESSDEFINITION_=processdef1_.ID_
+								group by processdef1_.NAME_
+							</programlisting>
+						</para>
+					</para>
+					<figure id="report.query">
+						<title>Report Query</title>
+						<mediaobject>
+							<imageobject>
+								<imagedata align="center"
+									fileref="images/report-query.jpg" />
+							</imageobject>
+						</mediaobject>
+					</figure>
+					<para>
+						Save your report into a location, we'll use the
+						file in the next steps. Make sure that you
+						include the design as the report layout
+						indicates.
+					</para>
+				</listitem>
+			</itemizedlist>
+		</section>
+
+		<section>
+			<title>Upload Report</title>
+			<para>
+				In this section we will upload the report we previously
+				built and render the results within the system.
+			</para>
+			<para>
+				Navigate using the console to
+				<ulink
+					url="http://localhost:8080/bamconsole/ReportList.seam">
+					http://localhost:8080/bamconsole/ReportList.seam
+				</ulink>
+				and click the Create Report Button.
+
+				<figure id="report.list">
+					<title>Report List</title>
+					<mediaobject>
+						<imageobject>
+							<imagedata align="center"
+								fileref="images/report-list.jpg" />
+						</imageobject>
+					</mediaobject>
+				</figure>
+			</para>
+			<para>
+				Upload the report created previously to the system and
+				fill in the report data as the figure indicates:
+				<figure id="report.fill">
+					<title>Report Data</title>
+					<mediaobject>
+						<imageobject>
+							<imagedata align="center"
+								fileref="images/report-fill.jpg" />
+						</imageobject>
+					</mediaobject>
+				</figure>
+			</para>
+
+			<para>
+				Your report has been succesfully created
+				<figure id="report.created">
+					<title>Report Created</title>
+					<mediaobject>
+						<imageobject>
+							<imagedata align="center"
+								fileref="images/report-created.jpg" />
+						</imageobject>
+					</mediaobject>
+				</figure>
+			</para>
+
+			<para>
+				You can now download your report in the formats that are
+				provided by the system. Currently the system generates
+				the reports output in 3 formats (PDF, XHTML, XML) -
+				Later versions of the reporting engine will allow the
+				generation of different outputs suchs as XLS, ODT, CSV
+				and much more.
+			</para>
+		</section>
+	</section>
+</chapter>

@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension point ="org.eclipse.ui.editors">
+     <editor
+           class="org.jbpm.gd.pf.editor.PageFlowEditor"
+           contributorClass="org.jbpm.gd.common.editor.ActionBarContributor" 
+           icon="icons/pageflow.gif"
+           id="org.jbpm.gd.pf.editor"
+           name="Seam Graphical Pageflow Designer">
+         <contentTypeBinding contentTypeId="org.jbpm.gd.pf.pageflow" /> 
+     </editor> 
+   </extension> 
+  	
+   <extension point="org.eclipse.core.runtime.contentTypes">
+  	  <content-type id="pageflow" name="pageflow semantic info"
+  	        base-type="org.eclipse.core.runtime.xml"
+		    default-charset="UTF-8">
+		 <describer class="org.eclipse.core.runtime.content.XMLRootElementContentDescriber">
+            <parameter name="element" value="pageflow-definition"/>
+         </describer>
+      </content-type>
+   </extension>  
+  
+   <extension
+         point="org.eclipse.ui.newWizards">
+      <category
+            name="Seam"
+            id="org.jboss.tools.seam.ui">
+      </category> 
+      <wizard
+            name="Seam Page Flow"
+            icon="icons/pageflow.gif"
+            category="org.jboss.tools.seam.ui"
+            class="org.jbpm.gd.pf.wizard.NewPageFlowWizard"
+            id="org.jbpm.gd.wizard.new.file">
+         <description>
+            A wizard that creates a pageflow diagram
+         </description>
+         <selection
+               class="org.eclipse.core.resources.IResource">
+         </selection>
+      </wizard>
+   </extension>
+
+   <extension 
+   		 point="org.jbpm.gd.common.dsl">
+      <language 
+            id="org.jbpm.gd.pf" 
+            name="Seam Pageflow Definition Language" 
+            editor="org.jbpm.gd.pf.editor"/>		 
+   </extension>
+    
+   <extension
+         point="org.jbpm.gd.common.semanticElements">
+      <semanticElement
+            icon="icons/decision.gif"
+            id="org.jbpm.gd.pf.decision"
+            label="Decision"
+            language="org.jbpm.gd.pf"
+            modelClass="org.jbpm.gd.pf.model.Decision"
+            name="decision"/>
+      <semanticElement
+            icon="icons/page.gif"
+            id="org.jbpm.gd.pf.page"
+            label="Page"
+            language="org.jbpm.gd.pf"
+            modelClass="org.jbpm.gd.pf.model.Page"
+            name="page"/>
+      <semanticElement
+            icon="icons/pageflow.gif"
+            id="org.jbpm.gd.pf.pageFlowDefinition"
+            label="Pageflow Definition"
+            language="org.jbpm.gd.pf"
+            modelClass="org.jbpm.gd.pf.model.PageFlowDefinition"
+            name="pageflow-definition"/>
+      <semanticElement
+            icon="icons/start.gif"
+            id="org.jbpm.gd.pf.startPage"
+            label="Start Page"
+            language="org.jbpm.gd.pf"
+            modelClass="org.jbpm.gd.pf.model.StartPage"
+            name="start-page"/>
+      <semanticElement
+      		icon="icons/process.gif"
+      		id="org.jbpm.gd.pf.processState"
+      		label="Process State"
+      		language="org.jbpm.gd.pf"
+      		modelClass="org.jbpm.gd.pf.model.ProcessState"
+      		name="process-state"/>
+      <semanticElement
+            icon="icons/transition.gif"
+            id="org.jbpm.gd.pf.transition"
+            label="Transition"
+            language="org.jbpm.gd.pf"
+            modelClass="org.jbpm.gd.pf.model.Transition"
+            name="transition"/>
+   </extension>
+
+   <extension 
+         point="org.jbpm.gd.common.notationElements">
+      <notationElement 
+            id="root" 
+            class="org.jbpm.gd.pf.notation.PageFlowRootContainer"/>
+      <notationElement 
+            id="node" 
+            class="org.jbpm.gd.pf.notation.PageFlowNode"/>
+      <notationElement  
+            id="edge" 
+            class="org.jbpm.gd.pf.notation.PageFlowEdge"/>
+   </extension>  
+	
+   <extension 
+         point="org.jbpm.gd.common.notationMappings">
+      <mapping
+            id="pageFlowDefinition"
+            semanticElement="org.jbpm.gd.pf.pageFlowDefinition"
+            notationElement="org.jbpm.gd.pf.root"/>
+      <mapping
+            id="decision"
+            semanticElement="org.jbpm.gd.pf.decision"
+            notationElement="org.jbpm.gd.pf.node"/>
+      <mapping
+            id="startPage"
+            semanticElement="org.jbpm.gd.pf.startPage"
+            notationElement="org.jbpm.gd.pf.node"/>
+      <mapping
+            id="page"
+            semanticElement="org.jbpm.gd.pf.page"
+            notationElement="org.jbpm.gd.pf.node"/>
+      <mapping
+            id="processState"
+            semanticElement="org.jbpm.gd.pf.processState"
+            notationElement="org.jbpm.gd.pf.node"/>
+      <mapping
+            id="transition"
+            semanticElement="org.jbpm.gd.pf.transition"
+            notationElement="org.jbpm.gd.pf.edge"/>
+   </extension>   
+	
+   <extension 
+         point="org.jbpm.gd.common.xmlMappings">
+      <mapping
+            id="org.jbpm.gd.pf.decision"
+            semanticElement="org.jbpm.gd.pf.decision"
+            adapterClass="org.jbpm.gd.pf.xml.DecisionDomAdapter"
+            xmlElement="decision"/>
+      <mapping
+            id="org.jbpm.gd.pf.page"
+            semanticElement="org.jbpm.gd.pf.page"
+            adapterClass="org.jbpm.gd.pf.xml.PageDomAdapter"
+            xmlElement="page"/>
+      <mapping
+            id="org.jbpm.gd.pf.pageFlowDefinition"
+            semanticElement="org.jbpm.gd.pf.pageFlowDefinition"
+            adapterClass="org.jbpm.gd.pf.xml.PageFlowDefinitionDomAdapter"
+            xmlElement="pageflow-definition"/>
+      <mapping
+            id="org.jbpm.gd.pf.startPage"
+            semanticElement="org.jbpm.gd.pf.startPage"
+            adapterClass="org.jbpm.gd.pf.xml.StartPageDomAdapter"
+            xmlElement="start-page"/>
+      <mapping
+            id="org.jbpm.gd.pf.processState"
+            semanticElement="org.jbpm.gd.pf.processState"
+            adapterClass="org.jbpm.gd.pf.xml.ProcessStateDomAdapter"
+            xmlElement="process-state"/>
+      <mapping
+            id="org.jbpm.gd.pf.transition"
+            semanticElement="org.jbpm.gd.pf.transition"
+            adapterClass="org.jbpm.gd.pf.xml.TransitionDomAdapter"
+            xmlElement="transition"/>
+   </extension>
+    
+   <extension 
+         point="org.jbpm.gd.common.palette">
+      <paletteContribution 
+            id="pageflow" 
+            editorClass="org.jbpm.gd.pf.editor.PageFlowEditor">
+         <category 
+               id="nodeTools"/>
+         <category 
+               id="transitionTools"/>
+         <entry
+               category="org.jbpm.gd.pf.nodeTools"
+               icon="icons/start.gif"
+               id="startPageTool"
+               label="Start"
+               node="true"
+               object="org.jbpm.gd.pf.startPage"
+               tooltip="Creates a start page"/>
+         <entry
+               category="org.jbpm.gd.pf.nodeTools"
+               icon="icons/page.gif"
+               id="pageTool"
+               label="Page"
+               node="true"
+               object="org.jbpm.gd.pf.page"
+               tooltip="Creates a page"/>
+         <entry
+               category="org.jbpm.gd.pf.nodeTools"
+               icon="icons/decision.gif"
+               id="decisionTool"
+               label="Decision"
+               node="true"
+               object="org.jbpm.gd.pf.decision"
+               tooltip="Creates a decision node"/>
+         <entry
+               category="org.jbpm.gd.pf.nodeTools"
+               icon="icons/process.gif"
+               id="processStateTool"
+               label="Process State"
+               node="true"
+               object="org.jbpm.gd.pf.processState"
+               tooltip="Creates a process state" />
+         <entry
+               category="org.jbpm.gd.pf.transitionTools"
+               icon="icons/transition.gif"
+               id="transitionTool"
+               label="Transition"
+               node="false"
+               object="org.jbpm.gd.pf.transition"
+               tooltip="Creates a transition"/>
+      </paletteContribution>
+   </extension>	
+   
+   <extension point="org.eclipse.ui.views.properties.tabbed.propertyContributor">
+      <propertyContributor
+            contributorId="org.jbpm.gd.pf.editor"
+            labelProvider="org.jbpm.gd.common.properties.ElementLabelProvider"
+            typeMapper="org.jbpm.gd.common.properties.ElementTypeMapper">
+         <propertyCategory category="org.jbpm.gd.pf.general"/>
+      </propertyContributor>
+   </extension>
+   
+   <extension point="org.eclipse.ui.views.properties.tabbed.propertyTabs">
+      <propertyTabs contributorId="org.jbpm.gd.pf.editor">
+         <propertyTab 
+            category="org.jbpm.gd.pf.general"   
+            id="org.jbpm.gd.pf.general"
+            label="General"/>
+      </propertyTabs>
+   </extension>
+   
+   <extension point="org.eclipse.ui.views.properties.tabbed.propertySections">
+      <propertySections contributorId="org.jbpm.gd.pf.editor">
+         <propertySection
+               class="org.jbpm.gd.common.properties.NamedElementSection"
+               filter="org.jbpm.gd.pf.properties.NamedElementFilter"
+               id="org.jbpm.gd.pf.name"
+               tab="org.jbpm.gd.pf.general">
+            <input type="org.jbpm.gd.common.model.SemanticElement"/>
+         </propertySection>
+         <propertySection
+               afterSection="org.jbpm.gd.pf.name"
+               class="org.jbpm.gd.pf.properties.ViewIdSection"
+               filter="org.jbpm.gd.pf.properties.ViewIdFilter"
+               id="org.jbpm.gd.pf.viewId"
+               tab="org.jbpm.gd.pf.general">
+            <input type="org.jbpm.gd.common.model.SemanticElement"/>
+         </propertySection>
+      </propertySections>
+   </extension> 
+   
+</plugin>

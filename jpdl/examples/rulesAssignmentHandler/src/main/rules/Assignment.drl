@@ -1,0 +1,52 @@
+package org.jbpm.assignment
+ 
+import org.jbpm.identity.User;
+import org.jbpm.identity.Group;
+import org.jbpm.identity.Membership;
+import org.jbpm.taskmgmt.exe.Assignable;
+import org.jbpm.assignment.Order;
+import org.jbpm.assignment.Role;
+
+
+rule "Determine Senior Role"
+# in our little example role is based on the amount of the order
+	when
+		Order( totalAmount >= 500 )
+	then
+		insert(new Role("senior"));
+		System.out.println("assigned role as senior");
+		
+end
+
+
+rule "Determine Junior Role"
+# in our little example role is based on the amount of the order
+	when
+		Order( totalAmount < 500)
+	then
+		insert(new Role("junior"));
+		System.out.println("assigned role as junior");
+		
+end
+
+
+rule "Determine Actor"
+salience -100
+# A single group object is asserted, along with all of the membership and user objects
+# we want Memberships for the asserted group and role, and then set the user of that membership
+# Other interesting rules would be to check the user's availability (if we knew their vacation schedule,
+# or their workload: we could assert all of the taskInstances and pick the user (actorId) with the fewest
+# assigned
+
+	when
+		Role($roleName : roleName)		
+		$a : Assignable()
+		$group : Group()
+		Membership( group == $group, role == $roleName, $user : user )
+
+	then
+		$a.setActorId($user.getName());
+		System.out.println("assigned User " + $user.getName() );
+		System.out.println("role is: " + $roleName);
+		System.out.println("group is: " + $group.getName());
+end

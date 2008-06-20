@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<page xmlns="http://jboss.com/products/seam/pages"
+	    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	    xsi:schemaLocation="http://jboss.com/products/seam/pages http://jboss.com/products/seam/pages-2.0.xsd"
+	    login-required="true">
+	<param name="firstResult" value="#{reportList.firstResult}" />
+	<param name="order" value="#{reportList.order}" />
+	<param name="from" />
+	<param name="name" value="#{reportList.report.name}" />
+	<param name="summary" value="#{reportList.report.summary}" />
+	<param name="description" value="#{reportList.report.description}" />
+	<param name="reportType" value="#{reportList.report.reportType}" />
+</page>

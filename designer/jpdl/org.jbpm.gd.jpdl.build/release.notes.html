@@ -1,0 +1,45 @@
+<html>
+<body>
+<h1>Release Notes - JBoss jBPM JPDL Designer - Version 3.2.x</h1>
+
+
+
+
+<h2>Main updates from 3.1.x to 3.2</h2>
+
+To be done
+
+
+
+<h2>Main updates from 3.0.x to 3.1</h2>
+<ul>
+  <li>JPDL Perspective: Modification of the known Java Perspective which opens the Property View, Outline View and Package Explorer by default; the creation of new process definitions is contributed by this perspective to the 'New...' menu.</li>
+  <li>Use of the Tabbed Properties view: This view can now be used to edit the properties of the supported JPDL elements.</li>
+  <li>Rewrite of the internal model to allow for complete JPDL support in the forseeable future.</li>
+</ul>
+
+
+<h2>Supported JPDL Elements</h2>
+With a few minor exceptions, the complete JPDL language should be supported. Configuring Reminders on tasks has been added in this release.
+If you find things that are not yet fully or correctly supported, don't hesitate to report this in our <a href="http://jira.jboss.com/jira/browse/GPD">issue tracking system</a>.
+
+<h2>Compatibility</h2>
+The 3.1.x stream of the jBPM JPDL designer is targeted towards jBPM JPDL 3.2 but is backwards compatible with earlier JPDL versions. However, some of the UI possibilities (such as adding notifications to tasks e.g.) are only valid for JPDL 3.2. The designer does not prohibit the use of these UI possibilities.
+Old processdefinitions, created with the 3.0.x stream of the JBPM JPDL designer will not open correctly with the new release. If you want to do this, edit your gpd.xml file by hand, and find/replace 'process-diagram' with 'root-container' and 'transition' with 'edge'. In the future we will create and include 
+a tool that performs this process automatically.
+
+<h2>Eclipse Drivers</h2>
+You will find the used Eclipse drivers in the manifest.mf file in the META-INF folder of the downloaded archive.
+
+<h2>Known issues</h2>
+<ul>
+  <li>The JVM crashes that appeared in earlier builds seem to have disappeared since the move to Eclipse 3.2.2. Let us know if you still see them.</li>
+  <li>Editing the process definition in the source pane is not yet fully supported.</li>
+</ul>
+
+    
+<h2>Comments and Feedback</h2>
+Please post any comments and/or feedback you might have on our <a href="http://www.jboss.com/index.html?module=bb&op=viewforum&f=217">User Forum</a> and don't hesitate to file any issues or bugs in our <a href="http://jira.jboss.com/jira/browse/GPD">JIRA</a>.
+
+</body>
+</html>

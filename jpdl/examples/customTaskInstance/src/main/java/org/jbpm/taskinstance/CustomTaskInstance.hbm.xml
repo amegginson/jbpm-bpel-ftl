@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping default-access="field">
+
+  <subclass name="org.jbpm.taskinstance.CustomTaskInstance" 
+         extends="org.jbpm.taskmgmt.exe.TaskInstance"
+         discriminator-value="C">
+   
+    	<property name="customId" column="CUSTOMID_" />
+ 
+    
+  </subclass>
+
+</hibernate-mapping>

@@ -1,0 +1,264 @@
+<project name="jbpm.jbpm4jsf" default="install">
+
+    <!-- project specific properties -->
+    <property name="jbpm.root" value=".."/>
+
+    <!-- properties files -->
+    <property file="${user.home}/jbpm/build.properties"/>
+    <property file="${jbpm.root}/build/profiles/${profile}.profile.properties"/>
+    <property file="${jbpm.root}/build/build.properties"/>
+
+    <!-- import base project build file -->
+    <import file="${jbpm.root}/build/base.project.build.xml"/>
+
+    <!-- generic build targets -->
+
+    <target name="compile.dependencies" depends="define.libs.classpath, jpdl.jar, identity.jar">
+        <path id="compile.classpath">
+            <path location="${lib.jbpm.jpdl.jar.local}"/>
+            <path location="${lib.jbpm.identity.jar.local}"/>
+            <pathelement location="${lib.jsf.api.local}"/>
+            <pathelement location="${lib.jsf.impl.local}"/>
+            <pathelement location="${lib.el.api.local}"/>
+            <pathelement location="${lib.el.impl.local}"/>
+            <pathelement location="${lib.facelets.local}"/>
+            <pathelement location="${lib.servlet.local}"/>
+            <pathelement location="${lib.servlet-jsp.local}"/>
+            <path refid="libs.classpath"/>
+        </path>
+    </target>
+
+    <target name="tools.dependencies" depends="compile.dependencies">
+        <path id="tools.classpath">
+            <path location="${lib.gravel.tools.local}"/>
+            <path refid="compile.classpath"/>
+        </path>
+    </target>
+
+    <target name="install" depends="all" description="Copy jbpm4jsf.jar to the local repository">
+        <copy file="target/${lib.jbpm.jbpm4jsf.jar.file}" tofile="${lib.jbpm.jbpm4jsf.jar.local}"/>
+        <copy file="target/${lib.jbpm.jbpm4jsf.src.file}" tofile="${lib.jbpm.jbpm4jsf.src.local}"/>
+        <copy file="target/${lib.jbpm.jbpm4jsf.tlddoc.file}" tofile="${lib.jbpm.jbpm4jsf.tlddoc.local}"/>
+        <copy file="target/${lib.jbpm.jbpm4jsf.javadoc.file}" tofile="${lib.jbpm.jbpm4jsf.javadoc.local}"/>
+    </target>
+
+    <!-- Compile dep check -->
+
+    <target name="compile-depcheck">
+        <uptodate property="compile-uptodate" targetfile="target/stamp-lastcompile">
+            <srcfiles dir="src/main/java">
+                <include name="**/"/>
+                <include name="**/*.java"/>
+                <exclude name="**/.*"/>
+            </srcfiles>
+        </uptodate>
+    </target>
+
+    <target name="compile" depends="compile.dependencies,compile-depcheck" unless="compile-uptodate" description="Compile source files">
+        <mkdir dir="target/main/classes"/>
+        <javac
+            classpathref="compile.classpath"
+            srcdir="src/main/java"
+            destdir="target/main/classes"
+            source="1.5"
+            target="1.5"
+            debug="true"
+            deprecation="false"/>
+        <touch file="target/stamp-lastcompile"/>
+    </target>
+
+    <target name="tld-depcheck">
+        <uptodate property="tld-uptodate" targetfile="target/stamp-tldlastcompile">
+            <srcfiles dir="src/main/java">
+                <include name="**/"/>
+                <include name="**/*.java"/>
+                <exclude name="**/.*"/>
+            </srcfiles>
+        </uptodate>
+    </target>
+
+    <target name="tld" depends="tools.dependencies,tld-depcheck" unless="tld-uptodate" description="Generate TLD files">
+        <mkdir dir="target"/>
+        <pathconvert pathsep=" " property="apt.source.filelist">
+            <path>
+                <fileset dir="src/main/java">
+                    <include name="**/*.java"/>
+                    <exclude name="**/.*"/>
+                </fileset>
+            </path>
+        </pathconvert>
+        <javac
+            taskname="tld generation"
+            classpathref="tools.classpath"
+            srcdir="src/main/java"
+            destdir="resources"
+            debug="true"
+            source="1.5"
+        >
+            <compilerarg value="-processorpath"/> <compilerarg value="${lib.gravel.tools.local}"/>
+            <compilerarg value="-processor"/> <compilerarg value="org.jboss.gravel.tools.GravelTldProcessor"/>
+            <compilerarg value="-proc:only"/>
+            <compilerarg value="-Xmaxerrs"/> <compilerarg value="10"/>
+        </javac>
+        <touch file="target/stamp-tldlastcompile"/>
+    </target>
+
+    <target name="tlddoc-depcheck">
+        <uptodate property="tlddoc-uptodate" targetfile="target/stamp-tlddoc">
+            <srcfiles dir="resources">
+                <include name="**/*.tld"/>
+                <exclude name="**/.*"/>
+            </srcfiles>
+        </uptodate>
+    </target>
+
+    <target name="tlddoc" depends="tlddoc-depcheck" unless="tlddoc-uptodate" description="Generate TLD documentation">
+        <mkdir dir="target/docs/tlddoc"/>
+        <pathconvert pathsep=" " property="tld.path">
+            <path>
+                <fileset dir="resources">
+                    <include name="**/*.tld"/>
+                    <exclude name="**/.*"/>
+                </fileset>
+            </path>
+        </pathconvert>
+        <java taskname="tlddoc" fork="true" jar="${lib.tlddoc.local}" failonerror="true">
+            <arg value="-d"/> <arg value="target/docs/tlddoc"/>
+            <arg line="${tld.path}"/>
+        </java>
+        <touch file="target/stamp-tlddoc"/>
+    </target>
+
+    <target name="javadoc-depcheck">
+        <uptodate property="javadoc-uptodate" targetfile="target/stamp-javadoc">
+            <srcfiles dir="src/main/java">
+                <include name="**/*.java"/>
+                <exclude name="**/.*"/>
+            </srcfiles>
+        </uptodate>
+    </target>
+
+    <target name="javadoc" depends="compile.dependencies,javadoc-depcheck" unless="javadoc-uptodate" description="Generate API JavaDoc">
+        <delete dir="target/docs/api" failonerror="false"/>
+        <mkdir dir="target/docs/api"/>
+        <javadoc
+            classpathref="compile.classpath"
+            author="false"
+            version="false"
+            destdir="target/docs/api"
+            windowtitle="jBPM4JSF"
+            verbose="false"
+            source="1.5"
+            access="public"
+        >
+            <fileset dir="src/main/java">
+                <include name="**/*.java"/>
+                <exclude name="**/.*"/>
+            </fileset>
+            <doctitle>jBPM4JSF (${version})</doctitle>
+            <link href="http://java.sun.com/j2se/1.5.0/docs/api/"/>
+        </javadoc>
+        <touch file="target/stamp-javadoc"/>
+    </target>
+
+    <target name="jar-depcheck">
+        <uptodate property="jar-uptodate" targetfile="${basedir}/target/${lib.jbpm.jbpm4jsf.jar.file}">
+            <srcfiles dir="target/main/classes">
+                <include name="**/*.class"/>
+                <exclude name="**/.*"/>
+            </srcfiles>
+        </uptodate>
+    </target>
+
+    <target name="jar" depends="compile,jar-depcheck" unless="jar-uptodate" description="Create the JAR file">
+        <mkdir dir="target"/>
+        <delete file="target/${lib.jbpm.jbpm4jsf.jar.file}"/>
+        <delete file="target/${lib.jbpm.jbpm4jsf.jar.file}.md5"/>
+        <jar destfile="target/${lib.jbpm.jbpm4jsf.jar.file}">
+            <metainf dir="resources">
+                <include name="**/*.taglib.xml"/>
+                <include name="**/faces-config.xml"/>
+                <exclude name="**/.*"/>
+            </metainf>
+            <manifest>
+                <attribute name="Implementation-Title" value="jBPM4JSF Component Library"/>
+                <attribute name="Implementation-Version" value="${lib.jbpm.console.version} (date:${now})"/>
+                <attribute name="Implementation-Vendor" value="JBoss Inc."/>
+                <attribute name="Implementation-Vendor-Id" value="http://www.jboss.org/"/>
+                <attribute name="Implementation-URL" value="http://www.jboss.org/"/>
+            </manifest>
+            <zipfileset dir="target/main/classes">
+                <include name="**/*.class"/>
+                <exclude name="**/.*"/>
+            </zipfileset>
+        </jar>
+        <checksum file="target/${lib.jbpm.jbpm4jsf.jar.file}" property="jbpm4jsf.jar.md5"/>
+        <echo file="target/${lib.jbpm.jbpm4jsf.jar.file}.md5" message="${jbpm4jsf.jar.md5}  ${lib.jbpm.jbpm4jsf.jar.file}${line.separator}"/>
+    </target>
+
+    <target name="src-zip-depcheck">
+        <uptodate property="src-zip-uptodate" targetfile="${basedir}/target/${lib.jbpm.jbpm4jsf.src.file}">
+            <srcfiles dir="src/main/java">
+                <include name="**/*.java"/>
+                <exclude name="**/.*"/>
+            </srcfiles>
+        </uptodate>
+    </target>
+
+    <target name="src-zip" depends="src-zip-depcheck" unless="src-zip-uptodate" description="Build a source zip file for IDE consumption">
+        <mkdir dir="target"/>
+        <delete file="target/${lib.jbpm.jbpm4jsf.src.file}" failonerror="false"/>
+        <zip destfile="target/${lib.jbpm.jbpm4jsf.src.file}">
+            <zipfileset dir="src/main/java">
+                <include name="**/*.java"/>
+                <exclude name="**/.*"/>
+            </zipfileset>
+        </zip>
+        <checksum file="target/${lib.jbpm.jbpm4jsf.src.file}" property="jbpm4jsf-src.zip.md5"/>
+        <echo file="target/${lib.jbpm.jbpm4jsf.src.file}.md5" message="${jbpm4jsf-src.zip.md5}  ${lib.jbpm.jbpm4jsf.src.file}${line.separator}"/>
+    </target>
+
+    <target name="javadoc-zip-depcheck">
+        <uptodate property="javadoc-zip-uptodate" targetfile="target/${lib.jbpm.jbpm4jsf.javadoc.file}">
+            <srcfiles dir="target/docs/api">
+                <include name="**/*"/>
+                <exclude name="**/.*"/>
+            </srcfiles>
+        </uptodate>
+    </target>
+
+    <target name="javadoc-zip" depends="javadoc,javadoc-zip-depcheck" unless="javadoc-zip-uptodate" description="Build a zip file of the API javadocs">
+        <mkdir dir="target"/>
+        <zip destfile="target/${lib.jbpm.jbpm4jsf.javadoc.file}">
+            <zipfileset dir="target/docs/api">
+                <include name="**/*"/>
+                <exclude name="**/.*"/>
+            </zipfileset>
+        </zip>
+        <checksum file="target/${lib.jbpm.jbpm4jsf.javadoc.file}" property="jbpm4jsf-javadoc.zip.md5"/>
+        <echo file="target/${lib.jbpm.jbpm4jsf.javadoc.file}.md5" message="${jbpm4jsf-javadoc.zip.md5}  ${lib.jbpm.jbpm4jsf.javadoc.file}${line.separator}"/>
+    </target>
+
+    <target name="tlddoc-zip-depcheck">
+        <uptodate property="tlddoc-zip-uptodate" targetfile="target/${lib.jbpm.jbpm4jsf.tlddoc.file}">
+            <srcfiles dir="target/docs/tlddoc">
+                <include name="**/*"/>
+                <exclude name="**/.*"/>
+            </srcfiles>
+        </uptodate>
+    </target>
+
+    <target name="tlddoc-zip" depends="tlddoc,tlddoc-zip-depcheck" unless="tlddoc-zip-uptodate" description="Build a zip file of the TLD javadocs">
+        <mkdir dir="target"/>
+        <zip destfile="target/${lib.jbpm.jbpm4jsf.tlddoc.file}">
+            <zipfileset dir="target/docs/tlddoc">
+                <include name="**/*"/>
+                <exclude name="**/.*"/>
+            </zipfileset>
+        </zip>
+        <checksum file="target/${lib.jbpm.jbpm4jsf.tlddoc.file}" property="jbpm4jsf-tlddoc.zip.md5"/>
+        <echo file="target/${lib.jbpm.jbpm4jsf.tlddoc.file}.md5" message="${jbpm4jsf-tlddoc.zip.md5}  ${lib.jbpm.jbpm4jsf.tlddoc.file}${line.separator}"/>
+    </target>
+
+    <target name="all" depends="jar,src-zip,javadoc-zip,tlddoc-zip" description="Build everything"/>
+</project>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tns:ServerRuntime
+	xmlns:tns="http://eclipse.org/jst/server/generic/ServerTypeDefinition"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://eclipse.org/jst/server/generic/ServerTypeDefinition ServerTypeDefinitionSchema.xsd "
+	name="jBPM BPEL 1.1" version="v1.1">
+	<property id="jbpm.bpel.home"
+		label="%jbpmBpelHome"
+		type="directory"
+		context="runtime"
+		default="/your_jbpm_bpel_home/" />
+	<property id="port"
+		label="%port"
+		type="string"
+		context="server"
+		default="8080" />
+		
+	<port>
+		<no>${port}</no>
+		<name>Http</name>
+		<protocol>http</protocol>
+	</port>
+
+	<module>
+		<type>bpel.module</type>
+		<publishDir>${jbpm.bpel.home}\server\deploy</publishDir>
+		<publisherReference>org.jbpm.gd.bpel.publisher</publisherReference>
+	</module>
+	
+	<start>
+		<mainClass>org.jboss.Main</mainClass>
+		<workingDirectory>${jbpm.bpel.home}/bin</workingDirectory>
+		<programArguments>-c default</programArguments>
+		<vmParameters>-Dprogram.name=run.bat -Djava.endorsed.dirs="${jbpm.bpel.home}/bin/../lib/endorsed" -Xms128m -Xmx512m</vmParameters>
+		<classpathReference>jboss</classpathReference>
+	</start>
+
+	<stop>
+		<mainClass>org.jboss.Shutdown</mainClass>
+		<workingDirectory>${jbpm.bpel.home}/bin</workingDirectory>
+		<programArguments>-S</programArguments>
+		<vmParameters>-Djboss.boot.loader.name=shutdown.bat</vmParameters>
+		<classpathReference>jboss.shutdown</classpathReference>
+	</stop>
+	
+	<classpath id="jboss" >
+		<archive path="${jbpm.bpel.home}/bin/run.jar" />
+	</classpath>
+	<classpath id="jboss.shutdown" >
+		<archive path="${jbpm.bpel.home}/bin/shutdown.jar" />
+	</classpath>
+	
+</tns:ServerRuntime>

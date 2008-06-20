@@ -1,0 +1,926 @@
+<project name="jbpm.module.build" basedir="." default="compile">
+
+	<!-- REMOVED TARGETS
+  #########
+  ## JAR ##
+  #########
+  <target name="create.manifest">
+    <mkdir dir="target/manifest" />
+    <manifest file="target/manifest/MANIFEST.MF">
+      <attribute name="Implementation-Title" value="${artifact.name}"/>
+      <attribute name="Implementation-Version" value="${module.version} (date:${now})"/>
+      <attribute name="Implementation-URL" value="http://www.jboss.org/"/>
+      <attribute name="Implementation-Vendor" value="JBoss Inc."/>
+      <attribute name="Implementation-Vendor-Id" value="http://www.jboss.org/"/>
+    </manifest>
+  </target>
+
+  <target name="jar" 
+          depends="compile, create.manifest, jar.dependencies"
+          description="creates java archive package"
+          unless="is.packaged">
+    <jar jarfile="target/${artifact.name}"
+         manifest="target/manifest/MANIFEST.MF">
+      <fileset dir="target/classes" />
+    </jar>
+  </target>
+  
+  <target name="jar.dependencies" />
+
+  ##########
+  ## JPDL ##
+  ##########
+  <available file="src/main/jpdl" property="jpdl.available" />
+  <target name="jpdl" 
+          depends="compile, create.manifest, jpdl.dependencies"
+          description="creates a jpdl process archive"
+          if="jpdl.available">
+    <property name="is.packaged" value="true" />
+    <jar jarfile="target/${artifact.name}"
+         manifest="target/manifest/MANIFEST.MF">
+      <fileset dir="src/main/jpdl" />
+      <fileset dir="target">
+        <include name="classes/**" />
+      </fileset>
+    </jar>
+  </target>
+
+  <target name="jpdl.dependencies" />
+
+  ############# 
+  ## PACKAGE ##
+  ############# 
+  The default packaging is the jar target.  Overwrite this 
+  target if you want different behaviour.
+  <target name="package"
+          depends="jpdl, jar"
+          description="create the package">
+  </target>
+
+  #############
+  ## JAVADOC ##
+  #############
+  <target name="javadoc"
+          depends="prepare.classpath.jbpm.libs"
+          description="creates javadoc api documentation">
+    <javadoc destdir="${javadoc.destdir}"
+             windowtitle="jBPM ${module.name} ${module.version}"
+             classpathref="${compile.classpath}"
+             overview="${javadoc.sourcepath}/package.html">
+      <packageset dir="${javadoc.sourcepath}" />
+    </javadoc>
+  </target>
+
+  #############
+  ## INSTALL ##
+  #############
+  <target name="install"
+          depends="package"
+          description="publishes the packaged artifact in the local repository">
+    <mkdir dir="${local.repository}/jbpm/${module.name}/${module.version}/lib" />
+    <copy file="target/${artifact.name}" todir="${local.repository}/jbpm/${module.name}/${module.version}/lib" />
+  </target>
+
+  #############
+  ## PUBLISH ##
+  #############
+  <target name="publish"
+          depends="install"
+          description="uploads the local repository artifact to the remote repository">
+    <available file="${local.repository}/jbpm/CVS" type="dir" property="cvs.info.available" />
+    <fail unless="cvs.info.available" message="jbpm repository is not fetched with cvs.  use target checkout.jbpm.repository in build file build/build.xml" />
+    <cvs command="add ${module.name}" 
+         dest="${local.repository}/jbpm"
+         cvsroot=":ext:${cvs.username}@cvs.forge.jboss.com:/cvsroot/jboss" />
+    <cvs command="add ${module.name}/${module.version}"  
+         dest="${local.repository}/jbpm"
+         cvsroot=":ext:${cvs.username}@cvs.forge.jboss.com:/cvsroot/jboss" />
+    <cvs command="add ${module.name}/${module.version}/lib"
+         dest="${local.repository}/jbpm"
+         cvsroot=":ext:${cvs.username}@cvs.forge.jboss.com:/cvsroot/jboss" />
+    <cvs command="add -kb ${module.name}/${module.version}/lib/${artifact.name}" 
+         dest="${local.repository}/jbpm"
+         cvsroot=":ext:${cvs.username}@cvs.forge.jboss.com:/cvsroot/jboss" />
+    <cvs command="commit -m 'uploading jbpm artifact ${artifact.name}' ${module.name}/${module.version}/lib/${artifact.name}" 
+         dest="${local.repository}/jbpm"
+         cvsroot=":ext:${cvs.username}@cvs.forge.jboss.com:/cvsroot/jboss" />
+  </target>
+  -->
+
+	<!--
+  ################
+  ## PROPERTIES ##
+  ################
+  -->
+
+	<!--
+  Required input properties:
+    module.name
+    module.version
+    jbpm.root
+  -->
+
+	<tstamp>
+		<format property="now" pattern="dd-MMM-yyyy HH:mm" locale="en" />
+	</tstamp>
+
+	<!--
+  ########### 
+  ## CLEAN ##
+  ###########
+  -->
+
+	<target name="clean" description="delete the target directory">
+		<delete dir="target" />
+	</target>
+
+	<target name="clean.all" description="cleans all jbpm projects">
+		<ant antfile="${jbpm.root}/build/build.xml" target="clean" inheritall="false" />
+	</target>
+
+	<!--
+  ##################
+  ## DEPENDENCIES ##
+  ##################
+  -->
+
+	<target name="get.libs" description="gets the libraries if an update is needed">
+		<condition property="libs.up.to.date">
+			<and>
+				<available file="${local.repository}/licenses/lgpl.txt" />
+				<available file="${lib.activation.local}" />
+				<available file="${lib.ajax4jsf.local}" />
+				<available file="${lib.ant.local}" />
+				<available file="${lib.ant.contrib.local}" />
+				<available file="${lib.antlr.local}" />
+				<available file="${lib.asm.local}" />
+				<available file="${lib.aspectjrt.local}" />
+				<available file="${lib.bsh.local}" />
+				<available file="${lib.cactus.local}" />
+				<available file="${lib.cglib.local}" />
+				<available file="${lib.commons.beanutils.local}" />
+				<available file="${lib.commons.codec.local}" />
+				<available file="${lib.commons.collections.local}" />
+				<available file="${lib.commons.digester.local}" />
+				<available file="${lib.commons.fileupload.local}" />
+				<available file="${lib.commons.httpclient.local}" />
+				<available file="${lib.commons.lang.local}" />
+				<available file="${lib.commons.logging.local}" />
+				<available file="${lib.desmoj.local}" />
+				<available file="${lib.dom4j.local}" />
+				<available file="${lib.dumbster.local}" />
+				<available file="${lib.el.api.local}" />
+				<available file="${lib.facelets.local}" />
+				<available file="${lib.gravel.local}" />
+				<available file="${lib.gravel.tools.local}" />
+				<available file="${lib.hibernate.local}" />
+				<available file="${lib.hsqldb.local}" />
+				<available file="${lib.httpunit.local}" />
+				<available file="${lib.jackrabbit.local}" />
+				<available file="${lib.jakarta.io.local}" />
+				<available file="${lib.jasperreports.local}" />
+				<available file="${lib.javamail.local}" />
+				<available file="${lib.jaxen.local}" />
+				<available file="${lib.jaxrpc.api.local}" />
+				<available file="${lib.javassist.local}" />
+				<available file="${lib.jboss.common.local}" />
+				<available file="${lib.jboss.j2ee.local}" />
+				<available file="${lib.jboss.saaj.local}" />
+				<available file="${lib.jboss.as.local}" />
+				<available file="${lib.jboss.backport-concurrent.local}" />
+				<available file="${lib.jbossretro.local}" />
+				<available file="${lib.jbossretro-rt.local}" />
+				<available file="${lib.jbossws.local}" />
+				<available file="${lib.jboss.ws4ee.local}" />
+				<available file="${lib.jboss.axis.local}" />
+				<available file="${lib.jcommon.local}" />
+				<available file="${lib.jcr.local}" />
+				<available file="${lib.jfreechart.local}" />
+				<available file="${lib.junit.local}" />
+				<available file="${lib.jwebunit.local}" />
+				<available file="${lib.jsf.api.local}" />
+				<available file="${lib.log4j.local}" />
+				<available file="${lib.mockrunner.local}" />
+				<available file="${lib.mockejb.local}" />
+				<available file="${lib.nekohtml.local}" />
+				<available file="${lib.oscache.local}" />
+				<available file="${lib.servlet.local}" />
+				<available file="${lib.servlet-jsp.local}" />
+				<available file="${lib.stax-api.local}" />
+				<available file="${lib.woodstox.local}" />
+				<available file="${lib.wsdl4j.local}" />
+				<available file="${lib.xercesimpl.local}" />
+				<available file="${lib.xml.apis.local}" />
+				<available file="${local.repository}/jbpm/clover/clover.jar" />
+			</and>
+		</condition>
+		<ant target="get.libs.unless.up.to.date" />
+	</target>
+
+	<target name="get.libs.unless.up.to.date" unless="libs.up.to.date">
+		<ant antfile="${jbpm.root}/build/build.xml" target="get.libs.dependencies" inheritall="false">
+			<property name="profile" value="${profile}" />
+		</ant>
+	</target>
+
+
+	<target name="get.jboss.dependencies" description="gets the jboss as dependency if an update is needed">
+		<condition property="jboss.up.to.date">
+			<and>
+				<available file="${local.repository}/licenses/lgpl.txt" />
+				<available file="${lib.activation.local}" />
+				<available file="${lib.ant.local}" />
+				<available file="${lib.woodstox.local}" />
+				<available file="${lib.xercesimpl.local}" />
+				<available file="${local.repository}/jbpm/clover/clover.jar" />
+				<available file="${lib.jboss.as.local}" />
+			</and>
+		</condition>
+		<ant target="get.jboss.unless.up.to.date" />
+	</target>
+
+	<target name="get.jboss.unless.up.to.date" unless="jboss.up.to.date">
+		<ant antfile="${jbpm.root}/build/build.xml" target="get.jboss.dependencies" inheritall="false" />
+	</target>
+
+
+	<target name="get.eclipse.dependencies" description="gets the eclipse dependencies if an update is needed">
+		<condition property="eclipse.up.to.date">
+			<and>
+				<available file="${local.repository}/licenses/lgpl.txt" />
+				<available file="${lib.activation.local}" />
+				<available file="${lib.ant.local}" />
+				<available file="${lib.woodstox.local}" />
+				<available file="${lib.xercesimpl.local}" />
+				<available file="${local.repository}/jbpm/clover/clover.jar" />
+			</and>
+		</condition>
+		<ant target="get.eclipse.unless.up.to.date" />
+	</target>
+
+	<target name="get.eclipse.unless.up.to.date" unless="eclipse.up.to.date">
+		<ant antfile="${jbpm.root}/build/build.xml" target="get.eclipse.dependencies" inheritall="false" />
+	</target>
+
+
+	<!--
+  ################
+  ## CLASSPATHS ##
+  ################
+  
+  todo : IS THIS still needed ?
+  <target name="define.jbpm.libs" depends="get.dependencies">
+    <path id="jbpm.libs">
+      <fileset dir="${lib.jbpm.jpdl.jar.dir}">
+        <include name="${lib.jbpm.jpdl.jar.file}"/>
+      </fileset>
+      <fileset dir="${lib.jbpm.identity.jar.dir}">
+        <include name="${lib.jbpm.identity.jar.file}"/>
+      </fileset>
+    </path>
+  </target>
+    Users should create a classpath and declare the jbpm tasks like this:
+    <taskdef resource="org/jbpm/ant/jbpm.ant.tasks.properties" 
+             classpathref="config.included.task.classpath" />
+    The jbpm.task.classpath can be used as a basis for creating the classpath.
+    Users must add the jbpm and hibernate configuration files to the classpath 
+    before defining the tasks.
+    
+    The dependencies on jpdl.jar and identity.jar are important.  If this path 
+    is defined outside a target, it is resolved the first time that this path is 
+    encountered by ant.  Then, the jpdl.jar and idenity.jar may not yet exist and 
+    hence they will not be part of the path.  Even if they are build later on.
+    That is why the dependencies have to make sure that the jar files exist before 
+    the path is scanned.
+    <path id="task.classpath.base">
+      <path refid="repository.external.dependency.libs" />
+      <fileset dir="${lib.jbpm.jpdl.jar.dir}">
+        <include name="${lib.jbpm.jpdl.jar.file}" />
+      </fileset>
+      <fileset dir="${lib.jbpm.identity.jar.dir}">
+        <include name="${lib.jbpm.identity.jar.file}" />
+      </fileset>
+    </path>
+  -->
+
+	<target name="define.libs.classpath" depends="get.libs">
+		<path id="libs.classpath" description="All the external dependency libs in the local repository">
+			<fileset dir="${local.repository}">
+				<!-- EXTERNAL DEPENDENCIES (3/4): BUILD CLASSPATH -->
+				<include name="${lib.activation.path}" />
+				<include name="${lib.ajax4jsf.path}" />
+				<include name="${lib.ant.path}" />
+				<include name="${lib.antlr.path}" />
+				<include name="${lib.asm.path}" />
+				<include name="${lib.asm.attr.path}" />
+				<include name="${lib.aspectjrt.path}" />
+				<include name="${lib.bsh.path}" />
+				<include name="${lib.cactus.path}" />
+				<include name="${lib.cglib.path}" />
+				<include name="${lib.commons.logging.path}" />
+				<include name="${lib.commons.lang.path}" />
+				<include name="${lib.commons.codec.path}" />
+				<include name="${lib.commons.collections.path}" />
+				<include name="${lib.commons.httpclient.path}" />
+				<include name="${lib.commons.fileupload.path}" />
+				<include name="${lib.commons.beanutils.path}" />
+				<include name="${lib.desmoj.path}" />
+				<include name="${lib.dom4j.path}" />
+				<include name="${lib.dumbster.path}" />
+				<include name="${lib.el.api.path}" />
+				<include name="${lib.facelets.path}" />
+				<include name="${lib.gravel.path}" />
+				<include name="${lib.gravel.tools.path}" />
+				<include name="${lib.hibernate.path}" />
+				<include name="${lib.hsqldb.path}" />
+				<include name="${lib.httpunit.path}" />
+				<include name="${lib.jackrabbit.path}" />
+				<include name="${lib.jakarta.io.path}" />
+				<include name="${lib.jasperreports.path}" />
+				<include name="${lib.javamail.path}" />
+				<include name="${lib.jaxrpc.api.path}" />
+				<include name="${lib.jaxen.path}" />
+				<include name="${lib.jboss.common.path}" />
+				<include name="${lib.jboss.j2ee.path}" />
+				<include name="${lib.jboss.jmx.path}" />
+				<include name="${lib.jboss.saaj.path}" />
+				<include name="${lib.jboss.system.path}" />
+				<!-- only during runtime <include name="${lib.jcommon.path}"/> -->
+				<include name="${lib.jcr.path}" />
+				<!-- only during runtime <include name="${lib.jfreechart.path}"/> -->
+				<include name="${lib.junit.path}" />
+				<include name="${lib.jwebunit.path}" />
+				<include name="${lib.jsf.api.path}" />
+				<include name="${lib.jsf.impl.path}" />
+				<include name="${lib.log4j.path}" />
+				<include name="${lib.namespace.path}" />
+				<include name="${lib.nekohtml.path}" />
+				<include name="${lib.servlet.path}" />
+				<include name="${lib.stax-api.path}" />
+				<include name="${lib.woodstox.path}" />
+				<include name="${lib.wsdl4j.path}" />
+				<include name="${lib.xml.apis.path}" />
+				<include name="${lib.xercesimpl.path}" />
+			</fileset>
+		</path>
+	</target>
+
+	<!--
+  ############# 
+  ## COMPILE ##
+  ############# 
+  -->
+
+	<target name="compile" depends="compile.dependencies" description="compile">
+		<mkdir dir="target/classes" />
+		<available file="src/main/java" property="java.sources.available" />
+		<antcall target="compile.java.sources" />
+		<available file="src/main/resources" property="resources.available" />
+		<antcall target="include.resources" />
+	</target>
+
+	<!-- 
+  the jar.resource.files are copied from src/main/java to 
+  target/classes in the compile target.  that way they end up 
+  in the jar.  
+  -->
+	<patternset id="jar.resource.files">
+		<include name="**/*.dtd" />
+		<include name="**/*.xml" />
+		<include name="**/*.xsd" />
+		<include name="**/*.wsdl" />
+		<include name="**/*.bpel" />
+		<include name="**/*.tld" />
+		<include name="**/*.xslt" />
+		<include name="**/*.properties" />
+		<include name="**/*.js" />
+		<include name="**/*.html" />
+		<include name="**/*.xhtml" />
+		<exclude name="**/package.html" />
+		<include name="**/*.war" />
+		<include name="**/*.zip" />
+		<include name="**/*.txt" />
+		<exclude name="**/*.jrxml" />
+		<!-- jasper reports source files -->
+	</patternset>
+
+	<target name="compile.java.sources" if="java.sources.available">
+		<javac classpathref="${compile.classpath}" srcdir="src/main/java" destdir="target/classes" source="${javac.source}" target="${javac.target}" debug="${javac.debug}" deprecation="${javac.deprecation}" />
+		<copy todir="target/classes">
+			<fileset dir="src/main/java">
+				<patternset refid="jar.resource.files" />
+			</fileset>
+		</copy>
+	</target>
+
+	<target name="include.resources" if="resources.available">
+		<copy todir="target/classes">
+			<fileset dir="src/main/resources" />
+		</copy>
+	</target>
+
+	<!-- overwrite this target if you want to include compile dependencies -->
+	<target name="compile.dependencies" />
+
+	<!--
+  ################## 
+  ## COMPILE TEST ##
+  ################## 
+  -->
+
+	<target name="compile.test" depends="compile, compile.test.dependencies" description="compiles test classes">
+		<mkdir dir="target/test.classes" />
+		<javac classpathref="${compile.test.classpath}" srcdir="src/test/java" destdir="target/test.classes" source="${javac.source}" target="${javac.target}" debug="${javac.debug}" deprecation="${javac.deprecation}" />
+		<copy todir="target/test.classes">
+			<fileset dir="src/test/java">
+				<patternset refid="jar.resource.files" />
+			</fileset>
+		</copy>
+	</target>
+
+	<!-- overwrite this target if you want to include test compilation dependencies -->
+	<target name="compile.test.dependencies">
+	</target>
+
+	<!--
+  ##########
+  ## TEST ##
+  ##########
+  -->
+
+	<target name="test" depends="compile.test, test.dependencies" description="run the unit tests">
+		<delete dir="target/test.results" />
+		<mkdir dir="target/test.results/xml" />
+		<junit printsummary="yes" fork="yes" forkmode="once" showoutput="false">
+			<classpath refid="${test.classpath}" />
+			<formatter type="xml" />
+			<batchtest todir="target/test.results/xml">
+				<fileset dir="target/test.classes">
+					<include name="**/*Test.class" />
+				</fileset>
+			</batchtest>
+		</junit>
+		<junitreport todir="target/test.results/xml">
+			<fileset dir="." includes="**/TEST-*.xml" />
+			<report todir="target/test.results" />
+		</junitreport>
+	</target>
+
+	<!-- overwrite this target if you want to include test suite execution dependencies -->
+	<target name="test.dependencies" />
+
+	<target name="view.testresults" description="view the testresults in a browser">
+		<exec executable="${windows.browser}" os="Windows XP,Windows 2000,Windows 98">
+			<arg value="file://${basedir}/target/test.results/index.html" />
+		</exec>
+		<exec executable="${macos.browser}" os="Mac OS X">
+			<arg value="file://${basedir}/target/test.results/index.html" />
+		</exec>
+		<exec executable="${linux.browser}" os="Linux">
+			<arg value="file://${basedir}/target/test.results/index.html" />
+		</exec>
+	</target>
+
+	<target name="test.and.view" depends="test, view.testresults" description="run the unit tests and view the results in a browser">
+	</target>
+
+	<!--
+  #######################
+  ## JPDL DEPENDENCIES ##
+  #######################
+  -->
+
+	<target name="jpdl.jar">
+		<antcall target="jpdl.jar.build.from.source" />
+		<antcall target="jpdl.jar.fetch.from.repo" />
+	</target>
+
+	<target name="jpdl.jar.build.from.source" if="build.jpdl.from.source">
+		<ant antfile="${jbpm.root}/jpdl/jar/build.xml" target="install.jar" inheritall="false" />
+	</target>
+
+	<target name="jpdl.jar.fetch.from.repo" unless="build.jpdl.from.source">
+		<mkdir dir="${local.repository}/${lib.jbpm.jpdl.dir}" />
+		<get src="${jbpm.jpdl.jar.remote}" dest="${jbpm.jpdl.jar.local}" usetimestamp="true" />
+	</target>
+
+	<target name="jpdl.config">
+		<antcall target="jpdl.config.build.from.source" />
+		<antcall target="jpdl.config.fetch.from.repo" />
+	</target>
+
+	<target name="jpdl.config.build.from.source" if="build.jpdl.from.source">
+		<ant antfile="${jbpm.root}/jpdl/jar/build.xml" target="install.config" inheritall="false" />
+	</target>
+
+	<target name="jpdl.config.fetch.from.repo" unless="build.jpdl.from.source">
+		<mkdir dir="${local.repository}/${lib.jbpm.jpdl.dir}" />
+		<get src="${jbpm.jpdl.config.remote}" dest="${jbpm.jpdl.config.local}" usetimestamp="true" />
+	</target>
+
+	<target name="jpdl.src">
+		<antcall target="jpdl.src.build.from.source" />
+		<antcall target="jpdl.src.fetch.from.repo" />
+	</target>
+
+	<target name="jpdl.src.build.from.source" if="build.jpdl.from.source">
+		<ant antfile="${jbpm.root}/jpdl/jar/build.xml" target="install.src" inheritall="false" />
+	</target>
+
+	<target name="jpdl.src.fetch.from.repo" unless="build.jpdl.from.source">
+		<mkdir dir="${local.repository}/${lib.jbpm.jpdl.dir}" />
+		<get src="${jbpm.jpdl.src.remote}" dest="${jbpm.jpdl.src.local}" usetimestamp="true" />
+	</target>
+
+	<target name="jpdl.test">
+		<antcall target="jpdl.test.build.from.source" />
+		<antcall target="jpdl.test.fetch.from.repo" />
+	</target>
+
+	<target name="jpdl.test.build.from.source" if="build.jpdl.from.source">
+		<ant antfile="${jbpm.root}/jpdl/jar/build.xml" target="install.test" inheritall="false" />
+	</target>
+
+	<target name="jpdl.test.fetch.from.repo" unless="build.jpdl.from.source">
+		<mkdir dir="${local.repository}/${lib.jbpm.jpdl.dir}" />
+		<get src="${jbpm.jpdl.test.remote}" dest="${jbpm.jpdl.test.local}" usetimestamp="true" />
+	</target>
+
+	<target name="jpdl.javadoc">
+		<antcall target="jpdl.javadoc.build.from.source" />
+		<antcall target="jpdl.javadoc.fetch.from.repo" />
+	</target>
+
+	<target name="jpdl.javadoc.build.from.source" if="build.jpdl.from.source">
+		<ant antfile="${jbpm.root}/jpdl/jar/build.xml" target="install.javadoc" inheritall="false" />
+	</target>
+
+	<target name="jpdl.javadoc.fetch.from.repo" unless="build.jpdl.from.source">
+		<mkdir dir="${local.repository}/${lib.jbpm.jpdl.dir}" />
+		<get src="${jbpm.jpdl.javadoc.remote}" dest="${jbpm.jpdl.javadoc.local}" usetimestamp="true" />
+	</target>
+
+	<target name="jpdl.db">
+		<antcall target="jpdl.db.build.from.source" />
+		<antcall target="jpdl.db.fetch.from.repo" />
+	</target>
+
+	<target name="jpdl.db.build.from.source" if="build.jpdl.from.source">
+		<ant antfile="${jbpm.root}/jpdl/db/build.xml" target="install.db" inheritall="false" />
+	</target>
+
+	<target name="jpdl.db.fetch.from.repo" unless="build.jpdl.from.source">
+		<mkdir dir="${local.repository}/${lib.jbpm.jpdl.dir}" />
+		<get src="${jbpm.jpdl.db.remote}" dest="${jbpm.jpdl.db.local}" usetimestamp="true" />
+	</target>
+
+	<target name="jpdl.examples">
+		<antcall target="jpdl.examples.build.from.source" />
+		<antcall target="jpdl.examples.fetch.from.repo" />
+	</target>
+
+	<target name="jpdl.examples.build.from.source" if="build.jpdl.from.source">
+		<ant antfile="${jbpm.root}/jpdl/examples/build.xml" target="install.examples" inheritall="false" />
+	</target>
+
+	<target name="jpdl.examples.fetch.from.repo" unless="build.jpdl.from.source">
+		<mkdir dir="${local.repository}/${lib.jbpm.jpdl.dir}" />
+		<get src="${jbpm.jpdl.examples.remote}" dest="${jbpm.jpdl.examples.local}" usetimestamp="true" />
+	</target>
+
+	<target name="jpdl.examplesdb">
+		<antcall target="jpdl.examplesdb.build.from.source" />
+		<antcall target="jpdl.examplesdb.fetch.from.repo" />
+	</target>
+
+	<target name="jpdl.examplesdb.build.from.source" if="build.jpdl.from.source">
+		<ant antfile="${jbpm.root}/jpdl/examples/build.xml" target="install.examplesdb" inheritall="false" />
+	</target>
+
+	<target name="jpdl.examplesdb.fetch.from.repo" unless="build.jpdl.from.source">
+		<mkdir dir="${local.repository}/${lib.jbpm.jpdl.dir}" />
+		<get src="${jbpm.jpdl.examplesdb.remote}" dest="${jbpm.jpdl.examplesdb.local}" usetimestamp="true" />
+	</target>
+
+	<target name="jpdl.userguide">
+		<antcall target="jpdl.userguide.build.from.source" />
+		<antcall target="jpdl.userguide.fetch.from.repo" />
+	</target>
+
+	<target name="jpdl.userguide.build.from.source" if="build.jpdl.from.source">
+		<ant antfile="${jbpm.root}/jpdl/userguide/build.xml" target="install.userguide" inheritall="false" />
+	</target>
+
+	<target name="jpdl.userguide.fetch.from.repo" unless="build.jpdl.from.source">
+		<mkdir dir="${local.repository}/${lib.jbpm.jpdl.dir}" />
+		<get src="${jbpm.jpdl.userguide.remote}" dest="${jbpm.jpdl.userguide.local}" usetimestamp="true" />
+	</target>
+
+	<!--
+  ###########################
+  ## IDENTITY DEPENDENCIES ##
+  ###########################
+  -->
+
+	<target name="identity.jar">
+		<antcall target="identity.jar.build.from.source" />
+		<antcall target="identity.jar.fetch.from.repo" />
+	</target>
+
+	<target name="identity.jar.build.from.source" if="build.identity.from.source">
+		<ant antfile="${jbpm.root}/identity/build.xml" target="install.jar" inheritall="false" />
+	</target>
+
+	<target name="identity.jar.fetch.from.repo" unless="build.identity.from.source">
+		<mkdir dir="${local.repository}/${lib.jbpm.identity.dir}" />
+		<get src="${jbpm.identity.jar.remote}" dest="${jbpm.identity.jar.local}" usetimestamp="true" />
+	</target>
+
+	<target name="identity.src">
+		<antcall target="identity.src.build.from.source" />
+		<antcall target="identity.src.fetch.from.repo" />
+	</target>
+
+	<target name="identity.src.build.from.source" if="build.identity.from.source">
+		<ant antfile="${jbpm.root}/identity/build.xml" target="install.src" inheritall="false" />
+	</target>
+
+	<target name="identity.src.fetch.from.repo" unless="build.identity.from.source">
+		<mkdir dir="${local.repository}/${lib.jbpm.identity.dir}" />
+		<get src="${jbpm.identity.src.remote}" dest="${jbpm.identity.src.local}" usetimestamp="true" />
+	</target>
+
+	<target name="identity.javadoc">
+		<antcall target="identity.javadoc.build.from.source" />
+		<antcall target="identity.javadoc.fetch.from.repo" />
+	</target>
+
+	<target name="identity.javadoc.build.from.source" if="build.identity.from.source">
+		<ant antfile="${jbpm.root}/identity/build.xml" target="install.javadoc" inheritall="false" />
+	</target>
+
+	<target name="identity.javadoc.fetch.from.repo" unless="build.identity.from.source">
+		<mkdir dir="${local.repository}/${lib.jbpm.identity.dir}" />
+		<get src="${jbpm.identity.javadoc.remote}" dest="${jbpm.identity.javadoc.local}" usetimestamp="true" />
+	</target>
+
+	<!--
+  ########################
+  ## JBOSS DEPENDENCIES ##
+  ########################
+  -->
+
+	<target name="jboss.configuration">
+		<antcall target="jboss.configuration.build.from.source" />
+		<antcall target="jboss.configuration.fetch.from.repo" />
+	</target>
+
+	<target name="jboss.configuration.build.from.source" if="build.jboss.from.source">
+		<ant antfile="${jbpm.root}/jboss/configuration/build.xml" target="install" inheritall="false" />
+	</target>
+
+	<target name="jboss.configuration.fetch.from.repo" unless="build.jboss.from.source">
+		<mkdir dir="${local.repository}/${lib.jbpm.jboss.dir}" />
+		<get src="${jbpm.jboss.configuration.remote}" dest="${jbpm.jboss.configuration.local}" usetimestamp="true" />
+	</target>
+
+
+	<!--
+  ##########################
+  ## CONSOLE DEPENDENCIES ##
+  ##########################
+  -->
+
+	<target name="console">
+		<antcall target="console.build.from.source" />
+		<antcall target="console.fetch.from.repo" />
+	</target>
+
+	<target name="console.build.from.source" if="build.console.from.source">
+		<ant antfile="${jbpm.root}/console/build.xml" target="install" inheritall="false" />
+	</target>
+
+	<target name="console.fetch.from.repo" unless="build.console.from.source">
+		<mkdir dir="${local.repository}/${lib.jbpm.console.dir}" />
+		<get src="${jbpm.console.remote}" dest="${jbpm.console.local}" usetimestamp="true" />
+	</target>
+
+	<!--
+  ###########################
+  ## JBPM4JSF DEPENDENCIES ##
+  ###########################
+  -->
+
+	<target name="jbpm4jsf.jar" depends="jbpm4jsf.build.from.source,jbpm4jsf.fetch.from.repo" />
+
+	<target name="jbpm4jsf.build.from.source" if="build.jbpm4jsf.from.source">
+		<ant antfile="${jbpm.root}/jbpm4jsf/build.xml" target="install" inheritall="false" />
+	</target>
+
+	<target name="jbpm4jsf.fetch.from.repo" unless="build.jbpm4jsf.from.source">
+		<mkdir dir="${local.repository}/${lib.jbpm.jbpm4jsf.dir}" />
+		<get src="${jbpm.jbpm4jsf.remote}" dest="${jbpm.jbpm4jsf.local}" usetimestamp="true" />
+	</target>
+
+	<!--
+  #############################
+  ## ENTERPRISE DEPENDENCIES ##
+  #############################
+  -->
+
+	<target name="enterprise">
+		<antcall target="enterprise.build.from.source" />
+		<antcall target="enterprise.fetch.from.repo" />
+	</target>
+
+	<target name="enterprise.build.from.source" if="build.enterprise.from.source">
+		<ant antfile="${jbpm.root}/enterprise/build.xml" target="install" inheritall="false" />
+	</target>
+
+	<target name="enterprise.fetch.from.repo" unless="build.enterprise.from.source">
+		<mkdir dir="${local.repository}/${lib.jbpm.enterprise.dir}" />
+		<get src="${jbpm.enterprise.remote}" dest="${jbpm.enterprise.local}" usetimestamp="true" />
+	</target>
+
+	<target name="enterprise.src">
+		<antcall target="enterprise.src.build.from.source" />
+		<antcall target="enterprise.src.fetch.from.repo" />
+	</target>
+
+	<target name="enterprise.src.build.from.source" if="build.enterprise.from.source">
+		<ant antfile="${jbpm.root}/enterprise/build.xml" target="install.src" inheritall="false" />
+	</target>
+
+	<target name="enterprise.src.fetch.from.repo" unless="build.enterprise.from.source">
+		<mkdir dir="${local.repository}/${lib.jbpm.enterprise.dir}" />
+		<get src="${jbpm.enterprise.src.remote}" dest="${jbpm.enterprise.src.local}" usetimestamp="true" />
+	</target>
+
+	<target name="enterprise.javadoc">
+		<antcall target="enterprise.javadoc.build.from.source" />
+		<antcall target="enterprise.javadoc.fetch.from.repo" />
+	</target>
+
+	<target name="enterprise.javadoc.build.from.source" if="build.enterprise.from.source">
+		<ant antfile="${jbpm.root}/enterprise/build.xml" target="install.javadoc" inheritall="false" />
+	</target>
+
+	<target name="enterprise.javadoc.fetch.from.repo" unless="build.enterprise.from.source">
+		<mkdir dir="${local.repository}/${lib.jbpm.enterprise.dir}" />
+		<get src="${jbpm.enterprise.javadoc.remote}" dest="${jbpm.enterprise.javadoc.local}" usetimestamp="true" />
+	</target>
+
+
+
+	<!--
+  ###########################
+  ## DESIGNER DEPENDENCIES ##
+  ###########################
+  -->
+
+	<target name="designer">
+		<condition property="local.designer.needs.update.from.remote">
+			<or>
+				<not>
+					<available file="${lib.jbpm.designer.feature.local}" />
+				</not>
+				<isset property="build.designer.from.source" />
+			</or>
+		</condition>
+		<antcall target="designer.build.from.source" />
+		<antcall target="designer.fetch.from.repo" />
+	</target>
+
+	<target name="designer.build.from.source" if="build.designer.from.source">
+		<ant antfile="${jbpm.root}/designer/jpdl/org.jbpm.gd.jpdl.build/build.xml" target="all" inheritall="false" />
+	</target>
+
+	<target name="designer.fetch.from.repo" if="local.designer.needs.update.from.remote">
+		<mkdir dir="${local.repository}/${lib.jbpm.designer.dir}" />
+		<get src="${lib.jbpm.designer.feature.remote}" dest="${lib.jbpm.designer.feature.local}" usetimestamp="true" ignoreerrors="true" />
+	</target>
+
+
+	<!--
+  ##########################
+  ## BAM CONSOLE DEPENDENCIES ##
+  ##########################
+  -->
+
+	<target name="bamconsole">
+		<antcall target="bamconsole.build.from.source" />
+		<antcall target="bamconsole.fetch.from.repo" />
+	</target>
+
+	<target name="bamconsole.build.from.source" if="build.bamconsole.from.source">
+		<ant antfile="${jbpm.root}/bamconsole/build.xml" target="install" inheritall="false" />
+	</target>
+
+	<target name="bamconsole.fetch.from.repo" unless="build.bamconsole.from.source">
+		<mkdir dir="${local.repository}/${lib.jbpm.bamconsole.dir}" />
+		<get src="${jbpm.console.remote}" dest="${jbpm.console.local}" usetimestamp="true" />
+	</target>
+
+	<target name="bamconsole.userguide">
+		<antcall target="bamconsole.userguide.build.from.source" />
+		<antcall target="bamconsole.userguide.fetch.from.repo" />
+	</target>
+
+	<target name="bamconsole.userguide.build.from.source" if="build.bamconsole.from.source">
+		<ant antfile="${jbpm.root}/bamconsole/userguide/build.xml" target="install.userguide" inheritall="false" />
+	</target>
+
+	<target name="bamconsole.userguide.fetch.from.repo" unless="build.bamconsole.from.source">
+		<mkdir dir="${local.repository}/${lib.jbpm.bamconsole.dir}" />
+		<get src="${lib.jbpm.jpdl.bam.userguide.remote}" dest="${lib.jbpm.jpdl.bam.userguide.local}" usetimestamp="true" />
+	</target>
+
+	<!--
+  ###############################
+  ## OTHER DEPENDENCIES (TODO) ##
+  ###############################
+    jbpm-console.war
+    jpdl-designer-feature.zip
+  -->
+
+
+
+
+	<!--
+  <target name="console" depends="jpdl.jar" description="builds the console dependency">
+    <ant antfile="${jbpm.root}/console/build.xml" inheritall="false" />
+  </target>
+
+  <target name="designer" description="builds the designer dependency">
+    <ant antfile="${jbpm.root}/designer/jpdl/org.jbpm.gd.jpdl.build/build.xml" inheritall="false" />
+  </target>
+
+  <target name="identity.jar" depends="jpdl.jar" description="builds the identity jar library dependency">
+    <ant antfile="${jbpm.root}/identity/build.xml" target="jar" inheritall="false" />
+  </target>
+
+  <target name="identity.javadoc" description="builds the identity javadoc dependency">
+    <ant antfile="${jbpm.root}/identity/build.xml" target="javadoc" inheritall="false" />
+  </target>
+
+  <target name="jboss.configuration" description="builds the jboss configuration dependency">
+    <ant antfile="${jbpm.root}/jboss/configuration/build.xml" inheritall="false" />
+  </target>
+
+  <target name="jpdl.db" depends="jpdl.jar, identity.jar" description="builds the jpdl db dependency">
+    <ant antfile="${jbpm.root}/jpdl/db/build.xml" target="generate" inheritall="false" />
+  </target>
+
+  <target name="jpdl.examples.clean" description="builds the jpdl examples dependency">
+    <ant antfile="${jbpm.root}/jpdl/examples/build.xml" target="clean" inheritall="false" />
+  </target>
+  
+  <target name="enterprise" depends="jpdl.jar" description="builds the jbpm-enterprise.ear file">
+    <ant antfile="${jbpm.root}/enterprise/build.xml" inheritall="false" />
+  </target>
+
+  <target name="jboss.db" description="builds the jboss db">
+    <ant antfile="${jbpm.root}/jboss/db/build.xml" inheritall="false" />
+  </target>
+
+  <target name="jpdl.examples.websale" depends="jpdl.jar" description="builds the jpdl websale example">
+    <ant antfile="${jbpm.root}/jpdl/examples/websale/build.xml" inheritall="false" />
+  </target>
+
+
+  
+  <target name="jpdl.jar.test">
+    <condition property="use.jpdl.jar.from.source">
+      <equals arg1="${jbpm.jpdl.version}" arg2="source" />
+    </condition>
+    <echo message="src: ${jbpm.root}/jpdl/jar/target/jbpm-jpdl.jar" />
+    <echo message="trg: ${jbpm.jpdl.jar.local}" />
+    <condition property="install.jpdl.jar">
+      <and>
+        <isset property="use.jpdl.jar.from.source" />
+        <or>
+          <not>
+            <available file="${jbpm.root}/jpdl/jar/target/jbpm-jpdl.jar" />
+          </not>
+          <not>
+            <uptodate srcfile="${jbpm.root}/jpdl/jar/target/jbpm-jpdl.jar" targetfile="${jbpm.jpdl.jar.local}" />
+          </not>
+        </or>
+      </and>
+    </condition>
+    <antcall target="install.jpdl.jar.from.source" />
+    <antcall target="get.jpdl.jar.from.remote.repository" />
+  </target>
+
+  <target name="install.jpdl.jar.from.source" if="install.jpdl.jar">
+    <echo message="building jpdl jar" />
+    <ant antfile="${jbpm.root}/jpdl/jar/build.xml" inheritall="false" />
+  </target>
+
+  <target name="get.jpdl.jar.from.remote.repository" unless="use.jpdl.jar.from.source">
+    <echo message="getting jpdl jar from remote repo" />
+    <get src="${jbpm.jpdl.jar.remote}" dest="${jbpm.jpdl.jar.local}" usetimestamp="true" />
+  </target>
+  -->
+
+</project>
