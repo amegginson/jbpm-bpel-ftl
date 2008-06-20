@@ -1,0 +1,96 @@
+<html>
+<head><title>JBoss jBPM Designer Installation</title>
+<link rel="stylesheet" type="text/css" href="css/jbpm.css" />
+</head>
+
+<!-- HEADER -->
+<body>
+<table border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <!-- next line must be put one (1!) line to overcome an IE-layouting bug -->
+    <td><a href="http://www.jboss.com/"><img src="images/logo_green.gif" alt="JBoss Inc." border="0" /></a></td>
+    <td width="100%" valign="top">
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+          <td width="100%" height="22" bgcolor="#9BCD4B" align="center" nowrap="nowrap">
+          </td>
+        </tr>
+        <tr>
+          <td width="100%" align="right" valign="middle" nowrap="nowrap">
+            <a class="ref" href="http://jbpm.org/docs">Docs</a> &nbsp;&nbsp;
+            <a class="ref" href="http://jbpm.org/forums">Forums</a> &nbsp;&nbsp;
+            <a class="ref" href="http://jbpm.org/wiki">Wiki</a> &nbsp;&nbsp;
+            <a class="ref" href="http://jbpm.org/downloads">Download</a> &nbsp;&nbsp;
+            <a class="ref" href="http://jbpm.org/contact">Contact</a> &nbsp;&nbsp; &nbsp;&nbsp;
+          </td>
+        </tr>
+        <tr>
+          <td width="100%" valign="top" nowrap="nowrap">
+            <hr style="margin:0px; padding;0px;" size="1" width="100%" />
+            <h2 style="padding:0px; margin:0px; border:0px;" >
+            JBoss jBPM Designer Installation
+            </h2>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td width="100%" height="100%" colspan="2" valign="top">
+      <table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0" >
+        <tr>
+          <td valign="top">
+            <table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0" >
+              <tr>
+                <td width="217" valign="top"><img src="images/hdr_green_side.gif" alt="green side" /></td>
+              </tr>
+              <tr>
+                <!-- next line must be put one (1!) line to overcome an IE-layouting bug -->
+                <td width="175"><a class="nav" onmouseover="this.style.backgroundColor='#cccccc'; this.style.color='#000000';" onmouseout="this.style.backgroundColor='#5c5c4f'; this.style.color='#ffffff';" href="http://jbpm.org">jBPM.org</a><a class="nav" onmouseover="this.style.backgroundColor='#cccccc'; this.style.color='#000000';" onmouseout="this.style.backgroundColor='#5c5c4f'; this.style.color='#ffffff';" href="http://jboss.org">JBoss.org</a></td>
+              </tr>
+              <tr>
+                <td width="217" valign="top"><img style="margin-top:1px;" src="images/side_nav_green_btm.gif" alt="green side" /></td>
+              </tr>
+              <tr>
+                <td height="100%">
+                  &nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <img src="images/swoosh_green.gif" alt="swoosh" />
+                </td>
+              </tr>
+            </table>
+          </td>
+
+          <td height="100%" width="100%" valign="top">
+
+<!-- CONTENT -->
+
+<h2>Download and install eclipse</h2>
+<p>This designer plugin works with eclipse versions 3.3.  You'll need to download eclipse 3.3 separately 
+  from the jBPM suite.  Fetch it from 
+  the <a href="http://repository.jboss.com/eclipse/sdk/3.3/eclipse-SDK-3.3-win32.zip">eclipse 
+  sdk section</a> of the jboss repository or run <code>download.eclipse</code> in this directory.
+  In case you downloaded eclipse yourself from the web you need to update the <code>build.properties</code>
+  and specify the location of the eclipse zip file on your local machine.
+</p>
+
+<p>Then run <code>ant install</code> in this directory.
+</p>
+
+<p>The ant build will basically extract the eclipse archive in this directory and and link the 
+jbpm-gpd-feature into the eclipse installation through the eclipse link mechanism. 
+You can of course perform this process manually as well.</p>
+
+<!-- FOOTER -->
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+
+</html>

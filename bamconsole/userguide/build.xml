@@ -1,0 +1,60 @@
+<project name="jbpm.bam.userguide" default="install.userguide" basedir=".">
+	<!-- project specific properties -->
+	<property name="jbpm.root" value="../.." />
+
+	<!-- properties files -->
+	<property file="${user.home}/jbpm/build.properties" />
+	<property file="${jbpm.root}/build/profiles/${profile}.profile.properties" />
+	<property file="${jbpm.root}/build/build.properties" />
+
+	<!-- import base project build file -->
+	<import file="${jbpm.root}/build/base.project.build.xml" />
+
+	<!-- import docbook build file -->
+	<property name="build.dir" value="${basedir}/target/userguide" />
+	<property name="pdf.name" value="jboss-bam-userguide.pdf" />
+	<property name="lib.bam.userguide.file" value="${build.dir}/en/pdf/${pdf.name}" />
+	<import file="${docbook.support.dir}/docbook-support/support.xml" />
+
+	<!-- docbook targets -->
+	<target name="html" description="creates the html documentation">
+		<mkdir dir="en/images" />
+		<antcall target="lang.dochtml">
+			<param name="lang" value="en" />
+		</antcall>
+	</target>
+
+	<target name="htmlsingle" description="creates the html documentation in a single html file">
+		<mkdir dir="en/images" />
+		<antcall target="lang.dochtmlsingle">
+			<param name="lang" value="en" />
+		</antcall>
+	</target>
+
+	<target name="pdf" description="creates the pdf documentation">
+		<mkdir dir="en/images" />
+		<antcall target="lang.docpdf">
+			<param name="lang" value="en" />
+		</antcall>
+	</target>
+  
+	<target name="install.userguide" depends="package.userguide">
+		<mkdir dir="${local.repository}/jbpm/jpdl/${lib.jbpm.jpdl.version}/lib" />
+		<copy file="target/${lib.jbpm.jpdl.bam.userguide.file}" todir="${local.repository}/jbpm/jpdl/${lib.jbpm.jpdl.version}/lib" />
+	</target>
+
+	<target name="package.userguide">
+		<uptodate property="bam.userguide.uptodate" targetfile="target/${lib.jbpm.jpdl.bam.userguide.file}">
+			<srcfiles dir="en" includes="**" />
+		</uptodate>
+		<property name="lang" value="en" />
+		<antcall target="package.userguide.unless.uptodate" />
+	</target>
+
+	<target name="package.userguide.unless.uptodate" unless="bam.userguide.uptodate">
+		<antcall target="lang.all" />
+		<zip zipfile="target/${lib.jbpm.jpdl.bam.userguide.file}">
+			<fileset dir="target/userguide/en" />
+		</zip>
+	</target>
+</project>

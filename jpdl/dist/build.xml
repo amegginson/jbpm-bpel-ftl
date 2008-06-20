@@ -1,0 +1,362 @@
+<project name="jbpm.jpdl.dist" basedir="." default="package">
+
+	<!-- project specific properties -->
+	<property name="jbpm.root" value="../.." />
+
+	<!-- properties files -->
+	<property file="${user.home}/jbpm/build.properties" />
+	<property file="${jbpm.root}/build/profiles/${profile}.profile.properties" />
+	<property file="${jbpm.root}/build/build.properties" />
+
+	<!-- import base project build file -->
+	<import file="${jbpm.root}/build/base.project.build.xml" />
+
+	<target name="package" depends="jpdl.jar, jpdl.src, jpdl.javadoc, jpdl.userguide, jpdl.examples, jpdl.examplesdb, 
+                                  identity.jar, identity.src, identity.javadoc,
+                                  enterprise, enterprise.src, enterprise.javadoc,
+                                  console, designer, 
+                                  jboss.configuration, build.mail.test.webapp, bamconsole, bamconsole.userguide">
+
+		<delete dir="target/jbpm-jpdl" />
+
+		<!-- BUILDING THE RUNTIME IN target/jbpm-jpdl -->
+
+		<mkdir dir="target/jbpm-jpdl" />
+		<copy todir="target/jbpm-jpdl">
+			<fileset dir="src/main/resources/runtime" />
+		</copy>
+		<copy file="${local.repository}/licenses/lgpl.txt" tofile="target/jbpm-jpdl/license.txt" />
+		<copy todir="target/jbpm-jpdl" file="${lib.jbpm.jpdl.jar.local}" />
+		<copy todir="target/jbpm-jpdl" file="${lib.jbpm.identity.jar.local}" />
+
+		<!-- adding the jpdl sources -->
+		<mkdir dir="target/jbpm-jpdl/src/jpdl" />
+		<unzip dest="target/jbpm-jpdl/src/jpdl" src="${lib.jbpm.jpdl.src.local}" />
+
+		<!-- adding the jpdl javadocs -->
+		<mkdir dir="target/jbpm-jpdl/doc/javadoc-jpdl" />
+		<unzip dest="target/jbpm-jpdl/doc/javadoc-jpdl" src="${lib.jbpm.jpdl.javadoc.local}" />
+
+		<!-- adding the userguide -->
+		<mkdir dir="target/jbpm-jpdl/doc/userguide" />
+		<unzip dest="target/jbpm-jpdl/doc/userguide" src="${lib.jbpm.jpdl.userguide.local}" />
+
+		<!-- adding the examples -->
+		<mkdir dir="target/jbpm-jpdl/examples" />
+		<unzip dest="target/jbpm-jpdl/examples" src="${lib.jbpm.jpdl.examples.local}" />
+
+		<!-- adding the SQL scripts -->
+		<mkdir dir="target/jbpm-jpdl/db" />
+		<unzip dest="target/jbpm-jpdl/db" src="${lib.jbpm.jpdl.db.local}" />
+
+
+		<!-- adding the identity sources -->
+		<mkdir dir="target/jbpm-jpdl/src/identity" />
+		<unzip dest="target/jbpm-jpdl/src/identity" src="${lib.jbpm.identity.src.local}" />
+
+		<!-- adding the gpd version info -->
+		<mkdir dir="target/jbpm-jpdl/src/resources/gpd" />
+		<copy tofile="target/jbpm-jpdl/src/resources/gpd/version.info.xml" file="src/main/resources/designer.version.info.xml" />
+
+		<!-- adding the configuration files -->
+		<mkdir dir="target/jbpm-jpdl/config" />
+		<unzip dest="target/jbpm-jpdl/config" src="${lib.jbpm.jpdl.config.local}" />
+
+		<!-- include identity mappings in the hibernate configuration -->
+		<replace file="target/jbpm-jpdl/config/hibernate.cfg.xml">
+			<replacetoken>
+				<![CDATA[identity mappings (begin) ===]]>
+			</replacetoken>
+			<replacevalue>
+				<![CDATA[identity mappings (begin) -->]]></replacevalue>
+		</replace>
+		<replace file="target/jbpm-jpdl/config/hibernate.cfg.xml">
+			<replacetoken>
+				<![CDATA[==== identity mappings (end)]]>
+			</replacetoken>
+			<replacevalue>
+				<![CDATA[<!-- identity mappings (end)]]>
+			</replacevalue>
+		</replace>
+
+		<!-- adding the identity sources -->
+		<mkdir dir="target/jbpm-jpdl/src/identity" />
+		<unzip dest="target/jbpm-jpdl/src/identity" src="${lib.jbpm.identity.src.local}" />
+
+		<!-- adding the identity javadocs -->
+		<mkdir dir="target/jbpm-jpdl/doc/javadoc-identity" />
+		<unzip dest="target/jbpm-jpdl/doc/javadoc-identity" src="${lib.jbpm.identity.javadoc.local}" />
+
+		<!-- adding the enterprise sources -->
+		<mkdir dir="target/jbpm-jpdl/src/enterprise" />
+		<unzip dest="target/jbpm-jpdl/src/enterprise" src="${lib.jbpm.enterprise.src.local}" />
+
+		<!-- adding the enterprise sources -->
+		<mkdir dir="target/jbpm-jpdl/doc/javadoc-enterprise" />
+		<unzip dest="target/jbpm-jpdl/doc/javadoc-enterprise" src="${lib.jbpm.enterprise.javadoc.local}" />
+
+		<!-- adding the third party libs -->
+		<mkdir dir="target/jbpm-jpdl/lib" />
+		<copy todir="target/jbpm-jpdl/lib">
+			<fileset dir="${local.repository}/${lib.activation.dir}">
+				<include name="${lib.activation.name}*" />
+			</fileset>
+			<fileset dir="${local.repository}/${lib.antlr.dir}">
+				<include name="${lib.antlr.name}*" />
+			</fileset>
+			<fileset dir="${local.repository}/${lib.asm.dir}">
+				<include name="${lib.asm.name}*" />
+			</fileset>
+			<fileset dir="${local.repository}/${lib.bsh.dir}">
+				<include name="${lib.bsh.name}*" />
+			</fileset>
+			<fileset dir="${local.repository}/${lib.cglib.dir}">
+				<include name="${lib.cglib.name}*" />
+			</fileset>
+			<fileset dir="${local.repository}/${lib.commons.logging.dir}">
+				<include name="${lib.commons.logging.name}*" />
+			</fileset>
+			<fileset dir="${local.repository}/${lib.commons.collections.dir}">
+				<include name="${lib.commons.collections.name}*" />
+			</fileset>
+			<fileset dir="${local.repository}/${lib.dom4j.dir}">
+				<include name="${lib.dom4j.name}*" />
+			</fileset>
+			<fileset dir="${local.repository}/${lib.hibernate.dir}">
+				<include name="${lib.hibernate.name}*" />
+			</fileset>
+			<fileset dir="${local.repository}/${lib.hsqldb.dir}">
+				<include name="${lib.hsqldb.name}*" />
+			</fileset>
+			<fileset dir="${local.repository}/${lib.javamail.dir}">
+				<include name="${lib.javamail.name}*" />
+			</fileset>
+			<fileset dir="${local.repository}/${lib.jboss.dir}">
+				<include name="${lib.jboss.j2ee.name}*" />
+			</fileset>
+			<fileset dir="${local.repository}/${lib.jboss.backport-concurrent.dir}">
+				<include name="${lib.jboss.backport-concurrent.name}*" />
+			</fileset>
+			<fileset dir="${local.repository}/${lib.jbossretro-rt.dir}">
+				<include name="${lib.jbossretro-rt.name}*" />
+			</fileset>
+			<fileset dir="${local.repository}/${lib.jcr.dir}">
+				<include name="${lib.jcr.name}*" />
+			</fileset>
+			<fileset dir="${local.repository}/${lib.junit.dir}">
+				<include name="${lib.junit.name}*" />
+			</fileset>
+			<fileset dir="${local.repository}/${lib.log4j.dir}">
+				<include name="${lib.log4j.name}*" />
+			</fileset>
+			<fileset dir="${local.repository}/${lib.servlet.dir}">
+				<include name="${lib.servlet.name}*" />
+			</fileset>
+		</copy>
+
+		<!-- adding the .war and .ear deployables -->
+		<copy todir="target/jbpm-jpdl/deploy">
+			<fileset dir="${local.repository}/${lib.jbpm.console.dir}">
+				<include name="${lib.jbpm.console.file}" />
+			</fileset>
+			<fileset dir="${local.repository}/${lib.jbpm.enterprise.dir}">
+				<include name="${lib.jbpm.enterprise.file}" />
+			</fileset>
+			<fileset dir="target">
+				<include name="jbpm-mail.war" />
+			</fileset>
+		</copy>
+
+		<!-- adding db compatibility page from the wiki -->
+		<get src="http://wiki.jboss.org/wiki/Wiki.jsp?page=JbpmDbCompatibility" dest="target/jbpm-jpdl/db/compatibility.html" ignoreerrors="true" />
+
+		<!-- adding jboss eula -->
+		<get src="http://repository.jboss.com/licenses/JBossORG-EULA.txt" dest="target/jbpm-jpdl/jboss.eula.txt" ignoreerrors="true" />
+
+		<!-- ZIPPING THE RUNTIME -->
+
+		<move file="target/jbpm-jpdl" tofile="target/jbpm-jpdl-${lib.jbpm.jpdl.version}" />
+		<zip destfile="target/jbpm-jpdl-${lib.jbpm.jpdl.version}.zip">
+			<fileset dir="target">
+				<include name="jbpm-jpdl-${lib.jbpm.jpdl.version}/**" />
+			</fileset>
+		</zip>
+
+		<!-- UPDATING THE README -->
+
+		<replace file="target/jbpm-jpdl-${lib.jbpm.jpdl.version}/readme.html">
+			<replacetoken>
+				<![CDATA[<!-- Suite Only]]>
+			</replacetoken>
+			<replacevalue>
+			</replacevalue>
+		</replace>
+		<replace file="target/jbpm-jpdl-${lib.jbpm.jpdl.version}/readme.html">
+			<replacetoken>
+				<![CDATA[Suite Only -->]]></replacetoken>
+			<replacevalue>
+			</replacevalue>
+		</replace>
+
+		<!-- ADDING THE SERVER -->
+
+		<unzip src="${local.repository}/jbossas/${jboss.version}/lib/jboss.zip" dest="target/jbpm-jpdl-${lib.jbpm.jpdl.version}" />
+		<move file="target/jbpm-jpdl-${lib.jbpm.jpdl.version}/jboss-${jboss.version}" tofile="target/jbpm-jpdl-${lib.jbpm.jpdl.version}/server" />
+		<delete dir="target/jbpm-jpdl-${lib.jbpm.jpdl.version}/server/server/minimal" />
+		<delete dir="target/jbpm-jpdl-${lib.jbpm.jpdl.version}/server/server/all" />
+		<move file="target/jbpm-jpdl-${lib.jbpm.jpdl.version}/server/server/default" tofile="target/jbpm-jpdl-${lib.jbpm.jpdl.version}/server/server/jbpm" />
+		<unzip src="${lib.jbpm.jboss.local}" dest="target/jbpm-jpdl-${lib.jbpm.jpdl.version}/server/server/jbpm" />
+
+		<!-- ADDING THE .WAR FILE TO THE JBPM CONFIGURATION DEPLOY FOLDER -->
+		<copy file="${lib.jbpm.console.local}" todir="target/jbpm-jpdl-${lib.jbpm.jpdl.version}/server/server/jbpm/deploy" />
+
+		<!-- ADDING THE .EAR FILE OF THE JBPM BAM CONSOLE -->
+		<!--
+		<copy file="${lib.jbpm.bamconsole.local}" todir="target/jbpm-jpdl-${lib.jbpm.jpdl.version}/server/server/jbpm/deploy" />
+		-->
+		
+		<!-- adding the bamconsole userguide -->
+		<!--
+		<mkdir dir="target/jbpm-jpdl/doc/userguide" />
+		<unzip dest="target/jbpm-jpdl-${lib.jbpm.jpdl.version}/doc/bam/userguide" src="${lib.jbpm.jpdl.bam.userguide.local}" />
+		-->
+		
+		<!-- ADDING THE DATASOURCE FILE OF THE JBPM BAM CONSOLE -->
+		<!--
+		<copy file="${lib.jbpm.bamconsole.datasource.local}" todir="target/jbpm-jpdl-${lib.jbpm.jpdl.version}/server/server/jbpm/deploy" />
+		-->
+		
+		<!-- ADDING THE DESIGNER -->
+
+		<mkdir dir="target/jbpm-jpdl-${lib.jbpm.jpdl.version}/designer" />
+		<unzip src="${lib.jbpm.designer.feature.local}" dest="target/jbpm-jpdl-${lib.jbpm.jpdl.version}/designer" />
+
+		<!-- ADDING THE OTHER SUITE DECORATIONS -->
+
+		<copy todir="target/jbpm-jpdl-${lib.jbpm.jpdl.version}" overwrite="true">
+			<fileset dir="src/main/resources/suite" />
+		</copy>
+
+		<!-- ZIPPING THE SUITE -->
+
+		<zip destfile="target/jbpm-jpdl-suite-${lib.jbpm.jpdl.version}.zip">
+			<fileset dir="target">
+				<include name="jbpm-jpdl-${lib.jbpm.jpdl.version}/**" />
+			</fileset>
+		</zip>
+
+	</target>
+
+	<target name="build.mail.test.webapp" depends="define.libs.classpath" description="builds the mail test server web console">
+		<mkdir dir="target/test.classes" />
+		<javac srcdir="src/test/java" destdir="target/test.classes">
+			<classpath>
+				<path refid="libs.classpath" />
+			</classpath>
+		</javac>
+		<war destfile="target/jbpm-mail.war" webxml="src/test/resources/webapp/WEB-INF/web.xml">
+			<fileset dir="src/test/resources/webapp">
+				<exclude name="WEB-INF/web.xml" />
+			</fileset>
+			<classes dir="target/test.classes" />
+			<lib file="${local.repository}/${lib.dumbster.path}" />
+		</war>
+	</target>
+
+	<target name="deploy.mail.test.webapp" depends="build.mail.test.webapp">
+		<get dest="target/deployresult.html" src="http://localhost:8080/jmx-console/HtmlAdaptor?action=invokeOpByName&amp;name=jboss.system:service%3DMainDeployer&amp;methodName=redeploy&amp;argType=java.net.URL&amp;arg0=file://${basedir}/target/jbpm-mail.war" />
+	</target>
+
+
+
+	<!-- RELEASE TARGETS ==================================================== -->
+
+	<target name="test.suite.distribution" depends="clean, package" description="test a suite distribution build">
+		<delete dir="${software.installation.dir}/jbpm-jpdl-${lib.jbpm.jpdl.version}" />
+		<mkdir dir="${software.installation.dir}" />
+		<unzip src="target/jbpm-jpdl-suite-${lib.jbpm.jpdl.version}.zip" dest="${software.installation.dir}" />
+		<ant antfile="${software.installation.dir}/jbpm-jpdl-${lib.jbpm.jpdl.version}/designer/build.xml" inheritall="false" />
+		<exec os="Windows XP,Windows 2000,Windows 98" executable="${software.installation.dir}/jbpm-jpdl-${lib.jbpm.jpdl.version}/server/start.bat" dir="${software.installation.dir}/jbpm-jpdl-${lib.jbpm.jpdl.version}/server" spawn="true" />
+		<exec os="Windows XP,Windows 2000,Windows 98" executable="${software.installation.dir}/jbpm-jpdl-${lib.jbpm.jpdl.version}/designer/designer.bat" dir="${software.installation.dir}/jbpm-jpdl-${lib.jbpm.jpdl.version}/designer" />
+		<exec os="Windows XP,Windows 2000,Windows 98" executable="${software.installation.dir}/jbpm-jpdl-${lib.jbpm.jpdl.version}/server/stop.bat" dir="${software.installation.dir}/jbpm-jpdl-${lib.jbpm.jpdl.version}/server" />
+	</target>
+
+	<target name="is.cvs.info.available">
+		<available file="${local.repository}/jbpm/CVS" type="dir" property="cvs.info.available" />
+	</target>
+
+	<target name="checkout.jbpm.repository" depends="is.cvs.info.available" unless="cvs.info.available">
+		<echo message="${local.repository}/jbpm" />
+		<delete dir="${local.repository}/jbpm" />
+		<cvs command="checkout -d '${local.repository}/jbpm' 'repository.jboss.com/jbpm'" cvsroot=":ext:${cvs.username}@cvs.forge.jboss.com:/cvsroot/jboss" failonerror="false">
+		</cvs>
+	</target>
+
+	<target name="release.jpdl" depends="tag.jpdl, publish.jpdl, upload.jpdl.docs" />
+
+	<target name="tag.jpdl">
+		<cvs command="tag -cF ${jbpm.jpdl.cvs.tag} ." dest="." cvsroot=":ext:${cvs.username}@cvs.forge.jboss.com:/cvsroot/jbpm" />
+	</target>
+
+	<target name="publish.jpdl" description="uploads the jpdl artifacts from the local repository to the remote repository">
+		<echo message="if this fails, make sure that there is cvs information in your repository for the jbpm libs.  you can use target checkout.jbpm.repository for that" />
+		<cvs command="add jpdl" dest="${local.repository}/jbpm" cvsroot=":ext:${cvs.username}@cvs.forge.jboss.com:/cvsroot/jboss" />
+		<cvs command="add jpdl/${lib.jbpm.jpdl.version}" dest="${local.repository}/jbpm" cvsroot=":ext:${cvs.username}@cvs.forge.jboss.com:/cvsroot/jboss" />
+		<cvs command="add jpdl/${lib.jbpm.jpdl.version}/lib" dest="${local.repository}/jbpm" cvsroot=":ext:${cvs.username}@cvs.forge.jboss.com:/cvsroot/jboss" />
+
+		<cvs command="add -kb 
+                  jpdl/${lib.jbpm.jpdl.version}/lib/jbpm-console.war
+                  jpdl/${lib.jbpm.jpdl.version}/lib/jbpm-enterprise.ear
+                  jpdl/${lib.jbpm.jpdl.version}/lib/jbpm-enterprise-javadoc.zip
+                  jpdl/${lib.jbpm.jpdl.version}/lib/jbpm-enterprise-src.jar
+                  jpdl/${lib.jbpm.jpdl.version}/lib/jbpm-identity.jar
+                  jpdl/${lib.jbpm.jpdl.version}/lib/jbpm-identity-javadoc.zip
+                  jpdl/${lib.jbpm.jpdl.version}/lib/jbpm-identity-src.jar
+                  jpdl/${lib.jbpm.jpdl.version}/lib/jbpm-jboss-configuration.zip
+                  jpdl/${lib.jbpm.jpdl.version}/lib/jbpm-jpdl.jar
+                  jpdl/${lib.jbpm.jpdl.version}/lib/jbpm-jpdl-config.jar
+                  jpdl/${lib.jbpm.jpdl.version}/lib/jbpm-jpdl-db.jar
+                  jpdl/${lib.jbpm.jpdl.version}/lib/jbpm-jpdl-examples.jar
+                  jpdl/${lib.jbpm.jpdl.version}/lib/jbpm-jpdl-examplesdb.jar
+                  jpdl/${lib.jbpm.jpdl.version}/lib/jbpm-jpdl-javadoc.zip
+                  jpdl/${lib.jbpm.jpdl.version}/lib/jbpm-jpdl-src.jar
+                  jpdl/${lib.jbpm.jpdl.version}/lib/jbpm-jpdl-userguide.zip" dest="${local.repository}/jbpm" cvsroot=":ext:${cvs.username}@cvs.forge.jboss.com:/cvsroot/jboss" />
+
+		<cvs command="commit -m 'uploading jpdl ${lib.jbpm.jpdl.version} artifacts' 
+                  jpdl/${lib.jbpm.jpdl.version}/lib/jbpm-console.war
+                  jpdl/${lib.jbpm.jpdl.version}/lib/jbpm-enterprise.ear
+                  jpdl/${lib.jbpm.jpdl.version}/lib/jbpm-enterprise-javadoc.zip
+                  jpdl/${lib.jbpm.jpdl.version}/lib/jbpm-enterprise-src.jar
+                  jpdl/${lib.jbpm.jpdl.version}/lib/jbpm-identity.jar
+                  jpdl/${lib.jbpm.jpdl.version}/lib/jbpm-identity-javadoc.zip
+                  jpdl/${lib.jbpm.jpdl.version}/lib/jbpm-identity-src.jar
+                  jpdl/${lib.jbpm.jpdl.version}/lib/jbpm-jboss-configuration.zip
+                  jpdl/${lib.jbpm.jpdl.version}/lib/jbpm-jpdl.jar
+                  jpdl/${lib.jbpm.jpdl.version}/lib/jbpm-jpdl-config.jar
+                  jpdl/${lib.jbpm.jpdl.version}/lib/jbpm-jpdl-db.jar
+                  jpdl/${lib.jbpm.jpdl.version}/lib/jbpm-jpdl-examples.jar
+                  jpdl/${lib.jbpm.jpdl.version}/lib/jbpm-jpdl-examplesdb.jar
+                  jpdl/${lib.jbpm.jpdl.version}/lib/jbpm-jpdl-javadoc.zip
+                  jpdl/${lib.jbpm.jpdl.version}/lib/jbpm-jpdl-src.jar
+                  jpdl/${lib.jbpm.jpdl.version}/lib/jbpm-jpdl-userguide.zip" dest="${local.repository}/jbpm" cvsroot=":ext:${cvs.username}@cvs.forge.jboss.com:/cvsroot/jboss" />
+	</target>
+
+	<target name="upload.jpdl.docs">
+		<ftp password="${ftp.docs.password)" server="docs.jboss.com" userid="${ftp.docs.userid)" remotedir="v3/javadoc">
+			<fileset dir="../jar/target/javadoc" />
+		</ftp>
+		<ftp password="${ftp.docs.password)" server="docs.jboss.com" userid="${ftp.docs.userid)" remotedir="v3/userguide">
+			<fileset dir="../jar/userguide/target/userguide/en" />
+		</ftp>
+	</target>
+
+	<target name="upload.jpdl.downloadables" description="uploads the files to sourceforge">
+		<echo message="warning: with previous attempts to upload the files, the connection each time got broken before the upload was complete.  not sure if this is usable..." />
+		<ftp password="${ftp.downloadables.password}" server="upload.sourceforge.net" userid="anonymous" remotedir="incoming">
+			<fileset dir="target">
+				<include name="jbpm-jpdl-*.zip" />
+			</fileset>
+		</ftp>
+	</target>
+
+</project>

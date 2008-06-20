@@ -1,0 +1,8 @@
+<project name="jbpm.jpdl.example.websale" basedir="." default="package">
+
+  <property name="jpdl.file.name" value="websale.jpdl" />
+
+  <!-- import base project build file -->
+  <import file="../example.base.build.xml"/>
+
+</project>

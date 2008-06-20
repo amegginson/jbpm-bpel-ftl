@@ -1,0 +1,2 @@
+plugin@org.jbpm.gd.jpdl=%jbpm.gpd.version.tag%,%jbpm.cvs.root%,,jbpm.3/designer/jpdl/org.jbpm.gd.jpdl/
+feature@org.jbpm.gd.jpdl.feature=%jbpm.gpd.version.tag%,%jbpm.cvs.root%,,jbpm.3/designer/jpdl/org.jbpm.gd.jpdl.feature/

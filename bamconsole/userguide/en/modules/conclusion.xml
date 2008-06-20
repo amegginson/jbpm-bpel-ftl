@@ -1,0 +1,20 @@
+<chapter id="conclusion">
+	<title>Conclusion</title>
+	<para>
+		The aim of this user guide was to provide an introduction to
+		JBoss BAM. BAM technologies came from the emergence of the
+		industries to measure facts and take appropriate actions to
+		their relevant contexts.
+	</para>
+	<para>
+		BAM is closely related to a set of other technologies such as:
+		<itemizedlist>
+			<listitem>BPM</listitem>
+			<listitem>CEP</listitem>
+			<listitem>Rules Engines</listitem>
+		</itemizedlist>
+		Future versions of this distribution will tackle each topic
+		separately and provide the adequate solution tha integrates with
+		a global solution.
+	</para>
+</chapter>

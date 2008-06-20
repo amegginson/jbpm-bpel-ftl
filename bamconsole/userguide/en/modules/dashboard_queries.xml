@@ -1,0 +1,237 @@
+<chapter id="dashboard_queries">
+	<title>Dashboard Queries</title>
+
+	<para>
+		The dashboard queries engines enables users of the console to
+		build their own queries, embed them and render them into the
+		system. The system contains an initial set of queries that are
+		integrated. Users are provided the flexibility to modify the
+		queries to match their requirements.beta
+	</para>
+
+	<para>
+		Dashboard queries address the database to pull out the
+		information from the system. In this context the jBPM
+	</para>
+
+	<section id="queries_overview">
+		<title>Dashboard Queries Overview</title>
+		<para>
+			A dashboard query is an entity that has two main parts:
+			<itemizedlist>
+				<listitem>
+					<para>
+						Query Entity: The query entity is a statement in
+						query language format that retrieves information
+						from the exposed database.
+					</para>
+					<para>
+						A Dashboard query consists of a unique name, a
+						description, the actual query implemented in the
+						hibernate query language HQL and a set of
+						graphical properties to define how the query is
+						rendered. A query example to retrieve all the
+						active process instances of the deployed
+						processes could be as follows:
+						<programlisting>
+							select pi.processDefinition.name as
+							process_name, count
+							(pi.processDefinition.name) as
+							process_counter; from
+							org.jbpm.graph.exe.ProcessInstance as pi
+							where pi.end is null group by
+							pi.processDefinition.name
+						</programlisting>
+					</para>
+				</listitem>
+				<listitem>
+					Graphical Representation: The graphical
+					representation of the result indicated in the step
+					above. The graphical representation can be of
+					different layouts such as bar-charts, pie-charts,
+					line-charts, tabular formats and more types will be
+					embedded. A sample result of a sampel dashboard
+					query would render as follows:
+
+					<figure id="bam.query.sample">
+						<title>Query Sample</title>
+						<mediaobject>
+							<imageobject>
+								<imagedata align="center"
+									fileref="images/query-sample.jpg" />
+							</imageobject>
+						</mediaobject>
+					</figure>
+				</listitem>
+			</itemizedlist>
+		</para>
+	</section>
+
+	<section id="dashboard_query_step_by_step">
+		<title>Dashboard Query - Step By Step Guide</title>
+		<para>
+			This sections aims to provide a step by step tutorial on how
+			to build a simple query. This step by step guide assumes
+			that the end users are already familiar with the jBPM logs
+			prior to this step.
+		</para>
+
+		<section>
+			<title>Build the Dashboard Query</title>
+			<para>
+				Navigate to
+				<ulink
+					url="http://localhost:8080/bamconsole/DashboardQueryList.seam">
+					http://localhost:8080/bamconsole/DashboardQueryList.seam
+				</ulink>
+				and click on the
+				<guibutton>Create Dashboard Query</guibutton>
+				button. It's well denoted that queries that must are to
+				be rendered into a graphical format must return the
+				result in the format of a collection containing objects
+				with the format [String, Number], indicating that the
+				first attribute is a String and the second is a Number.
+			</para>
+
+			<figure id="bam.dashboard.query.list">
+				<title>Dashboard Queries List</title>
+				<mediaobject>
+					<imageobject>
+						<imagedata align="center"
+							fileref="images/dashboard-queries-list.jpg" />
+					</imageobject>
+				</mediaobject>
+			</figure>
+
+			<para>You will be directed to the following view:</para>
+
+			<figure id="bam.dashboard.query.create">
+				<title>Create Dashboard Query</title>
+				<mediaobject>
+					<imageobject>
+						<imagedata align="center"
+							fileref="images/create-query.jpg" />
+					</imageobject>
+				</mediaobject>
+			</figure>
+
+			<para>
+				We will fill the query with the following information:
+			</para>
+
+			<figure id="bam.dashboard.query.create.fill">
+				<title>Fill Dashboard Query</title>
+				<mediaobject>
+					<imageobject>
+						<imagedata align="center"
+							fileref="images/create-query-fill.jpg" />
+					</imageobject>
+				</mediaobject>
+			</figure>
+
+			<para>
+				The query is filled with the following data:
+				<table frame='all'>
+					<title>Query Fields</title>
+					<tgroup cols='2' align='left' colsep='1'
+						rowsep='1'>
+						<thead>
+							<row>
+								<entry>Field Name</entry>
+								<entry>Value</entry>
+							</row>
+						</thead>
+						<tbody>
+							<row>
+								<entry>Name</entry>
+								<entry>All-Proc</entry>
+							</row>
+							<row>
+								<entry>Description</entry>
+								<entry>
+									Count of all process instances
+									grouped by process definition
+								</entry>
+							</row>
+							<row>
+								<entry>Query Type</entry>
+								<entry>HQL</entry>
+							</row>
+							<row>
+								<entry>Query</entry>
+								<entry>
+									select pi.processDefinition.name,
+									count (pi.processDefinition.name)
+									from
+									org.jbpm.graph.exe.ProcessInstance
+									as pi group by
+									pi.processDefinition.name
+								</entry>
+							</row>
+							<row>
+								<entry>Chart Type</entry>
+								<entry>Bar Chart</entry>
+							</row>
+							<row>
+								<entry>Domain Label</entry>
+								<entry>Process Definition</entry>
+							</row>
+							<row>
+								<entry>Range Label</entry>
+								<entry>Number of Instances</entry>
+							</row>
+							<row>
+								<entry>Enable 3D</entry>
+								<entry>Checked</entry>
+							</row>
+							<row>
+								<entry>Width</entry>
+								<entry>320</entry>
+							</row>
+							<row>
+								<entry>Height</entry>
+								<entry>240</entry>
+							</row>
+						</tbody>
+					</tgroup>
+				</table>
+			</para>
+
+			<para>
+				Click on the Validate button to validate the query. The
+				validate button is the validation mechanism by which the
+				system checks if the query is valid or not.
+
+			</para>
+			<para>
+				Click on the Save Button to save the query into the
+				system.
+				<note>
+					The system validates the query upon saving it into
+					the system. The validation mechanism works prior to
+					saving the query.
+				</note>
+			</para>
+
+			<para>
+				Now let's navigate to the main dashboard page
+				<ulink
+					url="http://localhost:8080/bamconsole/dashboard.seam">
+					http://localhost:8080/bamconsole/dashboard.seam
+				</ulink>
+				Scroll down and you can see the query we just created
+				rendered on the main dashboard.
+
+				<figure id="bam.dashboard.query.dashboard.result">
+					<title>Dashboard Result</title>
+					<mediaobject>
+						<imageobject>
+							<imagedata align="center"
+								fileref="images/query-dashboard.jpg" />
+						</imageobject>
+					</mediaobject>
+				</figure>
+			</para>
+		</section>
+	</section>
+</chapter>

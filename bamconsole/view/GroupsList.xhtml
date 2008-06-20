@@ -1,0 +1,109 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+								xmlns:s="http://jboss.com/products/seam/taglib"
+								xmlns:ui="http://java.sun.com/jsf/facelets"
+								xmlns:f="http://java.sun.com/jsf/core"
+								xmlns:h="http://java.sun.com/jsf/html"
+								xmlns:rich="http://richfaces.org/rich"
+								xmlns:a="http://richfaces.org/a4j" 
+								template="layout/template.xhtml">
+
+	<ui:define name="body">
+		<h:messages globalOnly="true" styleClass="message" id="globalMessages" />
+		 
+		<h:form id="groupSearch" styleClass="edit">
+			<rich:simpleTogglePanel label="Groups Search" switchType="client">   
+	      <s:decorate template="layout/display.xhtml">
+	        <ui:define name="label">Name</ui:define>
+	        <h:inputText id="name" value="#{name}">
+	          <a:support event="onkeyup" reRender="searchResults" />
+	        </h:inputText>
+	      </s:decorate>
+        <s:decorate template="layout/display.xhtml">
+          <ui:define name="label">Type</ui:define>
+          <h:selectOneMenu id="type" value="#{type}">
+						<f:selectItem itemLabel="All Groups" itemValue=" "/>
+						<f:selectItem itemLabel="Organisation" itemValue="organisation"/>
+            <f:selectItem itemLabel="Security-Role" itemValue="security-role"/>
+            <a:support event="onchange" reRender="searchResults" />
+          </h:selectOneMenu>
+        </s:decorate>   
+        
+        <div class="actionButtons">
+          <h:commandButton id="search" value="Search" action="/GroupsList.xhtml"/>
+        </div>
+      </rich:simpleTogglePanel>
+		</h:form>
+
+		<rich:spacer />
+		
+		<a:outputPanel id="searchResults">
+		  <rich:panel>
+        <f:facet name="header">Groups List</f:facet>
+        <h:outputText value="The system does not contain any group." 
+                   rendered="#{empty groupsList.groupsList}"/>
+        
+        <rich:dataTable id="groupsList" 
+                       var="group"
+                     value="#{groupsList.groupsList}" 
+                  rendered="#{not empty groupsList.groupsList}">
+          <h:column>
+            <f:facet name="header">
+              <s:link styleClass="columnHeader"
+                           value="Id #{groupsList.order=='id asc' ? messages.down : ( groupsList.order=='id desc' ? messages.up : '' )}">
+                <f:param name="order" value="#{groupsList.order=='id asc' ? 'id desc' : 'id asc'}"/>
+              </s:link>
+            </f:facet>
+            <h:outputText value="#{group.id}" />
+          </h:column>
+          <h:column>
+            <f:facet name="header">
+              <s:link styleClass="columnHeader"
+                           value="Name #{groupsList.order=='name asc' ? messages.down : ( groupsList.order=='name desc' ? messages.up : '' )}">
+                <f:param name="order" value="#{groupsList.order=='name asc' ? 'name desc' : 'name asc'}"/>
+              </s:link>
+            </f:facet>
+            <h:outputText value="#{group.name}" />
+          </h:column>
+          <h:column>
+            <f:facet name="header">
+              <s:link styleClass="columnHeader"
+                           value="Type #{groupsList.order=='type asc' ? messages.down : ( groupsList.order=='type desc' ? messages.up : '' )}">
+                <f:param name="order" value="#{groupsList.order=='type asc' ? 'type desc' : 'type asc'}"/>
+              </s:link>
+            </f:facet>
+            <h:outputText value="#{group.type}" />
+          </h:column>
+          <h:column>
+            <f:facet name="header">
+              <h:outputText styleClass="columnHeader" value="Parent Group" />
+            </f:facet>
+            <h:outputText value="#{group.parent.name}" />
+          </h:column>
+          <h:column>
+            <f:facet name="header">
+              <h:outputText styleClass="columnHeader" value="Action" />
+            </f:facet>
+            <div class="centered">
+              <s:link view="/#{empty from ? 'Group' : from}.xhtml"
+                        id="groupSelect">                
+                <f:param name="groupId" 
+                        value="#{group.id}"/>
+                <h:graphicImage value="/img/common/select-icon.gif" title="Select" alt="Select" />
+              </s:link>
+              <span>&#160;|&#160;</span> 
+              <s:link view="/#{empty from ? 'GroupEdit' : from}.xhtml"
+                        id="groupEdit">
+                <f:param name="groupId" 
+                        value="#{group.id}"/>
+                <h:graphicImage value="/img/common/edit-icon.gif" title="Edit" alt="Edit" />                        
+              </s:link>
+            </div>
+          </h:column>
+        </rich:dataTable>           
+      </rich:panel>
+    </a:outputPanel>
+	</ui:define>
+</ui:composition>

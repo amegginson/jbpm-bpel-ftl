@@ -1,0 +1,92 @@
+<chapter id="introduction">
+	<title>Introduction</title>
+
+	<para>
+		JBoss BAM is a framework for providing a Business Activity
+		Monitoring solution that integrates with existing JBoss
+		frameworks to retrieve, render and analyze data that empower
+		business knowledge.
+	</para>
+
+	<section>
+		<title>BAM Overview</title>
+		<para>
+			The term BAM originally appeared at
+			<ulink url="http://www.gartner.com">Gartner, Inc</ulink>
+			and came from the need of rendering data into valuable
+			real-time information to supervisors, officers and managers
+			of different units within an organization. The main goal of
+			BAM is to provide real-time summary status of different sets
+			of transactions, processes and operations.
+		</para>
+		<para>
+			Data and analytical information empower all sort of
+			businesses and BAM aims at fortifying the area to enable
+			management layers to derive better informed business
+			decisions, quickly address problem areas, and re-structure
+			their hierarchies to take full advantage of arising
+			opportunities.
+		</para>
+	</section>
+
+	<section>
+		<title>BAM vs BI</title>
+		<para>
+			There's more or less a common confusion when it comes to
+			separating BAM (Business Activity Monitoring) from BI
+			(Business Intelligence). This confusion comes from the fact
+			the the roots of the two technologies come from the same
+			background, however the application of the two technologies
+			is radically different.
+		</para>
+
+		<section>
+			<title>Real-time Vs Historical</title>
+			<para>
+				BAM processes with real-time data while BI handles
+				historical facts. BAM pushes data into display panels or
+				dashboards while BI retrieves data from history. In this
+				context the output of BAM is a dynamic component
+				rendered in a graphical or tabular format indicating the
+				state of the data at the time it was invoked, while the
+				output of BI is a report that describes facts according
+				a specific set of criteria and time frame.
+			</para>
+		</section>
+		<section>
+			<title>Dynamic Vs Static</title>
+			<para>
+				As stated earlier, BAM highlights actual facts happening
+				in transactions, processes or operational-modes, this
+				fact highlights a new option that interacts dynamically
+				with other components. BAM becomes dynamic in that
+				perspective to integrate with rules engines and trigger
+				actions such as a notification event or a corrective
+				measurement to the activity. For example a BAM query can
+				trigger a notification to the manager if the average
+				number of tasks executed by a single resource is higher
+				than the limit. BAM could take as well corrective
+				measurements such as rolling back a financial
+				transaction if the value of this transaction exceeds the
+				standard quota. On the BI side none of this flexibility
+				is available, BI displays only data that is derived from
+				the database and rendered in electronic or hard copy
+				format. BI provides the layer of analysis of the past to
+				take preventive measurments against tasks in the future.
+			</para>
+		</section>
+	</section>
+
+	<section>
+		<title>JBoss BAM Overview</title>
+		<para>
+			The JBoss BAM solution currently integrates with
+			<ulink url="http://labs.jboss.com/jbossjbpm">
+				JBoss jBPM
+			</ulink>
+			. This solution is designed to provide information by
+			directly querying the jBPM database and returning the
+			results in a set of graphical formats.
+		</para>
+	</section>
+</chapter>

@@ -1,0 +1,216 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                      "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+  xmlns:s="http://jboss.com/products/seam/taglib"
+  xmlns:ui="http://java.sun.com/jsf/facelets"
+  xmlns:f="http://java.sun.com/jsf/core"
+  xmlns:h="http://java.sun.com/jsf/html"
+  xmlns:rich="http://richfaces.org/rich"
+  xmlns:p="http://jboss.com/products/seam/pdf"
+  xmlns:a="http://richfaces.org/a4j"
+  template="layout/template.xhtml">
+
+  <ui:define name="body">
+    <h:messages globalOnly="true" styleClass="message" id="globalMessages"/>    
+    <h:form id="queryForm" styleClass="edit">
+      <rich:simpleTogglePanel label="Node Statistics Parameters" switchType="client">
+        <h:outputText rendered="#{DashboardQueryHandler.renderJbpmNamedQuery('GraphSession.AllProcessNames')}" />
+        <s:div rendered="#{not empty DashboardQueryHandler.resultsTable}">
+	        <s:decorate id="startDateDecoration" template="layout/edit.xhtml">
+	          <ui:define name="label">Start date</ui:define>
+	          <rich:calendar id="startDate" required="true" value="#{ProcessStatisticsHandler.startDate}">
+	            <a:support event="onkeyup" reRender="searchResults" />
+	          </rich:calendar>
+	        </s:decorate>
+	        
+	        <s:decorate id="endDateDecoration" template="layout/edit.xhtml">
+	          <ui:define name="label">End date</ui:define>
+	          <rich:calendar id="endDate" required="true" value="#{ProcessStatisticsHandler.endDate}">
+	            <a:support event="onkeyup" reRender="searchResults" />
+	          </rich:calendar>
+	        </s:decorate>
+	        
+	        <s:decorate id="processSelectorDecoration" template="layout/edit.xhtml">
+	          <ui:define name="label">Process Definition</ui:define>
+	          <h:selectOneMenu id="processMenuList" value="#{ProcessStatisticsHandler.processName}">
+	            <s:selectItems id="processItem" value="#{DashboardQueryHandler.resultsTable}" var="procDef" label="#{procDef}"/>
+	          </h:selectOneMenu>
+	        </s:decorate>
+	              
+	        <div class="actionButtons">
+	          <h:commandButton id="populateDataBtn" value="Execute" action="#{ProcessStatisticsHandler.populateData()}" />
+	        </div>
+        </s:div>
+        
+        <s:div rendered="#{empty DashboardQueryHandler.resultsTable}">
+          <p>This page cannot be displayed since your system does not contain any deployed jBPM process definition.</p>
+        </s:div>
+     </rich:simpleTogglePanel>
+    </h:form>
+    
+    <br />
+    <s:div rendered="#{ProcessStatisticsHandler.processName != null}">
+	    <h:outputText rendered="#{ProcessStatisticsHandler.renderChart('Average Node Execution Time')}" />
+      <rich:panel>
+       <f:facet name="header">Process Statistics</f:facet>
+       <s:span styleClass="property">Active Process instances:</s:span>
+       <h:outputText value="#{ProcessStatisticsHandler.renderResult('Active Process Instances')}" /> 
+       <br />
+       <s:span styleClass="property">Started Process instances:</s:span>
+       <h:outputText value="#{ProcessStatisticsHandler.renderResult('Started Process Instances')}" /> 
+       <br />
+       <s:span styleClass="property">Completed Process instances:</s:span>
+       <h:outputText value="#{ProcessStatisticsHandler.renderResult('Completed Process Instances')}" /> 
+       <br />
+      </rich:panel>
+      <br />
+      <rich:panel>
+       <f:facet name="header">Tasks Statistics</f:facet>
+       <s:span styleClass="property">Active Process Tasks:</s:span>
+       <h:outputText value="#{ProcessStatisticsHandler.renderResult('Active Process Tasks')}" /> 
+       <br />
+       <s:span styleClass="property">Started Process Tasks:</s:span>
+       <h:outputText value="#{ProcessStatisticsHandler.renderResult('Started Process Tasks')}" />
+       <br />
+       <s:span styleClass="property">Completed Process Tasks:</s:span>
+       <h:outputText value="#{ProcessStatisticsHandler.renderResult('Completed Process Tasks')}" /> 
+       <br />
+      </rich:panel>	    
+	    <br />	    
+	    <rich:panel>
+	      <f:facet name="header">#{chart.title} details</f:facet>
+	      
+	      <h:outputText value="No node logs found, please refine your search." 
+	                 rendered="#{empty ProcessStatisticsHandler.resultsList}" />
+	      
+	      <rich:dataTable id="NodeStatisticsResultsList" 
+	                     var="resultsTable"
+	                   value="#{ProcessStatisticsHandler.resultsList}" 
+	                rendered="#{not empty ProcessStatisticsHandler.resultsList}">
+	        <h:column>
+	          <f:facet name="header">
+	            <h:outputText value="Node Name" />
+	          </f:facet>
+	          #{resultsTable[0]}
+	        </h:column>
+	        <h:column>
+	          <f:facet name="header">
+	            <h:outputText value="Average Execution Duration in Milliseconds" />
+	          </f:facet>
+	          #{resultsTable[1]}
+	        </h:column>          
+	      </rich:dataTable>
+	
+		    <p:stroke id="solid-thin" width="1" cap="round" join="bevel" dash="1" />    
+	      <p:stroke id="solid-thick" width="1" cap="round" join="bevel" dash="1" />
+	      <s:div rendered="#{not empty ProcessStatisticsHandler.resultsList}" styleClass="centered">        
+		      <p:barchart title="#{chart.title}"  
+	                  orientation="#{chart.orientation}"
+	                  is3D="#{chart.is3d}"   
+	                  legend="#{chart.legend}"
+	                  width="#{chart.width}" 
+	                  height="#{chart.height}" 
+	                  domainAxisLabel="#{chart.domainAxisLabel}"
+	                  domainAxisPaint="#{chart.domainAxisPaint}"
+	                  domainGridlinesVisible="#{chart.domainGridlinesVisible}"
+	                  domainGridlinePaint="#{chart.domainGridlinePaint}"
+	                  domainGridlineStroke="#{chart.domainGridlineStroke}"
+	                  rangeAxisLabel="#{chart.rangeAxisLabel}"
+	                  rangeAxisPaint="#{chart.rangeAxisPaint}"
+	                  rangeGridlinesVisible="#{chart.rangeGridlinesVisible}"
+	                  rangeGridlinePaint="#{chart.rangeGridlinePaint}"
+	                  rangeGridlineStroke="#{chart.rangeGridlineStroke}"
+	                  borderVisible="#{chart.borderVisible}"
+	                  borderPaint="#{chart.borderPaint}"
+	                  borderBackgroundPaint="#{chart.borderBackgroundPaint}"
+	                  borderStroke="#{chart.borderStroke}"
+	                  plotOutlinePaint="#{chart.plotOutlinePaint}"
+	                  plotOutlineStroke="#{chart.plotOutlineStroke}"
+	                  plotBackgroundPaint="#{chart.plotBackgroundPaint}"
+	                  plotForegroundAlpha="#{chart.plotForegroundAlpha}"
+	                  plotBackgroundAlpha="#{chart.plotBackgroundAlpha}"
+	                  legendItemPaint="#{chart.legendItemPaint}"
+	                  legendBackgroundPaint="#{chart.legendBackgroundPaint}"
+	                  titlePaint="#{chart.titlePaint}"
+	                  titleBackgroundPaint="#{chart.titleBackgroundPaint}">
+		        <ui:repeat value="#{chart.data}" var="dataset">
+		          <p:series key="#{dataset.id}">
+		            <ui:repeat value="#{chart.categories}" var="category">
+		              <p:data key="#{category}" value="#{dataset.values[category]}" />
+		            </ui:repeat>
+		          </p:series>
+		        </ui:repeat>
+		      </p:barchart>
+	      </s:div>
+	    </rich:panel>
+	    
+	    <br />
+	    <h:outputText rendered="#{ProcessStatisticsHandler.renderChart('Average Task Execution Time')}" />
+      <rich:panel>
+        <f:facet name="header">#{chart.title} details</f:facet>
+        
+        <h:outputText value="No task logs found, please refine your search." 
+                   rendered="#{empty ProcessStatisticsHandler.resultsList}" />
+        
+        <rich:dataTable id="TasksStatisticsResultsList" 
+                       var="resultsTable"
+                     value="#{ProcessStatisticsHandler.resultsList}" 
+                  rendered="#{not empty ProcessStatisticsHandler.resultsList}">
+          <h:column>
+            <f:facet name="header">
+              <s:link styleClass="columnHeader" value="Tasks" />
+            </f:facet>
+            #{resultsTable[0]}
+          </h:column>
+          <h:column>
+            <f:facet name="header">
+              <s:link styleClass="columnHeader" value="Average Execution Duration" />
+            </f:facet>
+            #{resultsTable[1]}
+          </h:column>          
+        </rich:dataTable>
+        
+        <s:div styleClass="centered"> 
+          <p:barchart rendered="#{not empty ProcessStatisticsHandler.resultsList}"
+                      title="#{chart.title}"  
+                      orientation="#{chart.orientation}"
+                      is3D="#{chart.is3d}"   
+                      legend="#{chart.legend}"
+                      width="#{chart.width}" 
+                      height="#{chart.height}" 
+                      domainAxisLabel="#{chart.domainAxisLabel}"
+                      domainAxisPaint="#{chart.domainAxisPaint}"
+                      domainGridlinesVisible="#{chart.domainGridlinesVisible}"
+                      domainGridlinePaint="#{chart.domainGridlinePaint}"
+                      domainGridlineStroke="#{chart.domainGridlineStroke}"
+                      rangeAxisLabel="#{chart.rangeAxisLabel}"
+                      rangeAxisPaint="#{chart.rangeAxisPaint}"
+                      rangeGridlinesVisible="#{chart.rangeGridlinesVisible}"
+                      rangeGridlinePaint="#{chart.rangeGridlinePaint}"
+                      rangeGridlineStroke="#{chart.rangeGridlineStroke}"
+                      borderVisible="#{chart.borderVisible}"
+                      borderPaint="#{chart.borderPaint}"
+                      borderBackgroundPaint="#{chart.borderBackgroundPaint}"
+                      borderStroke="#{chart.borderStroke}"
+                      plotOutlinePaint="#{chart.plotOutlinePaint}"
+                      plotOutlineStroke="#{chart.plotOutlineStroke}"
+                      plotBackgroundPaint="#{chart.plotBackgroundPaint}"
+                      plotForegroundAlpha="#{chart.plotForegroundAlpha}"
+                      plotBackgroundAlpha="#{chart.plotBackgroundAlpha}"
+                      legendItemPaint="#{chart.legendItemPaint}"
+                      legendBackgroundPaint="#{chart.legendBackgroundPaint}"
+                      titlePaint="#{chart.titlePaint}"
+                      titleBackgroundPaint="#{chart.titleBackgroundPaint}">
+            <ui:repeat value="#{chart.data}" var="dataset">
+              <p:series key="#{dataset.id}">
+                <ui:repeat value="#{chart.categories}" var="category">
+                  <p:data key="#{category}" value="#{dataset.values[category]}" />
+                </ui:repeat>
+              </p:series>
+            </ui:repeat>
+          </p:barchart>
+        </s:div>
+      </rich:panel>
+    </s:div>
+  </ui:define>
+</ui:composition>

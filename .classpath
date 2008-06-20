@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" output="jpdl/jar/target/classes" path="jpdl/jar/src/main/java"/>
+	<classpathentry kind="src" path="jbpm4jsf/src/main/java"/>
+	<classpathentry kind="src" path="jpdl/examples/websale/src/main/java"/>
+	<classpathentry kind="src" output="jpdl/jar/target/test.classes" path="jpdl/jar/src/test/java"/>
+	<classpathentry kind="src" output="enterprise/target/test.classes" path="enterprise/src/test/java"/>
+	<classpathentry kind="src" output="enterprise/target/classes" path="enterprise/src/main/java"/>
+	<classpathentry kind="src" output="identity/target/classes" path="identity/src/main/java"/>
+	<classpathentry kind="src" output="identity/target/test.classes" path="identity/src/test/java"/>
+	<classpathentry kind="src" output="jpdl/dist/target/test.classes" path="jpdl/dist/src/test/java"/>
+	<classpathentry kind="src" path="jpdl/simulation/src/test/java"/>
+	<classpathentry kind="src" path="jpdl/simulation/src/main/java"/>
+	<classpathentry kind="src" path="jpdl/simulation/src/main/reports"/>
+	<classpathentry kind="src" path="jpdl/simulation/src/tutorial"/>
+	<classpathentry exported="true" kind="lib" path="jpdl/jar/src/main/config"/>
+	<classpathentry exported="true" kind="lib" path="jpdl/jar/src/test/resources"/>
+	<classpathentry kind="lib" path="enterprise/src/test/resources"/>
+	<classpathentry kind="var" path="JBPM_REPO/sun-jaf/1.0.2/lib/activation.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/maven2/ant/ant/1.6.5/ant-1.6.5.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/antlr/2.7.6.ga/lib/antlr-2.7.6.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/asm/1.5.3/lib/asm.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/asm/1.5.3/lib/asm-attrs.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/beanshell/1.3.0/lib/bsh.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/cglib/2.1.3/lib/cglib.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/apache-beanutils/1.7.0/lib/commons-beanutils.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/apache-collections/3.1/lib/commons-collections.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/apache-digester/1.6/lib/commons-digester.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/apache-logging/1.0.4/lib/commons-logging.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/dom4j/1.6/lib/dom4j.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/dumbster/1.6/lib/dumbster.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/facelets/1.1.12/lib/jsf-facelets.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/hsqldb/1.8.0.2/lib/hsqldb.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/httpunit/1.6/lib/httpunit.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/jackrabbit/1.0/lib/jackrabbit-core-1.0.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/sun-javamail/1.3.1/lib/mail.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/jaxen/1.1-brew/lib/jaxen.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/jcr/1.0/lib/jcr-1.0.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/junit/3.8.1/lib/junit.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/apache-log4j/1.2.14/lib/log4j.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/jwebunit/1.2/lib/jwebunit-1.2.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/mockrunner/0.3.7/lib/mockrunner.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/mockejb/0.6-beta2/lib/mockejb.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/sun-servlet/2.5/lib/servlet-api.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/nekohtml/0.9.1/lib/nekohtml.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/aspectj/1.2.1/lib/aspectjrt.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/apache-httpclient/3.0.1/lib/commons-httpclient.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/jakarta-cactus/1.7.2/lib/cactus.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/apache-codec/1.3.0/lib/commons-codec.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/el/1.0/lib/el-api.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/stax-api/1.0/lib/stax-api-1.0.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/hibernate/3.2.3.GA/lib/hibernate3.jar" sourcepath="/SOFTWARE/hibernate-3.2.3.ga/src"/>
+	<classpathentry kind="var" path="JBPM_REPO/sun-jsf/1.2_03/lib/jsf-api.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/apache-fileupload/1.1.1/lib/commons-fileupload.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/apache-lang/2.1/lib/commons-lang.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/woodstox/2.0.6/lib/wstx-lgpl-2.0.6.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/sun-jaxrpc/1.1/lib/jaxrpc-api.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/ibm-wsdl4j/1.6.2/lib/wsdl4j.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/gravel/1.0.0.GA/lib/gravel.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/desmoj/2.1.1/lib/desmoj.jar" sourcepath="/JBPM_REPO/desmoj/2.1.1/lib/desmoj_2.1.1_src.zip"/>
+	<classpathentry kind="var" path="JBPM_REPO/jfreechart/1.0.2/lib/jcommon.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/jfreechart/1.0.2/lib/jfreechart.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/jasperreports/2.0.4/lib/jasperreports.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/jbossas/core-libs/4.2.2.GA/lib/jboss-j2ee.jar"/>
+	<classpathentry kind="output" path="jpdl/jar/target/classes"/>
+</classpath>

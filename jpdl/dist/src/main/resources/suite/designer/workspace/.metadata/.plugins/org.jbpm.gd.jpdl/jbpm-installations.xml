@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<installations>
+<installation location="${workspace_loc}/../.." name="jBPM jPDL 3.2.3" version="jbpm-jpdl-3.2.3"/>
+</installations>

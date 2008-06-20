@@ -1,0 +1,29 @@
+<html>
+<body>
+<h1>rulesAssignmentHandler</h1>
+
+
+<p>This example shows how to invoke JBoss Rules from an AssignmentHandler.</p>
+
+<p>To create this example in Eclipse, you need to have installed the latest version of the JBoss Drool IDE plugin that supports the 3.3 / Europa release of Eclipse, e.g., drools-4.1.0-eclipse. Next, use the New -> Other -> Process Project and uncheck Use Default Location and browse to the jbpm-jpdl-{version}/examples/rulesAssignmentHandler directory and give it the project name rulesAssignmentHandler. Right click on the project and select Convert to Drools Project. Go to the rulesAssignmentHandler project Build Path Source tab add folders rulesActionHandler/src/main/rules and rulesActionHandler/src/main/identity. This should result in a clean compilation (no errors). If the shipping.drl file stills show compilation errors, do a Project -> Clean.</p>
+
+
+<p>This example consists of the following files:</p>
+
+<ul>src/main/java/RulesAssignmentHandler.java - creats the RuleBase using the Assignment.drl file, gets the Order object from the contextInstance and asserts it into working memory, sets the assignable (taskInstance) as a global, and fires the rules.</ul>
+
+<ul>src/java/../Order.java - simple Order object.</ul>
+
+<ul>src/java/../Role.java - simple Role object.</ul>
+
+<ul>src/test/../RulesAssignmentTest.java - JUnit test case for rulesAssignmentHandler example.</ul>
+
+<ul>src/rules/Assignment.drl - JBoss Rules rule file.</ul>
+
+<ul>src/jpdl/RulesAssignment/processdefinition.xml - defines the processDefinition. See the Assignment configuration on the Approve Order node.</ul>
+
+
+<p>To run the example, run the RulesAssignmentTest.java as a JUnit test.</p>
+
+</body>
+</html>

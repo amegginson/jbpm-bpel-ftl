@@ -1,0 +1,8 @@
+<process-definition name="the deployable process">
+  <start-state>
+    <transition to="end">
+      <action class="org.jbpm.jpdl.par.ProcessLoadedActionHandler" />
+    </transition>
+  </start-state>
+  <end-state name="end" />
+</process-definition>

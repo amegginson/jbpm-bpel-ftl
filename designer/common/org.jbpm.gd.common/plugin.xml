@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+
+   <extension-point 
+         id="dsl" 
+         name="Domain Specific Language Extensions" 
+         schema="schema/dsl.exsd"/>
+
+   <extension-point 
+         id="semanticElements" 
+         name="jBPM Semantic Element Extensions" 
+         schema="schema/semanticElements.exsd"/>
+
+   <extension-point 
+	     id="notationElements" 
+	     name="jBPM Notational Extensions" 
+	     schema="schema/notationElements.exsd"/>
+
+   <extension-point 
+         id="notationMappings" 
+         name="jBPM Semantic Element to Notation Mappings" 
+         schema="schema/notationMappings.exsd"/>
+	
+   <extension-point 
+         id="xmlMappings" 
+         name="jBPM Semantic Element to XML Mapping" 
+         schema="schema/xmlMappings.exsd"/>
+
+   <extension-point 
+         id="palette" 
+         name="jBPM Graphical Designer Palette Extensions" 
+         schema="schema/palette.exsd"/>
+
+   <extension 
+         point="org.jbpm.gd.common.notationElements">
+      <notationElement 
+	        id="root" 
+	        class="org.jbpm.gd.common.notation.RootContainer"/>
+      <notationElement 
+	        id="container" 
+	        class="org.jbpm.gd.common.notation.NodeContainer"/>
+      <notationElement 
+	        id="node" 
+	        class="org.jbpm.gd.common.notation.Node"/>
+      <notationElement 
+	        id="edge" 
+	        class="org.jbpm.gd.common.notation.Edge"/>
+      <notationElement 
+	        id="label" 
+	        class="org.jbpm.gd.common.notation.Label"/>
+      <notationElement 
+	        id="bendpoint" 
+	        class="org.jbpm.gd.common.notation.BendPoint"/>
+   </extension>  
+	
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            allowMultiple="false"
+            category="org.jbpm.gd.jpdl.views"
+            class="org.jbpm.gd.common.editor.BirdsEyeViewer"
+            icon="icons/overview.gif"
+            id="org.jbpm.gd.jpdl.overview"
+            name="Overview"/>
+      <category
+            id="org.jbpm.gd.jpdl.views"
+            name="jBPM GPD"/>
+   </extension>
+    
+</plugin>

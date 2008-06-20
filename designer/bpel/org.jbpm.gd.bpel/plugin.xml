@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.2"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.popupMenus">
+      <objectContribution
+            adaptable="true"
+            id="org.jbpm.gd.bpel.deploy"
+            nameFilter="*.bpel"
+            objectClass="org.eclipse.core.resources.IResource">
+         <action
+               class="org.jbpm.gd.bpel.DeployActionDelegate"
+               icon="icons/deploy.gif"
+               id="org.jbpm.gd.bpel.deploy"
+               label="Deploy"
+               menubarPath="additions"
+               tooltip="Deploy the file to the server"/>
+      </objectContribution>
+   </extension>
+
+</plugin>

@@ -1,0 +1,64 @@
+<chapter id="docmgmt">
+  <title>Document management</title>
+  
+  <para>This is still an experimental feature.
+  </para>
+
+  <para>To enable this feature, you need to 
+  uncomment the following line in the hibernate.cfg.xml:
+  </para>
+  
+  <programlisting>&lt;mapping resource="org/jbpm/context/exe/variableinstance/JcrNodeInstance.hbm.xml"/&gt;</programlisting>
+  
+  <para>The document management support of jBPM is based on 
+    <ulink url="http://www.jcp.org/en/jsr/detail?id=170">Java Content Repository</ulink>.
+    That is a standard java specification for integrating document management
+    systems into Java.  The basic idea is that jBPM supports storage of JCR nodes 
+    as process variables.
+  </para>
+  
+  <para>To store a node, the session, repository and path are extracted from the node 
+  like this:
+  </para>
+  
+  <programlisting>Session session = node.getSession();
+Repository repo = session.getRepository();
+Workspace wspace = session.getWorkspace();
+
+// THE NODE REPOSITORY AND WORKSPACE NAME GOT TO CORRESPOND WITH A JBPM SERVICE NAME
+repository = repo.getDescriptor(Repository.REP_NAME_DESC);
+workspace = wspace.getName();
+path = node.getPath();
+  </programlisting>
+
+  <para><emphasis role="bold">IMPORTANT NOTE:</emphasis> The name of the jbpm context service 
+    MUST correspond with the name of the repository (repository.getDescriptor(Repository.REP_NAME_DESC)).
+    This is to make the match between the reference stored in the jbpm process variables and 
+    the repository when a node-variable is being loaded from the jBPM DB. When the JCR node process 
+    variable is retrieved, each service name in the jbpm context will be matched against the 
+    repository and workspace name stored.  The matching between jbpm context service and the 
+    JCR session/repository names will go like this:
+  </para>
+  
+  <itemizedlist>
+    <listitem>if there is a jbpm context service named 'jcr' (lower case) that one will be 
+    taken
+    </listitem>
+    <listitem>a service name that is equal to the repository name matches
+    </listitem>
+    <listitem>a service that starts with the repository name and ends with the workspace 
+    name matches and takes preference over a service with the repository name
+    </listitem>
+  </itemizedlist>
+  
+  <para>The typical use case for this feature is a document approval process.  A document 
+    needs to be approved and updated.  That document (e.g. a word document), can be 
+    stored in a JCR-content-repository-node.  The node contains all the versions of the 
+    document.  So that later in the process, people still can consult the historical 
+    versions of the document.
+  </para>
+
+  <para>This feature was only tested with Jackrabbit.  Please refer to the JCR 
+  implementation documentation for more information about library dependencies.
+  </para>  
+</chapter>

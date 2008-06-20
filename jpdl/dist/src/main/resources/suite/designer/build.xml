@@ -1,0 +1,29 @@
+<project name="jbpm.gpd.eclipse" basedir="." default="install">
+
+  <description>jbpm.gpd.eclipse build</description>
+
+  <!-- ================== -->
+  <!-- === PROPERTIES === -->
+  <!-- ================== -->
+  <property file="build.properties" />
+	
+  <available file="${eclipse.local.url}" property="eclipse.available" />	
+
+  <!-- =============== -->
+  <!-- === INSTALL === -->
+  <!-- =============== -->
+  <target name="install" depends="download.eclipse" description="installs eclipse and the gpd inside of it">
+    <unzip src="${eclipse.local.url}" dest="${basedir}" />
+  </target>
+
+  <!-- ================ -->
+  <!-- === DOWNLOAD === -->
+  <!-- ================ -->
+  <target name="download.eclipse" unless="eclipse.available">
+    <get src="${eclipse.remote.url}" 
+         dest="${eclipse.local.url}" 
+         usetimestamp="true"
+         verbose="on"/>
+  </target>
+
+</project>

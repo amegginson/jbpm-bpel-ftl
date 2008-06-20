@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry output="target/classes" kind="src" path="src/main/java"/>
+	<classpathentry output="target/test.classes" kind="src" path="src/test/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="src/test/resources"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/jpdl"/>
+	<classpathentry kind="var" path="JBPM_REPO/apache-logging/1.0.4/lib/commons-logging.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/dom4j/1.6/lib/dom4j.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/junit/3.8.1/lib/junit.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/jcr/1.0/lib/jcr-1.0.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/beanshell/1.3.0/lib/bsh.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/jackrabbit/1.0/lib/jackrabbit-core-1.0.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/sun-javamail/1.3.1/lib/mail.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/jboss/4.0.3/lib/jboss-j2ee.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/sun-servlet/2.4/lib/servlet-api.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/apache-log4j/1.2.8/lib/log4j.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/hsqldb/1.8.0.2/lib/hsqldb.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/cglib/2.1.3/lib/cglib.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/maven2/ant/ant/1.6.5/ant-1.6.5.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/dumbster/1.6/lib/dumbster.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/jaxen/1.1beta6/lib/jaxen.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/apache-collections/3.1/lib/commons-collections.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/antlr/2.7.6rc1/lib/antlr-2.7.6rc1.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/asm/1.5.3/lib/asm.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/sun-jaf/1.0.2/lib/activation.jar"/>
+	<classpathentry kind="var" path="JBPM_REPO/hibernate/3.1/lib/hibernate3.jar"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>

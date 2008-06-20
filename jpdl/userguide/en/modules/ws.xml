@@ -1,0 +1,41 @@
+<chapter id="ws">
+  <title>Web Services Support</title>
+  
+  <para>This chapter describes the out-of-the-box web services support in jBPM jPDL.
+  </para> 
+
+  <section id="wsproduction">
+    <title>Invoke jPDL Web Services</title>
+    
+    <para>There is a WS subproject in jPDL. The aim of this subproject is to enable
+    the jPDL engine to be called as a web service. The current implementation enables
+    you to start process instances from the definition and to provide the trigger
+    to running instances to continue their execution. It is not (yet) very sophisticated
+    but it can serve as a starting point from which you can start to implement more 
+    advanced uses.
+    </para>
+    <para>Stay tuned as there is probably more to come with respect to web services.
+    </para>
+
+    <section id="wsdeployment">
+      <title>Deployment</title>
+      <para>Currently, there is no deployable artefact included in the distribution.
+      Luckily it is very simple to build it yourself. Checkout the jbpm.3 codebase from the 
+      jbpm repository, navigate into the jpdl/ws subfolder and invoke ant to build it. You 
+      will find the jbpm-jpdl-ws.war artefact in the target subfolder. With JBoss AS it is as
+      simple as dropping this file in the deploy folder of your server instance. You will need
+      to endorse some libraries if you are running Java 6. For more information look at 
+      http://jbws.dyndns.org/mediawiki/index.php?title=Install_JBossWS.
+      </para>
+    </section>
+    
+    <section id="wstest">
+      <title>Testing the deployment</title>
+      <para>Once the web services module is deployed correctly you can test it with a tool
+      such as SoapUI. Import the generated WSDL, send some messages and see what happens.
+      </para>
+    </section>
+    
+  </section>
+    
+</chapter>

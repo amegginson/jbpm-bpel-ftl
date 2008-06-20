@@ -1,0 +1,167 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:a="http://richfaces.org/a4j"
+                xmlns:rich="http://richfaces.org/rich"
+                template="layout/template.xhtml">
+  
+	<ui:define name="body">
+	  <h:messages globalOnly="true" styleClass="message" id="globalMessages"/>
+    <h:form id="report" styleClass="edit" enctype="multipart/form-data">
+      <rich:panel>
+        <f:facet name="header">#{reportHome.managed ? 'Edit' : 'Add'} Report</f:facet>
+	            
+        <s:decorate id="nameDecoration" template="layout/edit.xhtml">
+          <ui:define name="label">Name</ui:define>
+          <h:inputText id="name" 
+	               required="true"
+	                   size="24"
+	              maxlength="128"
+	                  value="#{reportHome.instance.name}">
+            <a:support event="onblur" reRender="nameDecoration" bypassUpdates="true"/>
+          </h:inputText>
+	      </s:decorate>
+	      
+	      <s:decorate id="reportTypeDecoration" template="layout/edit.xhtml">
+          <ui:define name="label">Report Type</ui:define>
+          <h:selectOneMenu value="#{reportHome.instance.reportType}" id="reportType">
+            <f:selectItem itemLabel="Jasper" itemValue="JASPER"/>
+            <f:selectItem itemLabel="BIRT" itemValue="BIRT" itemDisabled="true"/>
+          </h:selectOneMenu>
+        </s:decorate>
+        
+        <s:div rendered="#{not reportHome.managed}">
+	        <s:decorate id="reportFileDecoration" template="layout/edit.xhtml">
+	          <ui:define name="label">Report File</ui:define>
+	          <s:fileUpload id="reportFile" data="#{reportHome.instance.reportFile}" />
+	        </s:decorate>
+        </s:div>
+        
+        <s:div rendered="#{reportHome.managed}">
+          <s:decorate id="updatedReportLabelDecoration" template="layout/edit.xhtml">
+            <ui:define name="label" />
+            Click <a href="javascript:collapse.slideit()">here</a> to upload a different report
+          </s:decorate>
+        </s:div>
+        
+        <div id="updatedReport" style="clear:both">
+          <s:decorate id="updatedReportFileDecoration" template="layout/edit.xhtml">
+            <ui:define name="label">Report File</ui:define>
+            <s:fileUpload id="reportFile" data="#{reportHome.instance.reportFile}" />
+          </s:decorate>
+        </div>
+
+	      <s:decorate id="summaryDecoration" template="layout/edit.xhtml">
+          <ui:define name="label">Summary</ui:define>
+	        <h:inputTextarea id="summary"
+	                       cols="80"
+	                       rows="4"
+	                      value="#{reportHome.instance.summary}"/>
+	      </s:decorate>
+	      
+	      <s:decorate id="descriptionDecoration" template="layout/edit.xhtml">
+          <ui:define name="label">Description</ui:define>
+          <h:inputTextarea id="description"
+                         cols="80"
+                         rows="10"
+                        value="#{reportHome.instance.description}"/>
+        </s:decorate>
+        
+        <div style="clear:both">
+          <span class="required"><sup>*</sup></span>Indicates required fields.
+        </div>
+        
+        <div class="actionButtons">
+	        <h:commandButton id="save" 
+	                      value="Save" 
+	                      action="#{reportHome.persist}"
+	                    disabled="#{!reportHome.wired}"
+	                    rendered="#{!reportHome.managed}"/>  
+	                                    
+	        <h:commandButton id="update" 
+	                      value="Update" 
+	                     action="#{reportHome.update}"
+	                   rendered="#{reportHome.managed}"/>
+	                                  
+	        <h:commandButton id="delete" 
+	                      value="Delete" 
+	                     action="#{reportHome.remove}"
+	                   rendered="#{reportHome.managed}"/>
+	                         
+	        <s:button id="done" 
+	               value="Done"
+	         propagation="end"
+	                view="/Report.xhtml"
+	            rendered="#{reportHome.managed}"/>
+	                  
+	        <s:button id="cancel" 
+	               value="Cancel"
+	         propagation="end"
+	                view="/#{empty reportFrom ? 'ReportList' : reportFrom}.xhtml"
+	            rendered="#{!reportHome.managed}"/>
+	      </div>
+      </rich:panel>
+	    
+	    <rich:panel id="subReportsPanel" rendered="#{reportHome.managed}">
+	      <f:facet name="header">Sub Report(s)</f:facet>
+	     
+        <div style="clear:both">
+          <h:outputText value="No sub reports are associated with this report" rendered="#{empty reportHome.jasperReports}" />
+          <rich:dataTable value="#{reportHome.jasperReports}" var="jasperReport" rendered="#{not empty reportHome.jasperReports}" id="subJasperReportsTable">
+            <h:column>
+              <f:facet name="header">ID</f:facet>
+              #{jasperReport.id}
+            </h:column>
+            <h:column>
+              <f:facet name="header">Name</f:facet>
+              #{jasperReport.name}
+            </h:column>
+            <h:column>
+              <f:facet name="header">Action</f:facet>
+              <s:link action="#{reportHome.jasperReports}" value="Delete">
+                <f:param name="subReportId" value="#{jasperReport.id}"/>
+              </s:link>
+            </h:column>
+          </rich:dataTable>
+          
+          <p>Click <a href="javascript:collapseSubReport.slideit()">here</a> to add a new sub report</p>
+        </div>
+
+        <div id="subReport" style="clear:both">
+          <s:decorate id="subReportNameDecoration" template="layout/edit.xhtml">
+            <ui:define name="label">Sub Report Name</ui:define>
+            <h:inputText id="name" 
+                   required="true"
+                       size="24"
+                  maxlength="24"
+                      value="#{reportHome.subReportName}">
+              <a:support event="onblur" reRender="subReportNameDecoration" bypassUpdates="true"/>
+            </h:inputText>
+          </s:decorate>
+          
+          <s:decorate id="subReportFileDecoration" template="layout/edit.xhtml">
+            <ui:define name="label">Sub Report File</ui:define>
+            <s:fileUpload id="subReportFile"  data="#{reportHome.subReportFile}"/>
+          </s:decorate>
+
+	        <div class="actionButtons">
+	          <h:commandButton id="uploadSubReport" 
+	                        value="Add Sub Report" 
+	                        action="#{reportHome.addSubReport}" />  
+	        </div>
+        </div>
+	    </rich:panel>  
+	    
+	    <script type="text/javascript">
+        var collapse=new animatedcollapse("updatedReport", 800, true);
+        var collapseSubReport=new animatedcollapse("subReport", 800, true);
+      </script>          
+      
+    </h:form>
+  </ui:define>
+</ui:composition>

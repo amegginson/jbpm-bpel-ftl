@@ -1,0 +1,139 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:a="http://richfaces.org/a4j"
+                xmlns:rich="http://richfaces.org/rich"
+                template="layout/template.xhtml">
+                       
+	<ui:define name="body">
+	  <h:messages globalOnly="true" styleClass="message" id="globalMessages"/>
+    <h:form id="dashboardQuery" styleClass="edit">
+      <rich:panel>
+        <f:facet name="header">#{dashboardQueryHome.managed ? 'Edit' : 'Add'} Dashboard Query</f:facet>
+	            
+        <s:decorate id="nameDecoration" template="layout/edit.xhtml">
+          <ui:define name="label">Name</ui:define>
+          <h:inputText id="name" 
+	               required="true"
+	                   size="24"
+	              maxlength="128"
+	                  value="#{dashboardQueryHome.instance.name}">
+            <a:support event="onblur" reRender="nameDecoration" bypassUpdates="true"/>
+          </h:inputText>
+	      </s:decorate>
+	
+	      <s:decorate id="descriptionDecoration" template="layout/edit.xhtml">
+          <ui:define name="label">Description</ui:define>
+	        <h:inputTextarea id="description"
+	                       cols="80"
+	                       rows="10"
+	                      value="#{dashboardQueryHome.instance.description}"/>
+	      </s:decorate>
+	      
+	      <s:decorate id="queryTypeDecoration" template="layout/edit.xhtml">
+          <ui:define name="label">Query Type</ui:define>
+          <h:selectOneMenu value="#{dashboardQueryHome.instance.queryType}" id="queryType">
+            <f:selectItem itemLabel="HQL" itemValue="HQL" itemDescription="Build queries in the hibernate query language"/>
+	          <f:selectItem itemLabel="SQL" itemValue="SQL" itemDisabled="true" />
+	        </h:selectOneMenu>
+        </s:decorate>
+        
+        <s:decorate id="queryDecoration" template="layout/edit.xhtml">
+          <ui:define name="label">Query</ui:define>
+          <h:inputTextarea id="query"
+                         cols="80"
+	                       rows="10"
+	                   required="true"
+	                      value="#{dashboardQueryHome.instance.query}" />
+        </s:decorate>
+        
+        <s:decorate id="chartTypeDecoration" template="layout/edit.xhtml">
+          <ui:define name="label">ChartType</ui:define>
+          <h:selectOneMenu value="#{dashboardQueryHome.instance.chart.chartType}" id="chartType">
+            <f:selectItem itemLabel="Pie Chart" itemValue="pie-chart"/>
+            <f:selectItem itemLabel="Bar Chart" itemValue="bar-chart"/>
+            <f:selectItem itemLabel="Line Chart" itemValue="line-chart"/>
+          </h:selectOneMenu>
+        </s:decorate>
+        
+        <s:decorate id="domainLabelDecoration" template="layout/edit.xhtml">
+          <ui:define name="label">Domain Label</ui:define>
+          <h:inputText id="domainLabel" 
+                 required="true"
+                     size="24"
+                    value="#{dashboardQueryHome.instance.chart.domainLabel}">
+            <a:support event="onblur" reRender="domainLabelDecoration" bypassUpdates="true"/>
+          </h:inputText>
+        </s:decorate>
+        
+        <s:decorate id="rangeLabelDecoration" template="layout/edit.xhtml">
+          <ui:define name="label">Range Label</ui:define>
+          <h:inputText id="rangeLabel" 
+                 required="true"
+                     size="24"
+                    value="#{dashboardQueryHome.instance.chart.rangeLabel}">
+            <a:support event="onblur" reRender="rangeLabelDecoration" bypassUpdates="true"/>
+          </h:inputText>
+        </s:decorate>
+        
+        <s:decorate id="chart3dDecoration" template="layout/edit.xhtml">
+          <ui:define name="label">Enable 3D</ui:define>
+          <h:selectBooleanCheckbox id="threeDimensional" value="#{dashboardQueryHome.instance.chart.threeDimensional}" />
+        </s:decorate>
+        
+        <s:decorate id="chartWidthDecoration" template="layout/edit.xhtml">
+          <ui:define name="label">Width</ui:define>
+          <rich:inputNumberSlider minValue="180" maxValue="600" step="1" value="#{dashboardQueryHome.instance.chart.width}"/>
+        </s:decorate>
+        
+        <s:decorate id="chartHeightDecoration" template="layout/edit.xhtml">
+          <ui:define name="label">Height</ui:define>
+          <rich:inputNumberSlider minValue="180" maxValue="600" step="1" value="#{dashboardQueryHome.instance.chart.height}"/>
+        </s:decorate>
+        
+        <div style="clear:both">
+          <span class="required"><sup>*</sup></span>Indicates required fields.
+        </div>
+        
+	      <div class="actionButtons">
+	        <h:commandButton id="save" 
+	                      value="Save" 
+	                      action="#{dashboardQueryHome.persist}"
+	                    disabled="#{!dashboardQueryHome.wired}"
+	                    rendered="#{!dashboardQueryHome.managed}"/>  
+	                                    
+	        <h:commandButton id="update" 
+	                      value="Update" 
+	                     action="#{dashboardQueryHome.update}"
+	                   rendered="#{dashboardQueryHome.managed}"/>
+	                                  
+	        <h:commandButton id="delete" 
+	                      value="Delete" 
+	                     action="#{dashboardQueryHome.remove}"
+	                   rendered="#{dashboardQueryHome.managed}"/>
+          
+          <h:commandButton id="validate" 
+                        value="Validate" 
+                       action="#{dashboardQueryHome.validate}"/>	                   
+	        
+	        <s:button id="done" 
+	               value="Done"
+	         propagation="end"
+	                view="/DashboardQuery.xhtml"
+	            rendered="#{dashboardQueryHome.managed}"/>
+	                  
+	        <s:button id="cancel" 
+	               value="Cancel"
+	         propagation="end"
+	                view="/#{empty dashboardQueryFrom ? 'DashboardQueryList' : dashboardQueryFrom}.xhtml"
+	            rendered="#{!dashboardQueryHome.managed}"/>
+	      </div>
+      </rich:panel>
+    </h:form>
+  </ui:define>
+</ui:composition>

@@ -1,0 +1,114 @@
+<html>
+<head><title>JBoss jBPM Suite</title>
+<link rel="stylesheet" type="text/css" href="../jbpm-designer/css/jbpm.css" />
+</head>
+
+<!-- HEADER -->
+<body>
+<table border="0" cellpadding="0" cellspacing="0">
+  <tr>
+    <!-- next line must be put one (1!) line to overcome an IE-layouting bug -->
+    <td><a href="http://www.jboss.com/"><img src="../jbpm-designer/images/logo_green.gif" alt="JBoss Inc." border="0" /></a></td>
+    <td width="100%" valign="top">
+      <table width="100%" border="0" cellpadding="0" cellspacing="0">
+        <tr>
+          <td width="100%" height="22" bgcolor="#9BCD4B" align="center" nowrap="nowrap">
+          </td>
+        </tr>
+        <tr>
+          <td width="100%" align="right" valign="middle" nowrap="nowrap">
+            <a class="ref" href="http://jbpm.org/docs">Docs</a> &nbsp;&nbsp;
+            <a class="ref" href="http://jbpm.org/forums">Forums</a> &nbsp;&nbsp;
+            <a class="ref" href="http://jbpm.org/wiki">Wiki</a> &nbsp;&nbsp;
+            <a class="ref" href="http://jbpm.org/downloads">Download</a> &nbsp;&nbsp;
+            <a class="ref" href="http://jbpm.org/contact">Contact</a> &nbsp;&nbsp; &nbsp;&nbsp;
+          </td>
+        </tr>
+        <tr>
+          <td width="100%" valign="top" nowrap="nowrap">
+            <hr style="margin:0px; padding;0px;" size="1" width="100%" />
+            <h2 style="padding:0px; margin:0px; border:0px;" >
+            JBoss jBPM Server
+            </h2>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+  <tr> 
+    <td width="100%" height="100%" colspan="2" valign="top">
+      <table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0" >
+        <tr>
+          <td valign="top">
+            <table width="100%" height="100%" border="0" cellpadding="0" cellspacing="0" >
+              <tr>
+                <td width="217" valign="top"><img src="../jbpm-designer/images/hdr_green_side.gif" alt="green side" /></td>
+              </tr>
+              <tr>
+                <!-- next line must be put one (1!) line to overcome an IE-layouting bug -->
+                <td width="175"><a class="nav" onmouseover="this.style.backgroundColor='#cccccc'; this.style.color='#000000';" onmouseout="this.style.backgroundColor='#5c5c4f'; this.style.color='#ffffff';" href="http://jbpm.org">jBPM.org</a><a class="nav" onmouseover="this.style.backgroundColor='#cccccc'; this.style.color='#000000';" onmouseout="this.style.backgroundColor='#5c5c4f'; this.style.color='#ffffff';" href="http://jboss.org">JBoss.org</a></td>
+              </tr>
+              <tr>
+                <td width="217" valign="top"><img style="margin-top:1px;" src="../jbpm-designer/images/side_nav_green_btm.gif" alt="green side" /></td>
+              </tr>
+              <tr>
+                <td height="100%">
+                  &nbsp;
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <img src="../jbpm-designer/images/swoosh_green.gif" alt="swoosh" />
+                </td>
+              </tr>
+            </table>
+          </td>
+
+          <td height="100%" width="100%" valign="top">
+
+<!-- CONTENT -->
+
+<p>This is a pre-configured jBoss <b>4.2.2</b> installation that contains the bundled jBPM suite.
+</p>
+
+<h2>Deployed components</h2>
+<ul>
+  <li><b>The jBPM service archive</b>: The deploy directory contains a 
+  service archive that creates a JbpmSessionFactory at startup of the server 
+  and puts it in JNDI.  To make use of this JbpmSessionFactory, you have to 
+  specify the property <code>jbpm.session.factory.jndi.name=java:/jbpm/JbpmSessionFactory</code>
+  in your jBPM configuration (e.g. in the jbpm.properties in your WEB-INF/classes in your 
+  web application).</li>
+  <li><b>The jBPM database</b>: The server includes a hypersonic database that is pre-configured.  
+  with the jBPM database tables.  Also an example process is already present in the database. The 
+  database can be accessed via a TCP connection to port 1701 with the hsqldb driver.</li>
+  <li><b>The jBPM web console application</b>: The jBPM web console application is a simple 
+  web application that allows access to the jBPM database.  Currently the functionality of 
+  the web application is still limited, but a lot of focus is going to go to the web application 
+  in the near future for making it easier to manage, maintain and monitor your 
+   business processes.</li>
+   <li><b>The BAM console application</b>: The BAM (Business Activity Monitoring) application 
+   is a web application that sits on top of jBPM and provides real-time activity monitoring along 
+   with the integration of reporting tools that can generate reports based on the jBPM logs.
+   This web application is the next layer that will integrate the jBPM console and expand its 
+   functionality to provide to provide a fully integrated business suite. 
+   </li>
+</ul>
+
+<h2>Other customizations</h2>
+<p>To reduce the download to the minimal size , the default and all server configurations have been 
+removed.  Only the jbpm configuration is available. (start with <code>run.bat -c jbpm</code>).
+</p>
+<p>For improving startup time, some of the default services have been removed.
+</p>
+
+<!-- FOOTER -->
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+</body>
+
+</html>

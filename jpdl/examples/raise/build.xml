@@ -1,0 +1,8 @@
+<project name="jbpm.jpdl.example.raise" basedir="." default="package">
+
+  <property name="jpdl.file.name" value="raise.jpdl" />
+
+  <!-- import base project build file -->
+  <import file="../example.base.build.xml"/>
+
+</project>

@@ -1,0 +1,27 @@
+<project name="jbpm.jboss.configuration.4.0.4.GA" basedir="." default="package">
+
+  <!-- project specific properties -->
+  <property name="jbpm.root" value="../../.." />
+
+  <!-- properties files -->
+  <property file="${user.home}/jbpm/build.properties" />
+  <property file="${jbpm.root}/build/profiles/${profile}.profile.properties" />
+  <property file="${jbpm.root}/build/build.properties" />
+
+  <!-- import base project build file -->
+  <import file="${jbpm.root}/build/base.project.build.xml" />
+  
+  <target name="package" depends="jpdl.examplesdb">
+    <mkdir dir="target/configuration/data/hypersonic" />
+    <copy todir="target/configuration">
+      <fileset dir="src/main/resources" />
+    </copy>
+    <replace token="--jbpm-version--" value="${lib.jbpm.jpdl.version}" file="target/configuration/data/applied.jbpm.configurations.txt" />
+    <replace token="--jboss-version--" value="${jboss.version}" file="target/configuration/data/applied.jbpm.configurations.txt" />
+    <unzip src="${lib.jbpm.jpdl.examplesdb.local}"  dest="target/configuration/data/hypersonic" />
+    <zip destfile="target/${lib.jbpm.jboss.file}">
+      <fileset dir="target/configuration" />
+    </zip>
+  </target>
+
+</project>

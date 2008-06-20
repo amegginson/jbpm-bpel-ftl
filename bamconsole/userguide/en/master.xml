@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.3CR3//EN"
+"../dtd/docbookx.dtd" [
+<!ENTITY introduction SYSTEM "modules/introduction.xml">
+<!ENTITY architecture SYSTEM "modules/architecture.xml">
+<!ENTITY dashboard_queries SYSTEM "modules/dashboard_queries.xml">
+<!ENTITY reports SYSTEM "modules/reports.xml">
+<!ENTITY conclusion SYSTEM "modules/conclusion.xml">
+]>
+
+<book lang="en">
+	<bookinfo>
+		<title>JBoss BAM</title>
+		<subtitle>User Guide</subtitle>
+	</bookinfo>
+	<toc></toc>
+	&introduction;
+	&architecture;
+	&dashboard_queries;
+	&reports;
+	&conclusion;
+</book>

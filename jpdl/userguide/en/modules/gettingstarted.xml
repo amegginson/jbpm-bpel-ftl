@@ -1,0 +1,132 @@
+<chapter id="gettingstarted">
+
+  <title>Getting started</title>
+  <para>This chapter takes you through the first steps of getting JBoss jBPM and 
+  provides the initial pointers to get up and running in no time.</para>
+  
+  <section id="downloadablesoverview">  
+    <title>Downloadables Overview</title>    
+    <para>Listed below are the different jBPM packages that are available today. 
+	Each of these packages contains one or more downloadable files. Along with each of 
+	these files goes a description of its contents and a pointer to any relevant 
+	installation instructions if they are available.    </para>
+    <para>All downloads described below can be found on 
+    <ulink url="http://sourceforge.net/project/showfiles.php?group_id=70542">the 
+    sourceforge jbpm downloads page</ulink>.</para>
+
+    <section id="jpdl3">
+      <title>jPDL 3</title>
+
+      <para><ulink url="http://sourceforge.net/project/showfiles.php?group_id=70542&amp;package_id=145174">
+      Download jBPM jPDL 3 at sourceforge.net</ulink>.  This is the main distribution package containing the 
+      core engine and a number of additional modules that you may need to work with jPDL. 
+      </para>
+      
+      <itemizedlist>
+        <listitem>
+          <para id="jbpm-jpdl-suite.zip"><emphasis role="bold">The jPDL Suite (jbpm-jpdl-suite.zip):</emphasis> 
+          The jPDL Suite is an extended runtime that includes the designer and the server.  All of 
+          these components are preconfigured to interoperate out-of-the-box.
+          If you want to get started with jBPM quickly, this is the file you want to download.
+          It contains all the other modules of this package plus the graphical designer in one single 
+          download. Extract the zipped archive into a folder of your choice and read the file named 'readme.html'
+          for more info and further installation instructions. With this starters kit you can 
+          immediately get started with the <xref linkend="tutorial" />.
+		  </para>
+        </listitem>
+        <listitem>
+          <para id="jbpm-jpdl.zip"><emphasis role="bold">The jPDL Runtime Engine (jbpm-jpdl.zip):</emphasis>
+          The download contains the jBPM core library, documentation and dependent libraries, as well as the
+          identity component for actor and group management. To start working with it, extract the archive 
+          into a folder of your choice. You will find pointers to the User's Guide and other important
+          information resources in the 'readme.html' file in the 'jbpm-&lt;version&gt;' folder.
+		  </para>
+        </listitem>
+      </itemizedlist>
+    </section>
+    
+    <section id="packagejpdlprocessdesigner">    
+      <title>jPDL Process Designer</title>     
+
+      <para><ulink url="http://sourceforge.net/project/showfiles.php?group_id=70542&amp;package_id=116692">
+      The jPDL Suite package contains the jPDL process designer.  You typically will download it in that 
+      package. But you can also download JBoss jBPM Process Designer separate at sourceforge.net</ulink>.  The 
+      designer is an eclipse plugin and enables you to author your process definitions and to easily deploy them.
+      The plug-in is available for download either as a zipped Eclipse feature or as a zipped Eclipse update site. 
+      There is no difference in content, the only difference is in the way you have to do the installation.</para>
+
+      <itemizedlist>
+        <listitem>
+          <para id="jbpm-gpd-site-version.zip"><emphasis role="bold">Eclipse Update Site (jbpm-gpd-site-&lt;version&gt;.zip):</emphasis>
+          If you want to be absolutely sure that the designer installation goes smoothly, we recommend to use
+          the update site mechanism together with a new Eclipse installation. Of cource the Eclipse version 
+          should match the downloaded update site archive. To get started with the designer plugin, follow the instructions
+          in the 'readme.html' file included in the archives root folder to succesfully install the GPD.
+		  </para>
+        </listitem>
+        <listitem>
+          <para id="jbpm-gpd-feature-version.zip"><emphasis role="bold">Eclipse Feature (jbpm-gpd-feature-&lt;version&gt;.zip):</emphasis>
+          If you are tired of each time having to do a fresh Eclipse installation and you are willing to
+          cope with some possible issues, you can try the feature download. In this case installation is as
+          easy as extracting the archive into your Eclipse installation (make sure the included 'plugins' 
+          and 'features' folders end up in the same location of your Eclipse installation) overwriting the
+          files and folders with the same name that are possibly already present. This installation is 
+          very easy, but you could run into incompatibility issues when you overwrite plugins already present
+          in your installation because of other features that you did install. Though they have the same name
+          it could happen that the versions of these colliding plugins are not equal, hence the possible
+          incompatibilities. The installation instructions are repeated in the 'readme.html' file.
+		  </para>
+        </listitem>
+      </itemizedlist>
+    </section>
+  </section>
+  
+  <section>
+    <title>The JBoss jBPM project directory</title>
+    <itemizedlist>
+      <listitem><emphasis role="bold"><ulink url="mailto:sales@jboss.com?subject=jBPM professional support">professional support</ulink></emphasis>: JBoss is the company that backs this project with professional support, training and consultancy services.</listitem>
+      <listitem><emphasis role="bold">user guide</emphasis>: is the document you're reading and serves as the main entry point into the project.</listitem>
+      <listitem><emphasis role="bold"><ulink url="http://sourceforge.net/forum/?group_id=70542">forums</ulink></emphasis>: get in contact with the community, ask questions and discuss jBPM</listitem>
+      <listitem><emphasis role="bold"><ulink url="http://www.jboss.org/wiki/Wiki.jsp?page=JbpmWiki">wiki</ulink></emphasis>: extra information, mostly provided by the community</listitem>
+      <listitem><emphasis role="bold"><ulink url="http://jira.jboss.com/jira/secure/BrowseProject.jspa?id=10052">issue tracker</ulink></emphasis>: for submitting bugs and feature requests</listitem>
+      <listitem><emphasis role="bold"><ulink url="http://sourceforge.net/project/showfiles.php?group_id=70542">downloads</ulink></emphasis>: sourceforge download page for jBPM</listitem>
+      <listitem><emphasis role="bold"><ulink url="http://sourceforge.net/mail/?group_id=70542">mailing lists</ulink></emphasis>: mailing lists are used for announcements</listitem>
+      <listitem><emphasis role="bold">javadocs</emphasis>: part of the download in the doc/javadoc directory.</listitem>
+    </itemizedlist>
+  </section>
+  
+  <section id="cvsaccess">
+    <title>Source code CVS access</title>
+    
+    <section id="anonymouscvsaccess">
+      <title>Anonymous CVS access</title>
+      <para>Alternatively, you can get JBoss jBPM from cvs with the following 
+      information:</para>
+      <itemizedlist>
+        <listitem>Connection type: pserver</listitem>
+        <listitem>User: anonymous </listitem>
+        <listitem>Host: anoncvs.forge.jboss.com</listitem>
+        <listitem>Port: 2401 (which is the default)</listitem>
+        <listitem>Repository path: /cvsroot/jbpm</listitem>
+        <listitem>Label: :pserver:anonymous@anoncvs.forge.jboss.com:/cvsroot/jbpm</listitem>
+      </itemizedlist>
+    </section>
+    
+    <section id="developercvsaccess">
+      <title>Developer CVS access</title>
+      <para>To get cvs developer access, you must sign contributors agreement and 
+      you need an ssh key.  More information on both can be found on 
+      <ulink url="http://www.jboss.org/wiki/Wiki.jsp?page=CVSRepository">the JBoss cvs
+      repository wiki page</ulink></para>
+      <itemizedlist>
+        <listitem>Connection type: ext over ssh (extssh in eclipse)</listitem>
+        <listitem>User: sf.net username or jboss username </listitem>
+        <listitem>Host: cvs.forge.jboss.com</listitem>
+        <listitem>Port: 2401 (which is the default)</listitem>
+        <listitem>Repository path: /cvsroot/jbpm</listitem>
+        <listitem>Label: :pserver:anonymous@cvs.forge.jboss.com:/cvsroot/jbpm</listitem>
+      </itemizedlist>
+    </section>
+  </section>
+  
+</chapter>

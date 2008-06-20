@@ -1,0 +1,310 @@
+<project name="jbpm.designer.jpdl" basedir="." default="build">
+
+  <!-- version properties -->
+  <property file="${basedir}/../version.properties" />	
+  
+  <!-- project specific properties -->
+  <property name="module.name" value="designer.jpdl" />
+  <property name="build.dir" value="target"/>
+  <property name="projects.dir" value="${build.dir}/projects"/>
+  <property name="workspace.dir" value="${build.dir}/workspace"/>
+<!--  <property name="checkout.gpd.separately" value="true"/> -->
+
+  <!-- property files -->	
+  <property file="${user.home}/jbpm/build.properties" />          <!-- use this file to override any of the following properties -->
+  <property file="${basedir}/../../../build/build.properties" />  <!-- if the build is running within the main jbpm build -->
+
+  <property name="lib.jbpm.designer.version" value="3.2.0.alpha1" />
+  <property name="jbpm.gpd.version.tag" value="HEAD" />  
+  <property file="build.properties" />
+	
+  <!-- general properties if not yet set by previously included files -->
+  <property name="jbpm.cvs.root" value=":pserver:anonymous:@anoncvs.forge.jboss.com:/cvsroot/jbpm"/>	
+  <property name="eclipse.home" value="${user.home}/Software/eclipse" />
+  <property name="local.repository" value="${user.home}/jbpm/repository" />
+  <property name="remote.repository" value="http://repository.jboss.com" />
+  <property file="dependencies.properties" />					
+	
+  <condition property="eclipse.uptodate">
+  	<and>
+   	  <available file="${eclipse.home}/${lib.eclipse.sdk.filename}.txt"/>
+   	  <available file="${eclipse.home}/${lib.eclipse.emf.filename}.txt"/>
+   	  <available file="${eclipse.home}/${lib.eclipse.gef.filename}.txt"/>
+   	  <available file="${eclipse.home}/${lib.eclipse.wtp.filename}.txt"/>
+   	  <available file="${eclipse.home}/${lib.eclipse.dtp.filename}.txt"/>
+  	  <available file="${eclipse.home}/plugins/org.eclipse.equinox.launcher.jar"/>
+  	</and>
+  </condition>
+	
+  <available file="lib.ant.contrib.local" property="ant.contrib.locally.available"/>
+	
+  <condition property="eclipse.locally.available">
+  	<and>
+  	  <available file="${lib.eclipse.emf.local}"/>
+  	  <available file="${lib.eclipse.gef.local}"/>
+  	  <available file="${lib.eclipse.sdk.local}"/>
+  	  <available file="${lib.eclipse.dtp.local}"/>
+  	  <available file="${lib.eclipse.wtp.local}"/>
+  	</and>
+  </condition>
+	
+  <tstamp>
+    <format property="now" pattern="dd-MMM-yyyy HH:mm" locale="en"/>
+  </tstamp>
+
+  <target name="clean">
+    <delete dir="${build.dir}" />
+  </target> 
+
+  <target name="build" depends="get.projects">
+	<antcall target="install.eclipse" />
+	<antcall target="prepare.workspace" />
+	<antcall target="run-eclipse-plugin-builder" />
+	<antcall target="build-feature" />
+	<!--    <antcall target="build-site" /> -->
+  </target> 
+		
+  <target name="all" depends="build" description="main distribution target">
+  	<antcall target="publish.in.local.repository" /> 
+  </target> 
+		
+  <target name="publish.in.local.repository">
+    <mkdir dir="${local.repository}/jbpm/designer/jpdl/${buildId}" />
+	<copy file="${build.dir}/jbpm-jpdl-designer.zip" todir="${local.repository}/jbpm/designer/jpdl/${buildId}" />
+	<copy file="${build.dir}/jbpm-jpdl-designer-nodeps.zip" todir="${local.repository}/jbpm/designer/jpdl/${buildId}" />
+<!--	<copy file="${build.dir}/jbpm-jpdl-designer-site.zip" todir="${local.repository}/jbpm/designer/jpdl/${buildId}" /> -->
+  </target>
+	
+  <target name="install.eclipse" unless="eclipse.uptodate">
+  	<antcall target="get.eclipse"/>
+  	<delete dir="${eclipse.home}" />
+  	<mkdir dir="${eclipse.home}" />
+  	<touch file="${eclipse.home}/${lib.eclipse.sdk.filename}.txt" />
+  	<touch file="${eclipse.home}/${lib.eclipse.gef.filename}.txt" />
+	<touch file="${eclipse.home}/${lib.eclipse.emf.filename}.txt" />
+  	<touch file="${eclipse.home}/${lib.eclipse.wtp.filename}.txt" />
+  	<touch file="${eclipse.home}/${lib.eclipse.dtp.filename}.txt" />
+  	<unzip src="${lib.eclipse.sdk.local}" dest="${eclipse.home}/.." />
+    <unzip src="${lib.eclipse.wtp.local}" dest="${eclipse.home}/.." />
+    <unzip src="${lib.eclipse.gef.local}" dest="${eclipse.home}/.." />
+    <unzip src="${lib.eclipse.emf.local}" dest="${eclipse.home}/.." />
+    <unzip src="${lib.eclipse.dtp.local}" dest="${eclipse.home}/.." /> 
+ 	<copy tofile="${eclipse.home}/plugins/org.eclipse.equinox.launcher.jar">
+ 	  <fileset dir="${eclipse.home}/plugins"
+ 	    includes="**/org.eclipse.equinox.launcher_*.jar"/>
+ 	</copy>
+  </target>
+	
+  <target name="get.eclipse" unless="eclipse.locally.available">
+    <mkdir dir="${local.repository}/${lib.eclipse.emf.dir}" />
+    <get src="${lib.eclipse.emf.remote}" dest="${lib.eclipse.emf.local}" usetimestamp="true" ignoreerrors="true" />
+    <get src="${remote.license.dir}/${lib.eclipse.emf.license}.txt" dest="${lib.eclipse.emf.local}.license.txt" usetimestamp="true" ignoreerrors="true" />
+    <mkdir dir="${local.repository}/${lib.eclipse.gef.dir}" />
+    <get src="${lib.eclipse.gef.remote}" dest="${lib.eclipse.gef.local}" usetimestamp="true" ignoreerrors="true" />
+    <get src="${remote.license.dir}/${lib.eclipse.gef.license}.txt" dest="${lib.eclipse.gef.local}.license.txt" usetimestamp="true" ignoreerrors="true" />
+    <mkdir dir="${local.repository}/${lib.eclipse.dtp.dir}" />
+    <get src="${lib.eclipse.dtp.remote}" dest="${lib.eclipse.dtp.local}" usetimestamp="true" ignoreerrors="true" />
+    <get src="${remote.license.dir}/${lib.eclipse.dtp.license}.txt" dest="${lib.eclipse.dtp.local}.license.txt" usetimestamp="true" ignoreerrors="true" />
+    <mkdir dir="${local.repository}/${lib.eclipse.sdk.dir}" />
+    <get src="${lib.eclipse.sdk.remote}" dest="${lib.eclipse.sdk.local}" usetimestamp="true" ignoreerrors="true" />
+    <get src="${remote.license.dir}/${lib.eclipse.sdk.license}.txt" dest="${lib.eclipse.sdk.local}.license.txt" usetimestamp="true" ignoreerrors="true" />
+    <mkdir dir="${local.repository}/${lib.eclipse.wtp.dir}" />
+    <get src="${lib.eclipse.wtp.remote}" dest="${lib.eclipse.wtp.local}" usetimestamp="true" ignoreerrors="true" />
+    <get src="${remote.license.dir}/${lib.eclipse.wtp.license}.txt" dest="${lib.eclipse.wtp.local}.license.txt" usetimestamp="true" ignoreerrors="true" />
+  </target>
+  
+  <target name="check.project.dirs" unless="checkout.gpd.separately">
+  	  <echo message="checking file availability"/>
+  	  <available file="${basedir}/../org.jbpm.gd.jpdl.site" property="site.dir" value="${basedir}/../org.jbpm.gd.jpdl.site" />
+  	  <available file="${basedir}/../org.jbpm.gd.jpdl.feature" property="feature.dir" value="${basedir}/../org.jbpm.gd.jpdl.feature" />
+	  <available file="${basedir}/../org.jbpm.gd.jpdl" property="main.dir" value="${basedir}/../org.jbpm.gd.jpdl" />
+  </target> 
+	
+  <target name="get.projects" depends="get.site,get.feature,get.main" />
+	
+  <target name="get.site" depends="check.project.dirs" unless="site.dir">
+  	<property name="site.dir" value="${basedir}/${projects.dir}/org.jbpm.gd.jpdl.site" />
+  	<property name="site.module" value="jbpm.3/designer/jpdl/org.jbpm.gd.jpdl.site"/>
+  	<mkdir dir="${site.dir}" />
+  	<cvs cvsRoot="${jbpm.cvs.root}"
+  		 dest="${build.dir}"
+  		 tag="${jbpm.gpd.version.tag}"
+  		 package="${site.module}"
+  	     quiet="${quiet}" />
+  	<copy todir="${site.dir}">
+  	  <fileset dir="${build.dir}/${site.module}"/>
+    </copy>
+  </target>
+	
+  <target name="get.feature" depends="check.project.dirs" unless="feature.dir">
+  	<property name="feature.dir" value="${basedir}/${projects.dir}/org.jbpm.gd.jpdl.feature" />
+  	<property name="feature.module" value="jbpm.3/designer/jpdl/org.jbpm.gd.jpdl.feature" />
+  	<mkdir dir="${feature.dir}" />
+  	<cvs cvsRoot="${jbpm.cvs.root}"
+  		 dest="${build.dir}"
+  		 tag="${jbpm.gpd.version.tag}"
+  		 package="${feature.module}"
+  	     quiet="${quiet}" />
+  	<copy todir="${feature.dir}">
+  	  <fileset dir="${build.dir}/${feature.module}"/>
+    </copy>
+  </target>
+	
+  <target name="get.main" depends="check.project.dirs" unless="main.dir">
+  	<property name="main.dir" value="${basedir}/${projects.dir}/org.jbpm.gd.jpdl" />
+  	<property name="main.module" value="jbpm.3/designer/jpdl/org.jbpm.gd.jpdl" />
+  	<mkdir dir="${main.dir}"/>
+  	<cvs cvsRoot="${jbpm.cvs.root}"
+  		 dest="${build.dir}"
+  		 tag="${jbpm.gpd.version.tag}"
+  		 package="${main.module}"
+  	     quiet="${quiet}" />
+  	<copy todir="${main.dir}">
+  	  <fileset dir="${build.dir}/${main.module}"/>
+    </copy>
+  </target>
+			
+  <target name="prepare.workspace">
+  	<mkdir dir="${workspace.dir}/features" />
+  	<mkdir dir="${workspace.dir}/plugins" />
+  	<copy todir="${workspace.dir}/features/org.jbpm.gd.jpdl.feature" >
+      <fileset dir="${feature.dir}" />
+  	</copy>
+  	<copy todir="${workspace.dir}/plugins/org.jbpm.gd.jpdl">
+      <fileset dir="${main.dir}" />
+  	</copy>
+  </target>
+
+  <target name="run-eclipse-plugin-builder" description="launch the f**** atomic black box eclipse plugins build">
+    <java 
+      classname="org.eclipse.equinox.launcher.Main"
+      classpath="${eclipse.home}/plugins/org.eclipse.equinox.launcher.jar" 
+      fork="true"> 
+      <arg line="-application org.eclipse.ant.core.antRunner" />
+      <arg line="-data ${basedir}/${workspace.dir}"/>
+      <arg line="-f mainTargets.xml"/>
+      <arg line="-Djbpm.cvs.root=${jbpm.cvs.root}" /> 
+      <arg line="-DbuildDirectory=${basedir}/${workspace.dir}" />
+      <arg line="-Ddocs.dir=${docs.dir}" />
+      <arg line="-Declipse.dir=${eclipse.home}" />
+      <arg line="-Dlib.jbpm.designer.version=${lib.jbpm.designer.version}" />	
+      <arg line="-Djbpm.gpd.version.tag=${jbpm.gpd.version.tag}" /> 
+      <arg line="-Djbpm.version=${jbpm.version}" />
+      <arg line="-Dlocal.repository='${local.repository}'" />
+      <arg line="-DskipFetch=true" />
+    </java>
+  </target>
+	
+  <target name="create.manifest">
+    <mkdir dir="${build.dir}/manifest" />
+    <manifest file="${build.dir}/manifest/MANIFEST.MF">
+      <attribute name="Implementation-Title" value="JPDL Graphical Process Designer"/>
+      <attribute name="Implementation-Version" value="${buildId} (date:${now})"/>
+      <attribute name="Implementation-URL" value="http://www.jboss.org/"/>
+      <attribute name="Implementation-Vendor" value="JBoss Inc."/>
+      <attribute name="Implementation-Vendor-Id" value="http://www.jboss.org/"/>
+      <section name="Eclipse Drivers">
+      	<attribute name="SDK" value="${lib.eclipse.sdk.version}"/>
+      	<attribute name="EMF" value="${lib.eclipse.emf.version}"/>
+      	<attribute name="GEF" value="${lib.eclipse.gef.version}"/>
+      	<attribute name="DTP" value="${lib.eclipse.dtp.version}"/>
+      	<attribute name="WTP" value="${lib.eclipse.wtp.version}"/>
+      </section>
+    </manifest>
+  </target>
+
+  <target name="build-feature" depends="create.manifest" description="fetch the feature archive from the place where the atomic eclipse plugin build has hidden it">  	
+	<mkdir dir="${build.dir}/temp" />
+  	<get src="http://repository.jboss.com/licenses/JBossORG-EULA.txt" dest="${build.dir}/temp/jboss.eula.txt" ignoreerrors="true" />
+	<copy file="${basedir}/${workspace.dir}/features/org.jbpm.gd.jpdl.feature/readme.html" todir="${build.dir}/temp"/>
+  	<copy file="${basedir}/release.notes.html" todir="${build.dir}/temp" />
+	<copy file="${workspace.dir}/${buildLabel}/org.jbpm.gd.jpdl.feature-${buildId}.zip" tofile="${build.dir}/jbpm-jpdl-designer-nodeps.zip" />
+  	<jar destfile="${build.dir}/jbpm-jpdl-designer-nodeps.zip" update="true" manifest="${build.dir}/manifest/MANIFEST.MF" />
+	<zip destfile="${build.dir}/jbpm-jpdl-designer-nodeps.zip" basedir="${build.dir}/temp" update="yes"/> 
+	<copy file="${build.dir}/jbpm-jpdl-designer-nodeps.zip" tofile="${build.dir}/jbpm-jpdl-designer.zip" />
+	<copy todir="${build.dir}/temp/eclipse/plugins">
+		<fileset dir="${eclipse.home}/plugins">
+			<include name="org.apache.xerces_*/**/*" />
+			<include name="org.apache.xerces_*.jar" />
+			<include name="org.apache.xml.resolver_*/**/*" />
+			<include name="org.apache.xml.resolver_*.jar" />
+			<include name="org.eclipse.draw2d_*/**/*" />
+			<include name="org.eclipse.draw2d_*.jar" />
+			<include name="org.eclipse.emf.common_*/**/*" />
+			<include name="org.eclipse.emf.common_*.jar" />
+			<include name="org.eclipse.emf.ecore_*/**/*" />
+			<include name="org.eclipse.emf.ecore_*.jar" />
+			<include name="org.eclipse.emf.ecore.change_*/**/*" />
+			<include name="org.eclipse.emf.ecore.change_*.jar" />
+			<include name="org.eclipse.emf.ecore.edit_*/**/*" />
+			<include name="org.eclipse.emf.ecore.edit_*.jar" />
+			<include name="org.eclipse.emf.ecore.xmi_*/**/*" />
+			<include name="org.eclipse.emf.ecore.xmi_*.jar" />
+			<include name="org.eclipse.emf.edit_*/**/*" />
+			<include name="org.eclipse.emf.edit_*.jar" />
+			<include name="org.eclipse.gef_*/**/*" />
+			<include name="org.eclipse.gef_*.jar" />
+			<include name="org.eclipse.jem.util_*/**/*" />
+			<include name="org.eclipse.jem.util_*.jar" />
+			<include name="org.eclipse.wst.common.core_*/**/*" />
+			<include name="org.eclipse.wst.common.core_*.jar" />
+			<include name="org.eclipse.wst.common.emf_*/**/*" />
+			<include name="org.eclipse.wst.common.emf_*.jar" />
+			<include name="org.eclipse.wst.common.emfworkbench.integration_*/**/*" />
+			<include name="org.eclipse.wst.common.emfworkbench.integration_*.jar" />
+			<include name="org.eclipse.wst.common.environment_*/**/*" />
+			<include name="org.eclipse.wst.common.environment_*.jar" />
+			<include name="org.eclipse.wst.common.frameworks_*/**/*" />
+			<include name="org.eclipse.wst.common.frameworks_*.jar" />
+			<include name="org.eclipse.wst.common.project.facet.core_*/**/*" />
+			<include name="org.eclipse.wst.common.project.facet.core_*.jar" />
+			<include name="org.eclipse.wst.common.ui_*/**/*" />
+			<include name="org.eclipse.wst.common.ui_*.jar" />
+			<include name="org.eclipse.wst.common.uriresolver_*/**/*" />
+			<include name="org.eclipse.wst.common.uriresolver_*.jar" />
+			<include name="org.eclipse.wst.sse.core_*/**/*" />
+			<include name="org.eclipse.wst.sse.core_*.jar" />
+			<include name="org.eclipse.wst.sse.ui_*/**/*" />
+			<include name="org.eclipse.wst.sse.ui_*.jar" />
+			<include name="org.eclipse.wst.validation_*/**/*" />
+			<include name="org.eclipse.wst.validation_*.jar" />
+			<include name="org.eclipse.wst.xml.core_*/**/*" />
+			<include name="org.eclipse.wst.xml.core_*.jar" />
+			<include name="org.eclipse.wst.xml.ui_*/**/*" />			
+			<include name="org.eclipse.wst.xml.ui_*.jar" />			
+		</fileset>
+	</copy> 
+	<zip destfile="${build.dir}/jbpm-jpdl-designer.zip" basedir="${build.dir}/temp" update="yes"/> 
+  </target>
+	
+  <target name="get.ant.contrib" unless="ant.contrib.locally.available">
+    <mkdir dir="${local.repository}/${lib.ant.contrib.dir}" />
+    <get src="${lib.ant.contrib.remote}" dest="${lib.ant.contrib.local}" usetimestamp="true" ignoreerrors="true" />
+    <get src="${remote.license.dir}/${lib.ant.contrib.license}.txt" dest="${lib.ant.contrib.local}.license.txt" usetimestamp="true" ignoreerrors="true" />
+  </target>
+	
+  <target name="build-site" depends="create.manifest,get.ant.contrib" description="build a site from the feature">
+	<mkdir dir="${build.dir}/site" />
+	<copy todir="${build.dir}/site">
+      <fileset dir="${site.dir}" />
+  	</copy>
+	<unzip src="${build.dir}/jbpm-jpdl-designer.zip" dest="${build.dir}/feature" />
+	<taskdef classpath="${lib.ant.contrib.local}" resource="net/sf/antcontrib/antlib.xml"/>
+	<foreach target="zipPluginDir" param="jarName" inheritAll="true" >
+		<path>
+			<dirset dir="${build.dir}/feature/eclipse/plugins" includes="*" />
+			<dirset dir="${build.dir}/feature/eclipse/features" includes="*" />
+		</path>
+	</foreach>
+  	<move todir="${build.dir}/site">
+  	  <fileset dir="${build.dir}/feature/eclipse" includes="*/*.jar" />
+  	</move>
+	<jar manifest="${build.dir}/manifest/MANIFEST.MF" destfile="${build.dir}/jbpm-jpdl-designer-site.zip" basedir="${build.dir}/site" />
+  </target>
+  <target name="zipPluginDir">
+  	<!-- used by the build-site target in a foreach task -->
+    <zip destfile="${jarName}.jar" basedir="${jarName}" />
+  </target>
+
+
+</project>

@@ -1,0 +1,8 @@
+<project name="jbpm.jpdl.example.businesstrip" basedir="." default="package">
+
+  <property name="jpdl.file.name" value="businesstrip.jpdl" />
+
+  <!-- import base project build file -->
+  <import file="../example.base.build.xml"/>
+
+</project>

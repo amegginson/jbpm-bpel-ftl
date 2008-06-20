@@ -1,0 +1,75 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+                             "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:s="http://jboss.com/products/seam/taglib"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:a="http://richfaces.org/a4j"
+                xmlns:rich="http://richfaces.org/rich"
+                template="layout/template.xhtml">
+  
+	<ui:define name="body">
+	  <h:messages globalOnly="true" styleClass="message" id="globalMessages"/>
+    <h:form id="groupEdit" styleClass="edit">
+      <rich:panel>
+        <f:facet name="header">#{groupHome.managed ? 'Update' : 'Add'} Group Details</f:facet>
+        <s:decorate id="nameDecoration" template="layout/edit.xhtml">
+          <ui:define name="label">Name</ui:define>
+          <h:inputText id="name" 
+                 required="true"
+                     size="24"
+                    value="#{groupHome.name}">
+            <a:support event="onblur" reRender="nameDecoration" bypassUpdates="true"/>
+          </h:inputText>
+        </s:decorate>
+        
+        <s:decorate template="layout/display.xhtml">
+          <ui:define name="label">Type</ui:define>
+          <h:selectOneMenu id="type" value="#{groupHome.type}">
+            <f:selectItem itemLabel="Organisation" itemValue="organisation"/>
+            <f:selectItem itemLabel="Security-Role" itemValue="security-role"/>
+          </h:selectOneMenu>
+        </s:decorate>   
+        
+        <div class="actionButtons">
+          <h:commandButton id="save" 
+                        value="Save" 
+                        action="#{groupHome.persist}"
+                      rendered="#{not groupHome.managed}"/>  
+                                      
+          <h:commandButton id="update" 
+                        value="Update" 
+                       action="#{groupHome.update}"
+                     rendered="#{groupHome.managed}">
+          </h:commandButton>
+                                    
+          <h:commandButton id="delete" 
+                        value="Delete" 
+                       action="#{groupHome.remove}"
+                     rendered="#{groupHome.managed}"
+                     onclick="return confirmDelete();" />
+					            
+          <s:button id="done" 
+                 value="Done"
+           propagation="end"
+                  view="/Group.xhtml"
+              rendered="#{groupHome.managed}"/>
+                    
+          <s:button id="cancel" 
+                 value="Cancel"
+           propagation="end" 
+                  view="/#{empty groupFrom ? 'GroupsList' : groupFrom}.xhtml"
+              rendered="#{!groupHome.managed}"/>
+        </div>
+      </rich:panel> 
+      
+      <script type="text/javascript">
+	      function confirmDelete() {
+					return confirm("Are you sure you want to remove this group?");
+				}
+      </script>
+    </h:form>
+  </ui:define>
+</ui:composition>

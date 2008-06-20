@@ -1,0 +1,56 @@
+<project name="jbpm.jboss.configuration" basedir="." default="install">
+
+  <!-- project specific properties -->
+  <property name="jbpm.root" value="../.." />
+
+  <!-- properties files -->
+  <property file="${user.home}/jbpm/build.properties" />
+  <property file="${jbpm.root}/build/profiles/${profile}.profile.properties" />
+  <property file="${jbpm.root}/build/build.properties" />
+
+  <!-- import base project build file -->
+  <import file="${jbpm.root}/build/base.project.build.xml" />
+  
+  <target name="clean">
+    <delete dir="target" />
+    <available property="jbpm.server.config.available" file="${jboss.version}/build.xml" />
+    <antcall target="clean.jbpm.server.config" />
+  </target>
+
+  <target name="clean.jbpm.server.config" if="jbpm.server.config.available">
+    <ant antfile="${jboss.version}/build.xml" target="clean" inheritall="false" />
+  </target>
+
+  <target name="install" depends="package">
+    <mkdir dir="${local.repository}/${lib.jbpm.jboss.dir}" />
+    <copy file="${jboss.version}/target/${lib.jbpm.jboss.file}" todir="${local.repository}/${lib.jbpm.jboss.dir}" />
+  </target>
+
+  <target name="package" description="creates a jbpm configuration in the jboss installation in ${software.installation.dir}">
+    <ant antfile="${jboss.version}/build.xml" target="package" inheritall="false" />
+  </target>
+
+  <target name="create.jbpm.server.config" description="installs jboss and creates a jbpm configuration in that jboss installation"
+          depends="package, get.jboss.dependencies">
+    <unzip src="${local.repository}/jbossas/${lib.jboss.version}/lib/jboss.zip"  dest="${jboss.home}/.." />
+    <delete dir="${jboss.home}/server/jbpm" />
+    <copy todir="${jboss.home}/server/jbpm">
+      <fileset dir="${jboss.home}/server/default">
+        <exclude name="data/**" />
+        <exclude name="log/**" />
+        <exclude name="tmp/**" />
+        <exclude name="work/**" />
+      </fileset>
+    </copy>
+    <unzip src="${jboss.version}/target/jbpm-jboss-configuration.zip" dest="${jboss.home}/server/jbpm" />
+  </target>
+
+  <target name="enable.remote.debugging">
+    <replace file="${jboss.home}/bin/run.bat">
+      <replacetoken><![CDATA[rem set JAVA_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=y %JAVA_OPTS%]]></replacetoken>
+      <replacevalue><![CDATA[rem set JAVA_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=y %JAVA_OPTS%
+set JAVA_OPTS=-Xdebug -Xrunjdwp:transport=dt_socket,address=8787,server=y,suspend=n %JAVA_OPTS%]]></replacevalue>
+    </replace>
+  </target>
+
+</project>
