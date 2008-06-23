@@ -1,7 +1,7 @@
 <project name="jbpm.jpdl.jar" basedir="." default="install.jar">
 
   <!-- project specific properties -->
-  <property name="jbpm.root" value="../.." />
+  <property name="jbpm.root" value="../../.." />
 
   <!-- properties files -->
   <property file="${user.home}/jbpm/build.properties" />
@@ -29,7 +29,11 @@
   <target name="test.dependencies" depends="define.libs.classpath">
   	<mkdir dir="target/config" />
     <copy todir="target/config">
-      <fileset dir="src/main/config" />
+      <fileset dir="src/main/resources">
+      	<include name="hibernate.cfg.xml"/>
+      	<include name="jbpm.cfg.xml"/>
+    	<include name="jbpm.mail.templates.xml"/>
+      </fileset>
     </copy>
 	
     <!-- update the db configs and put the driver in the path if there is a db configuration specified
@@ -103,9 +107,13 @@
 
   <target name="package.config" depends="compile, create.manifest">
     <jar jarfile="target/${lib.jbpm.jpdl.config.file}" manifest="target/META-INF/MANIFEST.MF">
-      <fileset dir="src/main/config" />
+	  <fileset dir="src/main/resources">
+	    <include name="hibernate.cfg.xml"/>
+	    <include name="jbpm.cfg.xml"/>
+	    <include name="jbpm.mail.templates.xml"/>
+      </fileset>
       <fileset dir="src/test/resources">
-        <include name="log4j.properties" />
+        <include name="log4j.xml" />
       </fileset>
     </jar>
   </target>

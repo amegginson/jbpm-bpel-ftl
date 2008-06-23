@@ -321,7 +321,11 @@
     <target name="create.customized.config.files">
       <mkdir dir="target/config.files" />
       <copy todir="target/config.files">
-        <fileset dir="../jpdl/jar/src/main/config" />
+        <fileset dir="../modules/jpdl/core/src/main/resources">
+          <include name="hibernate.cfg.xml"/>
+          <include name="jbpm.cfg.xml"/>
+      	  <include name="jbpm.mail.templates.xml"/>
+        </fileset>
       </copy>
 
       <!-- comment the JDBC connection properties -->

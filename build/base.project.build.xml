@@ -496,7 +496,7 @@
 	</target>
 
 	<target name="jpdl.jar.build.from.source" if="build.jpdl.from.source">
-		<ant antfile="${jbpm.root}/jpdl/jar/build.xml" target="install.jar" inheritall="false" />
+		<ant antfile="${jbpm.root}/modules/jpdl/core/build.xml" target="install.jar" inheritall="false" />
 	</target>
 
 	<target name="jpdl.jar.fetch.from.repo" unless="build.jpdl.from.source">
@@ -510,7 +510,7 @@
 	</target>
 
 	<target name="jpdl.config.build.from.source" if="build.jpdl.from.source">
-		<ant antfile="${jbpm.root}/jpdl/jar/build.xml" target="install.config" inheritall="false" />
+		<ant antfile="${jbpm.root}/modules/jpdl/core/build.xml" target="install.config" inheritall="false" />
 	</target>
 
 	<target name="jpdl.config.fetch.from.repo" unless="build.jpdl.from.source">
@@ -524,7 +524,7 @@
 	</target>
 
 	<target name="jpdl.src.build.from.source" if="build.jpdl.from.source">
-		<ant antfile="${jbpm.root}/jpdl/jar/build.xml" target="install.src" inheritall="false" />
+		<ant antfile="${jbpm.root}/modules/jpdl/core/build.xml" target="install.src" inheritall="false" />
 	</target>
 
 	<target name="jpdl.src.fetch.from.repo" unless="build.jpdl.from.source">
@@ -538,7 +538,7 @@
 	</target>
 
 	<target name="jpdl.test.build.from.source" if="build.jpdl.from.source">
-		<ant antfile="${jbpm.root}/jpdl/jar/build.xml" target="install.test" inheritall="false" />
+		<ant antfile="${jbpm.root}/modules/jpdl/core/build.xml" target="install.test" inheritall="false" />
 	</target>
 
 	<target name="jpdl.test.fetch.from.repo" unless="build.jpdl.from.source">
@@ -552,7 +552,7 @@
 	</target>
 
 	<target name="jpdl.javadoc.build.from.source" if="build.jpdl.from.source">
-		<ant antfile="${jbpm.root}/jpdl/jar/build.xml" target="install.javadoc" inheritall="false" />
+		<ant antfile="${jbpm.root}/modules/jpdl/core/build.xml" target="install.javadoc" inheritall="false" />
 	</target>
 
 	<target name="jpdl.javadoc.fetch.from.repo" unless="build.jpdl.from.source">
@@ -893,17 +893,17 @@
     <condition property="use.jpdl.jar.from.source">
       <equals arg1="${jbpm.jpdl.version}" arg2="source" />
     </condition>
-    <echo message="src: ${jbpm.root}/jpdl/jar/target/jbpm-jpdl.jar" />
+    <echo message="src: ${jbpm.root}/modules/jpdl/core/target/jbpm-jpdl.jar" />
     <echo message="trg: ${jbpm.jpdl.jar.local}" />
     <condition property="install.jpdl.jar">
       <and>
         <isset property="use.jpdl.jar.from.source" />
         <or>
           <not>
-            <available file="${jbpm.root}/jpdl/jar/target/jbpm-jpdl.jar" />
+            <available file="${jbpm.root}/modules/jpdl/core/target/jbpm-jpdl.jar" />
           </not>
           <not>
-            <uptodate srcfile="${jbpm.root}/jpdl/jar/target/jbpm-jpdl.jar" targetfile="${jbpm.jpdl.jar.local}" />
+            <uptodate srcfile="${jbpm.root}/modules/jpdl/core/target/jbpm-jpdl.jar" targetfile="${jbpm.jpdl.jar.local}" />
           </not>
         </or>
       </and>
@@ -914,7 +914,7 @@
 
   <target name="install.jpdl.jar.from.source" if="install.jpdl.jar">
     <echo message="building jpdl jar" />
-    <ant antfile="${jbpm.root}/jpdl/jar/build.xml" inheritall="false" />
+    <ant antfile="${jbpm.root}/modules/jpdl/core/build.xml" inheritall="false" />
   </target>
 
   <target name="get.jpdl.jar.from.remote.repository" unless="use.jpdl.jar.from.source">

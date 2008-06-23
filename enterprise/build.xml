@@ -48,7 +48,7 @@
           depends="package.enterprise.jar, customize.war, create.manifest"
           description="packages the ear file">
     <copy todir="target/lib">
-      <fileset dir="${jbpm.root}/jpdl/jar/target">
+      <fileset dir="${jbpm.root}/modules/jpdl/core/target">
         <include name="jbpm-jpdl.jar" />
       </fileset>
       <fileset dir="${jbpm.root}/identity/target">
@@ -219,8 +219,10 @@
     <!-- move the configuration files as they will be deployed in a separate jar file -->
     <mkdir dir="target/jbpm.configs" />
     <copy todir="target/jbpm.configs">
-      <fileset dir="${jbpm.root}/jpdl/jar/src/main/config">
-        <include name="*.xml" />
+	   <fileset dir="${jbpm.root}/modules/jpdl/core/src/main/resources">
+	    <include name="hibernate.cfg.xml"/>
+	    <include name="jbpm.cfg.xml"/>
+	    <include name="jbpm.mail.templates.xml"/>
       </fileset>
     </copy>
 

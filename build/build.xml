@@ -6,7 +6,7 @@
   
   <target name="clean" description="cleans all subprojects">
     <!-- TODO these subtargets might executed conditionally, only if they exist.  but that would require an available property and a separate target -->
-    <ant antfile="jpdl/jar/build.xml" target="clean" inheritall="false" />
+    <ant antfile="modules/jpdl/core/build.xml" target="clean" inheritall="false" />
     <ant antfile="jpdl/examples/build.xml" target="clean" inheritall="false" />
     <ant antfile="jpdl/db/build.xml" target="clean" inheritall="false" />
     <ant antfile="jpdl/userguide/build.xml" target="clean" inheritall="false" />
@@ -44,7 +44,7 @@
   </target>
 
   <target name="test.jpdl" description="builds and then tests all testable subprojects">
-    <ant antfile="jpdl/jar/build.xml" target="test" inheritall="false" />
+    <ant antfile="modules/jpdl/core/build.xml" target="test" inheritall="false" />
   </target>
 
   <target name="get.dependencies" depends="get.docbook.support, get.libs.dependencies, get.jboss.dependencies, get.eclipse.dependencies"
