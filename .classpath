@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="src" output="jpdl/jar/target/classes" path="jpdl/jar/src/main/java"/>
+	<classpathentry kind="src" path="jpdl/jar/src/main/java"/>
 	<classpathentry kind="src" path="jbpm4jsf/src/main/java"/>
 	<classpathentry kind="src" path="jpdl/examples/websale/src/main/java"/>
-	<classpathentry kind="src" output="jpdl/jar/target/test.classes" path="jpdl/jar/src/test/java"/>
-	<classpathentry kind="src" output="enterprise/target/test.classes" path="enterprise/src/test/java"/>
-	<classpathentry kind="src" output="enterprise/target/classes" path="enterprise/src/main/java"/>
-	<classpathentry kind="src" output="identity/target/classes" path="identity/src/main/java"/>
-	<classpathentry kind="src" output="identity/target/test.classes" path="identity/src/test/java"/>
-	<classpathentry kind="src" output="jpdl/dist/target/test.classes" path="jpdl/dist/src/test/java"/>
+	<classpathentry kind="src" path="jpdl/jar/src/test/java"/>
+	<classpathentry kind="src" path="enterprise/src/test/java"/>
+	<classpathentry kind="src" path="enterprise/src/main/java"/>
+	<classpathentry kind="src" path="identity/src/main/java"/>
+	<classpathentry kind="src" path="identity/src/test/java"/>
+	<classpathentry kind="src" path="jpdl/dist/src/test/java"/>
 	<classpathentry kind="src" path="jpdl/simulation/src/test/java"/>
 	<classpathentry kind="src" path="jpdl/simulation/src/main/java"/>
 	<classpathentry kind="src" path="jpdl/simulation/src/main/reports"/>
@@ -63,5 +63,5 @@
 	<classpathentry kind="var" path="JBPM_REPO/jfreechart/1.0.2/lib/jfreechart.jar"/>
 	<classpathentry kind="var" path="JBPM_REPO/jasperreports/2.0.4/lib/jasperreports.jar"/>
 	<classpathentry kind="var" path="JBPM_REPO/jbossas/core-libs/4.2.2.GA/lib/jboss-j2ee.jar"/>
-	<classpathentry kind="output" path="jpdl/jar/target/classes"/>
+	<classpathentry kind="output" path="target/eclipse-classes"/>
 </classpath>
