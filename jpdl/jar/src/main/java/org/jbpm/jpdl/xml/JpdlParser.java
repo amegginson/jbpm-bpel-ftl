@@ -22,6 +22,7 @@
 package org.jbpm.jpdl.xml;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 
 import javax.xml.parsers.SAXParser;
@@ -121,24 +122,34 @@ public class JpdlParser implements Serializable {
 
     public InputSource resolveEntity(String publicId, String systemId) throws SAXException, IOException {
       InputSource inputSource = null;
-      log.debug("resolving schema reference publicId("+publicId+") systemId("+systemId+")");
-      
+      log.debug("resolving schema reference publicId(" + publicId + ") systemId(" + systemId + ")");
+
+      InputStream stream = null;
       if ("http://jbpm.org/jpdl-3.2.xsd".equals(systemId)) {
         log.debug("providing input source to local 'jpdl-3.2.xsd' resource");
-        inputSource = new InputSource(this.getClass().getResourceAsStream("jpdl-3.2.xsd"));
+        stream = getClass().getResourceAsStream("jpdl-3.2.xsd");
         
       } else if ("http://jbpm.org/jpdl-3.1.xsd".equals(systemId)) {
         log.debug("providing input source to local 'jpdl-3.1.xsd' resource");
-        inputSource = new InputSource(this.getClass().getResourceAsStream("jpdl-3.1.xsd"));
-        
+        stream = getClass().getResourceAsStream("jpdl-3.1.xsd");
+
       } else if ("http://jbpm.org/jpdl-3.0.xsd".equals(systemId)) {
         log.debug("providing input source to local 'jpdl-3.0.xsd' resource");
-        inputSource = new InputSource(this.getClass().getResourceAsStream("jpdl-3.0.xsd"));
-        
+        stream = getClass().getResourceAsStream("jpdl-3.0.xsd");
+
       } else {
         log.debug("original systemId as input source");
         inputSource = new InputSource(systemId);
       }
+
+      if (inputSource == null)
+      {
+        if (stream == null)
+          throw new IllegalStateException("Cannot find schema resource for publicId(" + publicId + ") systemId(" + systemId + ")");
+        
+        inputSource = new InputSource(stream);
+      }
+
       return inputSource;
     }
   }

@@ -37,7 +37,7 @@ import org.jbpm.taskmgmt.exe.TaskMgmtInstance;
 /**
  * http://is.tm.tue.nl/research/patterns/download/swf/pat_15.swf
  */
-public class Wfp16MiWithoutAPrioriRuntimeKnowledge extends TestCase {
+public class Wfp16MiWithoutAPrioriRuntimeKnowledgeTest extends TestCase {
   
   public static int scenario = -1;
   
@@ -69,7 +69,7 @@ public class Wfp16MiWithoutAPrioriRuntimeKnowledge extends TestCase {
     "  </state>" +
     "  <task-node name='t' create-tasks='false' signal='last-wait'>" +
     "    <event type='node-enter'>" +
-    "      <action class='org.jbpm.jpdl.patterns.Wfp16MiWithoutAPrioriRuntimeKnowledge$CreateTasks' />" +
+    "      <action class='" + CreateTasks.class.getName() + "' />" +
     "    </event>" +
     "    <task name='watch movie amadeus' />" +
     "    <transition to='c' />" +

@@ -2,27 +2,11 @@ package org.jbpm;
 
 import junit.framework.TestCase;
 
-import org.apache.log4j.BasicConfigurator;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ProcessInstance;
 
 public class DefaultConfigurationTest extends TestCase {
   
-  /*
-   * This test needs to be executed without src/config.files or any other 
-   * configuration files in the classpath.
-   * 
-   * Only following libs should be in the classpath:
-   *  - jbpm
-   *  - commons-logging
-   *  - dom4j
-   *  - junit
-   */
-  
-  static {
-    BasicConfigurator.configure();
-  }
-
   public void testDefaultConfiguration() {
     ProcessDefinition processDefinition = ProcessDefinition.parseXmlString(
       "<process-definition>" +

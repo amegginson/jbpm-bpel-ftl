@@ -38,7 +38,7 @@ import org.jbpm.job.executor.JobExecutor;
 import org.jbpm.logging.log.ProcessLog;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
-public class AbstractDbTestCase extends AbstractJbpmTestCase {
+public abstract class AbstractDbTestCase extends AbstractJbpmTestCase {
 
 	protected static JbpmConfiguration jbpmConfiguration = getDbTestJbpmConfiguration();
 

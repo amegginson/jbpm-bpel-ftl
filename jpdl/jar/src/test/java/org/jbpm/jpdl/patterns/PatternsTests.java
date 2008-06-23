@@ -37,13 +37,13 @@ public class PatternsTests extends TestCase {
     suite.addTestSuite( Wfp07SynchronizingMergeTest.class );
     suite.addTestSuite( Wfp08MultiMergeTest.class );
     suite.addTestSuite( Wfp09DiscriminatorTest.class );
-    suite.addTestSuite( Wfp10NOutOfMJoin.class );
+    suite.addTestSuite( Wfp10NOutOfMJoinTest.class );
     suite.addTestSuite( Wfp11ArbitraryCyclesTest.class );
     suite.addTestSuite( Wfp12ImplicitTerminationTest.class );
     suite.addTestSuite( Wfp13MiWithoutSynchronizationTest.class );
     suite.addTestSuite( Wfp14MiWithAPrioriDesigntimeKnowledgeTest.class );
     suite.addTestSuite( Wfp15MiWithAPrioriRuntimeKnowledgeTest.class );
-    suite.addTestSuite( Wfp16MiWithoutAPrioriRuntimeKnowledge.class );
+    suite.addTestSuite( Wfp16MiWithoutAPrioriRuntimeKnowledgeTest.class );
     suite.addTestSuite( Wfp17DeferredChoiceTest.class );
     suite.addTestSuite( Wfp18InterleavedParallelRoutingTest.class );
     suite.addTestSuite( Wfp19MilestoneTest.class );

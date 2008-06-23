@@ -26,7 +26,7 @@ import org.jbpm.graph.def.*;
 import org.jbpm.graph.exe.*;
 import org.jbpm.graph.node.*;
 
-public class Wfp10NOutOfMJoin extends TestCase {
+public class Wfp10NOutOfMJoinTest extends TestCase {
 
   private static ProcessDefinition nOutOfMProcessDefinition = createNOutOfMProcessDefinition();
 

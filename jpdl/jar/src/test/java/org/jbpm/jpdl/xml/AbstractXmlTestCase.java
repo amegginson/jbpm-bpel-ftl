@@ -31,7 +31,7 @@ import org.dom4j.*;
 
 import org.jbpm.graph.def.*;
 
-public class AbstractXmlTestCase extends TestCase {
+public abstract class AbstractXmlTestCase extends TestCase {
 	
   // private static final String JPDL_NAMESPACE = "http://jbpm.org/3/jpdl";	
 

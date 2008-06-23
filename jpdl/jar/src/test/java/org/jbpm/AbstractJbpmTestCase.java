@@ -27,7 +27,7 @@ import junit.framework.TestCase;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
-public class AbstractJbpmTestCase extends TestCase {
+public abstract class AbstractJbpmTestCase extends TestCase {
 
   private static Log log = LogFactory.getLog(AbstractJbpmTestCase.class);
 

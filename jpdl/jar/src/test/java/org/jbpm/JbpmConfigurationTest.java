@@ -38,12 +38,14 @@ public class JbpmConfigurationTest extends TestCase {
   public void setUp() {
     JbpmConfiguration.instances = new HashMap();
     JbpmConfiguration.defaultObjectFactory = null;
+    JbpmConfiguration.jbpmConfigurationsStacks =  new ThreadLocal();
     JbpmContext.currentContextsStack = new ThreadLocal();
   }
   
   public void tearDown() {
     JbpmConfiguration.instances = new HashMap();
     JbpmConfiguration.defaultObjectFactory = null;
+    JbpmConfiguration.jbpmConfigurationsStacks =  new ThreadLocal();
     JbpmContext.currentContextsStack = new ThreadLocal();
   }
   

@@ -56,6 +56,8 @@ public abstract class XmlUtil {
 
   public static Document parseXmlResource(String resource) {
     InputStream inputStream = ClassLoaderUtil.getStream(resource);
+    if (inputStream == null)
+    	throw new IllegalArgumentException("Cannot load resource: " + resource);
     InputSource inputSource = new InputSource(inputStream);
     return parseXmlInputSource(inputSource);
   }
