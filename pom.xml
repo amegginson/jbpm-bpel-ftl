@@ -32,7 +32,7 @@
   <!-- Modules -->
   <modules>
     <module>modules/api</module>
-    <module>jpdl/jar</module>
+    <module>modules/jpdl</module>
     <module>modules/testsuite</module>
   </modules>
 
