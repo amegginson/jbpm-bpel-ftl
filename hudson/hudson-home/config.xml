@@ -1,0 +1,17 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<hudson>
+  <numExecutors>1</numExecutors>
+  <useSecurity>true</useSecurity>
+  <systemMessage>
+    <![CDATA[
+  <h2>jBPM-@version.id@ QA Environment</h2>
+
+  <table>
+  <tr><th align=left>jBPM:</th><td>@hudson.jbpm.url@</td></tr>
+  </table>
+]]>
+  </systemMessage>
+  <jdks/>
+  <slaves/>
+  <quietPeriod>5</quietPeriod>
+</hudson>
