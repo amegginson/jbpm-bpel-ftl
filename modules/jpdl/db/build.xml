@@ -41,22 +41,22 @@
           description="generate ddl scripts">
     <condition property="jpdl.db.scripts.are.uptodate">
       <and>
-        <uptodate srcfile="src/main/config/db2.properties" targetfile="target/ddl/jbpm.jpdl.db2.sql" />
-        <uptodate srcfile="src/main/config/derby.properties" targetfile="target/ddl/jbpm.jpdl.derby.sql" />
-        <uptodate srcfile="src/main/config/firebird.properties" targetfile="target/ddl/jbpm.jpdl.firebird.sql" />
-        <uptodate srcfile="src/main/config/hsqldb.properties" targetfile="target/ddl/jbpm.jpdl.hsqldb.sql" />
-        <uptodate srcfile="src/main/config/informix.properties" targetfile="target/ddl/jbpm.jpdl.informix.sql" />
-        <uptodate srcfile="src/main/config/ingres.properties" targetfile="target/ddl/jbpm.jpdl.ingres.sql" />
-        <uptodate srcfile="src/main/config/interbase.properties" targetfile="target/ddl/jbpm.jpdl.interbase.sql" />
-        <uptodate srcfile="src/main/config/mckoi.properties" targetfile="target/ddl/jbpm.jpdl.mckoi.sql" />
-        <uptodate srcfile="src/main/config/mssql.properties" targetfile="target/ddl/jbpm.jpdl.mssql.sql" />
-        <uptodate srcfile="src/main/config/mysql.properties" targetfile="target/ddl/jbpm.jpdl.mysql.sql" />
-        <uptodate srcfile="src/main/config/oracle.properties" targetfile="target/ddl/jbpm.jpdl.oracle.sql" />
-        <uptodate srcfile="src/main/config/pointbase.properties" targetfile="target/ddl/jbpm.jpdl.pointbase.sql" />
-        <uptodate srcfile="src/main/config/postgresql.properties" targetfile="target/ddl/jbpm.jpdl.postgresql.sql" />
-        <uptodate srcfile="src/main/config/progress.properties" targetfile="target/ddl/jbpm.jpdl.progress.sql" />
-        <uptodate srcfile="src/main/config/sapdb.properties" targetfile="target/ddl/jbpm.jpdl.sapdb.sql" />
-        <uptodate srcfile="src/main/config/sybase.properties" targetfile="target/ddl/jbpm.jpdl.sybase.sql" />
+        <uptodate srcfile="src/main/resources/db2.properties" targetfile="target/ddl/jbpm.jpdl.db2.sql" />
+        <uptodate srcfile="src/main/resources/derby.properties" targetfile="target/ddl/jbpm.jpdl.derby.sql" />
+        <uptodate srcfile="src/main/resources/firebird.properties" targetfile="target/ddl/jbpm.jpdl.firebird.sql" />
+        <uptodate srcfile="src/main/resources/hsqldb.properties" targetfile="target/ddl/jbpm.jpdl.hsqldb.sql" />
+        <uptodate srcfile="src/main/resources/informix.properties" targetfile="target/ddl/jbpm.jpdl.informix.sql" />
+        <uptodate srcfile="src/main/resources/ingres.properties" targetfile="target/ddl/jbpm.jpdl.ingres.sql" />
+        <uptodate srcfile="src/main/resources/interbase.properties" targetfile="target/ddl/jbpm.jpdl.interbase.sql" />
+        <uptodate srcfile="src/main/resources/mckoi.properties" targetfile="target/ddl/jbpm.jpdl.mckoi.sql" />
+        <uptodate srcfile="src/main/resources/mssql.properties" targetfile="target/ddl/jbpm.jpdl.mssql.sql" />
+        <uptodate srcfile="src/main/resources/mysql.properties" targetfile="target/ddl/jbpm.jpdl.mysql.sql" />
+        <uptodate srcfile="src/main/resources/oracle.properties" targetfile="target/ddl/jbpm.jpdl.oracle.sql" />
+        <uptodate srcfile="src/main/resources/pointbase.properties" targetfile="target/ddl/jbpm.jpdl.pointbase.sql" />
+        <uptodate srcfile="src/main/resources/postgresql.properties" targetfile="target/ddl/jbpm.jpdl.postgresql.sql" />
+        <uptodate srcfile="src/main/resources/progress.properties" targetfile="target/ddl/jbpm.jpdl.progress.sql" />
+        <uptodate srcfile="src/main/resources/sapdb.properties" targetfile="target/ddl/jbpm.jpdl.sapdb.sql" />
+        <uptodate srcfile="src/main/resources/sybase.properties" targetfile="target/ddl/jbpm.jpdl.sybase.sql" />
       </and>
     </condition>
     <antcall target="generate.scripts.if.necessary" />
@@ -83,7 +83,7 @@
     <taskdef resource="org/jbpm/ant/jbpm.ant.tasks.properties">
       <classpath>
         <!-- this is the classpath used for defining the jbpm ant tasks -->
-        <pathelement location="src/main/config" />
+        <pathelement location="src/main/resources" />
         <pathelement location="target/config" />
         <pathelement location="${lib.jbpm.jpdl.jar.local}" />
         <pathelement location="${lib.jbpm.identity.jar.local}" />
