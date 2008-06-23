@@ -1,0 +1,3 @@
+<jbpm-configuration>
+  <string name="resource.hibernate.properties" value="firebird.properties" />
+</jbpm-configuration>

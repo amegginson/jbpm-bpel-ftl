@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ============================================================ -->
+<!--  JBoss, the OpenSource J2EE webOS                            -->
+<!--  Distributable under LGPL license.                           -->
+<!--  See terms of license at http://www.gnu.org.                 -->
+<!-- ============================================================ -->
+
+<!-- $Id$ -->
+
+<project>
+
+  <!-- ================================================================== -->
+  <!-- jBPM Database schema                                               -->
+  <!-- ================================================================== -->
+
+  <target name="jbpmschema" description="Generate jBPM Database schemas">
+
+    <taskdef name="jbpmschema" classname="org.jbpm.ant.JbpmSchemaTask">
+      <classpath path="${maven.runtime.classpath}" />
+    </taskdef>
+
+    <property name="configsdir" value="${basedir}/src/main/config" />
+    <property name="scriptsdir" value="${basedir}/target/ddl" />
+    <mkdir dir="${scriptsdir}" />
+    <jbpmschema output="${scriptsdir}/jbpm.jpdl.db2.sql"        jbpmCfg="${configsdir}/jbpm/db2.jbpm.cfg.xml" actions="create" text="true"/>
+    <jbpmschema output="${scriptsdir}/jbpm.jpdl.derby.sql"      jbpmCfg="${configsdir}/jbpm/derby.jbpm.cfg.xml" actions="create" text="true"/>
+    <jbpmschema output="${scriptsdir}/jbpm.jpdl.firebird.sql"   jbpmCfg="${configsdir}/jbpm/firebird.jbpm.cfg.xml" actions="create" text="true"/>
+    <jbpmschema output="${scriptsdir}/jbpm.jpdl.hsqldb.sql"     jbpmCfg="${configsdir}/jbpm/hsqldb.jbpm.cfg.xml" actions="create" text="true"/>
+    <jbpmschema output="${scriptsdir}/jbpm.jpdl.informix.sql"   jbpmCfg="${configsdir}/jbpm/informix.jbpm.cfg.xml" actions="create" text="true"/>
+    <jbpmschema output="${scriptsdir}/jbpm.jpdl.ingres.sql"     jbpmCfg="${configsdir}/jbpm/ingres.jbpm.cfg.xml" actions="create" text="true"/>
+    <jbpmschema output="${scriptsdir}/jbpm.jpdl.interbase.sql"  jbpmCfg="${configsdir}/jbpm/interbase.jbpm.cfg.xml" actions="create" text="true"/>
+    <jbpmschema output="${scriptsdir}/jbpm.jpdl.mckoi.sql"      jbpmCfg="${configsdir}/jbpm/mckoi.jbpm.cfg.xml" actions="create" text="true"/>
+    <jbpmschema output="${scriptsdir}/jbpm.jpdl.mssql.sql"      jbpmCfg="${configsdir}/jbpm/mssql.jbpm.cfg.xml" actions="create" text="true"/>
+    <jbpmschema output="${scriptsdir}/jbpm.jpdl.mysql.sql"      jbpmCfg="${configsdir}/jbpm/mysql.jbpm.cfg.xml" actions="create" text="true"/>
+    <jbpmschema output="${scriptsdir}/jbpm.jpdl.oracle.sql"     jbpmCfg="${configsdir}/jbpm/oracle.jbpm.cfg.xml" delimiter=";" actions="create" text="true"/>
+    <jbpmschema output="${scriptsdir}/jbpm.jpdl.pointbase.sql"  jbpmCfg="${configsdir}/jbpm/pointbase.jbpm.cfg.xml" actions="create" text="true"/>
+    <jbpmschema output="${scriptsdir}/jbpm.jpdl.postgresql.sql" jbpmCfg="${configsdir}/jbpm/postgresql.jbpm.cfg.xml" actions="create" text="true"/>
+    <jbpmschema output="${scriptsdir}/jbpm.jpdl.progress.sql"   jbpmCfg="${configsdir}/jbpm/progress.jbpm.cfg.xml" actions="create" text="true"/>
+    <jbpmschema output="${scriptsdir}/jbpm.jpdl.sapdb.sql"      jbpmCfg="${configsdir}/jbpm/sapdb.jbpm.cfg.xml" actions="create" text="true"/>
+    <jbpmschema output="${scriptsdir}/jbpm.jpdl.sybase.sql"     jbpmCfg="${configsdir}/jbpm/sybase.jbpm.cfg.xml" actions="create" text="true"/>
+  </target>
+
+</project>

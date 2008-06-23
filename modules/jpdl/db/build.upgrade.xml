@@ -1,0 +1,99 @@
+<project name="jbpm.db.upgrade" default="generate.old.schema" basedir=".">
+
+  <property name="jbpm.root" value="../.." />
+  <property name="jbpm.3.1.root" value="../../../jbpm.3_BRANCH_3_1" />
+
+  <!-- properties files -->
+  <property file="${user.home}/jbpm/build.properties" />
+  <property file="${jbpm.root}/build/profiles/${profile}.profile.properties" />
+  <property file="${jbpm.root}/build/build.properties" />
+
+  <!-- import base project build file -->
+  <import file="${jbpm.root}/build/base.project.build.xml" />
+
+  <target name="generate.old.schema" depends="clean, jpdl.jar, identity.jar" description="generates the old schema">
+  
+    <path id="schemaexport.classpath">
+      <fileset dir="${jbpm.3.1.root}">
+        <include name="lib/**/*.jar" />
+        <include name="build/jbpm-3.1.4.jar" />
+        <include name="build/jbpm-identity-3.1.4.jar" />
+      </fileset>
+    </path>
+
+    <mkdir dir="target/db" />
+    <mkdir dir="target/oldconfig" />
+    <copy file="${jbpm.3.1.root}/src/config.files/hibernate.cfg.xml" todir="target/oldconfig" />
+    <replace file="target/oldconfig/hibernate.cfg.xml"
+             token="jdbc:hsqldb:mem:.;sql.enforce_strict_size=true"
+             value="jdbc:hsqldb:file:${basedir}/target/db/localDB" />
+    <replace file="target/oldconfig/hibernate.cfg.xml">
+      <replacetoken><![CDATA[identity mappings (begin) ===]]></replacetoken>
+      <replacevalue><![CDATA[identity mappings (begin) -->]]></replacevalue>
+    </replace>
+    <replace file="target/oldconfig/hibernate.cfg.xml">
+      <replacetoken><![CDATA[==== identity mappings (end)]]></replacetoken>
+      <replacevalue><![CDATA[<!-- identity mappings (end)]]></replacevalue>
+    </replace>
+    
+    <taskdef name="schemaexport"
+           classname="org.jbpm.ant.JbpmSchemaTask"
+           classpathref="schemaexport.classpath"/>
+
+    <schemaexport
+        cfg="target/oldconfig/hibernate.cfg.xml"
+        quiet="no"
+        text="no"
+        delimiter=";"
+        actions="create"
+        output="schema-export.sql">
+    </schemaexport>
+
+    <delete file="schema-export.sql" />
+  </target>
+  
+  <target name="generate.update" depends="define.libs.classpath" description="generate.update">
+  
+    <mkdir dir="target/newconfig" />
+  	
+    <copy file="${jbpm.root}/jpdl/jar/src/main/config/jbpm.cfg.xml" todir="target/newconfig" />
+
+    <copy file="${jbpm.root}/jpdl/jar/src/main/config/hibernate.cfg.xml" todir="target/newconfig" />
+    <replace file="target/newconfig/hibernate.cfg.xml"
+             token="jdbc:hsqldb:mem:jbpm"
+             value="jdbc:hsqldb:file:${basedir}/target/db/localDB" />
+    <replace file="target/newconfig/hibernate.cfg.xml">
+      <replacetoken><![CDATA[identity mappings (begin) ===]]></replacetoken>
+      <replacevalue><![CDATA[identity mappings (begin) -->]]></replacevalue>
+    </replace>
+    <replace file="target/newconfig/hibernate.cfg.xml">
+      <replacetoken><![CDATA[==== identity mappings (end)]]></replacetoken>
+      <replacevalue><![CDATA[<!-- identity mappings (end)]]></replacevalue>
+    </replace>
+
+    <path id="schemaupdate.classpath">
+      <pathelement location="target/newconfig"/>
+      <pathelement location="${jbpm.root}/jpdl/jar/src/test/resources"/>
+      <path refid="libs.classpath" />
+      <pathelement location="${lib.jbpm.jpdl.jar.local}"/>
+      <pathelement location="${lib.jbpm.identity.jar.local}"/>
+    </path>
+
+    <!--
+    i think this is not necessary, but i'm not sure :-)
+    <taskdef name="shutdownhsqldb"
+       classname="org.jbpm.ant.ShutDownHsqldb"
+       classpathref="schemaupdate.classpath"/>
+    <shutdownhsqldb />
+    -->
+  
+    <taskdef name="schemaupdate"
+             classname="org.hibernate.tool.hbm2ddl.SchemaUpdateTask"
+             classpathref="schemaupdate.classpath" />
+  
+    <schemaupdate config="target/newconfig/hibernate.cfg.xml" 
+                  quiet="no"
+                  text="true" />
+  </target>
+
+</project>
