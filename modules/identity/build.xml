@@ -1,7 +1,7 @@
 <project name="jbpm.identity" basedir="." default="install.jar">
 
   <!-- project specific properties -->
-  <property name="jbpm.root" value=".." />
+  <property name="jbpm.root" value="../.." />
 
   <!-- properties files -->
   <property file="${user.home}/jbpm/build.properties" />

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="src" path="jpdl/jar/src/main/java"/>
 	<classpathentry kind="src" path="modules/testsuite/src/test/java"/>
+	<classpathentry kind="src" path="modules/jpdl/core/src/main/java"/>
+	<classpathentry kind="src" path="modules/jpdl/core/src/test/java"/>
+	<classpathentry kind="src" path="modules/identity/src/test/java"/>
+	<classpathentry kind="src" path="modules/identity/src/main/java"/>
 	<classpathentry kind="src" path="modules/testsuite/src/main/java"/>
 	<classpathentry kind="src" path="modules/api/src/test/java"/>
 	<classpathentry kind="src" path="modules/api/src/main/java"/>
-	<classpathentry kind="src" path="jpdl/jar/src/test/java"/>
-	<classpathentry exported="true" kind="lib" path="jpdl/jar/src/test/resources"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
 	<classpathentry kind="output" path="target/eclipse-classes"/>
 </classpath>

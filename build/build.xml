@@ -10,7 +10,7 @@
     <ant antfile="jpdl/examples/build.xml" target="clean" inheritall="false" />
     <ant antfile="modules/jpdl/db/build.xml" target="clean" inheritall="false" />
     <ant antfile="jpdl/userguide/build.xml" target="clean" inheritall="false" />
-    <ant antfile="identity/build.xml" target="clean" inheritall="false" />
+    <ant antfile="modules/identity/build.xml" target="clean" inheritall="false" />
     <ant antfile="jboss/configuration/build.xml" target="clean" inheritall="false" />
     <ant antfile="jpdl/dist/build.xml" target="clean" inheritall="false" />
     <ant antfile="console/build.xml" target="clean" inheritall="false" />

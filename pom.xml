@@ -33,6 +33,7 @@
   <modules>
     <module>modules/api</module>
     <module>modules/jpdl</module>
+    <module>modules/identity</module>
     <module>modules/testsuite</module>
   </modules>
 
