@@ -566,7 +566,7 @@
 	</target>
 
 	<target name="jpdl.db.build.from.source" if="build.jpdl.from.source">
-		<ant antfile="${jbpm.root}/jpdl/db/build.xml" target="install.db" inheritall="false" />
+		<ant antfile="${jbpm.root}/modules/jpdl/db/build.xml" target="install.db" inheritall="false" />
 	</target>
 
 	<target name="jpdl.db.fetch.from.repo" unless="build.jpdl.from.source">
@@ -868,7 +868,7 @@
   </target>
 
   <target name="jpdl.db" depends="jpdl.jar, identity.jar" description="builds the jpdl db dependency">
-    <ant antfile="${jbpm.root}/jpdl/db/build.xml" target="generate" inheritall="false" />
+    <ant antfile="${jbpm.root}/modules/jpdl/db/build.xml" target="generate" inheritall="false" />
   </target>
 
   <target name="jpdl.examples.clean" description="builds the jpdl examples dependency">
