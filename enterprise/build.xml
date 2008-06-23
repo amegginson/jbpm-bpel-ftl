@@ -51,7 +51,7 @@
       <fileset dir="${jbpm.root}/modules/jpdl/core/target">
         <include name="jbpm-jpdl.jar" />
       </fileset>
-      <fileset dir="${jbpm.root}/identity/target">
+      <fileset dir="${jbpm.root}/modules/identity/target">
         <include name="jbpm-identity.jar" />
       </fileset>
     </copy>

@@ -628,7 +628,7 @@
 	</target>
 
 	<target name="identity.jar.build.from.source" if="build.identity.from.source">
-		<ant antfile="${jbpm.root}/identity/build.xml" target="install.jar" inheritall="false" />
+		<ant antfile="${jbpm.root}/modules/identity/build.xml" target="install.jar" inheritall="false" />
 	</target>
 
 	<target name="identity.jar.fetch.from.repo" unless="build.identity.from.source">
@@ -642,7 +642,7 @@
 	</target>
 
 	<target name="identity.src.build.from.source" if="build.identity.from.source">
-		<ant antfile="${jbpm.root}/identity/build.xml" target="install.src" inheritall="false" />
+		<ant antfile="${jbpm.root}/modules/identity/build.xml" target="install.src" inheritall="false" />
 	</target>
 
 	<target name="identity.src.fetch.from.repo" unless="build.identity.from.source">
@@ -656,7 +656,7 @@
 	</target>
 
 	<target name="identity.javadoc.build.from.source" if="build.identity.from.source">
-		<ant antfile="${jbpm.root}/identity/build.xml" target="install.javadoc" inheritall="false" />
+		<ant antfile="${jbpm.r${jbpm.root}/modules/identityml" target="install.javadoc" inheritall="false" />
 	</target>
 
 	<target name="identity.javadoc.fetch.from.repo" unless="build.identity.from.source">
@@ -856,11 +856,11 @@
   </target>
 
   <target name="identity.jar" depends="jpdl.jar" description="builds the identity jar library dependency">
-    <ant antfile="${jbpm.root}/identity/build.xml" target="jar" inheritall="false" />
+    <ant antfile="${jbpm.r${jbpm.root}/modules/identityml" target="jar" inheritall="false" />
   </target>
 
   <target name="identity.javadoc" description="builds the identity javadoc dependency">
-    <ant antfile="${jbpm.root}/identity/build.xml" target="javadoc" inheritall="false" />
+    <ant antfile="${jbpm.root}/modules/identity/build.xml" target="javadoc" inheritall="false" />
   </target>
 
   <target name="jboss.configuration" description="builds the jboss configuration dependency">
