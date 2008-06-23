@@ -656,7 +656,7 @@
 	</target>
 
 	<target name="identity.javadoc.build.from.source" if="build.identity.from.source">
-		<ant antfile="${jbpm.r${jbpm.root}/modules/identityml" target="install.javadoc" inheritall="false" />
+		<ant antfile="${jbpm.root}/modules/identity/build.xml" target="install.javadoc" inheritall="false" />
 	</target>
 
 	<target name="identity.javadoc.fetch.from.repo" unless="build.identity.from.source">
