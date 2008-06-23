@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!--  JBoss, the OpenSource J2EE webOS                                      -->
+<!--                                                                        -->
+<!--  Distributable under LGPL license.                                     -->
+<!--  See terms of license at http://www.gnu.org.                           -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+
+<!-- $Id$ -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  
+  <name>JBoss jBPM - jPDL Core</name>
+  <groupId>org.jboss.jbpm</groupId>
+  <artifactId>jbpm-jpdl-core</artifactId>
+  <packaging>jar</packaging>
+  
+  <!-- Parent -->
+  <parent>
+    <groupId>org.jboss.jbpm</groupId>
+    <artifactId>jbpm-jpdl</artifactId>
+    <version>3.2.4-SNAPSHOT</version>
+  </parent>
+
+  <!-- Dependencies -->
+  <dependencies>
+    <!-- jBPM Dependencies -->
+    <!-- dependency>
+      <groupId>org.jboss.jbpm</groupId>
+      <artifactId>jbpm-api</artifactId>
+      <version>${version}</version>
+    </dependency-->
+    
+    <!-- Compile Dependencies -->
+    <dependency>
+      <groupId>bsh</groupId>
+      <artifactId>bsh</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-fileupload</groupId>
+      <artifactId>commons-fileupload</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>dom4j</groupId>
+      <artifactId>dom4j</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.jcr</groupId>
+      <artifactId>jcr</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.mail</groupId>
+      <artifactId>mail</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.ant</groupId>
+      <artifactId>ant</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.jackrabbit</groupId>
+      <artifactId>jackrabbit-core</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate</artifactId>
+    </dependency>
+    
+    <!-- Test Dependencies -->
+    <dependency>
+      <groupId>dumbster</groupId>
+      <artifactId>dumbster</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>hsqldb</groupId>
+      <artifactId>hsqldb</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>jaxen</groupId>
+      <artifactId>jaxen</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-log4j12</artifactId>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  
+  <!-- Plugins -->
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <showDeprecation>false</showDeprecation>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <excludes>
+            <exclude>org/jbpm/mail/MailTest.java</exclude>
+            <exclude>org/jbpm/mail/TaskMailTest.java</exclude>
+            
+            <!-- Tests not part of AllTests  -->
+            <exclude>org/jbpm/context/exe/VariableQueryDbTest.java</exclude>            
+            <exclude>org/jbpm/db/ContextSessionDbTest.java</exclude>
+            <exclude>org/jbpm/DefaultConfigurationTest.java</exclude>
+            <exclude>org/jbpm/graph/def/ExceptionHandlerDbTest.java</exclude>
+            <exclude>org/jbpm/graph/def/TransitionDbTest.java</exclude>
+            <exclude>org/jbpm/graph/exe/StateDbTest.java</exclude>
+            <exclude>org/jbpm/graph/exe/SubProcessCancellationTest.java</exclude>
+            <exclude>org/jbpm/graph/exe/SuperStateActionExecutionDbTest.java</exclude>
+            <exclude>org/jbpm/graph/log/NodeLogTest.java</exclude>
+            <exclude>org/jbpm/instantiation/UserCodeInterceptorTest.java</exclude>
+            <exclude>org/jbpm/JbpmDefaultConfigTest.java</exclude>
+            <exclude>org/jbpm/jcr/JcrDbTest.java</exclude>
+            <exclude>org/jbpm/job/executor/ConcurrencyTest.java</exclude>
+            <exclude>org/jbpm/job/executor/JobExecutorDbTest.java</exclude>
+            <exclude>org/jbpm/job/executor/JobLoadJoinTest.java</exclude>
+            <exclude>org/jbpm/job/executor/JobLoadSubProcessTest.java</exclude>
+            <exclude>org/jbpm/jpdl/convert/ConversionTestCase.java</exclude>
+            <exclude>org/jbpm/jpdl/xml/SchemaTest.java</exclude>
+            <exclude>org/jbpm/logging/exe/LoggingConfigDbTest.java</exclude>
+            <exclude>org/jbpm/logging/exe/LogLogTest.java</exclude>
+            <exclude>org/jbpm/mail/RealServerMailTestCase.java</exclude>
+            <exclude>org/jbpm/mock/JdbcProxyTest.java</exclude>
+            <exclude>org/jbpm/perf/PerfWithoutDbTest.java</exclude>
+            <exclude>org/jbpm/perf/StateUpdateTest.java</exclude>
+            <exclude>org/jbpm/perf/TasklistEagerLoadingTest.java</exclude>
+            <exclude>org/jbpm/perf/TaskWithVariablesTest.java</exclude>
+            <exclude>org/jbpm/persistence/db/PersistenceConfigurationTest.java</exclude>
+            <exclude>org/jbpm/scheduler/exe/UnsafeSessionUsageTest.java</exclude>
+            <exclude>org/jbpm/seam/SeamPageFlowTest.java</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>  
+</project>

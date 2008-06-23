@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- ====================================================================== -->
+<!--                                                                        -->
+<!--  JBoss, the OpenSource J2EE webOS                                      -->
+<!--                                                                        -->
+<!--  Distributable under LGPL license.                                     -->
+<!--  See terms of license at http://www.gnu.org.                           -->
+<!--                                                                        -->
+<!-- ====================================================================== -->
+
+<!-- $Id: pom.xml 7412 2008-06-06 13:42:30Z thomas.diesler@jboss.com $ -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <name>JBoss jBPM</name>
+  <groupId>org.jboss.jbpm</groupId>
+  <artifactId>jbpm</artifactId>
+  <packaging>pom</packaging>
+
+  <version>3.2.4-SNAPSHOT</version>
+
+  <!-- Parent -->
+  <parent>
+    <groupId>org.jboss.jbpm</groupId>
+    <artifactId>jbpm-parent</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+  </parent>
+
+  <!-- Modules -->
+  <modules>
+    <module>modules/api</module>
+    <module>jpdl/jar</module>
+    <module>modules/testsuite</module>
+  </modules>
+
+  <!-- Properties -->
+  <properties>
+    <apache.ant.version>1.7.0</apache.ant.version>
+    <apache.jackrabbit.version>1.4.5</apache.jackrabbit.version>
+    <bsh.version>1.3.0</bsh.version>
+    <commons.fileupload.version>1.2.1</commons.fileupload.version>
+    <commons.logging.version>1.1.1</commons.logging.version>
+    <dom4j.version>1.6.1</dom4j.version>
+    <dumbster.version>1.6</dumbster.version>
+    <hibernate.version>3.2.6.ga</hibernate.version>
+    <hsqldb.version>1.8.0.7</hsqldb.version>
+    <javax.mail.version>1.4</javax.mail.version>
+    <jaxen.version>1.1.1</jaxen.version>
+    <javax.servlet.version>2.5</javax.servlet.version>
+    <javax.jcr.version>1.0.1</javax.jcr.version>
+    <jboss.microcontainer.version>2.0.0.Beta15</jboss.microcontainer.version>
+    <junit.version>3.8.1</junit.version>
+    <log4j.version>1.2.14</log4j.version>
+    <slf4j.version>1.5.2</slf4j.version>
+  </properties>
+
+  <!-- DependencyManagement -->
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>bsh</groupId>
+        <artifactId>bsh</artifactId>
+        <version>${bsh.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-fileupload</groupId>
+        <artifactId>commons-fileupload</artifactId>
+        <version>${commons.fileupload.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-logging</groupId>
+        <artifactId>commons-logging</artifactId>
+        <version>${commons.logging.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dom4j</groupId>
+        <artifactId>dom4j</artifactId>
+        <version>${dom4j.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>dumbster</groupId>
+        <artifactId>dumbster</artifactId>
+        <version>${dumbster.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>hsqldb</groupId>
+        <artifactId>hsqldb</artifactId>
+        <version>${hsqldb.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>jaxen</groupId>
+        <artifactId>jaxen</artifactId>
+        <version>${jaxen.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.jcr</groupId>
+        <artifactId>jcr</artifactId>
+        <version>${javax.jcr.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.mail</groupId>
+        <artifactId>mail</artifactId>
+        <version>${javax.mail.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>servlet-api</artifactId>
+        <version>${javax.servlet.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>${junit.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>log4j</groupId>
+        <artifactId>log4j</artifactId>
+        <version>${log4j.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.ant</groupId>
+        <artifactId>ant</artifactId>
+        <version>${apache.ant.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.jackrabbit</groupId>
+        <artifactId>jackrabbit-core</artifactId>
+        <version>${apache.jackrabbit.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate</artifactId>
+        <version>${hibernate.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.microcontainer</groupId>
+        <artifactId>jboss-kernel</artifactId>
+        <version>${jboss.microcontainer.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.slf4j</groupId>
+        <artifactId>slf4j-log4j12</artifactId>
+        <version>${slf4j.version}</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
+
+  <!-- Plugins -->
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <systemProperties>
+            <property>
+              <name>log4j.output.dir</name>
+              <value>${project.build.directory}</value>
+            </property>
+          </systemProperties>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+  <!-- DistributionManagement -->
+  <distributionManagement>
+    <site>
+      <id>jbws.dyndns.org</id>
+      <url>file:///home/tdiesler/workspace/jbpm-site</url>
+    </site>
+  </distributionManagement>
+  
+  <!-- Profiles -->
+  <profiles>
+
+    <!--
+      Name: skiptests
+      Desc: Skips the tests 
+    -->
+    <profile>
+      <id>skiptests</id>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <skipTests>true</skipTests>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+
+</project>
