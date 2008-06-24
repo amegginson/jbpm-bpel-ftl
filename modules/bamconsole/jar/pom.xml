@@ -15,15 +15,15 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   
-  <name>JBoss jBPM - Identity</name>
+  <name>JBoss jBPM - BAM Console Jar</name>
   <groupId>org.jboss.jbpm</groupId>
-  <artifactId>jbpm-identity</artifactId>
-  <packaging>jar</packaging>
+  <artifactId>jbpm-bam-console-jar</artifactId>
+  <packaging>ejb</packaging>
   
   <!-- Parent -->
   <parent>
     <groupId>org.jboss.jbpm</groupId>
-    <artifactId>jbpm</artifactId>
+    <artifactId>jbpm-bam</artifactId>
     <version>3.2.4-SNAPSHOT</version>
   </parent>
   
@@ -32,14 +32,53 @@
     <!-- jBPM Dependencies -->
     <dependency>
       <groupId>org.jboss.jbpm</groupId>
-      <artifactId>jbpm-jpdl-core</artifactId>
+      <artifactId>jbpm-identity</artifactId>
       <version>${version}</version>
+    </dependency>
+    
+    <!-- Compile Dependencies -->
+    <dependency>
+      <groupId>javax.persistence</groupId>
+      <artifactId>persistence-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>jasperreports</groupId>
+      <artifactId>jasperreports</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-annotations</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-validator</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.seam</groupId>
+      <artifactId>jboss-seam</artifactId>
+      <type>ejb</type>
+    </dependency>
+    
+    <!-- Provided Dependencies -->
+    <dependency>
+      <groupId>javax.faces</groupId>
+      <artifactId>jsf-api</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <scope>provided</scope>
     </dependency>
     
     <!-- Test Dependencies -->
     <dependency>
-      <groupId>hsqldb</groupId>
-      <artifactId>hsqldb</artifactId>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-annotations</artifactId>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -58,20 +97,12 @@
   <build>
     <plugins>
       <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
+        <artifactId>maven-ejb-plugin</artifactId>
         <configuration>
-          <showDeprecation>false</showDeprecation>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <excludes>
-            <!-- Tests not part of AllTests  -->
-            <exclude>org/jbpm/identity/IdentityDbTestCase.java</exclude>            
-          </excludes>
+          <ejbVersion>3.0</ejbVersion>
         </configuration>
       </plugin>
     </plugins>
   </build>
+  
  </project>

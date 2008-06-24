@@ -34,6 +34,7 @@
     <module>modules/api</module>
     <module>modules/jpdl</module>
     <module>modules/identity</module>
+    <module>modules/bamconsole</module>
     <module>modules/testsuite</module>
   </modules>
 
@@ -45,16 +46,26 @@
     <commons.fileupload.version>1.2.1</commons.fileupload.version>
     <commons.logging.version>1.1.1</commons.logging.version>
     <dom4j.version>1.6.1</dom4j.version>
+    <drools.version>3.0.4</drools.version>
     <dumbster.version>1.6</dumbster.version>
     <hibernate.version>3.2.6.ga</hibernate.version>
+    <hibernate.annotations.version>3.3.1.GA</hibernate.annotations.version>
+    <hibernate.validator.version>3.0.0.ga</hibernate.validator.version>
     <hsqldb.version>1.8.0.7</hsqldb.version>
+    <jasper.reports.version>3.0.0</jasper.reports.version>
+    <javax.faces.version>1.2</javax.faces.version>
     <javax.mail.version>1.4</javax.mail.version>
     <jaxen.version>1.1.1</jaxen.version>
     <javax.servlet.version>2.5</javax.servlet.version>
+    <javax.persistence.version>1.0</javax.persistence.version>
     <javax.jcr.version>1.0.1</javax.jcr.version>
     <jboss.microcontainer.version>2.0.0.Beta15</jboss.microcontainer.version>
+    <jboss.seam.version>2.0.2.GA</jboss.seam.version>
     <junit.version>3.8.1</junit.version>
     <log4j.version>1.2.14</log4j.version>
+    <oscache.version>2.4</oscache.version>
+    <poi.version>3.0.2-FINAL</poi.version>
+    <richfaces.ui.version>3.2.1.GA</richfaces.ui.version>
     <slf4j.version>1.5.2</slf4j.version>
   </properties>
 
@@ -82,6 +93,16 @@
         <version>${dom4j.version}</version>
       </dependency>
       <dependency>
+        <groupId>drools</groupId>
+        <artifactId>drools-compiler</artifactId>
+        <version>${drools.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>drools</groupId>
+        <artifactId>drools-core</artifactId>
+        <version>${drools.version}</version>
+      </dependency>
+      <dependency>
         <groupId>dumbster</groupId>
         <artifactId>dumbster</artifactId>
         <version>${dumbster.version}</version>
@@ -92,9 +113,19 @@
         <version>${hsqldb.version}</version>
       </dependency>
       <dependency>
+        <groupId>jasperreports</groupId>
+        <artifactId>jasperreports</artifactId>
+        <version>${jasper.reports.version}</version>
+      </dependency>
+      <dependency>
         <groupId>jaxen</groupId>
         <artifactId>jaxen</artifactId>
         <version>${jaxen.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.faces</groupId>
+        <artifactId>jsf-api</artifactId>
+        <version>${javax.faces.version}</version>
       </dependency>
       <dependency>
         <groupId>javax.jcr</groupId>
@@ -105,6 +136,11 @@
         <groupId>javax.mail</groupId>
         <artifactId>mail</artifactId>
         <version>${javax.mail.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.persistence</groupId>
+        <artifactId>persistence-api</artifactId>
+        <version>${javax.persistence.version}</version>
       </dependency>
       <dependency>
         <groupId>javax.servlet</groupId>
@@ -122,6 +158,11 @@
         <version>${log4j.version}</version>
       </dependency>
       <dependency>
+        <groupId>opensymphony</groupId>
+        <artifactId>oscache</artifactId>
+        <version>${oscache.version}</version>
+      </dependency>
+      <dependency>
         <groupId>org.apache.ant</groupId>
         <artifactId>ant</artifactId>
         <version>${apache.ant.version}</version>
@@ -137,14 +178,80 @@
         <version>${hibernate.version}</version>
       </dependency>
       <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-annotations</artifactId>
+        <version>${hibernate.annotations.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.hibernate</groupId>
+        <artifactId>hibernate-validator</artifactId>
+        <version>${hibernate.validator.version}</version>
+      </dependency>
+      <dependency>
         <groupId>org.jboss.microcontainer</groupId>
         <artifactId>jboss-kernel</artifactId>
         <version>${jboss.microcontainer.version}</version>
       </dependency>
       <dependency>
+        <groupId>org.jboss.seam</groupId>
+        <artifactId>jboss-seam</artifactId>
+        <version>${jboss.seam.version}</version>
+        <type>ejb</type>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.seam</groupId>
+        <artifactId>jboss-seam-debug</artifactId>
+        <version>${jboss.seam.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.seam</groupId>
+        <artifactId>jboss-seam-ioc</artifactId>
+        <version>${jboss.seam.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.seam</groupId>
+        <artifactId>jboss-seam-mail</artifactId>
+        <version>${jboss.seam.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.seam</groupId>
+        <artifactId>jboss-seam-pdf</artifactId>
+        <version>${jboss.seam.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.seam</groupId>
+        <artifactId>jboss-seam-remoting</artifactId>
+        <version>${jboss.seam.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.seam</groupId>
+        <artifactId>jboss-seam-ui</artifactId>
+        <version>${jboss.seam.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.richfaces.ui</groupId>
+        <artifactId>richfaces-ui</artifactId>
+        <version>${richfaces.ui.version}</version>
+      </dependency>
+      <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-log4j12</artifactId>
         <version>${slf4j.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>poi</groupId>
+        <artifactId>poi</artifactId>
+        <version>${poi.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>poi</groupId>
+        <artifactId>poi-contrib</artifactId>
+        <version>${poi.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>poi</groupId>
+        <artifactId>poi-scratchpad</artifactId>
+        <version>${poi.version}</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

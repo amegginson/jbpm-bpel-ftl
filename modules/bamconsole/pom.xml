@@ -15,10 +15,10 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   
-  <name>JBoss jBPM - Identity</name>
+  <name>JBoss jBPM - BAM Console</name>
   <groupId>org.jboss.jbpm</groupId>
-  <artifactId>jbpm-identity</artifactId>
-  <packaging>jar</packaging>
+  <artifactId>jbpm-bam</artifactId>
+  <packaging>pom</packaging>
   
   <!-- Parent -->
   <parent>
@@ -27,51 +27,24 @@
     <version>3.2.4-SNAPSHOT</version>
   </parent>
   
-  <!-- Dependencies -->
-  <dependencies>
-    <!-- jBPM Dependencies -->
-    <dependency>
-      <groupId>org.jboss.jbpm</groupId>
-      <artifactId>jbpm-jpdl-core</artifactId>
-      <version>${version}</version>
-    </dependency>
-    
-    <!-- Test Dependencies -->
-    <dependency>
-      <groupId>hsqldb</groupId>
-      <artifactId>hsqldb</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
-  
+  <!-- Modules -->
+  <modules>
+    <module>jar</module>
+    <module>war</module>
+    <module>ear</module>
+  </modules>
+
   <!-- Plugins -->
   <build>
     <plugins>
       <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <showDeprecation>false</showDeprecation>
-        </configuration>
-      </plugin>
-      <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <excludes>
-            <!-- Tests not part of AllTests  -->
-            <exclude>org/jbpm/identity/IdentityDbTestCase.java</exclude>            
-          </excludes>
+          <!-- [JBPM-1264] ant test produces errors in 3.2.3.GA  -->
+          <skipTests>true</skipTests>
         </configuration>
       </plugin>
     </plugins>
   </build>
- </project>
+  
+</project>

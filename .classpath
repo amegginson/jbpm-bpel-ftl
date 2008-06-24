@@ -2,6 +2,8 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="src" path="modules/testsuite/src/test/java"/>
+	<classpathentry kind="src" path="modules/bamconsole/src/main/java"/>
+	<classpathentry kind="src" path="modules/bamconsole/src/test/java"/>
 	<classpathentry kind="src" path="modules/jpdl/core/src/main/java"/>
 	<classpathentry kind="src" path="modules/jpdl/core/src/test/java"/>
 	<classpathentry kind="src" path="modules/identity/src/test/java"/>
