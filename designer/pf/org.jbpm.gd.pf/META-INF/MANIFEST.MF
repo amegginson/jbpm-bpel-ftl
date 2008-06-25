@@ -1,7 +1,0 @@
-Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Name: JBoss jBPM Graphical Designer Example Plug-in
-Bundle-SymbolicName: org.jbpm.gd.pf;singleton:=true
-Bundle-Version: 3.2.0.alpha1
-Bundle-Vendor: JBoss, a Division of Red Hat
-Require-Bundle: org.jbpm.gd.common

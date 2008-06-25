@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<site>
-   <feature url="features/org.jbpm.gd.jpdl.feature_3.2.0.alpha1.jar" id="org.jbpm.gd.jpdl.feature" version="3.2.0.alpha1">
-      <category name="org.jbpm.gd"/>
-   </feature>
-   <category-def name="org.jbpm.gd" label="JBoss jBPM Graphical Designer Updates"/>
-</site>
