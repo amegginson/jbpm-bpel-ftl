@@ -1,1 +1,0 @@
-jBPM --jbpm-version-- configurations for JBoss --jboss-version-- were applied to this server configuration.

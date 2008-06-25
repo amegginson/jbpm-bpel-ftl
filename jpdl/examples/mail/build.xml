@@ -1,6 +1,0 @@
-<project name="jbpm.jpdl.example.mail" basedir="." default="test">
-
-  <!-- import base project build file -->
-  <import file="../example.base.build.xml"/>
-
-</project>

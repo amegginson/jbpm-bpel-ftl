@@ -1,5 +1,0 @@
-jbpm-name=jBPM jPDL 3.2.3
-eclipse.preferences.version=1
-server\ deployer=/jbpm-console/upload
-server\ port=8080
-server\ name=localhost
