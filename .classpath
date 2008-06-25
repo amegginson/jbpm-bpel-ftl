@@ -1,19 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-  <classpathentry kind="src" path="modules/api/src/main/java"/>
-  <classpathentry kind="src" path="modules/enterprise/src/main/java"/>
-  <classpathentry kind="src" path="modules/enterprise/src/test/java"/>
-  <classpathentry kind="src" path="modules/jbpm4jsf/src/main/java"/>
-  <classpathentry kind="src" path="modules/api/src/test/java"/>
-  <classpathentry kind="src" path="modules/jpdl/core/src/main/java"/>
-  <classpathentry kind="src" path="modules/jpdl/core/src/test/java"/>
-  <classpathentry kind="src" path="modules/identity/src/main/java"/>
-  <classpathentry kind="src" path="modules/identity/src/test/java"/>
-  <classpathentry kind="src" path="modules/bamconsole/jar/src/main/java"/>
-  <classpathentry kind="src" path="modules/bamconsole/jar/src/test/java"/>
-  <classpathentry kind="src" path="modules/testsuite/src/main/java"/>
-  <classpathentry kind="src" path="modules/testsuite/src/test/java"/>
-  <classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-  <classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
-  <classpathentry kind="output" path="target/eclipse-classes"/>
+	<classpathentry kind="src" path="modules/api/src/main/java"/>
+	<classpathentry kind="src" path="modules/jpdl/examples/src/test/java"/>
+	<classpathentry kind="src" path="modules/api/src/test/java"/>
+	<classpathentry kind="src" path="modules/jpdl/core/src/main/java"/>
+	<classpathentry kind="src" path="modules/jpdl/core/src/test/java"/>
+	<classpathentry kind="src" path="modules/identity/src/main/java"/>
+	<classpathentry kind="src" path="modules/identity/src/test/java"/>
+	<classpathentry kind="src" path="modules/testsuite/src/main/java"/>
+	<classpathentry kind="src" path="modules/testsuite/src/test/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
+	<classpathentry kind="output" path="target/eclipse-classes"/>
 </classpath>

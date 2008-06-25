@@ -49,10 +49,6 @@
           <groupId>commons-logging</groupId>
           <artifactId>commons-logging-api</artifactId>
         </exclusion>
-        <exclusion>
-          <groupId>org.apache.jakarta.commons</groupId>
-          <artifactId>commons-jci-core</artifactId>
-        </exclusion>
       </exclusions>
     </dependency>
     <dependency>

@@ -15,25 +15,16 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   
-  <name>JBoss jBPM - jPDL</name>
+  <name>JBoss jBPM - jPDL Userguide</name>
   <groupId>org.jboss.jbpm</groupId>
-  <artifactId>jbpm-jpdl</artifactId>
+  <artifactId>jbpm-jpdl-userguide</artifactId>
   <packaging>pom</packaging>
   
   <!-- Parent -->
   <parent>
     <groupId>org.jboss.jbpm</groupId>
-    <artifactId>jbpm</artifactId>
+    <artifactId>jbpm-jpdl</artifactId>
     <version>3.2.4-SNAPSHOT</version>
-    <relativePath>../../pom.xml</relativePath>
   </parent>
-  
-  <!-- Modules -->
-  <modules>
-    <module>core</module>
-    <!-- module>db</module -->
-    <module>examples</module>
-    <module>userguide</module>
-  </modules>
   
 </project>

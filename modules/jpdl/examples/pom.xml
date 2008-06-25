@@ -14,19 +14,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-
-  <name>JBoss jBPM - 4JSF</name>
+  
+  <name>JBoss jBPM - jPDL Examples</name>
   <groupId>org.jboss.jbpm</groupId>
-  <artifactId>jbpm-jbpm4jsf</artifactId>
+  <artifactId>jbpm-jpdl-examples</artifactId>
   <packaging>jar</packaging>
-
+  
   <!-- Parent -->
   <parent>
     <groupId>org.jboss.jbpm</groupId>
-    <artifactId>jbpm</artifactId>
+    <artifactId>jbpm-jpdl</artifactId>
     <version>3.2.4-SNAPSHOT</version>
   </parent>
-
+  
   <!-- Dependencies -->
   <dependencies>
     <!-- jBPM Dependencies -->
@@ -36,33 +36,16 @@
       <version>${version}</version>
     </dependency>
     
-    <!-- Compile Dependencies -->
+    <!-- Test Dependencies -->
     <dependency>
-      <groupId>org.jboss.gravel</groupId>
-      <artifactId>gravel</artifactId>
+      <groupId>drools</groupId>
+      <artifactId>drools-compiler</artifactId>
+      <scope>test</scope>
     </dependency>
     <dependency>
-      <groupId>com.sun.facelets</groupId>
-      <artifactId>jsf-facelets</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>javax.el</groupId>
-      <artifactId>el-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>javax.faces</groupId>
-      <artifactId>jsf-api</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>javax.faces</groupId>
-      <artifactId>jsf-impl</artifactId>
-    </dependency>
-    
-    <!-- Provided Dependencies -->
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <scope>provided</scope>
+      <groupId>drools</groupId>
+      <artifactId>drools-core</artifactId>
+      <scope>test</scope>
     </dependency>
   </dependencies>
 
@@ -70,23 +53,10 @@
   <build>
     <plugins>
       <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
+        <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <showDeprecation>false</showDeprecation>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>net.sourceforge.maven-taglib</groupId>
-        <artifactId>maven-taglib-plugin</artifactId>
-        <executions>
-          <execution>
-            <goals>
-              <goal>taglibdocjar</goal>
-            </goals>
-          </execution>
-        </executions>
-        <configuration>
-          <taglib.src.dir>src/main/tld</taglib.src.dir>
+          <!-- [JBPM-1290] Integrate example tests in automated testrun -->
+          <skipTests>true</skipTests>
         </configuration>
       </plugin>
     </plugins>
