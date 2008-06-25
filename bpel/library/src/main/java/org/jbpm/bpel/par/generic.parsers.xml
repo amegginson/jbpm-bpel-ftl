@@ -1,3 +1,0 @@
-<parsers>
-  <parser class="org.jbpm.bpel.par.GenericArchiveParser" />
-</parsers>
