@@ -33,7 +33,6 @@
   <modules>
     <module>modules/api</module>
     <module>modules/jpdl</module>
-    <module>modules/identity</module>
     <module>modules/jbpm4jsf</module>
     <module>modules/console</module>
     <module>modules/enterprise</module>
@@ -50,6 +49,7 @@
     <commons.fileupload.version>1.2.1</commons.fileupload.version>
     <commons.io.version>1.4</commons.io.version>
     <commons.logging.version>1.1.1</commons.logging.version>
+    <desmoj.version>2.1.1</desmoj.version>
     <dom4j.version>1.6.1</dom4j.version>
     <drools.version>3.0.4</drools.version>
     <dumbster.version>1.6</dumbster.version>
@@ -62,12 +62,14 @@
     <javax.ejb.version>3.0</javax.ejb.version>
     <javax.el.version>1.2</javax.el.version>
     <javax.faces.version>1.2_03</javax.faces.version>
+    <javax.jcr.version>1.0.1</javax.jcr.version>
     <javax.jms.version>1.1</javax.jms.version>
+    <javax.jws.version>1.0-MR1</javax.jws.version>
     <javax.mail.version>1.4</javax.mail.version>
-    <jaxen.version>1.1.1</jaxen.version>
     <javax.servlet.version>2.5</javax.servlet.version>
     <javax.persistence.version>1.0</javax.persistence.version>
-    <javax.jcr.version>1.0.1</javax.jcr.version>
+    <javax.jaxb.version>2.1</javax.jaxb.version>
+    <jaxen.version>1.1.1</jaxen.version>
     <jboss.gravel.version>1.0.0.GA</jboss.gravel.version>
     <jboss.microcontainer.version>2.0.0.Beta15</jboss.microcontainer.version>
     <jboss.seam.version>2.0.2.GA</jboss.seam.version>
@@ -106,6 +108,11 @@
         <groupId>commons-logging</groupId>
         <artifactId>commons-logging</artifactId>
         <version>${commons.logging.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>desmoj</groupId>
+        <artifactId>desmoj</artifactId>
+        <version>${desmoj.version}</version>
       </dependency>
       <dependency>
         <groupId>dom4j</groupId>
@@ -179,6 +186,11 @@
         <version>${javax.jms.version}</version>
       </dependency>
       <dependency>
+        <groupId>javax.jws</groupId>
+        <artifactId>jsr181-api</artifactId>
+        <version>${javax.jws.version}</version>
+      </dependency>
+      <dependency>
         <groupId>javax.mail</groupId>
         <artifactId>mail</artifactId>
         <version>${javax.mail.version}</version>
@@ -192,6 +204,11 @@
         <groupId>javax.servlet</groupId>
         <artifactId>servlet-api</artifactId>
         <version>${javax.servlet.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.xml.bind</groupId>
+        <artifactId>jaxb-api</artifactId>
+        <version>${javax.jaxb.version}</version>
       </dependency>
       <dependency>
         <groupId>junit</groupId>

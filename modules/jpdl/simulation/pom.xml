@@ -15,15 +15,15 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   
-  <name>JBoss jBPM - Identity</name>
+  <name>JBoss jBPM - jPDL Simulation</name>
   <groupId>org.jboss.jbpm</groupId>
-  <artifactId>jbpm-identity</artifactId>
+  <artifactId>jbpm-jpdl-simulation</artifactId>
   <packaging>jar</packaging>
   
   <!-- Parent -->
   <parent>
     <groupId>org.jboss.jbpm</groupId>
-    <artifactId>jbpm</artifactId>
+    <artifactId>jbpm-jpdl</artifactId>
     <version>3.2.4-SNAPSHOT</version>
   </parent>
   
@@ -36,21 +36,14 @@
       <version>${version}</version>
     </dependency>
     
-    <!-- Test Dependencies -->
+    <!-- Compile Dependencies -->
     <dependency>
-      <groupId>hsqldb</groupId>
-      <artifactId>hsqldb</artifactId>
-      <scope>test</scope>
+      <groupId>desmoj</groupId>
+      <artifactId>desmoj</artifactId>
     </dependency>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <scope>test</scope>
+      <groupId>jasperreports</groupId>
+      <artifactId>jasperreports</artifactId>
     </dependency>
   </dependencies>
   
@@ -58,20 +51,12 @@
   <build>
     <plugins>
       <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <showDeprecation>false</showDeprecation>
-        </configuration>
-      </plugin>
-      <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <excludes>
-            <!-- Tests not part of AllTests  -->
-            <exclude>org/jbpm/identity/IdentityDbTestCase.java</exclude>            
-          </excludes>
+          <!-- [JBPM-1292] Integrate simulation tests in automated testrun -->
+          <skipTests>true</skipTests>
         </configuration>
       </plugin>
     </plugins>
   </build>
- </project>
+</project>
