@@ -697,7 +697,7 @@
 	</target>
 
 	<target name="console.build.from.source" if="build.console.from.source">
-		<ant antfile="${jbpm.root}/console/build.xml" target="install" inheritall="false" />
+		<ant antfile="${jbpm.root}/modules/console/build.xml" target="install" inheritall="false" />
 	</target>
 
 	<target name="console.fetch.from.repo" unless="build.console.from.source">
@@ -714,7 +714,7 @@
 	<target name="jbpm4jsf.jar" depends="jbpm4jsf.build.from.source,jbpm4jsf.fetch.from.repo" />
 
 	<target name="jbpm4jsf.build.from.source" if="build.jbpm4jsf.from.source">
-		<ant antfile="${jbpm.root}/jbpm4jsf/build.xml" target="install" inheritall="false" />
+		<ant antfile="${jbpm.root}/modules/jbpm4jsf/build.xml" target="install" inheritall="false" />
 	</target>
 
 	<target name="jbpm4jsf.fetch.from.repo" unless="build.jbpm4jsf.from.source">
@@ -801,11 +801,10 @@
 	</target>
 
 
-	<!--
+  <!--
   ##########################
   ## BAM CONSOLE DEPENDENCIES ##
   ##########################
-  -->
 
 	<target name="bamconsole">
 		<antcall target="bamconsole.build.from.source" />
@@ -834,6 +833,7 @@
 		<mkdir dir="${local.repository}/${lib.jbpm.bamconsole.dir}" />
 		<get src="${lib.jbpm.jpdl.bam.userguide.remote}" dest="${lib.jbpm.jpdl.bam.userguide.local}" usetimestamp="true" />
 	</target>
+  -->
 
 	<!--
   ###############################
@@ -848,7 +848,7 @@
 
 	<!--
   <target name="console" depends="jpdl.jar" description="builds the console dependency">
-    <ant antfile="${jbpm.root}/console/build.xml" inheritall="false" />
+    <ant antfile="${jbpm.root}/modules/console/build.xml" inheritall="false" />
   </target>
 
   <target name="designer" description="builds the designer dependency">

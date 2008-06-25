@@ -34,6 +34,8 @@
     <module>modules/api</module>
     <module>modules/jpdl</module>
     <module>modules/identity</module>
+    <module>modules/jbpm4jsf</module>
+    <module>modules/console</module>
     <module>modules/bamconsole</module>
     <module>modules/testsuite</module>
   </modules>
@@ -44,21 +46,25 @@
     <apache.jackrabbit.version>1.4.5</apache.jackrabbit.version>
     <bsh.version>1.3.0</bsh.version>
     <commons.fileupload.version>1.2.1</commons.fileupload.version>
+    <commons.io.version>1.4</commons.io.version>
     <commons.logging.version>1.1.1</commons.logging.version>
     <dom4j.version>1.6.1</dom4j.version>
     <drools.version>3.0.4</drools.version>
     <dumbster.version>1.6</dumbster.version>
+    <facelets.version>1.1.11</facelets.version>
     <hibernate.version>3.2.6.ga</hibernate.version>
     <hibernate.annotations.version>3.3.1.GA</hibernate.annotations.version>
     <hibernate.validator.version>3.0.0.ga</hibernate.validator.version>
     <hsqldb.version>1.8.0.7</hsqldb.version>
     <jasper.reports.version>3.0.0</jasper.reports.version>
-    <javax.faces.version>1.2</javax.faces.version>
+    <javax.el.version>1.2</javax.el.version>
+    <javax.faces.version>1.2_03</javax.faces.version>
     <javax.mail.version>1.4</javax.mail.version>
     <jaxen.version>1.1.1</jaxen.version>
     <javax.servlet.version>2.5</javax.servlet.version>
     <javax.persistence.version>1.0</javax.persistence.version>
     <javax.jcr.version>1.0.1</javax.jcr.version>
+    <jboss.gravel.version>1.0.0.GA</jboss.gravel.version>
     <jboss.microcontainer.version>2.0.0.Beta15</jboss.microcontainer.version>
     <jboss.seam.version>2.0.2.GA</jboss.seam.version>
     <junit.version>3.8.1</junit.version>
@@ -78,9 +84,19 @@
         <version>${bsh.version}</version>
       </dependency>
       <dependency>
+        <groupId>com.sun.facelets</groupId>
+        <artifactId>jsf-facelets</artifactId>
+        <version>${facelets.version}</version>
+      </dependency>
+      <dependency>
         <groupId>commons-fileupload</groupId>
         <artifactId>commons-fileupload</artifactId>
         <version>${commons.fileupload.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>commons-io</groupId>
+        <artifactId>commons-io</artifactId>
+        <version>${commons.io.version}</version>
       </dependency>
       <dependency>
         <groupId>commons-logging</groupId>
@@ -123,8 +139,18 @@
         <version>${jaxen.version}</version>
       </dependency>
       <dependency>
+        <groupId>javax.el</groupId>
+        <artifactId>el-api</artifactId>
+        <version>${javax.el.version}</version>
+      </dependency>
+      <dependency>
         <groupId>javax.faces</groupId>
         <artifactId>jsf-api</artifactId>
+        <version>${javax.faces.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>javax.faces</groupId>
+        <artifactId>jsf-impl</artifactId>
         <version>${javax.faces.version}</version>
       </dependency>
       <dependency>
@@ -186,6 +212,11 @@
         <groupId>org.hibernate</groupId>
         <artifactId>hibernate-validator</artifactId>
         <version>${hibernate.validator.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.gravel</groupId>
+        <artifactId>gravel</artifactId>
+        <version>${jboss.gravel.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.microcontainer</groupId>
@@ -259,6 +290,9 @@
   <!-- Plugins -->
   <build>
     <plugins>
+      <plugin>
+        <artifactId>maven-javadoc-plugin</artifactId>
+      </plugin>
       <plugin>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>

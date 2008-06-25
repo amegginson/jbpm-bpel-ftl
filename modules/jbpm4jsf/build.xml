@@ -1,7 +1,7 @@
 <project name="jbpm.jbpm4jsf" default="install">
 
     <!-- project specific properties -->
-    <property name="jbpm.root" value=".."/>
+    <property name="jbpm.root" value="../.."/>
 
     <!-- properties files -->
     <property file="${user.home}/jbpm/build.properties"/>
@@ -38,7 +38,7 @@
     <target name="install" depends="all" description="Copy jbpm4jsf.jar to the local repository">
         <copy file="target/${lib.jbpm.jbpm4jsf.jar.file}" tofile="${lib.jbpm.jbpm4jsf.jar.local}"/>
         <copy file="target/${lib.jbpm.jbpm4jsf.src.file}" tofile="${lib.jbpm.jbpm4jsf.src.local}"/>
-        <copy file="target/${lib.jbpm.jbpm4jsf.tlddoc.file}" tofile="${lib.jbpm.jbpm4jsf.tlddoc.local}"/>
+        <!--copy file="target/${lib.jbpm.jbpm4jsf.tlddoc.file}" tofile="${lib.jbpm.jbpm4jsf.tlddoc.local}"/-->
         <copy file="target/${lib.jbpm.jbpm4jsf.javadoc.file}" tofile="${lib.jbpm.jbpm4jsf.javadoc.local}"/>
     </target>
 
@@ -105,7 +105,7 @@
 
     <target name="tlddoc-depcheck">
         <uptodate property="tlddoc-uptodate" targetfile="target/stamp-tlddoc">
-            <srcfiles dir="resources">
+            <srcfiles dir="src/main/resources">
                 <include name="**/*.tld"/>
                 <exclude name="**/.*"/>
             </srcfiles>
@@ -116,7 +116,7 @@
         <mkdir dir="target/docs/tlddoc"/>
         <pathconvert pathsep=" " property="tld.path">
             <path>
-                <fileset dir="resources">
+                <fileset dir="src/main/resources">
                     <include name="**/*.tld"/>
                     <exclude name="**/.*"/>
                 </fileset>
@@ -175,7 +175,7 @@
         <delete file="target/${lib.jbpm.jbpm4jsf.jar.file}"/>
         <delete file="target/${lib.jbpm.jbpm4jsf.jar.file}.md5"/>
         <jar destfile="target/${lib.jbpm.jbpm4jsf.jar.file}">
-            <metainf dir="resources">
+            <metainf dir="src/main/resources">
                 <include name="**/*.taglib.xml"/>
                 <include name="**/faces-config.xml"/>
                 <exclude name="**/.*"/>
@@ -256,8 +256,10 @@
                 <exclude name="**/.*"/>
             </zipfileset>
         </zip>
+    	<!--
         <checksum file="target/${lib.jbpm.jbpm4jsf.tlddoc.file}" property="jbpm4jsf-tlddoc.zip.md5"/>
         <echo file="target/${lib.jbpm.jbpm4jsf.tlddoc.file}.md5" message="${jbpm4jsf-tlddoc.zip.md5}  ${lib.jbpm.jbpm4jsf.tlddoc.file}${line.separator}"/>
+        -->
     </target>
 
     <target name="all" depends="jar,src-zip,javadoc-zip,tlddoc-zip" description="Build everything"/>

@@ -15,7 +15,7 @@
                                   identity.jar, identity.src, identity.javadoc,
                                   enterprise, enterprise.src, enterprise.javadoc,
                                   console, designer, 
-                                  jboss.configuration, build.mail.test.webapp, bamconsole, bamconsole.userguide">
+                                  jboss.configuration, build.mail.test.webapp"> <!-- bamconsole.userguide" -->
 
 		<delete dir="target/jbpm-jpdl" />
 

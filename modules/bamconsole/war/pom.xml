@@ -137,16 +137,5 @@
       </exclusions>
     </dependency>
   </dependencies>
-  
-  <!-- Plugins -->
-  <build>
-    <plugins>
-      <plugin>
-        <artifactId>maven-war-plugin</artifactId>
-        <configuration>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
-  
+ 
  </project>
