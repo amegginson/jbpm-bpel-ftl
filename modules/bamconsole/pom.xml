@@ -29,7 +29,7 @@
   
   <!-- Modules -->
   <modules>
-    <module>jar</module>
+    <module>ejb</module>
     <module>war</module>
     <module>ear</module>
   </modules>
