@@ -22,4 +22,4 @@ hudson.smtp.host=localhost
 
 # Hudson setup
 apache-tomcat=5.5.20
-sun-hudson=1.126
+sun-hudson=1.226
