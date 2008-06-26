@@ -50,6 +50,12 @@ public abstract class ProcessInstanceManager {
     return engine;
   }
 
+  /** Locate the process instance manager */
+  public static ProcessInstanceManager locateProcessInstanceManager() {
+    ProcessEngine engine = ProcessEngineLocator.locateProcessEngine();
+    return engine.getProcessInstanceManager();
+  }
+  
   /**
    * Create a process instance for a given process definition
    * @param pd The process definition
