@@ -18,6 +18,8 @@ hudson.http.port=8180
 hudson.mail.recipients=
 hudson.smtp.host=localhost
 
+hudson.maven.path=/usr/java/apache-maven-2.0.9
+
 # Hudson setup
 apache-tomcat=5.5.20
 sun-hudson=1.226
