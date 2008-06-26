@@ -52,6 +52,12 @@ public abstract class ExecutionManager {
     return engine;
   }
 
+  /** Locate the execution manager */
+  public static ExecutionManager locateExecutionManager() {
+    ProcessEngine engine = ProcessEngineLocator.locateProcessEngine();
+    return engine.getExecutionManager();
+  }
+  
   /**
    * Create an execution for a given process instance
    */
