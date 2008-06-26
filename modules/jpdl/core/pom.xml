@@ -153,7 +153,10 @@
             <exclude>org/jbpm/mail/MailTest.java</exclude>
             <exclude>org/jbpm/mail/TaskMailTest.java</exclude>
             
-            <!-- Tests not part of AllTests  -->
+            <!--
+              Cleanup stale tests from the testsuite
+              http://jira.jboss.org/jira/browse/JBPM-1205 
+            -->
             <exclude>org/jbpm/context/exe/VariableQueryDbTest.java</exclude>            
             <exclude>org/jbpm/db/ContextSessionDbTest.java</exclude>
             <exclude>org/jbpm/DefaultConfigurationTest.java</exclude>
