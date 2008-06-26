@@ -10,6 +10,8 @@ jboss.repository=http://repository.jboss.org
 hudson.username=changeme
 hudson.password=changeme
 
+hudson.maven.path=/usr/java/apache-maven-2.0.9
+
 hudson.root=/usr/share/java/workspace
 hudson.host=jbws.dyndns.org
 hudson.admin.port=8150
@@ -17,8 +19,6 @@ hudson.http.port=8180
 
 hudson.mail.recipients=
 hudson.smtp.host=localhost
-
-hudson.maven.path=/usr/java/apache-maven-2.0.9
 
 # Hudson setup
 apache-tomcat=5.5.20
