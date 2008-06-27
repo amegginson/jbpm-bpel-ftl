@@ -1,0 +1,7 @@
+<deployment xmlns="urn:jboss:bean-deployer:2.0">
+ 
+  <!-- The BPM Process Engine -->  
+  <bean name="jBPMProcessEngine" class="org.jbpm.test.api.client.MockProcessEngine">
+  </bean>
+  
+</deployment>
