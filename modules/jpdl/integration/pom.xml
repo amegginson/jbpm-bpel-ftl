@@ -36,6 +36,12 @@
     </dependency>
     <dependency>
       <groupId>org.jboss.jbpm</groupId>
+      <artifactId>jbpm-api</artifactId>
+      <classifier>tests</classifier>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.jbpm</groupId>
       <artifactId>jbpm-jpdl-core</artifactId>
       <version>${version}</version>
     </dependency>
@@ -47,4 +53,29 @@
     </dependency>
   </dependencies>
 
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.jboss.jbpm</groupId>
+                  <artifactId>jbpm-api</artifactId>
+                  <classifier>tests</classifier>
+                </artifactItem>
+              </artifactItems>
+              <outputDirectory>src/test</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+    </plugins>
+  </build>
 </project>
