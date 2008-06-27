@@ -253,6 +253,12 @@
         <version>${jboss.jbpm.api.version}</version>
       </dependency>
       <dependency>
+        <groupId>org.jboss.jbpm</groupId>
+        <artifactId>jbpm-api</artifactId>
+        <classifier>tests</classifier>
+        <version>${jboss.jbpm.api.version}</version>
+      </dependency>
+      <dependency>
         <groupId>org.jboss.seam</groupId>
         <artifactId>jboss-seam</artifactId>
         <version>${jboss.seam.version}</version>
