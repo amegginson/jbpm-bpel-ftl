@@ -31,17 +31,17 @@
 
   <!-- Modules -->
   <modules>
-    <module>modules/api</module>
     <module>modules/jpdl</module>
-    <module>modules/jbpm4jsf</module>
     <module>modules/console</module>
     <module>modules/enterprise</module>
+    <module>modules/jbpm4jsf</module>
     <module>modules/bamconsole</module>
-    <module>modules/testsuite</module>
   </modules>
 
   <!-- Properties -->
   <properties>
+    <jboss.jbpm.api.version>1.0.0-SNAPSHOT</jboss.jbpm.api.version>
+    
     <apache.ant.version>1.7.0</apache.ant.version>
     <apache.cactus.version>1.8.0</apache.cactus.version>
     <apache.jackrabbit.version>1.4.5</apache.jackrabbit.version>
@@ -71,10 +71,7 @@
     <javax.jaxb.version>2.1</javax.jaxb.version>
     <jaxen.version>1.1.1</jaxen.version>
     <jboss.gravel.version>1.0.0.GA</jboss.gravel.version>
-    <jboss.microcontainer.version>2.0.0.Beta15</jboss.microcontainer.version>
     <jboss.seam.version>2.0.2.GA</jboss.seam.version>
-    <junit.version>3.8.1</junit.version>
-    <log4j.version>1.2.14</log4j.version>
     <oscache.version>2.4</oscache.version>
     <poi.version>3.0.2-FINAL</poi.version>
     <richfaces.ui.version>3.2.1.GA</richfaces.ui.version>
@@ -211,16 +208,6 @@
         <version>${javax.jaxb.version}</version>
       </dependency>
       <dependency>
-        <groupId>junit</groupId>
-        <artifactId>junit</artifactId>
-        <version>${junit.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>log4j</groupId>
-        <artifactId>log4j</artifactId>
-        <version>${log4j.version}</version>
-      </dependency>
-      <dependency>
         <groupId>opensymphony</groupId>
         <artifactId>oscache</artifactId>
         <version>${oscache.version}</version>
@@ -261,9 +248,9 @@
         <version>${jboss.gravel.version}</version>
       </dependency>
       <dependency>
-        <groupId>org.jboss.microcontainer</groupId>
-        <artifactId>jboss-kernel</artifactId>
-        <version>${jboss.microcontainer.version}</version>
+        <groupId>org.jboss.jbpm</groupId>
+        <artifactId>jbpm-api</artifactId>
+        <version>${jboss.jbpm.api.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.seam</groupId>
@@ -334,17 +321,6 @@
     <plugins>
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
-      </plugin>
-      <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <systemProperties>
-            <property>
-              <name>log4j.output.dir</name>
-              <value>${project.build.directory}</value>
-            </property>
-          </systemProperties>
-        </configuration>
       </plugin>
     </plugins>
   </build>
