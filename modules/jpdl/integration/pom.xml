@@ -37,8 +37,9 @@
     <dependency>
       <groupId>org.jboss.jbpm</groupId>
       <artifactId>jbpm-api</artifactId>
-      <classifier>tests</classifier>
-      <scope>test</scope>
+      <classifier>testsuite</classifier>
+      <scope>provided</scope>
+      <type>zip</type>
     </dependency>
     <dependency>
       <groupId>org.jboss.jbpm</groupId>
@@ -56,6 +57,16 @@
   <build>
     <plugins>
       <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <configuration>
+          <filesets>
+            <fileset>
+              <directory>src/test</directory>
+            </fileset>
+          </filesets>
+        </configuration>
+      </plugin>
+      <plugin>
         <artifactId>maven-dependency-plugin</artifactId>
         <executions>
           <execution>
@@ -68,7 +79,8 @@
                 <artifactItem>
                   <groupId>org.jboss.jbpm</groupId>
                   <artifactId>jbpm-api</artifactId>
-                  <classifier>tests</classifier>
+                  <classifier>testsuite</classifier>
+                  <type>zip</type>
                 </artifactItem>
               </artifactItems>
               <outputDirectory>src/test</outputDirectory>

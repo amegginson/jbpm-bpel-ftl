@@ -81,6 +81,21 @@
   <!-- DependencyManagement -->
   <dependencyManagement>
     <dependencies>
+      <!-- jBPM Dependencies -->
+      <dependency>
+        <groupId>org.jboss.jbpm</groupId>
+        <artifactId>jbpm-api</artifactId>
+        <version>${jboss.jbpm.api.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jboss.jbpm</groupId>
+        <artifactId>jbpm-api</artifactId>
+        <classifier>testsuite</classifier>
+        <version>${jboss.jbpm.api.version}</version>
+        <type>zip</type>
+      </dependency>
+      
+      <!-- Thirdparty Dependencies -->
       <dependency>
         <groupId>bsh</groupId>
         <artifactId>bsh</artifactId>
@@ -246,17 +261,6 @@
         <groupId>org.jboss.gravel</groupId>
         <artifactId>gravel</artifactId>
         <version>${jboss.gravel.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.jbpm</groupId>
-        <artifactId>jbpm-api</artifactId>
-        <version>${jboss.jbpm.api.version}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.jboss.jbpm</groupId>
-        <artifactId>jbpm-api</artifactId>
-        <classifier>tests</classifier>
-        <version>${jboss.jbpm.api.version}</version>
       </dependency>
       <dependency>
         <groupId>org.jboss.seam</groupId>
