@@ -57,7 +57,7 @@
             <configuration>
               <tasks>
                 <property name="maven.runtime.classpath" refid="maven.runtime.classpath" />
-                <ant antfile="scripts/antrun-jbpmschema.xml" target="jbpmschema" />
+                <!-- ant antfile="scripts/antrun-jbpmschema.xml" target="jbpmschema" /-->
               </tasks>
             </configuration>
           </execution>

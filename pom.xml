@@ -41,7 +41,7 @@
   <!-- Properties -->
   <properties>
     <jboss.jbpm.api.version>1.0.0-SNAPSHOT</jboss.jbpm.api.version>
-    
+
     <apache.ant.version>1.7.0</apache.ant.version>
     <apache.cactus.version>1.8.0</apache.cactus.version>
     <apache.jackrabbit.version>1.4.5</apache.jackrabbit.version>
@@ -58,6 +58,7 @@
     <hibernate.annotations.version>3.3.1.GA</hibernate.annotations.version>
     <hibernate.validator.version>3.0.0.ga</hibernate.validator.version>
     <hsqldb.version>1.8.0.7</hsqldb.version>
+    <izpack.version>4.0.0</izpack.version>
     <jasper.reports.version>3.0.0</jasper.reports.version>
     <javax.ejb.version>3.0</javax.ejb.version>
     <javax.el.version>1.2</javax.el.version>
@@ -94,7 +95,7 @@
         <version>${jboss.jbpm.api.version}</version>
         <type>zip</type>
       </dependency>
-      
+
       <!-- Thirdparty Dependencies -->
       <dependency>
         <groupId>bsh</groupId>
@@ -161,6 +162,11 @@
         <groupId>jasperreports</groupId>
         <artifactId>jasperreports</artifactId>
         <version>${jasper.reports.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>izpack</groupId>
+        <artifactId>standalone-compiler</artifactId>
+        <version>${izpack.version}</version>
       </dependency>
       <dependency>
         <groupId>jaxen</groupId>
@@ -334,7 +340,7 @@
       </plugin>
     </plugins>
   </build>
-
+  
   <!-- DistributionManagement -->
   <distributionManagement>
     <site>
@@ -342,7 +348,7 @@
       <url>file:///home/tdiesler/workspace/jbpm-site</url>
     </site>
   </distributionManagement>
-  
+
   <!-- Profiles -->
   <profiles>
 

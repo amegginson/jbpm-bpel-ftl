@@ -123,6 +123,8 @@
               <goal>single</goal>
             </goals>
             <configuration>
+              <finalName>${project.build.finalName}</finalName>
+              <appendAssemblyId>true</appendAssemblyId>
               <descriptors>
                 <descriptor>scripts/assembly-config.xml</descriptor>
               </descriptors>

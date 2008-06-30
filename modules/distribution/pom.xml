@@ -15,63 +15,56 @@
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   
-  <name>JBoss jBPM - jPDL Identity</name>
+  <name>JBoss jBPM - Distribution</name>
   <groupId>org.jboss.jbpm</groupId>
-  <artifactId>jbpm-jpdl-identity</artifactId>
-  <packaging>jar</packaging>
+  <artifactId>jbpm-distribution</artifactId>
+  <packaging>pom</packaging>
   
   <!-- Parent -->
   <parent>
     <groupId>org.jboss.jbpm</groupId>
-    <artifactId>jbpm-jpdl</artifactId>
+    <artifactId>jbpm</artifactId>
     <version>3.2.4-SNAPSHOT</version>
   </parent>
   
   <!-- Dependencies -->
   <dependencies>
-    <!-- jBPM Dependencies -->
     <dependency>
       <groupId>org.jboss.jbpm</groupId>
-      <artifactId>jbpm-jpdl-core</artifactId>
+      <artifactId>jbpm-api</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.jbpm</groupId>
+      <artifactId>jbpm-console</artifactId>
+      <version>${version}</version>
+      <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.jbpm</groupId>
+      <artifactId>jbpm-jpdl-integration</artifactId>
       <version>${version}</version>
     </dependency>
-    
-    <!-- Test Dependencies -->
     <dependency>
-      <groupId>hsqldb</groupId>
-      <artifactId>hsqldb</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>log4j</groupId>
-      <artifactId>log4j</artifactId>
-      <scope>test</scope>
+      <groupId>izpack</groupId>
+      <artifactId>standalone-compiler</artifactId>
     </dependency>
   </dependencies>
-  
+
   <!-- Plugins -->
   <build>
     <plugins>
       <plugin>
-        <artifactId>maven-compiler-plugin</artifactId>
+        <artifactId>maven-assembly-plugin</artifactId>
         <configuration>
-          <showDeprecation>false</showDeprecation>
-        </configuration>
-      </plugin>
-      <plugin>
-        <artifactId>maven-surefire-plugin</artifactId>
-        <configuration>
-          <excludes>
-            <!-- Tests not part of AllTests  -->
-            <exclude>org/jbpm/identity/IdentityDbTestCase.java</exclude>            
-          </excludes>
+          <finalName>deploy-artifacts</finalName>
+          <ignoreDirFormatExtensions>true</ignoreDirFormatExtensions>
+          <appendAssemblyId>false</appendAssemblyId>
+          <descriptors>
+            <descriptor>src/scripts/assembly-deploy-artifacts.xml</descriptor>
+          </descriptors>
         </configuration>
       </plugin>
     </plugins>
   </build>
- </project>
+  
+</project>
