@@ -63,11 +63,13 @@
     <property name="jboss501.home" value="${profiles.profile.properties.jboss501.home}" />
 
     <echo />
-    <echo message="jboss421.home=${jboss421.home}" />
     <echo message="jboss422.home=${jboss422.home}" />
+    <!--
+    <echo message="jboss421.home=${jboss421.home}" />
     <echo message="jboss423.home=${jboss423.home}" />
     <echo message="jboss500.home=${jboss500.home}" />
     <echo message="jboss501.home=${jboss501.home}" />
+    -->
   </target>
 
   <!-- ================================================================== -->
@@ -182,10 +184,7 @@
             basedir="${izpack.temp.dir}"/>
     
     <!-- Clean working directory -->
-    <echo message="Cleaning up working directory..."/>
     <delete dir="${izpack.temp.dir}" quiet="true" includeemptydirs="true"/>
-    <echo message="Done."/>
-    
   </target>
 
 </project>
