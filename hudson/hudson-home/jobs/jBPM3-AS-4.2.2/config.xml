@@ -14,7 +14,7 @@ JBPMDIR=$WORKSPACE/jbpm
 DISTRODIR=$JBPMDIR/modules/distribution/target
 JBOSS_BINDADDR=@jboss.bind.address@
 JBOSS_INSTANCE=@hudson.home@/jobs/AS-4.2.2/workspace/JBossAS-4.2.2/build/output/@hudson.jboss422.build@
-ENVIRONMENT=&quot;-Dmaven.opts=-U -Djboss.bind.address=@jboss.bind.address@ -Djboss422.home=$JBOSS_INSTANCE&quot;
+ENVIRONMENT=&quot;-Djboss.bind.address=@jboss.bind.address@ -Djboss422.home=$JBOSS_INSTANCE&quot;
 
 #
 # stop jbossas
