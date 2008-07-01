@@ -19,7 +19,7 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jbpm.taskinstance;
+package org.jbpm.examples.taskinstance;
 
 import java.util.Date;
 import java.util.Iterator;
@@ -40,7 +40,6 @@ import org.jbpm.identity.hibernate.IdentitySession;
 import org.jbpm.identity.xml.IdentityXmlParser;
 import org.jbpm.persistence.db.DbPersistenceServiceFactory;
 import org.jbpm.svc.Services;
-import org.jbpm.taskinstance.CustomTaskInstance;
 import org.jbpm.taskmgmt.exe.TaskInstance;
 
 /**

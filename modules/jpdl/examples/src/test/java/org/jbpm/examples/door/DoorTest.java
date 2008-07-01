@@ -1,6 +1,5 @@
-package org.jbpm.examples.doorjava;
+package org.jbpm.examples.door;
 
-import org.jbpm.examples.doorjava.Door;
 
 import junit.framework.TestCase;
 

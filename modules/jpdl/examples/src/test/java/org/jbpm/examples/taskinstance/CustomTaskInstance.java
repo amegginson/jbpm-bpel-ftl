@@ -1,4 +1,4 @@
-package org.jbpm.taskinstance;
+package org.jbpm.examples.taskinstance;
 
 import org.jbpm.taskmgmt.exe.TaskInstance;
 

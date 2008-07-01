@@ -1,4 +1,4 @@
-package org.jbpm.examples.doorjava;
+package org.jbpm.examples.door;
 
 /**
  * this shows a plain Java coding approach to implement the behaviour

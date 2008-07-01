@@ -1,4 +1,4 @@
-package org.jbpm.examples.doorprocess;
+package org.jbpm.examples.door;
 
 import junit.framework.TestCase;
 

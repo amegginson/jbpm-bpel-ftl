@@ -1,37 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" output="modules/jpdl/core/target/classes" path="modules/jpdl/core/src/main/java"/>
-	<classpathentry kind="src" output="modules/jpdl/core/target/test-classes" path="modules/jpdl/core/src/test/java"/>
-	<classpathentry excluding="**" kind="src" output="modules/jpdl/core/target/classes" path="modules/jpdl/core/src/main/resources"/>
-	<classpathentry excluding="**" kind="src" output="modules/jpdl/core/target/test-classes" path="modules/jpdl/core/src/test/resources"/>
-	<classpathentry excluding="**" kind="src" output="modules/jpdl/db/target/classes" path="modules/jpdl/db/src/main/resources"/>
-	<classpathentry kind="src" output="modules/jpdl/examples/target/test-classes" path="modules/jpdl/examples/src/test/java"/>
-	<classpathentry excluding="**" kind="src" output="modules/jpdl/examples/target/test-classes" path="modules/jpdl/examples/src/test/resources"/>
-	<classpathentry kind="src" output="modules/jpdl/identity/target/classes" path="modules/jpdl/identity/src/main/java"/>
-	<classpathentry kind="src" output="modules/jpdl/identity/target/test-classes" path="modules/jpdl/identity/src/test/java"/>
-	<classpathentry excluding="**" kind="src" output="modules/jpdl/identity/target/classes" path="modules/jpdl/identity/src/main/resources"/>
-	<classpathentry excluding="**" kind="src" output="modules/jpdl/identity/target/test-classes" path="modules/jpdl/identity/src/test/resources"/>
-	<classpathentry kind="src" output="modules/jpdl/integration/target/classes" path="modules/jpdl/integration/src/main/java"/>
-	<classpathentry excluding="**" kind="src" output="modules/jpdl/integration/target/classes" path="modules/jpdl/integration/src/main/resources"/>
-	<classpathentry kind="src" output="modules/jpdl/simulation/target/classes" path="modules/jpdl/simulation/src/main/java"/>
-	<classpathentry kind="src" output="modules/jpdl/simulation/target/test-classes" path="modules/jpdl/simulation/src/test/java"/>
-	<classpathentry excluding="**" kind="src" output="modules/jpdl/simulation/target/classes" path="modules/jpdl/simulation/src/main/resources"/>
-	<classpathentry kind="src" output="modules/jpdl/ws/target/classes" path="modules/jpdl/ws/src/main/java"/>
-	<classpathentry excluding="**" kind="src" output="modules/jpdl/ws/target/classes" path="modules/jpdl/ws/src/main/resources"/>
-	<classpathentry excluding="**" kind="src" output="modules/console/target/classes" path="modules/console/src/main/resources"/>
-	<classpathentry kind="src" output="modules/enterprise/target/classes" path="modules/enterprise/src/main/java"/>
-	<classpathentry kind="src" output="modules/enterprise/target/test-classes" path="modules/enterprise/src/test/java"/>
-	<classpathentry excluding="**" kind="src" output="modules/enterprise/target/classes" path="modules/enterprise/src/main/resources"/>
-	<classpathentry excluding="**" kind="src" output="modules/enterprise/target/test-classes" path="modules/enterprise/src/test/resources"/>
-	<classpathentry kind="src" output="modules/jbpm4jsf/target/classes" path="modules/jbpm4jsf/src/main/java"/>
-	<classpathentry excluding="**" kind="src" output="modules/jbpm4jsf/target/classes" path="modules/jbpm4jsf/src/main/resources"/>
-	<classpathentry kind="src" output="modules/bamconsole/ejb/target/classes" path="modules/bamconsole/ejb/src/main/java"/>
-	<classpathentry kind="src" output="modules/bamconsole/ejb/target/test-classes" path="modules/bamconsole/ejb/src/test/java"/>
-	<classpathentry excluding="**" kind="src" output="modules/bamconsole/ejb/target/classes" path="modules/bamconsole/ejb/src/main/resources"/>
-	<classpathentry excluding="**" kind="src" output="modules/bamconsole/ejb/target/test-classes" path="modules/bamconsole/ejb/src/test/resources"/>
-	<classpathentry excluding="**" kind="src" output="modules/bamconsole/war/target/classes" path="modules/bamconsole/war/src/main/resources"/>
-	<classpathentry excluding="**" kind="src" output="modules/bamconsole/ear/target/classes" path="modules/bamconsole/ear/src/main/resources"/>
+	<classpathentry kind="src" path="modules/jpdl/core/src/main/java"/>
+	<classpathentry kind="src" path="modules/jpdl/integration/src/main/java"/>
+	<classpathentry kind="src" path="modules/jpdl/core/src/test/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.maven.ide.eclipse.MAVEN2_CLASSPATH_CONTAINER"/>
-	<classpathentry kind="output" path="target/classes"/>
+	<classpathentry kind="output" path="target/eclipse-classes"/>
 </classpath>
