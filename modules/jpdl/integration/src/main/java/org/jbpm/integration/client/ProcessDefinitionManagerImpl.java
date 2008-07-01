@@ -26,9 +26,11 @@ package org.jbpm.integration.client;
 import java.io.IOException;
 import java.net.URL;
 
+import org.jbpm.api.InvalidProcessDefinitionException;
 import org.jbpm.api.client.ProcessDefinition;
 import org.jbpm.api.client.ProcessDefinitionManager;
 import org.jbpm.api.client.ProcessEngine;
+import org.jbpm.jpdl.JpdlException;
 
 /**
  * An implementation of a process definition manager
@@ -36,21 +38,41 @@ import org.jbpm.api.client.ProcessEngine;
  * @author thomas.diesler@jboss.com
  * @since 18-Jun-2008
  */
-public class ProcessDefinitionManagerImpl extends ProcessDefinitionManager {
+public class ProcessDefinitionManagerImpl extends ProcessDefinitionManager
+{
 
-  public void setProcessEngine(ProcessEngine engine) {
+  public void setProcessEngine(ProcessEngine engine)
+  {
     this.engine = engine;
   }
 
-  public ProcessDefinition createProcessDefinition(String jpdl) {
-    org.jbpm.graph.def.ProcessDefinition oldPD = org.jbpm.graph.def.ProcessDefinition.parseXmlString(jpdl);
+  public ProcessDefinition createProcessDefinition(String jpdl)
+  {
+    org.jbpm.graph.def.ProcessDefinition oldPD;
+    try
+    {
+      oldPD = org.jbpm.graph.def.ProcessDefinition.parseXmlString(jpdl);
+    }
+    catch (JpdlException ex)
+    {
+      throw new InvalidProcessDefinitionException(ex);
+    }
     ProcessDefinition pdef = ProcessDefinitionAdapter.buildProcessDefinition(oldPD);
     addProcessDefinition(pdef);
     return pdef;
   }
-  
-  public ProcessDefinition createProcessDefinition(URL jpdl) throws IOException {
-    org.jbpm.graph.def.ProcessDefinition oldPD = org.jbpm.graph.def.ProcessDefinition.parseXmlInputStream(jpdl.openStream());
+
+  public ProcessDefinition createProcessDefinition(URL jpdl) throws IOException
+  {
+    org.jbpm.graph.def.ProcessDefinition oldPD;
+    try
+    {
+      oldPD = org.jbpm.graph.def.ProcessDefinition.parseXmlInputStream(jpdl.openStream());
+    }
+    catch (JpdlException ex)
+    {
+      throw new InvalidProcessDefinitionException(ex);
+    }
     ProcessDefinition pdef = ProcessDefinitionAdapter.buildProcessDefinition(oldPD);
     addProcessDefinition(pdef);
     return pdef;
