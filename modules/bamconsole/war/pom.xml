@@ -33,6 +33,11 @@
       The exclusions below are defined such that the war is in sync with 
       the one produced by 3.2.3.GA  
     -->
+    
+    <!--
+      Maven dependency on jboss-seam not defined properly  
+      http://jira.jboss.org/jira/browse/JBSEAM-3142 
+    -->
     <dependency>
       <groupId>opensymphony</groupId>
       <artifactId>oscache</artifactId>
@@ -73,11 +78,21 @@
     <dependency>
       <groupId>org.jboss.seam</groupId>
       <artifactId>jboss-seam-debug</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.jboss.seam</groupId>
+          <artifactId>jboss-seam</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.jboss.seam</groupId>
       <artifactId>jboss-seam-ioc</artifactId>
       <exclusions>
+        <exclusion>
+          <groupId>org.jboss.seam</groupId>
+          <artifactId>jboss-seam</artifactId>
+        </exclusion>
         <exclusion>
           <groupId>javassist</groupId>
           <artifactId>javassist</artifactId>
@@ -87,11 +102,21 @@
     <dependency>
       <groupId>org.jboss.seam</groupId>
       <artifactId>jboss-seam-mail</artifactId>
+      <exclusions>
+        <exclusion>
+          <groupId>org.jboss.seam</groupId>
+          <artifactId>jboss-seam</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <dependency>
       <groupId>org.jboss.seam</groupId>
       <artifactId>jboss-seam-pdf</artifactId>
       <exclusions>
+        <exclusion>
+          <groupId>org.jboss.seam</groupId>
+          <artifactId>jboss-seam</artifactId>
+        </exclusion>
         <exclusion>
           <groupId>com.lowagie</groupId>
           <artifactId>itext</artifactId>
@@ -103,6 +128,10 @@
       <artifactId>jboss-seam-remoting</artifactId>
       <exclusions>
         <exclusion>
+          <groupId>org.jboss.seam</groupId>
+          <artifactId>jboss-seam</artifactId>
+        </exclusion>
+        <exclusion>
           <groupId>dom4j</groupId>
           <artifactId>dom4j</artifactId>
         </exclusion>
@@ -112,6 +141,10 @@
       <groupId>org.jboss.seam</groupId>
       <artifactId>jboss-seam-ui</artifactId>
       <exclusions>
+        <exclusion>
+          <groupId>org.jboss.seam</groupId>
+          <artifactId>jboss-seam</artifactId>
+        </exclusion>
         <exclusion>
           <groupId>commons-beanutils</groupId>
           <artifactId>commons-beanutils</artifactId>

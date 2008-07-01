@@ -14,19 +14,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  
+
   <name>JBoss jBPM - Distribution</name>
   <groupId>org.jboss.jbpm</groupId>
   <artifactId>jbpm-distribution</artifactId>
   <packaging>pom</packaging>
-  
+
   <!-- Parent -->
   <parent>
     <groupId>org.jboss.jbpm</groupId>
     <artifactId>jbpm</artifactId>
     <version>3.2.4-SNAPSHOT</version>
   </parent>
-  
+
   <!-- Dependencies -->
   <dependencies>
     <dependency>
@@ -35,9 +35,20 @@
     </dependency>
     <dependency>
       <groupId>org.jboss.jbpm</groupId>
+      <artifactId>jbpm-bam-console-ear</artifactId>
+      <version>${version}</version>
+      <type>ear</type>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.jbpm</groupId>
       <artifactId>jbpm-console</artifactId>
       <version>${version}</version>
       <type>war</type>
+    </dependency>
+    <dependency>
+      <groupId>org.jboss.jbpm</groupId>
+      <artifactId>jbpm-jpdl-identity</artifactId>
+      <version>${version}</version>
     </dependency>
     <dependency>
       <groupId>org.jboss.jbpm</groupId>
@@ -55,16 +66,51 @@
     <plugins>
       <plugin>
         <artifactId>maven-assembly-plugin</artifactId>
-        <configuration>
-          <finalName>deploy-artifacts</finalName>
-          <ignoreDirFormatExtensions>true</ignoreDirFormatExtensions>
-          <appendAssemblyId>false</appendAssemblyId>
-          <descriptors>
-            <descriptor>src/scripts/assembly-deploy-artifacts.xml</descriptor>
-          </descriptors>
-        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>directory-single</goal>
+            </goals>
+            <configuration>
+              <finalName>deploy-artifacts</finalName>
+              <ignoreDirFormatExtensions>true</ignoreDirFormatExtensions>
+              <appendAssemblyId>false</appendAssemblyId>
+              <descriptors>
+                <descriptor>scripts/assembly-deploy-artifacts.xml</descriptor>
+              </descriptors>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>installer</id>
+            <phase>package</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <property name="maven.runtime.classpath" refid="maven.runtime.classpath" />
+                <property name="product.name" value="${project.name}" />
+                <property name="product.short.name" value="${artifactId}" />
+                <property name="product.version" value="${project.version}" />
+                <property name="jboss421.home" value="${jboss421.home}" />
+                <property name="jboss422.home" value="${jboss422.home}" />
+                <property name="jboss423.home" value="${jboss423.home}" />
+                <property name="jboss500.home" value="${jboss500.home}" />
+                <property name="jboss501.home" value="${jboss501.home}" />
+                <ant antfile="scripts/antrun-installer.xml" target="installer" />
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
       </plugin>
     </plugins>
   </build>
-  
+
 </project>

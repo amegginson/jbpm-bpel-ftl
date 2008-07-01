@@ -357,6 +357,27 @@
       Desc: Skips the tests 
     -->
     <profile>
+      <id>distro</id>
+      <modules>
+        <module>modules/distribution</module>
+      </modules>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <skipTests>true</skipTests>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    
+    <!--
+      Name: skiptests
+      Desc: Skips the tests 
+    -->
+    <profile>
       <id>skiptests</id>
       <build>
         <plugins>

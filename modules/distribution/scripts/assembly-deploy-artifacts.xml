@@ -12,6 +12,7 @@
     <dependencySet>
       <outputDirectory>lib</outputDirectory>
       <outputFileNameMapping>${artifact.artifactId}${dashClassifier?}.${artifact.extension}</outputFileNameMapping>
+      <useStrictFiltering>true</useStrictFiltering>
       <unpack>false</unpack>
       <excludes>
         <exclude>org.jboss.jbpm:jbpm-console:war</exclude>
@@ -20,9 +21,19 @@
     <dependencySet>
       <outputDirectory>lib/jbpm-console.war</outputDirectory>
       <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
+      <useStrictFiltering>true</useStrictFiltering>
       <unpack>true</unpack>
       <includes>
         <include>org.jboss.jbpm:jbpm-console:war</include>
+      </includes>
+    </dependencySet>
+    <dependencySet>
+      <outputDirectory>lib/jbpm-bam-console.ear</outputDirectory>
+      <outputFileNameMapping>${artifact.artifactId}.${artifact.extension}</outputFileNameMapping>
+      <useStrictFiltering>true</useStrictFiltering>
+      <unpack>true</unpack>
+      <includes>
+        <include>org.jboss.jbpm:jbpm-bam-console-ear:ear</include>
       </includes>
     </dependencySet>
   </dependencySets>

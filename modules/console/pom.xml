@@ -14,19 +14,19 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  
+
   <name>JBoss jBPM - Console</name>
   <groupId>org.jboss.jbpm</groupId>
   <artifactId>jbpm-console</artifactId>
   <packaging>war</packaging>
-  
+
   <!-- Parent -->
   <parent>
     <groupId>org.jboss.jbpm</groupId>
     <artifactId>jbpm</artifactId>
     <version>3.2.4-SNAPSHOT</version>
   </parent>
-  
+
   <!-- Dependencies -->
   <dependencies>
     <!-- 
@@ -38,77 +38,31 @@
       <groupId>org.jboss.jbpm</groupId>
       <artifactId>jbpm-identity</artifactId>
       <version>${version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>bsh</groupId>
-          <artifactId>bsh</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>commons-logging</groupId>
-          <artifactId>commons-logging</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>concurrent</groupId>
-          <artifactId>concurrent</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>dom4j</groupId>
-          <artifactId>dom4j</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>javax.activation</groupId>
-          <artifactId>activation</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>javax.jcr</groupId>
-          <artifactId>jcr</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>javax.mail</groupId>
-          <artifactId>mail</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>junit</groupId>
-          <artifactId>junit</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.apache.ant</groupId>
-          <artifactId>ant</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.apache.jackrabbit</groupId>
-          <artifactId>jackrabbit-core</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>org.hibernate</groupId>
-          <artifactId>hibernate</artifactId>
-        </exclusion>
-      </exclusions>
+      <scope>provided</scope>
     </dependency>
     <dependency>
       <groupId>org.jboss.jbpm</groupId>
-	  <artifactId>jbpm-jbpm4jsf</artifactId>
+      <artifactId>jbpm-jbpm4jsf</artifactId>
       <version>${version}</version>
-      <exclusions>
-        <exclusion>
-          <groupId>javax.el</groupId>
-          <artifactId>el-api</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>javax.faces</groupId>
-          <artifactId>jsf-api</artifactId>
-        </exclusion>
-        <exclusion>
-          <groupId>javax.faces</groupId>
-          <artifactId>jsf-impl</artifactId>
-        </exclusion>
-      </exclusions>
+      <scope>provided</scope>
     </dependency>
-    
+
+    <dependency>
+      <groupId>com.sun.facelets</groupId>
+      <artifactId>jsf-facelets</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>commons-fileupload</groupId>
+      <artifactId>commons-fileupload</artifactId>
+    </dependency>
     <dependency>
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.jboss.gravel</groupId>
+      <artifactId>gravel</artifactId>
+    </dependency>
   </dependencies>
-  
- </project>
+
+</project>
