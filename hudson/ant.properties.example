@@ -6,6 +6,13 @@
 # JBoss remote repository
 jboss.repository=http://repository.jboss.org
 
+# The JBoss settings
+jboss.server.instance=default
+jboss.bind.address=localhost
+
+# JDK settings
+java.home.jdk16=/usr/java/jdk1.6
+
 # Hudson QA Environment
 hudson.username=changeme
 hudson.password=changeme

@@ -26,7 +26,7 @@ $JBPMDIR/hudson/jboss/bin/jboss.sh $JBOSS_INSTANCE stop
 #
 cd $JBPMDIR
 cp profiles.xml.example profiles.xml
-mvn -Pdistro clean package
+mvn -U -Pdistro clean package
 
 #
 # Deploy distro
@@ -54,9 +54,9 @@ mvn dependency:tree | tee $WORKSPACE/dependency-tree.txt
 #
 # execute tests
 #
-mvn tests 2>&amp;1 | tee $WORKSPACE/tests.log
-cat $WORKSPACE/tests.log | egrep FIXME\|FAILED | sort -u | tee $WORKSPACE/fixme.txt
-cat $WORKSPACE/fixme.txt | egrep "\[\S*]" > $WORKSPACE/errata-$JBOSS_TARGET.txt
+mvn test 2>&amp;1 | tee $WORKSPACE/tests.log
+# cat $WORKSPACE/tests.log | egrep FIXME\|FAILED | sort -u | tee $WORKSPACE/fixme.txt
+# cat $WORKSPACE/fixme.txt | egrep "\[\S*]" > $WORKSPACE/errata-$JBOSS_TARGET.txt
 
 #
 # stop jbossas
@@ -87,7 +87,7 @@ cp $JBOSS_INSTANCE/server/@jboss.server.instance@/log/server.log $WORKSPACE/jbos
     </locations>
     <useUpdate>true</useUpdate>
     <browser class="hudson.scm.browsers.FishEyeSVN">
-      <url>http://fisheye.jboss.com/browse/JBossWS/</url>
+      <url>http://fisheye.jboss.com/browse/JbpmSvn</url>
       <rootModule></rootModule>
     </browser>
   </scm>
