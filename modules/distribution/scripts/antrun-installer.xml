@@ -32,7 +32,6 @@
     <echo />
     <echo message="jboss421.home=${jboss421.home}" />
     <echo message="jboss422.home=${jboss422.home}" />
-    <echo message="jboss423.home=${jboss423.home}" />
     <echo message="jboss500.home=${jboss500.home}" />
     <echo message="jboss501.home=${jboss501.home}" />
 
@@ -40,13 +39,11 @@
 
     <property name="jboss421.available.file" value="${jboss421.home}/client/jboss-client.jar" />
     <property name="jboss422.available.file" value="${jboss422.home}/client/jboss-client.jar" />
-    <property name="jboss423.available.file" value="${jboss423.home}/client/jboss-client.jar" />
     <property name="jboss500.available.file" value="${jboss500.home}/client/jboss-client.jar" />
     <property name="jboss501.available.file" value="${jboss501.home}/client/jboss-client.jar" />
 
     <available property="jboss421.available" file="${jboss421.available.file}" />
     <available property="jboss422.available" file="${jboss422.available.file}" />
-    <available property="jboss423.available" file="${jboss423.available.file}" />
     <available property="jboss500.available" file="${jboss500.available.file}" />
     <available property="jboss501.available" file="${jboss501.available.file}" />
 

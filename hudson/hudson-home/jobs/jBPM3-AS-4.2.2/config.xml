@@ -1,0 +1,106 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <builders class="vector">
+    <hudson.tasks.Shell>
+      <command>
+#
+# Module settings
+#
+MODULE=jBPM3-AS-4.2.2
+
+WORKSPACE=`pwd`
+JBOSS_TARGET=jboss422
+JBPMDIR=$WORKSPACE/jbpm
+DISTRODIR=$JBPMDIR/modules/distribution/target
+JBOSS_BINDADDR=@jboss.bind.address@
+JBOSS_INSTANCE=@hudson.home@/jobs/AS-4.2.2/workspace/JBossAS-4.2.2/build/output/@hudson.jboss422.build@
+ENVIRONMENT=&quot;-Dmaven.opts=-U -Djboss.bind.address=@jboss.bind.address@ -Djboss422.home=$JBOSS_INSTANCE&quot;
+
+#
+# stop jbossas
+#
+$JBPMDIR/hudson/jboss/bin/jboss.sh $JBOSS_INSTANCE stop
+        
+#
+# Build distro
+#
+cd $JBPMDIR
+cp profiles.xml.example profiles.xml
+mvn -Pdistro clean package
+
+#
+# Deploy distro
+#
+java -jar $DISTRODIR/jbpm-distribution-@version.id@-install.jar $DISTRODIR/resources/auto-install-$JBOSS_TARGET.xml
+
+#
+# start jbossas
+#
+$JBPMDIR/hudson/jboss/bin/jboss.sh $JBOSS_INSTANCE start $JBOSS_BINDADDR
+
+# Was it successfully started?
+$JBPMDIR/hudson/jboss/bin/http-spider.sh $JBOSS_BINDADDR:8080 $WORKSPACE
+if [ -e $WORKSPACE/spider.failed ]; then
+  tail -n 100 $JBOSS_INSTANCE/server/@jboss.server.instance@/log/server.log
+	$JBPMDIR/hudson/jboss/bin/jboss.sh $JBOSS_INSTANCE stop $JBOSS_BINDADDR
+	exit 1
+fi
+
+#
+# log dependency tree
+#
+mvn dependency:tree | tee $WORKSPACE/dependency-tree.txt
+
+#
+# execute tests
+#
+mvn tests 2>&amp;1 | tee $WORKSPACE/tests.log
+cat $WORKSPACE/tests.log | egrep FIXME\|FAILED | sort -u | tee $WORKSPACE/fixme.txt
+cat $WORKSPACE/fixme.txt | egrep "\[\S*]" > $WORKSPACE/errata-$JBOSS_TARGET.txt
+
+#
+# stop jbossas
+#
+$JBPMDIR/hudson/jboss/bin/jboss.sh $JBOSS_INSTANCE stop
+cp $JBOSS_INSTANCE/server/@jboss.server.instance@/log/boot.log $WORKSPACE/jboss-boot.log
+cp $JBOSS_INSTANCE/server/@jboss.server.instance@/log/server.log $WORKSPACE/jboss-server.log
+</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers class="vector">
+    <hudson.tasks.junit.JUnitResultArchiver>
+      <testResults>jbpm/modules/**/target/surefire-reports/TEST-*.xml</testResults>
+    </hudson.tasks.junit.JUnitResultArchiver>
+    <hudson.tasks.Mailer>
+      <recipients>@hudson.mail.recipients@</recipients>
+      <dontNotifyEveryUnstableBuild>false</dontNotifyEveryUnstableBuild>
+      <sendToIndividuals>true</sendToIndividuals>
+    </hudson.tasks.Mailer>
+  </publishers>
+  <buildWrappers class="vector"/>
+  <scm class="hudson.scm.SubversionSCM">
+    <locations>
+      <hudson.scm.SubversionSCM-ModuleLocation>
+        <remote>@hudson.jbpm.url@</remote>
+        <local>jbpm</local>
+      </hudson.scm.SubversionSCM-ModuleLocation>
+    </locations>
+    <useUpdate>true</useUpdate>
+    <browser class="hudson.scm.browsers.FishEyeSVN">
+      <url>http://fisheye.jboss.com/browse/JBossWS/</url>
+      <rootModule></rootModule>
+    </browser>
+  </scm>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <enableRemoteTrigger>false</enableRemoteTrigger>
+  <triggers class="vector"/>
+  <logRotator>
+    <daysToKeep>28</daysToKeep>
+    <numToKeep>-1</numToKeep>
+  </logRotator>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <description>Build and test jbpm-@version.id@ against AS-4.2.2</description>
+  <actions class="vector"/>
+</project>

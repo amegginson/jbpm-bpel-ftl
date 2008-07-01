@@ -14,4 +14,39 @@
   <jdks/>
   <slaves/>
   <quietPeriod>5</quietPeriod>
+  <views>
+    <!-- Release QA -->
+    <view>
+      <owner reference="../../.."/>
+      <jobNames class="tree-set">
+        <no-comparator/>
+        <string>Release-Matrix-Step1</string>
+        <string>Release-Matrix-Step2</string>
+      </jobNames>
+      <name>Release QA</name>
+      <description>
+        <![CDATA[
+A collection of jobs that cover the jBPM release matrix.
+<p/>
+]]>
+      </description>
+    </view>
+    
+    <!-- Target Container -->
+    <view>
+      <owner reference="../../.."/>
+      <jobNames class="tree-set">
+        <no-comparator/>
+        <string>AS-4.2.1</string>
+        <string>AS-4.2.2</string>
+        <string>AS-5.0.0</string>
+        <string>AS-5.0.1</string>
+      </jobNames>
+      <name>Target Container</name>
+      <description> <![CDATA[
+Build the supported target container. A successful build is a prerequisite for any testrun that targets the container.
+]]>
+      </description>
+    </view>
+  </views>
 </hudson>

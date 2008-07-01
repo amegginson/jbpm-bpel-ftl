@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <builders class="vector"/>
+  <publishers class="vector">
+    <hudson.tasks.BuildTrigger>
+      <childProjects>AS-4.2.1, AS-4.2.2, AS-5.0.0, AS-5.0.1</childProjects>
+    </hudson.tasks.BuildTrigger>
+  </publishers>
+  <buildWrappers class="vector"/>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <enableRemoteTrigger>false</enableRemoteTrigger>
+  <triggers class="vector">
+    <hudson.triggers.TimerTrigger>
+      <spec>0 20 * * *</spec>
+    </hudson.triggers.TimerTrigger>
+  </triggers>
+  <logRotator>
+    <daysToKeep>28</daysToKeep>
+    <numToKeep>-1</numToKeep>
+  </logRotator>
+  <keepDependencies>false</keepDependencies>
+  <properties/>
+  <description>Build the relase matrix target containers.</description>
+  <actions class="vector"/>
+</project>

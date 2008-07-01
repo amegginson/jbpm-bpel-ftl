@@ -31,7 +31,7 @@
   <dependencies>
     <dependency>
       <groupId>org.jboss.jbpm</groupId>
-      <artifactId>jbpm-identity</artifactId>
+      <artifactId>jbpm-jpdl-identity</artifactId>
       <scope>provided</scope>
       <version>${version}</version>
     </dependency>

@@ -101,7 +101,6 @@
                 <property name="product.version" value="${project.version}" />
                 <property name="jboss421.home" value="${jboss421.home}" />
                 <property name="jboss422.home" value="${jboss422.home}" />
-                <property name="jboss423.home" value="${jboss423.home}" />
                 <property name="jboss500.home" value="${jboss500.home}" />
                 <property name="jboss501.home" value="${jboss501.home}" />
                 <ant antfile="scripts/antrun-installer.xml" target="installer" />
