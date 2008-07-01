@@ -3,7 +3,7 @@
   <builders class="vector"/>
   <publishers class="vector">
     <hudson.tasks.BuildTrigger>
-      <childProjects>jBPM3</childProjects>
+      <childProjects>jBPM3-AS-4.2.2, jBPM3-AS-4.2.2-JDK6</childProjects>
     </hudson.tasks.BuildTrigger>
   </publishers>
   <buildWrappers class="vector"/>
