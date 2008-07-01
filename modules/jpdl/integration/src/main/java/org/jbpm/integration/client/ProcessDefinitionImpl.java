@@ -37,7 +37,7 @@ public class ProcessDefinitionImpl extends ProcessDefinition {
   org.jbpm.graph.def.ProcessDefinition oldPD;
   
   ProcessDefinitionImpl(org.jbpm.graph.def.ProcessDefinition oldPD) {
-    super(oldPD.getName() != null ? oldPD.getName() : oldPD.toString());
+    super(oldPD.getName());
     this.oldPD = oldPD;
   }
   

@@ -21,11 +21,10 @@
  */
 package org.jbpm.integration.client;
 
-import org.jbpm.api.client.Execution;
-import org.jbpm.api.client.Node;
-import org.jbpm.api.client.ProcessInstance;
+//$Id$
 
-// $Id$
+import org.jbpm.api.client.ProcessDefinition;
+import org.jbpm.api.client.StartState;
 
 /**
  * TODO
@@ -33,24 +32,9 @@ import org.jbpm.api.client.ProcessInstance;
  * @author thomas.diesler@jboss.com
  * @since 18-Jun-2008
  */
-public class ExecutionImpl extends Execution {
+public class StartStateImpl extends StartState {
 
-  org.jbpm.graph.exe.Execution oldEx;
-  private ProcessInstance pinst;
-  
-  ExecutionImpl(ProcessInstance pi, org.jbpm.graph.exe.Execution oldEx) {
-    super(pi, oldEx.getKey());
-    this.pinst = pi;
-    this.oldEx = oldEx;
-  }
-
-  public Node getNode() {
-    org.jbpm.graph.def.Node oldNode = oldEx.getRootToken().getNode();
-    Node apiNode = pinst.getProcessDefinition().findNode(oldNode.getName());
-    return apiNode;
-  }
-
-  public void signal() {
-    oldEx.signal();
+  StartStateImpl(ProcessDefinition def, String name) {
+    super(def, name);
   }
 }

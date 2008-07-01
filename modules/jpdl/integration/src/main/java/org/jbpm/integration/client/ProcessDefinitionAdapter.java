@@ -27,6 +27,8 @@ import java.util.List;
 
 import org.jbpm.api.client.Node;
 import org.jbpm.api.client.ProcessDefinition;
+import org.jbpm.graph.node.EndState;
+import org.jbpm.graph.node.StartState;
 
 /**
  * Adapts on jBPM3 ProcessDefinition to an API ProcessDefinition
@@ -34,26 +36,52 @@ import org.jbpm.api.client.ProcessDefinition;
  * @author thomas.diesler@jboss.com
  * @since 18-Jun-2008
  */
-class ProcessDefinitionAdapter {
+class ProcessDefinitionAdapter
+{
 
-  static ProcessDefinition buildProcessDefinition(org.jbpm.graph.def.ProcessDefinition oldPD) {
+  static ProcessDefinition buildProcessDefinition(org.jbpm.graph.def.ProcessDefinition oldPD)
+  {
     ProcessDefinitionImpl apiPD = new ProcessDefinitionImpl(oldPD);
     List<org.jbpm.graph.def.Node> oldNodes = oldPD.getNodes();
-    for(org.jbpm.graph.def.Node oldNode : oldNodes)
+    for (org.jbpm.graph.def.Node oldNode : oldNodes)
     {
       Node apiNode = NodeAdapter.adaptNode(apiPD, oldNode);
       apiPD.addNode(apiNode);
     }
+    
+    // validate
+    validateProcessDefinition(apiPD);
+    
     return apiPD;
   }
-  
-  static class NodeAdapter {
 
-    static Node adaptNode(ProcessDefinition pDef, org.jbpm.graph.def.Node oldNode) {
+  private static void validateProcessDefinition(ProcessDefinitionImpl apiPD)
+  {
+    // These methods are expected to throw exceptions if there are no such states
+    apiPD.getStartState();
+    apiPD.getEndStates();
+  }
+
+  static class NodeAdapter
+  {
+
+    static Node adaptNode(ProcessDefinition pDef, org.jbpm.graph.def.Node oldNode)
+    {
       String oldName = oldNode.getName();
-      Node apiNode = new NodeImpl(pDef, oldName != null ? oldName : oldNode.toString());
+      Node apiNode;
+      if (oldNode instanceof StartState)
+      {
+        apiNode = new StartStateImpl(pDef, oldName);
+      }
+      else if (oldNode instanceof EndState)
+      {
+        apiNode = new EndStateImpl(pDef, oldName);
+      }
+      else
+      {
+        apiNode = new NodeImpl(pDef, oldName);
+      }
       return apiNode;
     }
   }
 }
-
