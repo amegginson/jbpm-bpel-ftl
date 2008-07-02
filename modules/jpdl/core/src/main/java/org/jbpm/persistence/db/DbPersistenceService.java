@@ -92,7 +92,7 @@ public class DbPersistenceService implements Service, PersistenceService {
   }
 
   public SessionFactory getSessionFactory() {
-    return persistenceServiceFactory.getSessionFactory();
+    return session != null ? session.getSessionFactory() : persistenceServiceFactory.getSessionFactory();
   }
 
   public Session getSession() {

@@ -51,7 +51,7 @@ public class JtaDbPersistenceService extends DbPersistenceService {
   }
 
   protected boolean isTransactionActive() {
-    return isJtaTxCreated() ; 
+    return isJtaTxCreated(); 
   }
   
   public void close() {
@@ -63,7 +63,7 @@ public class JtaDbPersistenceService extends DbPersistenceService {
   }
 
   boolean isJtaTransactionInProgress() {
-    SessionFactoryImplementor sessionFactory = (SessionFactoryImplementor) persistenceServiceFactory.getSessionFactory();
+    SessionFactoryImplementor sessionFactory = (SessionFactoryImplementor) getSessionFactory();
     return JTAHelper.isTransactionInProgress(sessionFactory);
   }
 
