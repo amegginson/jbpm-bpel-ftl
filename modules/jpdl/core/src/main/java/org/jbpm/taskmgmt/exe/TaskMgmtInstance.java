@@ -109,8 +109,6 @@ public class TaskMgmtInstance extends ModuleInstance {
 
     // bind the task instance to the TaskMgmtInstance
     addTaskInstance(taskInstance);
-    // ... add a reference to the process instance
-    taskInstance.setProcessInstance(executionContext.getProcessInstance());
 
     // initialize the task instance
     if (task!=null) taskInstance.setTask(task);
@@ -119,6 +117,7 @@ public class TaskMgmtInstance extends ModuleInstance {
     Services.assignId(taskInstance);
 
     // copy the task properties
+    /* XXX property initialization was already done in taskInstance.setTask(task)
     String description = null;
     if (task!=null) {
       description = task.getDescription();
@@ -126,50 +125,50 @@ public class TaskMgmtInstance extends ModuleInstance {
       taskInstance.setBlocking(task.isBlocking());
       taskInstance.setSignalling(task.isSignalling());
     }
+    */
 
     if (executionContext!=null) {
       Token token = executionContext.getToken();
       taskInstance.setToken(token);
+      taskInstance.setProcessInstance(token.getProcessInstance());
       
       taskInstance.initializeVariables();
       
       if (task != null && task.getDueDate()!=null) {
-        Date baseDate = null;
-        Date dueDateDate = null;
-        String dueDate = task.getDueDate();
+        Date baseDate;
+        String dueDateString = task.getDueDate();
         String durationString = null;
-        String durationSeparator = null;
         
-        if (dueDate.startsWith("#")) {
-          String baseDateEL = dueDate.substring(0,dueDate.indexOf("}")+1);
-          Object o = JbpmExpressionEvaluator.evaluate(baseDateEL, executionContext);
-          if (o instanceof Date) {
-            baseDate = (Date) o;          
+        if (dueDateString.startsWith("#")) {
+          String baseDateEL = dueDateString.substring(0,dueDateString.indexOf("}")+1);
+          Object result = JbpmExpressionEvaluator.evaluate(baseDateEL, executionContext);
+          if (result instanceof Date) {
+            baseDate = (Date) result;          
+          } else if (result instanceof Calendar) {
+            baseDate = ((Calendar) result).getTime();
           } else {
-            if (o instanceof Calendar) {
-              baseDate = ((Calendar) o).getTime();
-            } else {
-              throw new JbpmException("Invalid basedate type: " + baseDateEL + " is of type " + o.getClass().getName() +". Only Date and Calendar are supported");
-            }
+            throw new JbpmException("Invalid basedate type: " + baseDateEL + " is of type " + result.getClass().getName() +". Only Date and Calendar are supported");
           }
-          int endOfELIndex = dueDate.indexOf("}");
-          if (endOfELIndex < (dueDate.length() -1) ) {
-            durationSeparator = dueDate.substring(endOfELIndex+1).trim().substring(0,1);
-            if ( !(durationSeparator.equals("+") || durationSeparator.equals("-") ) ){ 
+          int endOfELIndex = dueDateString.indexOf("}");
+          if (endOfELIndex < (dueDateString.length() -1) ) {
+            char durationSeparator = dueDateString.substring(endOfELIndex+1).trim().charAt(0);
+            if (durationSeparator != '+' && durationSeparator != '-'){ 
               throw new JbpmException("Invalid duedate, + or - missing after EL");
             }
-            durationString = dueDate.substring(endOfELIndex+1).trim();
+            durationString = dueDateString.substring(endOfELIndex+1).trim();
           }
         } else {
-          durationString = dueDate;
+          baseDate = Clock.getCurrentTime();
+          durationString = dueDateString;
         }
-        if (baseDate != null && (durationString == null || "".equals(durationString))) {
-          dueDateDate = baseDate;
+        Date dueDate;
+        if (durationString == null || durationString.length() == 0) {
+          dueDate = baseDate;
         } else {
           BusinessCalendar businessCalendar = new BusinessCalendar(); 
-          dueDateDate = businessCalendar.add( (baseDate != null) ? baseDate : Clock.getCurrentTime(), new Duration(durationString) );
+          dueDate = businessCalendar.add(baseDate, new Duration(durationString) );
         }        
-        taskInstance.setDueDate(dueDateDate); 
+        taskInstance.setDueDate(dueDate); 
       }
       
       
@@ -180,12 +179,15 @@ public class TaskMgmtInstance extends ModuleInstance {
         executionContext.setEventSource(task);
 
         // evaluate the description
-        if ( (description!=null) 
-             && (description.indexOf("#{")!=-1)
-           ) {
-          Object result = JbpmExpressionEvaluator.evaluate(description, executionContext);
-          if (result!=null) {
-            taskInstance.setDescription(result.toString());
+        if (task != null) {
+          String description = task.getDescription();
+          if ( (description!=null) 
+              && (description.indexOf("#{")!=-1)
+          ) {
+            Object result = JbpmExpressionEvaluator.evaluate(description, executionContext);
+            if (result!=null) {
+              taskInstance.setDescription(result.toString());
+            }
           }
         }
 

@@ -182,14 +182,10 @@ public class Node extends GraphElement implements Parsable {
    */
   public String generateNextLeavingTransitionName() {
     String name = null;
-    if (leavingTransitions!=null) {
-      if (!containsName(leavingTransitions, null)) {
-        name = null;
-      } else {
-        int n = 1;
-        while (containsName(leavingTransitions, Integer.toString(n))) n++;
-        name = Integer.toString(n);
-      }
+    if (leavingTransitions!=null && containsName(leavingTransitions, null)) {
+      int n = 1;
+      while (containsName(leavingTransitions, Integer.toString(n))) n++;
+      name = Integer.toString(n);
     }
     return name;
   }

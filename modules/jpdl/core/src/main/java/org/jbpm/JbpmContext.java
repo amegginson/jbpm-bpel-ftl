@@ -543,15 +543,13 @@ public class JbpmContext implements Serializable {
    */
   public ContextSession getContextSession() {
     PersistenceService persistenceService = getPersistenceService();
-    if (persistenceService==null) return null;
-    return persistenceService.getContextSession();
+    return persistenceService!=null ? persistenceService.getContextSession() : null;
   }
   /**
    * more logging related database access.
    */
   public LoggingSession getLoggingSession() {
     PersistenceService persistenceService = getPersistenceService();
-    if (persistenceService==null) return null;
     return (persistenceService!=null ? persistenceService.getLoggingSession() : null);
   }
   /**
@@ -559,7 +557,6 @@ public class JbpmContext implements Serializable {
    */
   public JobSession getJobSession() {
     PersistenceService persistenceService = getPersistenceService();
-    if (persistenceService==null) return null;
     return (persistenceService!=null ? persistenceService.getJobSession() : null);
   }
   /**
@@ -567,7 +564,6 @@ public class JbpmContext implements Serializable {
    */
   public GraphSession getGraphSession() {
     PersistenceService persistenceService = getPersistenceService();
-    if (persistenceService==null) return null;
     return (persistenceService!=null ? persistenceService.getGraphSession() : null);
   }
   /**
@@ -575,7 +571,6 @@ public class JbpmContext implements Serializable {
    */
   public TaskMgmtSession getTaskMgmtSession() {
     PersistenceService persistenceService = getPersistenceService();
-    if (persistenceService==null) return null;
     return (persistenceService!=null ? persistenceService.getTaskMgmtSession() : null);
   }
 
@@ -593,8 +588,7 @@ public class JbpmContext implements Serializable {
    */
   public void setActorId(String actorId) {
     DefaultAuthenticationService authenticationService = (DefaultAuthenticationService) services.getAuthenticationService();
-    DefaultAuthenticationService defaultAuthenticationService = (DefaultAuthenticationService) authenticationService;
-    defaultAuthenticationService.setActorId(actorId);
+    authenticationService.setActorId(actorId);
   }
 
   // private methods //////////////////////////////////////////////////////////

@@ -41,11 +41,11 @@ public class TaskNode extends Node implements Parsable {
   private static final long serialVersionUID = 1L;
 
   /**
-   * execution always continues, regardless wether tasks are created or still unfinished.
+   * execution always continues, regardless whether tasks are created or still unfinished.
    */
   public static final int SIGNAL_UNSYNCHRONIZED = 0;
   /**
-   * execution never continues, regardless wether tasks are created or still unfinished.
+   * execution never continues, regardless whether tasks are created or still unfinished.
    */
   public static final int SIGNAL_NEVER = 1;
   /**
@@ -55,12 +55,12 @@ public class TaskNode extends Node implements Parsable {
   public static final int SIGNAL_FIRST = 2;
   /**
    * proceeds execution when the first task instance is completed.   
-   * when no tasks are created on entrance of this node, execution is continued.   
+   * when no tasks are created on entrance of this node, execution waits in the task node till tasks are created.   
    */
   public static final int SIGNAL_FIRST_WAIT = 3;
   /**
    * proceeds execution when the last task instance is completed.
-   * when no tasks are created on entrance of this node, execution waits in the task node till tasks are created.   
+   * when no tasks are created on entrance of this node, execution is continued.
    */
   public static final int SIGNAL_LAST = 4;
   /**
@@ -171,19 +171,17 @@ public class TaskNode extends Node implements Parsable {
     }
 
     // check if we should continue execution
-    boolean continueExecution = false;
+    boolean continueExecution;
     switch (signal) {
       case SIGNAL_UNSYNCHRONIZED:
         continueExecution = true;
         break;
-      case SIGNAL_FIRST_WAIT:
-      case SIGNAL_LAST_WAIT:
-      case SIGNAL_NEVER:
-        continueExecution = false;
-        break;
       case SIGNAL_FIRST:
       case SIGNAL_LAST:
         continueExecution = tmi.getSignallingTasks(executionContext).isEmpty();
+        break;
+      default:
+        continueExecution = false;
     }
 
     if (continueExecution) {
@@ -213,14 +211,18 @@ public class TaskNode extends Node implements Parsable {
   /////////////////////////////////////////////////////////////////////////////
 
   public boolean completionTriggersSignal(TaskInstance taskInstance) {
-    boolean completionTriggersSignal = false;
-    if ( (signal==SIGNAL_FIRST)
-         || (signal==SIGNAL_FIRST_WAIT) ) {
+    boolean completionTriggersSignal;
+    switch (signal) {
+    case SIGNAL_FIRST:
+    case SIGNAL_FIRST_WAIT:
       completionTriggersSignal = true;
-    } else if ( ( (signal==SIGNAL_LAST)
-                  || (signal==SIGNAL_LAST_WAIT) )
-                && (isLastToComplete(taskInstance) ) ){
-      completionTriggersSignal = true;
+      break;
+    case SIGNAL_LAST:
+    case SIGNAL_LAST_WAIT:
+      completionTriggersSignal = isLastToComplete(taskInstance);
+      break;
+    default:
+      completionTriggersSignal = false;
     }
     return completionTriggersSignal;
   }

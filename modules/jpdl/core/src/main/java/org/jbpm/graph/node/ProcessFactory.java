@@ -62,8 +62,8 @@ public class ProcessFactory {
     
     Node node = null;
     
-    String typeName = null;
-    String name = null;
+    String typeName;
+    String name;
     
     text = text.trim();
     int spaceIndex = text.indexOf(' ');

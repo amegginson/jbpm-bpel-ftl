@@ -109,11 +109,11 @@ public class Decision extends Node implements Parsable {
           DecisionCondition decisionCondition = (DecisionCondition) iter.next();
           Object result = JbpmExpressionEvaluator.evaluate(decisionCondition.getExpression(), executionContext);
           if (Boolean.TRUE.equals(result)) {
+            String transitionName = decisionCondition.getTransitionName();
+            transition = getLeavingTransition(transitionName);
             if (transition!=null) {
               transition.removeConditionEnforcement();
             }
-            String transitionName = decisionCondition.getTransitionName();
-            transition = getLeavingTransition(transitionName);
           }
         }
         

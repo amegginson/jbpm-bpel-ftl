@@ -154,8 +154,9 @@ public class Transition extends GraphElement {
   Node fireSuperStateEnterEvents(ExecutionContext executionContext) {
     // calculate the actual destinationNode node
     Node destination = to;
-    while (destination.isSuperStateNode()) {
-      destination = (Node) destination.getNodes().get(0);
+    while (destination != null && destination.isSuperStateNode()) {
+      List nodes = destination.getNodes();
+      destination = nodes != null && !nodes.isEmpty() ? (Node) nodes.get(0) : null;
     }
     
     if (destination==null) {

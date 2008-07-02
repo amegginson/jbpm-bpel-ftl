@@ -36,13 +36,13 @@ public class BeanInstantiator extends FieldInstantiator implements Instantiator 
       
       // find the setter method
       Method method = findSetter(clazz, setterMethodName);
-      Class propertyType = method.getParameterTypes()[0];
 
       // if the setter method was found
       if (method!=null) {
         // make it accessible
         method.setAccessible(true);
         // invoke it
+        Class propertyType = method.getParameterTypes()[0];
         method.invoke(newInstance, new Object[]{ getValue(propertyType, propertyElement) });
       } else {
         log.error( "couldn't set property '"+propertyName+"' to value '"+propertyElement.asXML()+"'" );

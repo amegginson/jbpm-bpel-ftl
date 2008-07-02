@@ -21,8 +21,8 @@ public class AbstractCancelCommand implements Serializable {
   protected static final Log log = LogFactory.getLog(AbstractCancelCommand.class);
 
   protected void cancelTokens(Collection tokens) {
-    log.info("cancel " + tokens.size() + " tokens");
     if (tokens != null && tokens.size() > 0) {
+      log.info("cancel " + tokens.size() + " tokens");
       for (Iterator itr = tokens.iterator(); itr.hasNext();) {
         cancelToken((Token) itr.next());
       }
@@ -49,8 +49,8 @@ public class AbstractCancelCommand implements Serializable {
   }
 
   protected void cancelTasks(List tasks) {
-    log.info("cancel " + tasks.size() + " tasks");
     if (tasks != null && tasks.size() > 0) {
+      log.info("cancel " + tasks.size() + " tasks");
       for (Iterator it = tasks.iterator(); it.hasNext();) {
         TaskInstance ti = (TaskInstance) it.next();
 
