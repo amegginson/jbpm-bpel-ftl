@@ -119,16 +119,13 @@ public abstract class HibernateHelper {
     Iterator iter = classMetadata.keySet().iterator();
     while (iter.hasNext()) {
       String entityName = (String) iter.next();
-      log.debug("evicting entities "+entityName);
-      Class entityClass = ClassLoaderUtil.loadClass(entityName);
-      sessionFactory.evict(entityClass);
+      sessionFactory.evictEntity(entityName);
     }
     
     Map collectionMetadata = sessionFactory.getAllCollectionMetadata();
     iter = collectionMetadata.keySet().iterator();
     while (iter.hasNext()) {
       String collectionName = (String) iter.next();
-      log.debug("evicting collection "+collectionName);
       sessionFactory.evictCollection(collectionName);
     }
   }

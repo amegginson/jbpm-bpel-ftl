@@ -45,6 +45,11 @@
     <priority value="FATAL" />
   </category>
 
+  <!-- show SQL DML statements as they are executed -->
+  <category name="org.hibernate.SQL">
+    <priority value="DEBUG" />
+  </category>
+
   <!-- ======================= -->
   <!-- Setup the Root category -->
   <!-- ======================= -->
