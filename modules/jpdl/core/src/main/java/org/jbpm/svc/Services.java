@@ -23,6 +23,7 @@ package org.jbpm.svc;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -62,16 +63,18 @@ public class Services implements Serializable {
   public static final String SERVICENAME_JCR             = "jcr";
   public static final String SERVICENAME_ADDRESSRESOLVER = "addressresolver";
 
-  static final List defaultSaveOperations = new ArrayList();
+  static final List defaultSaveOperations = createDefaultSaveOperations();
 
-  static {
-    defaultSaveOperations.add(new CheckUnpersistableVariablesOperation());
+  private static List createDefaultSaveOperations() {
+    SaveOperation[] operations = new SaveOperation[4];
+    operations[0] = new CheckUnpersistableVariablesOperation();
     // first we save the runtime data (process instance)
-    defaultSaveOperations.add(new HibernateSaveOperation());
+    operations[1] = new HibernateSaveOperation();
     // then we insert the logs cause the logs can have references 
     // to the runtime data
-    defaultSaveOperations.add(new SaveLogsOperation());
-    defaultSaveOperations.add(new CascadeSaveOperation());
+    operations[2] = new SaveLogsOperation();
+    operations[3] = new CascadeSaveOperation();
+    return Arrays.asList(operations);
   }
 
   Map serviceFactories = null;
@@ -80,7 +83,7 @@ public class Services implements Serializable {
   List saveOperations = null;
   
   public static Service getCurrentService(String name) {
-   return getCurrentService(name, true); 
+    return getCurrentService(name, true); 
   }
   
   public static Service getCurrentService(String name, boolean isRequired) {
@@ -102,15 +105,24 @@ public class Services implements Serializable {
   public Services(Map serviceFactories, List serviceNames, List saveOperations) {
     this.serviceFactories = serviceFactories;
     this.serviceNames = serviceNames;
-    if (saveOperations!=null) {
-      this.saveOperations = saveOperations;
-    } else {
-      this.saveOperations = defaultSaveOperations;
-    }
+    this.saveOperations = saveOperations != null ? saveOperations : defaultSaveOperations;
   }
 
   public void setSaveOperations(List saveOperations) {
+    if (saveOperations == null) {
+      throw new IllegalArgumentException("saveOperations cannot be null");
+    }
     this.saveOperations = saveOperations;
+  }
+
+  public void addSaveOperation(SaveOperation saveOperation) {
+    if (saveOperation == null) {
+      throw new IllegalArgumentException("saveOperation cannot be null");
+    }
+    if (saveOperations == defaultSaveOperations) {
+      saveOperations = new ArrayList(defaultSaveOperations);
+    }
+    saveOperations.add(saveOperation);
   }
 
   public Map getServiceFactories() {

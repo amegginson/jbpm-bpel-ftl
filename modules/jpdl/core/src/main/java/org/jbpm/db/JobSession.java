@@ -1,25 +1,24 @@
 package org.jbpm.db;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-
-import javax.transaction.Synchronization;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.LockMode;
 import org.hibernate.Query;
 import org.hibernate.Session;
-import org.hibernate.Transaction;
+import org.jbpm.JbpmContext;
 import org.jbpm.JbpmException;
 import org.jbpm.graph.def.Action;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.exe.Token;
+import org.jbpm.job.ExecuteNodeJob;
 import org.jbpm.job.Job;
 import org.jbpm.job.Timer;
+import org.jbpm.svc.save.SaveOperation;
 
 public class JobSession {
 
@@ -178,37 +177,54 @@ public class JobSession {
     }
   }
 
-  private class DeleteJobsSynchronization implements Synchronization, Serializable {
+  private static class DeleteJobsOperation implements SaveOperation {
+
+    private ProcessInstance targetProcessInstance;
+
     private static final long serialVersionUID = 1L;
-    ProcessInstance processInstance;
-    public DeleteJobsSynchronization(ProcessInstance processInstance) {
-      this.processInstance = processInstance;
+
+    DeleteJobsOperation(ProcessInstance processInstance) {
+      targetProcessInstance = processInstance;
     }
-    public void beforeCompletion() {
+
+    public void save(ProcessInstance processInstance, JbpmContext jbpmContext) {
+      // avoid deleting jobs for process instances that did not request job deletion
+      if (!targetProcessInstance.equals(processInstance)) {
+        log.debug("forgiving " + processInstance + ", it isn't the target of this operation");
+        return;
+      }
+
+      // the bulk delete was replaced with a query and session.deletes on 
+      // the retrieved elements to prevent stale object exceptions.  
+      // With a bulk delete, the hibernate session is not aware and gives a problem 
+      // if a later session.delete doesn't return 1.
       log.debug("deleting timers for process instance "+processInstance);
-      Query query = session.getNamedQuery("JobSession.deleteTimersForProcessInstance");
+      Session session = jbpmContext.getSession();
+      Query query = session.getNamedQuery("JobSession.getTimersForProcessInstance");
       query.setParameter("processInstance", processInstance);
-      int result = query.executeUpdate();
-      log.debug(Integer.toString(result)+" remaining timers for '"+processInstance+"' are deleted");
-      
+      List timers = query.list();
+      for (Iterator i = timers.iterator(); i.hasNext();) {
+        Timer timer = (Timer) i.next();
+        session.delete(timer);
+      }
+      log.debug(timers.size()+" remaining timers for '"+processInstance+"' were deleted");
+
       log.debug("deleting execute-node-jobs for process instance "+processInstance);
-      query = session.getNamedQuery("JobSession.deleteExecuteNodeJobsForProcessInstance");
+      query = session.getNamedQuery("JobSession.getExecuteNodeJobsForProcessInstance");
       query.setParameter("processInstance", processInstance);
-      result = query.executeUpdate();
-      log.debug(Integer.toString(result)+" remaining execute-node-jobs for '"+processInstance+"' are deleted");
+      List jobs = query.list();
+      for (Iterator i = jobs.iterator(); i.hasNext();) {
+        ExecuteNodeJob job = (ExecuteNodeJob) i.next();
+        session.delete(job);
+      }
+      log.debug(jobs.size()+" remaining execute-node-jobs for '"+processInstance+"' are deleted");
     }
-    public void afterCompletion(int arg0) {
-    }
+    
   }
 
   public void deleteJobsForProcessInstance(ProcessInstance processInstance) {
-    try {
-      Transaction transaction = session.getTransaction();
-      transaction.registerSynchronization(new DeleteJobsSynchronization(processInstance));
-    } catch (Exception e) {
-      log.error(e);
-      throw new JbpmException("couldn't delete jobs for '"+processInstance+"'", e);
-    }
+    SaveOperation operation = new DeleteJobsOperation(processInstance);
+    JbpmContext.getCurrentJbpmContext().getServices().addSaveOperation(operation);
   }
 
 

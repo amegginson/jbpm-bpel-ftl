@@ -103,18 +103,7 @@ public class TaskInstance extends VariableContainer implements Assignable {
     this.task = task;
     this.isBlocking = task.isBlocking();
     this.priority = task.getPriority();
-    TaskNode taskNode = task.getTaskNode();
-    if (task.isSignalling() && taskNode!=null) {
-      int signal = taskNode.getSignal();
-      this.isSignalling = ( (signal==TaskNode.SIGNAL_FIRST ) 
-                            || (signal==TaskNode.SIGNAL_LAST ) 
-                            || (signal==TaskNode.SIGNAL_FIRST_WAIT ) 
-                            || (signal==TaskNode.SIGNAL_LAST_WAIT ) 
-                          );
-    }
-    else {
-      this.isSignalling = false;
-    }
+    this.isSignalling = task.isSignalling();
   }
   
   void submitVariables() {
