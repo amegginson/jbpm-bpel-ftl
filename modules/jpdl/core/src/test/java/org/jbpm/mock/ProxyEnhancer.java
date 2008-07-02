@@ -38,7 +38,7 @@ public class ProxyEnhancer {
   static Method getInvocationsMethod = null;
   static { 
     try {
-      getInvocationsMethod = Recorded.class.getDeclaredMethod("getInvocations", null);
+      getInvocationsMethod = Recorded.class.getDeclaredMethod("getInvocations", (Class[]) null);
     } catch (Exception e) {
       throw new RuntimeException("couldn't get invocations", e);
     }

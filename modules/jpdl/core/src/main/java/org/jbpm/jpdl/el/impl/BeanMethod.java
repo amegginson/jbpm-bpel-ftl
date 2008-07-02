@@ -16,7 +16,7 @@ public class BeanMethod {
 
   public Object invoke(Object object) throws InvocationTargetException, IllegalArgumentException, IllegalAccessException {
     log.debug("invoking expression method '"+method.getName()+"'");
-    return method.invoke(object, null);
+    return method.invoke(object, (Object[]) null);
   }
   
   private static Log log = LogFactory.getLog(BeanMethod.class);
