@@ -4,6 +4,8 @@ import java.sql.SQLException;
 
 import junit.framework.TestCase;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
 import org.jbpm.command.CommandService;
@@ -29,6 +31,8 @@ public class MultiJobExecutorTest extends TestCase {
 
   private static JbpmConfiguration jbpmConfiguration = JbpmConfiguration.getInstance();
   private static CommandService commandService = new CommandServiceImpl(jbpmConfiguration);
+
+  private static final Log log = LogFactory.getLog(MultiJobExecutorTest.class);
 
   public static final String PROCESS_DEFINITION = "<?xml version='1.0' encoding='UTF-8'?>"
       + "<process-definition xmlns='' name='TestProcess'>"
@@ -66,7 +70,7 @@ public class MultiJobExecutorTest extends TestCase {
     JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
     try {
       jbpmContext.deployProcessDefinition(ProcessDefinition.parseXmlString(PROCESS_DEFINITION));
-      System.out.println("Isolation " + jbpmContext.getConnection().getTransactionIsolation());
+      log.info("Isolation " + jbpmContext.getConnection().getTransactionIsolation());
     }
     finally {
       jbpmContext.close();
@@ -76,10 +80,11 @@ public class MultiJobExecutorTest extends TestCase {
   public void testMultipleExecutors() {
     // start job executors
     for (int i = 0; i < executors.length; i++) {
-      executors[i] = (JobExecutor) JbpmConfiguration.Configs.getObjectFactory().createObject(
+      JobExecutor jobExecutor = (JobExecutor) JbpmConfiguration.Configs.getObjectFactory().createObject(
           "jbpm.job.executor");
-      executors[i].setName("JbpmJobExecutor/" + (i + 1));
-      executors[i].start();
+      jobExecutor.setName("JbpmJobExecutor/" + (i + 1));
+      jobExecutor.start();
+      executors[i] = jobExecutor;
     }
 
     // kick off process instance
@@ -105,7 +110,7 @@ public class MultiJobExecutorTest extends TestCase {
       }
     }
 
-    assertEquals(1, SimpleAction2.getExecutionCount());
+    assertEquals(1, SimpleAction2.getCount());
   }
 
   protected void tearDown() {
@@ -117,28 +122,28 @@ public class MultiJobExecutorTest extends TestCase {
     private static final long serialVersionUID = -9065054081909009083L;
 
     public void execute(ExecutionContext ctx) throws Exception {
-      System.out.println("Action 1");
+      log.info("Action 1");
     }
 
   }
 
   public static class SimpleAction2 implements ActionHandler {
 
-    private static int executionCount = 0;
+    private static volatile int count = 0;
 
     private static final long serialVersionUID = -9065054081909009083L;
 
     public void execute(ExecutionContext ctx) throws Exception {
-      System.out.println("Action 2: " + incrementCount());
+      log.info("Action 2: " + incrementCount());
       ctx.getNode().leave(ctx);
     }
 
     private static synchronized int incrementCount() {
-      return ++executionCount;
+      return ++count;
     }
 
-    public static synchronized int getExecutionCount() {
-      return executionCount;
+    public static int getCount() {
+      return count;
     }
   }
 
