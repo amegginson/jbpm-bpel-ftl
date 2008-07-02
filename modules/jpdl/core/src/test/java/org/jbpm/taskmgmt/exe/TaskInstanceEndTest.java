@@ -41,7 +41,7 @@ public class TaskInstanceEndTest extends TestCase {
       "  <start-state>" +
       "    <task name='get it going' />" +
       "    <transition name='stressed' to='calm down' />" +
-      "    <transition name='relaxed' to='task first things first' />" +
+      "    <transition name='relaxed' to='first things first' />" +
       "  </start-state>" +
       "  <state name='calm down' />" +
       "  <state name='first things first' />" +
