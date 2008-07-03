@@ -90,8 +90,7 @@
       </dependency>
       <dependency>
         <groupId>org.jboss.jbpm</groupId>
-        <artifactId>jbpm-api</artifactId>
-        <classifier>testsuite</classifier>
+        <artifactId>jbpm-api-testsuite</artifactId>
         <version>${jboss.jbpm.api.version}</version>
         <type>zip</type>
       </dependency>
@@ -172,6 +171,16 @@
         <groupId>jaxen</groupId>
         <artifactId>jaxen</artifactId>
         <version>${jaxen.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>xerces</groupId>
+            <artifactId>xercesImpl</artifactId>
+          </exclusion>
+          <exclusion>
+            <groupId>xerces</groupId>
+            <artifactId>xmlParserAPIs</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>javax.ejb</groupId>
@@ -247,6 +256,12 @@
         <groupId>org.apache.jackrabbit</groupId>
         <artifactId>jackrabbit-core</artifactId>
         <version>${apache.jackrabbit.version}</version>
+        <exclusions>
+          <exclusion>
+            <groupId>xerces</groupId>
+            <artifactId>xercesImpl</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <dependency>
         <groupId>org.hibernate</groupId>

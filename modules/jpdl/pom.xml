@@ -34,7 +34,6 @@
     <module>db</module>
     <module>examples</module>
     <module>identity</module>
-    <module>integration</module>
     <module>simulation</module>
     <module>userguide</module>
     <module>ws</module>

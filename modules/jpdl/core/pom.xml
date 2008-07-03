@@ -34,6 +34,11 @@
       <groupId>org.jboss.jbpm</groupId>
       <artifactId>jbpm-api</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.jboss.jbpm</groupId>
+      <artifactId>jbpm-api-testsuite</artifactId>
+      <type>zip</type>
+    </dependency>
     
     <!-- Compile Dependencies -->
     <dependency>
@@ -127,6 +132,55 @@
               <descriptors>
                 <descriptor>scripts/assembly-config.xml</descriptor>
               </descriptors>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-clean-plugin</artifactId>
+        <configuration>
+          <filesets>
+            <fileset>
+              <directory>src/testsuite</directory>
+            </fileset>
+          </filesets>
+        </configuration>
+      </plugin>
+      <plugin>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>unpack</goal>
+            </goals>
+            <configuration>
+              <artifactItems>
+                <artifactItem>
+                  <groupId>org.jboss.jbpm</groupId>
+                  <artifactId>jbpm-api-testsuite</artifactId>
+                  <type>zip</type>
+                </artifactItem>
+              </artifactItems>
+              <outputDirectory>src/testsuite</outputDirectory>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>add-test-source</id>
+            <phase>generate-sources</phase>
+            <goals>
+              <goal>add-test-source</goal>
+            </goals>
+            <configuration>
+              <sources>
+                <source>src/testsuite</source>
+              </sources>
             </configuration>
           </execution>
         </executions>
