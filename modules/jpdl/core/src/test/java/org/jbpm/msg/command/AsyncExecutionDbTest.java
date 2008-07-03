@@ -105,7 +105,6 @@ public class AsyncExecutionDbTest extends AbstractDbTestCase {
     private static final long serialVersionUID = 1L;
     String nbr;
     public void execute(ExecutionContext executionContext) throws Exception {
-      System.err.println("################################");
       recordedActionNumbers.add(nbr);
     }
   }
