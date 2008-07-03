@@ -25,8 +25,8 @@ package org.jbpm.integration.client;
 
 import java.util.List;
 
-import org.jbpm.api.client.Node;
-import org.jbpm.api.client.ProcessDefinition;
+import org.jboss.bpm.client.Node;
+import org.jboss.bpm.client.ProcessDefinition;
 import org.jbpm.graph.node.EndState;
 import org.jbpm.graph.node.StartState;
 

@@ -23,10 +23,10 @@ package org.jbpm.integration.client;
 
 //$Id$
 
-import org.jbpm.api.client.ExecutionFactory;
-import org.jbpm.api.client.ProcessDefinitionManager;
-import org.jbpm.api.client.ProcessEngine;
-import org.jbpm.api.client.ProcessInstanceFactory;
+import org.jboss.bpm.client.ExecutionFactory;
+import org.jboss.bpm.client.ProcessDefinitionManager;
+import org.jboss.bpm.client.ProcessEngine;
+import org.jboss.bpm.client.ProcessInstanceFactory;
 
 /**
  * A process engine with public access

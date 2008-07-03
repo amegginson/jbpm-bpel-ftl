@@ -23,10 +23,10 @@ package org.jbpm.integration.client;
 
 // $Id$
 
-import org.jbpm.api.client.Execution;
-import org.jbpm.api.client.ExecutionFactory;
-import org.jbpm.api.client.ProcessEngine;
-import org.jbpm.api.client.ProcessInstance;
+import org.jboss.bpm.client.Execution;
+import org.jboss.bpm.client.ExecutionFactory;
+import org.jboss.bpm.client.ProcessEngine;
+import org.jboss.bpm.client.ProcessInstance;
 
 /**
  * TODO

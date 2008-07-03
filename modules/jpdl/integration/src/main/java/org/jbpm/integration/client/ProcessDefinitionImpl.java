@@ -23,8 +23,8 @@ package org.jbpm.integration.client;
 
 //$Id$
 
-import org.jbpm.api.client.Node;
-import org.jbpm.api.client.ProcessDefinition;
+import org.jboss.bpm.client.Node;
+import org.jboss.bpm.client.ProcessDefinition;
 
 /**
  * A jBPM3 implementation of a process definition

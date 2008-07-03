@@ -26,10 +26,10 @@ package org.jbpm.integration.client;
 import java.io.IOException;
 import java.net.URL;
 
-import org.jbpm.api.InvalidProcessDefinitionException;
-import org.jbpm.api.client.ProcessDefinition;
-import org.jbpm.api.client.ProcessDefinitionManager;
-import org.jbpm.api.client.ProcessEngine;
+import org.jboss.bpm.InvalidProcessDefinitionException;
+import org.jboss.bpm.client.ProcessDefinition;
+import org.jboss.bpm.client.ProcessDefinitionManager;
+import org.jboss.bpm.client.ProcessEngine;
 import org.jbpm.jpdl.JpdlException;
 
 /**
