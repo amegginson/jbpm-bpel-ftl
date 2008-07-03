@@ -23,7 +23,7 @@ package org.jbpm.integration.client;
 
 // $Id$
 
-import org.jbpm.api.client.EndState;
+import org.jbpm.api.client.EndNode;
 import org.jbpm.api.client.ProcessDefinition;
 
 /**
@@ -32,9 +32,9 @@ import org.jbpm.api.client.ProcessDefinition;
  * @author thomas.diesler@jboss.com
  * @since 18-Jun-2008
  */
-public class EndStateImpl extends EndState {
+public class EndNodeImpl extends EndNode {
 
-  EndStateImpl(ProcessDefinition def, String name) {
+  EndNodeImpl(ProcessDefinition def, String name) {
     super(def, name);
   }
 }

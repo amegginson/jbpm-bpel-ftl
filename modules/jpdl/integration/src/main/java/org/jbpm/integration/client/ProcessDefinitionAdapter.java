@@ -58,8 +58,8 @@ class ProcessDefinitionAdapter
   private static void validateProcessDefinition(ProcessDefinitionImpl apiPD)
   {
     // These methods are expected to throw exceptions if there are no such states
-    apiPD.getStartState();
-    apiPD.getEndStates();
+    apiPD.getStartNode();
+    apiPD.getEndNodes();
   }
 
   static class NodeAdapter
@@ -75,7 +75,7 @@ class ProcessDefinitionAdapter
       }
       else if (oldNode instanceof EndState)
       {
-        apiNode = new EndStateImpl(pDef, oldName);
+        apiNode = new EndNodeImpl(pDef, oldName);
       }
       else
       {

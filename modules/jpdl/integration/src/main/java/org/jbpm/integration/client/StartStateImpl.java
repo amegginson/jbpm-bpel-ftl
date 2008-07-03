@@ -24,7 +24,7 @@ package org.jbpm.integration.client;
 //$Id$
 
 import org.jbpm.api.client.ProcessDefinition;
-import org.jbpm.api.client.StartState;
+import org.jbpm.api.client.StartNode;
 
 /**
  * TODO
@@ -32,7 +32,7 @@ import org.jbpm.api.client.StartState;
  * @author thomas.diesler@jboss.com
  * @since 18-Jun-2008
  */
-public class StartStateImpl extends StartState {
+public class StartStateImpl extends StartNode {
 
   StartStateImpl(ProcessDefinition def, String name) {
     super(def, name);
