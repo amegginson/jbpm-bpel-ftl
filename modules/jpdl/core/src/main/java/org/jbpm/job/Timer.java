@@ -1,7 +1,7 @@
 package org.jbpm.job;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -18,6 +18,7 @@ public class Timer extends Job {
 
   private static final long serialVersionUID = 1L;
 
+  private final static String dateFormat = "yyyy-MM-dd HH:mm:ss,SSS";
   static BusinessCalendar businessCalendar = new BusinessCalendar();
   
   String name;
@@ -115,7 +116,6 @@ public class Timer extends Job {
     return deleteThisJob;
   }
   
-  static DateFormat dateFormat = new SimpleDateFormat("yy-MM-dd HH:mm:ss,SSS"); 
   public String toString() {
     StringBuffer buffer = new StringBuffer();
     buffer.append("timer");
@@ -126,7 +126,7 @@ public class Timer extends Job {
         buffer.append(name).append(",");
       }
       if (dueDate!=null) {
-          buffer.append(dateFormat.format(dueDate)).append(",");
+        buffer.append(formatDueDate(dueDate)).append(",");
       }
       if (taskInstance!=null)
         buffer.append("TaskInstance: ").append(taskInstance.getId()).append(",");
@@ -140,6 +140,9 @@ public class Timer extends Job {
     return buffer.toString();
   }
 
+  public static String formatDueDate(Date date) {
+    return new SimpleDateFormat(dateFormat).format(date);
+  }
   
   public String getRepeat() {
     return repeat;
