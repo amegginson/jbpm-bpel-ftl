@@ -8,14 +8,15 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
+import org.jbpm.command.Command;
 import org.jbpm.command.CommandService;
-import org.jbpm.command.SignalCommand;
+import org.jbpm.command.DeployProcessCommand;
 import org.jbpm.command.StartProcessInstanceCommand;
 import org.jbpm.command.impl.CommandServiceImpl;
+import org.jbpm.configuration.ObjectFactory;
 import org.jbpm.graph.def.ActionHandler;
-import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.ExecutionContext;
-import org.jbpm.graph.exe.ProcessInstance;
+import org.jbpm.graph.exe.Token;
 
 /**
  * Test case for JBPM-1072.
@@ -24,118 +25,145 @@ import org.jbpm.graph.exe.ProcessInstance;
  */
 public class MultiJobExecutorTest extends TestCase {
 
-  private static final int EXECUTOR_COUNT = 20;
-  public static final String PROCESS_NAME = "TestProcess";
-
-  private JobExecutor[] executors = new JobExecutor[EXECUTOR_COUNT];
+  private static final int EXECUTOR_COUNT = 16;
+  private static final int JOB_COUNT = 1;
+  private static final int IDLE_INTERVAL = 1000;
+  private static final String PROCESS_NAME = "TestProcess";
 
   private static JbpmConfiguration jbpmConfiguration = JbpmConfiguration.getInstance();
-  private static CommandService commandService = new CommandServiceImpl(jbpmConfiguration);
+  private static CommandService commandService = new CommandRetryService(new CommandServiceImpl(jbpmConfiguration), 3);
 
   private static final Log log = LogFactory.getLog(MultiJobExecutorTest.class);
 
-  public static final String PROCESS_DEFINITION = "<?xml version='1.0' encoding='UTF-8'?>"
-      + "<process-definition xmlns='' name='TestProcess'>"
+  private static final String PROCESS_DEFINITION = "<process-definition name='" 
+      + PROCESS_NAME 
+      + "'>"
       + "<event type='process-end'>"
       + "<action name='endAction' class='"
       + EndAction.class.getName()
-      + "' />"
+      + "'/>"
       + "</event>"
-      + "<start-state name='start-state1'>"
-      + "<transition to='Service 1'></transition>"
+      + "<start-state name='start'>"
+      + "<transition to='fork'/>"
       + "</start-state>"
-      + "<node name='Service 1'>"
-      + "<action name='esbAction' "
-      + "class='"
-      + SimpleAction.class.getName()
-      + "'>"
-      + "</action>"
-      + "<transition to='Service 2'></transition>"
+      + "<node name='fork'>"
+      + "<action class='"
+      + MultiFork.class.getName()
+      + "'/>"
+      + "<transition to='async'/>"
       + "</node>"
-      + "<node name='Service 2' async='true'>"
-      + "<action name='esbAction' "
-      + "class='"
-      + SimpleAction2.class.getName()
-      + "'>"
-      + "</action>"
-      + "<transition to='end-state1'></transition>"
+      + "<node name='async' async='true'>"
+      + "<action class='"
+      + AsyncAction.class.getName()
+      + "'/>"
+      + "<transition to='join'/>"
       + "</node>"
-      + "<end-state name='end-state1'></end-state>"
+      + "<join name='join'>" 
+      + "<transition to='end'/>" 
+      + "</join>"
+      + "<end-state name='end'/>"
       + "</process-definition>";
 
   protected void setUp() throws SQLException {
     jbpmConfiguration.createSchema();
+    commandService.execute(new DeployProcessCommand(PROCESS_DEFINITION));
+  }
 
-    // deploy process definition
+  public void testMultipleExecutors() {
+    // create job executors
+    JobExecutor[] jobExecutors = new JobExecutor[EXECUTOR_COUNT];
+    // jobExecutors[0] = jbpmConfiguration.getJobExecutor();
+
     JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
     try {
-      jbpmContext.deployProcessDefinition(ProcessDefinition.parseXmlString(PROCESS_DEFINITION));
-      log.info("Isolation " + jbpmContext.getConnection().getTransactionIsolation());
+      ObjectFactory objectFactory = jbpmContext.getObjectFactory();
+      for (int i = 0; i < jobExecutors.length; i++) {
+        JobExecutor jobExecutor = (JobExecutor) objectFactory.createObject("jbpm.job.executor");
+        jobExecutor.setName(jobExecutor.getName() + '-' + i);
+        jobExecutor.setIdleInterval(IDLE_INTERVAL);
+        jobExecutors[i] = jobExecutor;
+      }
     }
     finally {
       jbpmContext.close();
     }
-  }
 
-  public void testMultipleExecutors() {
     // start job executors
-    for (int i = 0; i < executors.length; i++) {
-      JobExecutor jobExecutor = (JobExecutor) JbpmConfiguration.Configs.getObjectFactory().createObject(
-          "jbpm.job.executor");
-      jobExecutor.setName("JbpmJobExecutor/" + (i + 1));
-      jobExecutor.start();
-      executors[i] = jobExecutor;
+    for (int i = 0; i < jobExecutors.length; i++) {
+      jobExecutors[i].start();
     }
 
     // kick off process instance
     StartProcessInstanceCommand startCommand = new StartProcessInstanceCommand();
     startCommand.setProcessName(PROCESS_NAME);
-    ProcessInstance pi = (ProcessInstance) commandService.execute(startCommand);
-
-    // signal service 1
-    SignalCommand signalCommand = new SignalCommand();
-    signalCommand.setTokenId(pi.getRootToken().getId());
-    commandService.execute(signalCommand);
-
-    // wait for process end
-    EndAction.waitFor();
-
+    commandService.execute(startCommand);
+  
+    // wait till process instance ends
+    EndAction.waitFor(IDLE_INTERVAL);
+  
     // stop job executors
-    for (int i = executors.length - 1; i >= 0; i--) {
+    for (int i = jobExecutors.length - 1; i >= 0; i--) {
       try {
-        executors[i].stopAndJoin();
+        jobExecutors[i].stopAndJoin();
       }
       catch (InterruptedException e) {
         // continue to next executor
       }
     }
-
-    assertEquals(1, SimpleAction2.getCount());
+  
+    assertEquals(JOB_COUNT, AsyncAction.getCount());
   }
 
   protected void tearDown() {
     jbpmConfiguration.dropSchema();
   }
 
-  public static class SimpleAction implements ActionHandler {
+  static class CommandRetryService implements CommandService {
+  
+    private final CommandService commandService;
+    private final int retryCount;
 
-    private static final long serialVersionUID = -9065054081909009083L;
-
-    public void execute(ExecutionContext ctx) throws Exception {
-      log.info("Action 1");
+    CommandRetryService(CommandService commandService, int retryCount) {
+      this.commandService = commandService;
+      this.retryCount = retryCount;
     }
 
+    public Object execute(Command command) {
+      for (int i = 1;; i++) {
+        try {
+          return commandService.execute(command);
+        }
+        catch (RuntimeException e) {
+          log.error("attempt " + i + " to execute command failed", e);
+          if (i == retryCount)
+            throw e;
+        }
+      }
+    }
   }
 
-  public static class SimpleAction2 implements ActionHandler {
+  public static class MultiFork implements ActionHandler {
+
+    private static final long serialVersionUID = 1L;
+
+    public void execute(ExecutionContext ctx) throws Exception {
+      Token parentToken = ctx.getToken();
+      for (int i = 0; i < JOB_COUNT; i++) {
+        Token childToken = new Token(parentToken, Integer.toString(i));
+        new ExecutionContext(childToken).leaveNode();
+      }
+    }
+  }
+
+  public static class AsyncAction implements ActionHandler {
 
     private static volatile int count = 0;
 
-    private static final long serialVersionUID = -9065054081909009083L;
+    private static final long serialVersionUID = 1L;
 
-    public void execute(ExecutionContext ctx) throws Exception {
-      log.info("Action 2: " + incrementCount());
-      ctx.getNode().leave(ctx);
+    public void execute(ExecutionContext exeContext) throws Exception {
+      log.info("execution count: " + incrementCount());
+      exeContext.leaveNode();
     }
 
     private static synchronized int incrementCount() {
@@ -149,24 +177,33 @@ public class MultiJobExecutorTest extends TestCase {
 
   public static class EndAction implements ActionHandler {
 
-    private static final Object monitor = new Object();
+    private static final Object lock = new Object();
+    private static volatile boolean ended;
 
     private static final long serialVersionUID = 1L;
 
-    public void execute(ExecutionContext executionContext) throws Exception {
-      synchronized (monitor) {
-        monitor.notify();
+    public void execute(ExecutionContext exeContext) throws Exception {
+      ended = true;
+      log.debug("process-end event fired, notifying");
+      synchronized (lock) {
+        lock.notify();
       }
     }
 
-    public static void waitFor() {
-      try {
-        synchronized (monitor) {
-          monitor.wait(60000);
+    public static void waitFor(long timeout) {
+      while (!ended) {
+        log.debug("process not ended, waiting");
+        try {
+          synchronized (lock) {
+            lock.wait(timeout);
+          }
         }
+        catch (InterruptedException e) {
+          // check condition again
+        }
+        log.debug("checking whether process has ended");
       }
-      catch (InterruptedException e) {
-      }
+      log.debug("process ended, proceeding");
     }
   }
 }
