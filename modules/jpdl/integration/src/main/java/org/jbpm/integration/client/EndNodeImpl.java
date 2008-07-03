@@ -32,9 +32,26 @@ import org.jbpm.api.client.ProcessDefinition;
  * @author thomas.diesler@jboss.com
  * @since 18-Jun-2008
  */
-public class EndNodeImpl extends EndNode {
+public class EndNodeImpl extends EndNode
+{
+  private org.jbpm.graph.def.Node oldNode;
 
-  EndNodeImpl(ProcessDefinition def, String name) {
-    super(def, name);
+  EndNodeImpl(ProcessDefinition def, org.jbpm.graph.def.Node oldNode)
+  {
+    super(def);
+    this.oldNode = oldNode;
+    init(oldNode.getName());
+  }
+
+  @Override
+  public String getName()
+  {
+    return oldNode.getName();
+  }
+
+  @Override
+  protected void setName(String name)
+  {
+    oldNode.setName(name);
   }
 }

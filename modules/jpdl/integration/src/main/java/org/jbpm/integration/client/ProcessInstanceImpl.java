@@ -32,10 +32,11 @@ import org.jbpm.api.client.ProcessInstance;
  * @author thomas.diesler@jboss.com
  * @since 18-Jun-2008
  */
-public class ProcessInstanceImpl extends ProcessInstance {
-
-  ProcessInstanceImpl(ProcessDefinition pdef) {
+public class ProcessInstanceImpl extends ProcessInstance
+{
+  ProcessInstanceImpl(ProcessDefinition pdef)
+  {
     super(pdef);
+    init(null);
   }
-
 }

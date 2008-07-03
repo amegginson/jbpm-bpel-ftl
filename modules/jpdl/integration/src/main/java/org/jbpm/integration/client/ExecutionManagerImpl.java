@@ -24,7 +24,7 @@ package org.jbpm.integration.client;
 // $Id$
 
 import org.jbpm.api.client.Execution;
-import org.jbpm.api.client.ExecutionManager;
+import org.jbpm.api.client.ExecutionFactory;
 import org.jbpm.api.client.ProcessEngine;
 import org.jbpm.api.client.ProcessInstance;
 
@@ -34,20 +34,20 @@ import org.jbpm.api.client.ProcessInstance;
  * @author thomas.diesler@jboss.com
  * @since 18-Jun-2008
  */
-public class ExecutionManagerImpl extends ExecutionManager {
+public class ExecutionManagerImpl extends ExecutionFactory
+{
 
-  public void setProcessEngine(ProcessEngine engine) {
+  public void setProcessEngine(ProcessEngine engine)
+  {
     this.engine = engine;
   }
 
-  public Execution createExecution(ProcessInstance pi) {
-    
-    ProcessDefinitionImpl apiPD = (ProcessDefinitionImpl) pi.getProcessDefinition();
+  @Override
+  protected Execution createExecutionOverride(ProcessInstance pi)
+  {
+    ProcessDefinitionImpl apiPD = (ProcessDefinitionImpl)pi.getProcessDefinition();
     org.jbpm.graph.exe.Execution oldEx = new org.jbpm.graph.exe.Execution(apiPD.oldPD);
-    
     ExecutionImpl ex = new ExecutionImpl(pi, oldEx);
-    addExecution(ex);
     return ex;
   }
-
 }

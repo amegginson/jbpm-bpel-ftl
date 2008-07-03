@@ -21,11 +21,11 @@
  */
 package org.jbpm.integration.client;
 
+//$Id$
+
 import org.jbpm.api.client.Execution;
 import org.jbpm.api.client.Node;
 import org.jbpm.api.client.ProcessInstance;
-
-// $Id$
 
 /**
  * TODO
@@ -33,24 +33,43 @@ import org.jbpm.api.client.ProcessInstance;
  * @author thomas.diesler@jboss.com
  * @since 18-Jun-2008
  */
-public class ExecutionImpl extends Execution {
+public class ExecutionImpl extends Execution
+{
 
   org.jbpm.graph.exe.Execution oldEx;
   private ProcessInstance pinst;
-  
-  ExecutionImpl(ProcessInstance pi, org.jbpm.graph.exe.Execution oldEx) {
-    super(pi, oldEx.getKey());
+
+  ExecutionImpl(ProcessInstance pi, org.jbpm.graph.exe.Execution oldEx)
+  {
+    super(pi);
     this.pinst = pi;
     this.oldEx = oldEx;
+    init(oldEx.getKey());
   }
 
-  public Node getNode() {
+  @Override
+  protected Node getNodeOverride()
+  {
     org.jbpm.graph.def.Node oldNode = oldEx.getRootToken().getNode();
     Node apiNode = pinst.getProcessDefinition().findNode(oldNode.getName());
     return apiNode;
   }
 
-  public void signal() {
+  @Override
+  protected void signalOverride()
+  {
     oldEx.signal();
+  }
+
+  @Override
+  public String getName()
+  {
+    return oldEx.getKey();
+  }
+
+  @Override
+  protected void setName(String name)
+  {
+    oldEx.setKey(name);
   }
 }

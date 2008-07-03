@@ -48,10 +48,10 @@ class ProcessDefinitionAdapter
       Node apiNode = NodeAdapter.adaptNode(apiPD, oldNode);
       apiPD.addNode(apiNode);
     }
-    
+
     // validate
     validateProcessDefinition(apiPD);
-    
+
     return apiPD;
   }
 
@@ -67,19 +67,18 @@ class ProcessDefinitionAdapter
 
     static Node adaptNode(ProcessDefinition pDef, org.jbpm.graph.def.Node oldNode)
     {
-      String oldName = oldNode.getName();
       Node apiNode;
       if (oldNode instanceof StartState)
       {
-        apiNode = new StartStateImpl(pDef, oldName);
+        apiNode = new StartNodeImpl(pDef, oldNode);
       }
       else if (oldNode instanceof EndState)
       {
-        apiNode = new EndNodeImpl(pDef, oldName);
+        apiNode = new EndNodeImpl(pDef, oldNode);
       }
       else
       {
-        apiNode = new NodeImpl(pDef, oldName);
+        apiNode = new NodeImpl(pDef, oldNode);
       }
       return apiNode;
     }

@@ -46,7 +46,8 @@ public class ProcessDefinitionManagerImpl extends ProcessDefinitionManager
     this.engine = engine;
   }
 
-  public ProcessDefinition createProcessDefinition(String jpdl)
+  @Override
+  protected ProcessDefinition createProcessDefinitionOverride(String jpdl)
   {
     org.jbpm.graph.def.ProcessDefinition oldPD;
     try
@@ -62,7 +63,8 @@ public class ProcessDefinitionManagerImpl extends ProcessDefinitionManager
     return pdef;
   }
 
-  public ProcessDefinition createProcessDefinition(URL jpdl) throws IOException
+  @Override
+  protected ProcessDefinition createProcessDefinitionOverride(URL jpdl) throws IOException
   {
     org.jbpm.graph.def.ProcessDefinition oldPD;
     try

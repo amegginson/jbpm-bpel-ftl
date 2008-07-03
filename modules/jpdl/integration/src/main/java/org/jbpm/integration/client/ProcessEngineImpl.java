@@ -23,10 +23,10 @@ package org.jbpm.integration.client;
 
 //$Id$
 
-import org.jbpm.api.client.ExecutionManager;
+import org.jbpm.api.client.ExecutionFactory;
 import org.jbpm.api.client.ProcessDefinitionManager;
 import org.jbpm.api.client.ProcessEngine;
-import org.jbpm.api.client.ProcessInstanceManager;
+import org.jbpm.api.client.ProcessInstanceFactory;
 
 /**
  * A process engine with public access
@@ -40,11 +40,11 @@ public class ProcessEngineImpl extends ProcessEngine {
     this.processDefinitionManager = processDefinitionManager;
   }
 
-  public void setProcessInstanceManager(ProcessInstanceManager processInstanceManager) {
+  public void setProcessInstanceManager(ProcessInstanceFactory processInstanceManager) {
     this.processInstanceManager = processInstanceManager;
   }
 
-  public void setExecutionManager(ExecutionManager executionManager) {
+  public void setExecutionManager(ExecutionFactory executionManager) {
     this.executionManager = executionManager;
   }
 }

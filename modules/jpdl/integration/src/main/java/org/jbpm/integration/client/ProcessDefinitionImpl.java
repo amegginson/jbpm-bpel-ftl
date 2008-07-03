@@ -32,18 +32,31 @@ import org.jbpm.api.client.ProcessDefinition;
  * @author thomas.diesler@jboss.com
  * @since 18-Jun-2008
  */
-public class ProcessDefinitionImpl extends ProcessDefinition {
-
+public class ProcessDefinitionImpl extends ProcessDefinition
+{
   org.jbpm.graph.def.ProcessDefinition oldPD;
-  
-  ProcessDefinitionImpl(org.jbpm.graph.def.ProcessDefinition oldPD) {
-    super(oldPD.getName());
+
+  ProcessDefinitionImpl(org.jbpm.graph.def.ProcessDefinition oldPD)
+  {
     this.oldPD = oldPD;
+    init(oldPD.getName());
   }
-  
+
   // Add a node
-  public void addNode(Node apiNode) {
+  public void addNode(Node apiNode)
+  {
     super.addNode(apiNode);
   }
-  
+
+  @Override
+  public String getName()
+  {
+    return oldPD.getName();
+  }
+
+  @Override
+  protected void setName(String name)
+  {
+    oldPD.setName(name);
+  }
 }
