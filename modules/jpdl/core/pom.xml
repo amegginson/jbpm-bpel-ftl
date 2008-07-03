@@ -144,6 +144,7 @@
             <exclude>hibernate.cfg.xml</exclude>
             <exclude>jbpm.cfg.xml</exclude>
             <exclude>jbpm.mail.templates.xml</exclude>
+            <exclude>jbpm-beans.xml</exclude>
           </excludes>
         </configuration>
       </plugin>

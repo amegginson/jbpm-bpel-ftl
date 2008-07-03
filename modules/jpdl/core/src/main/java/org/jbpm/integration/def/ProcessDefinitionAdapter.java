@@ -29,6 +29,9 @@ import org.jboss.bpm.def.Node;
 import org.jboss.bpm.def.ProcessDefinition;
 import org.jbpm.graph.node.EndState;
 import org.jbpm.graph.node.StartState;
+import org.jbpm.integration.def.EndNodeImpl;
+import org.jbpm.integration.def.ProcessDefinitionImpl;
+import org.jbpm.integration.def.StartNodeImpl;
 
 /**
  * Adapts on jBPM3 ProcessDefinition to an API ProcessDefinition
@@ -36,10 +39,10 @@ import org.jbpm.graph.node.StartState;
  * @author thomas.diesler@jboss.com
  * @since 18-Jun-2008
  */
-class ProcessDefinitionAdapter
+public class ProcessDefinitionAdapter
 {
 
-  static ProcessDefinition buildProcessDefinition(org.jbpm.graph.def.ProcessDefinition oldPD)
+  public static ProcessDefinition buildProcessDefinition(org.jbpm.graph.def.ProcessDefinition oldPD)
   {
     ProcessDefinitionImpl apiPD = new ProcessDefinitionImpl(oldPD);
     List<org.jbpm.graph.def.Node> oldNodes = oldPD.getNodes();

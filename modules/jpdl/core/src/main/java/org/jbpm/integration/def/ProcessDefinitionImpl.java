@@ -34,9 +34,9 @@ import org.jboss.bpm.def.ProcessDefinition;
  */
 public class ProcessDefinitionImpl extends ProcessDefinition
 {
-  org.jbpm.graph.def.ProcessDefinition oldPD;
+  public org.jbpm.graph.def.ProcessDefinition oldPD;
 
-  ProcessDefinitionImpl(org.jbpm.graph.def.ProcessDefinition oldPD)
+  public ProcessDefinitionImpl(org.jbpm.graph.def.ProcessDefinition oldPD)
   {
     this.oldPD = oldPD;
     init(oldPD.getName());

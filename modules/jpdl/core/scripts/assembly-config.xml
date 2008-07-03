@@ -13,6 +13,7 @@
         <include>hibernate.cfg.xml</include>
         <include>jbpm.cfg.xml</include>
         <include>jbpm.mail.templates.xml</include>
+        <include>jbpm-beans.xml</include>
       </includes>
     </fileSet>
     <fileSet>

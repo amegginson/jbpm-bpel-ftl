@@ -27,6 +27,7 @@ import org.jboss.bpm.client.Execution;
 import org.jboss.bpm.client.ExecutionFactory;
 import org.jboss.bpm.client.ProcessEngine;
 import org.jboss.bpm.client.ProcessInstance;
+import org.jbpm.integration.def.ProcessDefinitionImpl;
 
 /**
  * TODO
