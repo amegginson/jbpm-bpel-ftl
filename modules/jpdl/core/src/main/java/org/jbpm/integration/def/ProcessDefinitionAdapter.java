@@ -21,7 +21,7 @@
  */
 package org.jbpm.integration.def;
 
-// $Id$
+// $Id: $
 
 import java.util.List;
 

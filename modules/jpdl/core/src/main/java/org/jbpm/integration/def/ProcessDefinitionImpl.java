@@ -24,7 +24,7 @@ package org.jbpm.integration.def;
 //$Id$
 
 import org.jboss.bpm.def.Node;
-import org.jboss.bpm.def.ProcessDefinition;
+import org.jboss.bpm.def.internal.AbstractProcessDefinition;
 
 /**
  * A jBPM3 implementation of a process definition
@@ -32,7 +32,7 @@ import org.jboss.bpm.def.ProcessDefinition;
  * @author thomas.diesler@jboss.com
  * @since 18-Jun-2008
  */
-public class ProcessDefinitionImpl extends ProcessDefinition
+public class ProcessDefinitionImpl extends AbstractProcessDefinition
 {
   public org.jbpm.graph.def.ProcessDefinition oldPD;
 
@@ -42,7 +42,7 @@ public class ProcessDefinitionImpl extends ProcessDefinition
     init(oldPD.getName());
   }
 
-  // Add a node
+  // Provide public access
   public void addNode(Node apiNode)
   {
     super.addNode(apiNode);

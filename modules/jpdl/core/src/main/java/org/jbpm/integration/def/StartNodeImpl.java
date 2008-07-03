@@ -32,26 +32,10 @@ import org.jboss.bpm.def.StartNode;
  * @author thomas.diesler@jboss.com
  * @since 18-Jun-2008
  */
-public class StartNodeImpl extends StartNode
+public class StartNodeImpl extends NodeImpl implements StartNode
 {
-  private org.jbpm.graph.def.Node oldNode;
-
   StartNodeImpl(ProcessDefinition def, org.jbpm.graph.def.Node oldNode)
   {
-    super(def);
-    this.oldNode = oldNode;
-    init(oldNode.getName());
-  }
-
-  @Override
-  public String getName()
-  {
-    return oldNode.getName();
-  }
-
-  @Override
-  protected void setName(String name)
-  {
-    oldNode.setName(name);
+    super(def, oldNode);
   }
 }

@@ -23,8 +23,8 @@ package org.jbpm.integration.def;
 
 //$Id$
 
-import org.jboss.bpm.def.Node;
 import org.jboss.bpm.def.ProcessDefinition;
+import org.jboss.bpm.def.internal.AbstractNode;
 
 /**
  * TODO
@@ -32,7 +32,7 @@ import org.jboss.bpm.def.ProcessDefinition;
  * @author thomas.diesler@jboss.com
  * @since 18-Jun-2008
  */
-public class NodeImpl extends Node
+public class NodeImpl extends AbstractNode
 {
   private org.jbpm.graph.def.Node oldNode;
   

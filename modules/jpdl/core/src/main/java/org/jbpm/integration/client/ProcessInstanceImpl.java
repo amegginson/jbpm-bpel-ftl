@@ -23,7 +23,7 @@ package org.jbpm.integration.client;
 
 //$Id$
 
-import org.jboss.bpm.client.ProcessInstance;
+import org.jboss.bpm.client.internal.AbstractProcessInstance;
 import org.jboss.bpm.def.ProcessDefinition;
 
 /**
@@ -32,7 +32,7 @@ import org.jboss.bpm.def.ProcessDefinition;
  * @author thomas.diesler@jboss.com
  * @since 18-Jun-2008
  */
-public class ProcessInstanceImpl extends ProcessInstance
+public class ProcessInstanceImpl extends AbstractProcessInstance
 {
   ProcessInstanceImpl(ProcessDefinition pdef)
   {

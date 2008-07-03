@@ -23,8 +23,11 @@ package org.jbpm.integration.client;
 
 //$Id$
 
+import org.jboss.bpm.Context;
+import org.jboss.bpm.NotImplementedException;
 import org.jboss.bpm.client.Execution;
 import org.jboss.bpm.client.ProcessInstance;
+import org.jboss.bpm.client.internal.AbstractExecution;
 import org.jboss.bpm.def.Node;
 
 /**
@@ -33,7 +36,7 @@ import org.jboss.bpm.def.Node;
  * @author thomas.diesler@jboss.com
  * @since 18-Jun-2008
  */
-public class ExecutionImpl extends Execution
+public class ExecutionImpl extends AbstractExecution
 {
   org.jbpm.graph.exe.Execution oldEx;
 
@@ -69,5 +72,11 @@ public class ExecutionImpl extends Execution
   protected void setName(String name)
   {
     oldEx.setKey(name);
+  }
+
+  @Override
+  public Context getContext()
+  {
+    throw new NotImplementedException();
   }
 }
