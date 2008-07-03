@@ -36,17 +36,14 @@ public class JobExecutorThread extends Thread {
     this.idleInterval = idleInterval;
     this.maxIdleInterval = maxIdleInterval;
     this.maxLockTime = maxLockTime;
-    this.maxHistory = maxHistory;
   }
 
-  JobExecutor jobExecutor; 
-  JbpmConfiguration jbpmConfiguration;
-  int idleInterval;
-  int maxIdleInterval;
-  long maxLockTime;
-  int maxHistory;
+  final JobExecutor jobExecutor; 
+  final JbpmConfiguration jbpmConfiguration;
+  final int idleInterval;
+  final int maxIdleInterval;
+  final long maxLockTime;
 
-  Collection history = new ArrayList();
   int currentIdleInterval;
   volatile boolean isActive = true;
 
@@ -91,7 +88,10 @@ public class JobExecutorThread extends Thread {
           }
           // after an exception, the current idle interval is doubled to prevent 
           // continuous exception generation when e.g. the db is unreachable
-          currentIdleInterval = currentIdleInterval*2;
+          currentIdleInterval <<= 1;
+          if (currentIdleInterval > maxIdleInterval || currentIdleInterval < 0) {
+            currentIdleInterval = maxIdleInterval;
+          }
         }
       }
     } catch (Exception e) {
