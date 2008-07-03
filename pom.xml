@@ -338,6 +338,12 @@
       <plugin>
         <artifactId>maven-javadoc-plugin</artifactId>
       </plugin>
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <failIfNoTests>false</failIfNoTests>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
   
@@ -385,6 +391,27 @@
             <artifactId>maven-surefire-plugin</artifactId>
             <configuration>
               <skipTests>true</skipTests>
+            </configuration>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+    
+    <!--
+      Name: smoketests
+      Desc: Execute the smoke tests 
+    -->
+    <profile>
+      <id>smoketests</id>
+      <build>
+        <plugins>
+          <plugin>
+            <artifactId>maven-surefire-plugin</artifactId>
+            <configuration>
+              <includes>
+                <include>org/jboss/bpm/samples/**/*TestCase.java</include>
+                <include>org/jboss/bpm/samples/**/*Test.java</include>
+              </includes>
             </configuration>
           </plugin>
         </plugins>

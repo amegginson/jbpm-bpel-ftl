@@ -21,10 +21,11 @@
  */
 package org.jbpm.integration.client;
 
-// $Id$
+//$Id$
 
-import org.jboss.bpm.client.EndNode;
-import org.jboss.bpm.client.ProcessDefinition;
+import org.jboss.bpm.client.Execution;
+import org.jboss.bpm.client.ProcessInstance;
+import org.jboss.bpm.def.Node;
 
 /**
  * TODO
@@ -32,26 +33,41 @@ import org.jboss.bpm.client.ProcessDefinition;
  * @author thomas.diesler@jboss.com
  * @since 18-Jun-2008
  */
-public class EndNodeImpl extends EndNode
+public class ExecutionImpl extends Execution
 {
-  private org.jbpm.graph.def.Node oldNode;
+  org.jbpm.graph.exe.Execution oldEx;
 
-  EndNodeImpl(ProcessDefinition def, org.jbpm.graph.def.Node oldNode)
+  ExecutionImpl(ProcessInstance pi, org.jbpm.graph.exe.Execution oldEx)
   {
-    super(def);
-    this.oldNode = oldNode;
-    init(oldNode.getName());
+    super(pi);
+    this.oldEx = oldEx;
+    init(oldEx.getKey());
+  }
+
+  @Override
+  protected Node getNodeOverride()
+  {
+    org.jbpm.graph.def.Node oldNode = oldEx.getRootToken().getNode();
+    Node apiNode = getProcessInstance().getProcessDefinition().findNode(oldNode.getName());
+    return apiNode;
+  }
+
+  @Override
+  protected void signalOverride()
+  {
+    oldEx.getContextInstance().setTransientVariable(Execution.class.getName(), this);
+    oldEx.signal();
   }
 
   @Override
   public String getName()
   {
-    return oldNode.getName();
+    return oldEx.getKey();
   }
 
   @Override
   protected void setName(String name)
   {
-    oldNode.setName(name);
+    oldEx.setKey(name);
   }
 }

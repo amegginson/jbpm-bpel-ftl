@@ -19,24 +19,42 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jbpm.integration.client;
+package org.jbpm.integration.runtime;
 
-//$Id$
+// $Id$
 
-import org.jboss.bpm.client.ProcessDefinition;
-import org.jboss.bpm.client.ProcessInstance;
+import org.jboss.bpm.JBPMException;
+import org.jboss.bpm.client.Execution;
+import org.jboss.bpm.runtime.Activity;
+import org.jbpm.context.exe.ContextInstance;
+import org.jbpm.graph.def.Action;
+import org.jbpm.graph.def.ActionHandler;
+import org.jbpm.graph.exe.ExecutionContext;
 
 /**
- * TODO
+ * This is a wrapper arround an API Activity
  * 
  * @author thomas.diesler@jboss.com
  * @since 18-Jun-2008
  */
-public class ProcessInstanceImpl extends ProcessInstance
+public class ActivityWrapper implements ActionHandler
 {
-  ProcessInstanceImpl(ProcessDefinition pdef)
+  private Action action;
+  private Activity activity;
+  
+  public ActivityWrapper(Action action, Activity activity)
   {
-    super(pdef);
-    init(null);
+    this.action = action;
+    this.activity = activity;
+  }
+
+  public void execute(ExecutionContext executionContext) throws Exception
+  {
+    ContextInstance ctxInst = executionContext.getContextInstance();
+    Execution ex = (Execution)ctxInst.getTransientVariable(Execution.class.getName());
+    if (ex == null)
+      throw new IllegalStateException("Cannot obtain API Execution");
+
+    activity.execute(null, null);
   }
 }

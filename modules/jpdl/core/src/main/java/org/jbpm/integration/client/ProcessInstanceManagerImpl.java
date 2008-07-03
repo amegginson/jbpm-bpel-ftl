@@ -21,10 +21,12 @@
  */
 package org.jbpm.integration.client;
 
-//$Id$
+// $Id$
 
-import org.jboss.bpm.client.Node;
-import org.jboss.bpm.client.ProcessDefinition;
+import org.jboss.bpm.client.ProcessEngine;
+import org.jboss.bpm.client.ProcessInstance;
+import org.jboss.bpm.client.ProcessInstanceFactory;
+import org.jboss.bpm.def.ProcessDefinition;
 
 /**
  * TODO
@@ -32,26 +34,15 @@ import org.jboss.bpm.client.ProcessDefinition;
  * @author thomas.diesler@jboss.com
  * @since 18-Jun-2008
  */
-public class NodeImpl extends Node
-{
-  private org.jbpm.graph.def.Node oldNode;
-  
-  NodeImpl(ProcessDefinition def, org.jbpm.graph.def.Node oldNode)
-  {
-    super(def);
-    this.oldNode = oldNode;
-    init(oldNode.getName());
+public class ProcessInstanceManagerImpl extends ProcessInstanceFactory {
+
+  public void setProcessEngine(ProcessEngine engine) {
+    this.engine = engine;
   }
 
   @Override
-  public String getName()
-  {
-    return oldNode.getName();
-  }
-
-  @Override
-  protected void setName(String name)
-  {
-    oldNode.setName(name);
+  protected ProcessInstance createProcessInstanceOverride(ProcessDefinition pdef) {
+    ProcessInstance pinst = new ProcessInstanceImpl(pdef);
+    return pinst;
   }
 }

@@ -27,9 +27,9 @@ import java.io.IOException;
 import java.net.URL;
 
 import org.jboss.bpm.InvalidProcessDefinitionException;
-import org.jboss.bpm.client.ProcessDefinition;
 import org.jboss.bpm.client.ProcessDefinitionManager;
 import org.jboss.bpm.client.ProcessEngine;
+import org.jboss.bpm.def.ProcessDefinition;
 import org.jbpm.jpdl.JpdlException;
 
 /**

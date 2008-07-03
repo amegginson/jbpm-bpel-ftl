@@ -25,112 +25,155 @@ import java.io.Serializable;
 import java.util.Map;
 
 import org.dom4j.Element;
+import org.jboss.bpm.runtime.Activity;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.instantiation.Delegation;
+import org.jbpm.integration.runtime.ActivityWrapper;
 import org.jbpm.jpdl.el.impl.JbpmExpressionEvaluator;
 import org.jbpm.jpdl.xml.JpdlXmlReader;
 import org.jbpm.jpdl.xml.Parsable;
 import org.jbpm.util.EqualsUtil;
 
-public class Action implements ActionHandler, Parsable, Serializable {
+public class Action implements ActionHandler, Parsable, Serializable
+{
 
   private static final long serialVersionUID = 1L;
-  
+
   long id = 0;
   protected String name = null;
   protected boolean isPropagationAllowed = true;
   protected boolean isAsync = false;
   protected boolean isAsyncExclusive = false;
   protected Action referencedAction = null;
-  protected Delegation actionDelegation  = null;
+  protected Delegation actionDelegation = null;
   protected String actionExpression = null;
   protected Event event = null;
   protected ProcessDefinition processDefinition = null;
 
-  public Action() {
+  public Action()
+  {
   }
 
-  public Action(Delegation actionDelegate) {
+  public Action(Delegation actionDelegate)
+  {
     this.actionDelegation = actionDelegate;
   }
-  
-  public String toString() {
+
+  public String toString()
+  {
     String toString = null;
-    if (name!=null) {
-      toString = "action["+name+"]";
-    } else if (actionExpression!=null) {
-      toString = "action["+actionExpression+"]";
-    } else {
-      String className = getClass().getName(); 
-      className = className.substring(className.lastIndexOf('.')+1);
-      if (name!=null) {
-        toString = className+"("+name+")";
-      } else {
-        toString = className+"("+Integer.toHexString(System.identityHashCode(this))+")";
+    if (name != null)
+    {
+      toString = "action[" + name + "]";
+    }
+    else if (actionExpression != null)
+    {
+      toString = "action[" + actionExpression + "]";
+    }
+    else
+    {
+      String className = getClass().getName();
+      className = className.substring(className.lastIndexOf('.') + 1);
+      if (name != null)
+      {
+        toString = className + "(" + name + ")";
+      }
+      else
+      {
+        toString = className + "(" + Integer.toHexString(System.identityHashCode(this)) + ")";
       }
     }
     return toString;
   }
 
-  public void read(Element actionElement, JpdlXmlReader jpdlReader) {
+  public void read(Element actionElement, JpdlXmlReader jpdlReader)
+  {
     String expression = actionElement.attributeValue("expression");
-    if (expression!=null) {
+    if (expression != null)
+    {
       actionExpression = expression;
 
-    } else if (actionElement.attribute("ref-name")!=null) {
+    }
+    else if (actionElement.attribute("ref-name") != null)
+    {
       jpdlReader.addUnresolvedActionReference(actionElement, this);
 
-    } else if (actionElement.attribute("class")!=null) {
+    }
+    else if (actionElement.attribute("class") != null)
+    {
       actionDelegation = new Delegation();
       actionDelegation.read(actionElement, jpdlReader);
-      
-    } else {
-      jpdlReader.addWarning("action does not have class nor ref-name attribute "+actionElement.asXML());
+
+    }
+    else
+    {
+      jpdlReader.addWarning("action does not have class nor ref-name attribute " + actionElement.asXML());
     }
 
     String acceptPropagatedEvents = actionElement.attributeValue("accept-propagated-events");
-    if ("false".equalsIgnoreCase(acceptPropagatedEvents)
-        || "no".equalsIgnoreCase(acceptPropagatedEvents) 
-        || "off".equalsIgnoreCase(acceptPropagatedEvents)) {
+    if ("false".equalsIgnoreCase(acceptPropagatedEvents) || "no".equalsIgnoreCase(acceptPropagatedEvents) || "off".equalsIgnoreCase(acceptPropagatedEvents))
+    {
       isPropagationAllowed = false;
     }
 
     String asyncText = actionElement.attributeValue("async");
-    if ("true".equalsIgnoreCase(asyncText)) {
+    if ("true".equalsIgnoreCase(asyncText))
+    {
       isAsync = true;
-    } else if ("exclusive".equalsIgnoreCase(asyncText)) {
+    }
+    else if ("exclusive".equalsIgnoreCase(asyncText))
+    {
       isAsync = true;
       isAsyncExclusive = true;
     }
   }
 
-  public void write(Element actionElement) {
-    if (actionDelegation!=null) {
+  public void write(Element actionElement)
+  {
+    if (actionDelegation != null)
+    {
       actionDelegation.write(actionElement);
     }
   }
 
-  public void execute(ExecutionContext executionContext) throws Exception {
-    if (referencedAction!=null) {
+  public void execute(ExecutionContext executionContext) throws Exception
+  {
+    if (referencedAction != null)
+    {
       referencedAction.execute(executionContext);
 
-    } else if (actionExpression!=null) {
+    }
+    else if (actionExpression != null)
+    {
       JbpmExpressionEvaluator.evaluate(actionExpression, executionContext);
 
-    } else if (actionDelegation!=null) {
-      ActionHandler actionHandler = (ActionHandler)actionDelegation.getInstance();
+    }
+    else if (actionDelegation != null)
+    {
+      ActionHandler actionHandler;
+      Object obj = actionDelegation.getInstance();
+      if (obj instanceof Activity)
+      {
+        actionHandler = new ActivityWrapper(this, (Activity)obj);
+      }
+      else
+      {
+        actionHandler = (ActionHandler)obj;
+      }
       actionHandler.execute(executionContext);
     }
   }
 
-  public void setName(String name) {
+  public void setName(String name)
+  {
     // if the process definition is already set
-    if (processDefinition!=null) {
+    if (processDefinition != null)
+    {
       // update the process definition action map
       Map actionMap = processDefinition.getActions();
-      // the != string comparison is to avoid null pointer checks.  it is no problem if the body is executed a few times too much :-)
-      if ( (this.name != name)
-           && (actionMap!=null) ) {
+      // the != string comparison is to avoid null pointer checks. it is no problem if the body is executed a few times too much :-)
+      if ((this.name != name) && (actionMap != null))
+      {
         actionMap.remove(this.name);
         actionMap.put(name, this);
       }
@@ -139,70 +182,104 @@ public class Action implements ActionHandler, Parsable, Serializable {
     // then update the name
     this.name = name;
   }
-  
+
   // equals ///////////////////////////////////////////////////////////////////
   // hack to support comparing hibernate proxies against the real objects
   // since this always falls back to ==, we don't need to overwrite the hashcode
-  public boolean equals(Object o) {
+  public boolean equals(Object o)
+  {
     return EqualsUtil.equals(this, o);
   }
-  
+
   // getters and setters //////////////////////////////////////////////////////
 
-  public boolean acceptsPropagatedEvents() {
+  public boolean acceptsPropagatedEvents()
+  {
     return isPropagationAllowed;
   }
 
-  public boolean isPropagationAllowed() {
+  public boolean isPropagationAllowed()
+  {
     return isPropagationAllowed;
   }
-  public void setPropagationAllowed(boolean isPropagationAllowed) {
+
+  public void setPropagationAllowed(boolean isPropagationAllowed)
+  {
     this.isPropagationAllowed = isPropagationAllowed;
   }
 
-  public long getId() {
+  public long getId()
+  {
     return id;
   }
-  public String getName() {
+
+  public String getName()
+  {
     return name;
   }
-  public Event getEvent() {
+
+  public Event getEvent()
+  {
     return event;
   }
-  public ProcessDefinition getProcessDefinition() {
+
+  public ProcessDefinition getProcessDefinition()
+  {
     return processDefinition;
   }
-  public void setProcessDefinition(ProcessDefinition processDefinition) {
+
+  public void setProcessDefinition(ProcessDefinition processDefinition)
+  {
     this.processDefinition = processDefinition;
   }
-  public Delegation getActionDelegation() {
+
+  public Delegation getActionDelegation()
+  {
     return actionDelegation;
   }
-  public void setActionDelegation(Delegation instantiatableDelegate) {
+
+  public void setActionDelegation(Delegation instantiatableDelegate)
+  {
     this.actionDelegation = instantiatableDelegate;
   }
-  public Action getReferencedAction() {
+
+  public Action getReferencedAction()
+  {
     return referencedAction;
   }
-  public void setReferencedAction(Action referencedAction) {
+
+  public void setReferencedAction(Action referencedAction)
+  {
     this.referencedAction = referencedAction;
   }
-  public boolean isAsync() {
+
+  public boolean isAsync()
+  {
     return isAsync;
   }
-  public boolean isAsyncExclusive() {
+
+  public boolean isAsyncExclusive()
+  {
     return isAsyncExclusive;
   }
-  public String getActionExpression() {
+
+  public String getActionExpression()
+  {
     return actionExpression;
   }
-  public void setActionExpression(String actionExpression) {
+
+  public void setActionExpression(String actionExpression)
+  {
     this.actionExpression = actionExpression;
   }
-  public void setEvent(Event event) {
+
+  public void setEvent(Event event)
+  {
     this.event = event;
   }
-  public void setAsync(boolean isAsync) {
+
+  public void setAsync(boolean isAsync)
+  {
     this.isAsync = isAsync;
   }
 }

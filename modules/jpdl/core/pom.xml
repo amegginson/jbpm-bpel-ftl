@@ -30,11 +30,10 @@
   <!-- Dependencies -->
   <dependencies>
     <!-- jBPM Dependencies -->
-    <!-- dependency>
+    <dependency>
       <groupId>org.jboss.jbpm</groupId>
       <artifactId>jbpm-api</artifactId>
-      <version>${version}</version>
-    </dependency-->
+    </dependency>
     
     <!-- Compile Dependencies -->
     <dependency>

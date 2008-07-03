@@ -23,35 +23,28 @@ package org.jbpm.integration.client;
 
 //$Id$
 
-import org.jboss.bpm.client.ProcessDefinition;
-import org.jboss.bpm.client.StartNode;
+import org.jboss.bpm.client.ExecutionFactory;
+import org.jboss.bpm.client.ProcessDefinitionManager;
+import org.jboss.bpm.client.ProcessEngine;
+import org.jboss.bpm.client.ProcessInstanceFactory;
 
 /**
- * TODO
+ * A process engine with public access
  * 
  * @author thomas.diesler@jboss.com
  * @since 18-Jun-2008
  */
-public class StartNodeImpl extends StartNode
-{
-  private org.jbpm.graph.def.Node oldNode;
+public class ProcessEngineImpl extends ProcessEngine {
 
-  StartNodeImpl(ProcessDefinition def, org.jbpm.graph.def.Node oldNode)
-  {
-    super(def);
-    this.oldNode = oldNode;
-    init(oldNode.getName());
+  public void setProcessDefinitionManager(ProcessDefinitionManager processDefinitionManager) {
+    this.processDefinitionManager = processDefinitionManager;
   }
 
-  @Override
-  public String getName()
-  {
-    return oldNode.getName();
+  public void setProcessInstanceManager(ProcessInstanceFactory processInstanceManager) {
+    this.processInstanceFactory = processInstanceManager;
   }
 
-  @Override
-  protected void setName(String name)
-  {
-    oldNode.setName(name);
+  public void setExecutionManager(ExecutionFactory executionManager) {
+    this.executionFactory = executionManager;
   }
 }
