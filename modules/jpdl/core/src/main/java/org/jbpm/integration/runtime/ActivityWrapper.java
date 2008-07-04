@@ -23,7 +23,6 @@ package org.jbpm.integration.runtime;
 
 // $Id$
 
-import org.jboss.bpm.JBPMException;
 import org.jboss.bpm.client.Execution;
 import org.jboss.bpm.runtime.Activity;
 import org.jbpm.context.exe.ContextInstance;
@@ -39,12 +38,12 @@ import org.jbpm.graph.exe.ExecutionContext;
  */
 public class ActivityWrapper implements ActionHandler
 {
-  private Action action;
+  private static final long serialVersionUID = 3617376097428098837L;
+  
   private Activity activity;
   
   public ActivityWrapper(Action action, Activity activity)
   {
-    this.action = action;
     this.activity = activity;
   }
 
@@ -55,6 +54,6 @@ public class ActivityWrapper implements ActionHandler
     if (ex == null)
       throw new IllegalStateException("Cannot obtain API Execution");
 
-    activity.execute(null, null);
+    activity.execute(ex.getNode(), ex.getContext());
   }
 }

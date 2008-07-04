@@ -23,22 +23,27 @@ package org.jbpm.integration.client;
 
 //$Id$
 
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
+
 import org.jboss.bpm.Context;
-import org.jboss.bpm.NotImplementedException;
 import org.jboss.bpm.client.Execution;
 import org.jboss.bpm.client.ProcessInstance;
 import org.jboss.bpm.client.internal.AbstractExecution;
 import org.jboss.bpm.def.Node;
 
 /**
- * TODO
+ * Represents an execution of a process instance. 
  * 
  * @author thomas.diesler@jboss.com
  * @since 18-Jun-2008
  */
 public class ExecutionImpl extends AbstractExecution
 {
-  org.jbpm.graph.exe.Execution oldEx;
+  private org.jbpm.graph.exe.Execution oldEx;
+  private Context context = new ContextImpl();
 
   ExecutionImpl(ProcessInstance pi, org.jbpm.graph.exe.Execution oldEx)
   {
@@ -77,6 +82,96 @@ public class ExecutionImpl extends AbstractExecution
   @Override
   public Context getContext()
   {
-    throw new NotImplementedException();
+    return context;
+  }
+  
+  private class ContextImpl extends Context
+  {
+    @SuppressWarnings("unchecked")
+    public <T> T addAttachment(Class<T> clazz, Object value)
+    {
+      Key key = new Key(clazz, null);
+      oldEx.getContextInstance().setTransientVariable(key, value);
+      return (T)value;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T addAttachment(Class<T> clazz, String name, Object value)
+    {
+      Key key = new Key(clazz, name);
+      oldEx.getContextInstance().setTransientVariable(key, value);
+      return (T)value;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T addAttachment(String name, Object value)
+    {
+      Key key = new Key(null, name);
+      oldEx.getContextInstance().setTransientVariable(key, value);
+      return (T)value;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T getAttachment(Class<T> clazz)
+    {
+      Key key = new Key(clazz, null);
+      Object value = oldEx.getContextInstance().getTransientVariable(key);
+      return (T)value;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T getAttachment(Class<T> clazz, String name)
+    {
+      Key key = new Key(clazz, name);
+      Object value = oldEx.getContextInstance().getTransientVariable(key);
+      return (T)value;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T getAttachment(String name)
+    {
+      Key key = new Key(null, name);
+      Object value = oldEx.getContextInstance().getTransientVariable(key);
+      return (T)value;
+    }
+
+    public Collection<Key> getAttachments()
+    {
+      Set<Key> keys = new HashSet<Key>();
+      Iterator<?> itKeys = oldEx.getContextInstance().getTransientVariables().keySet().iterator();
+      while (itKeys.hasNext())
+      {
+        Object key = itKeys.next();
+        if (key instanceof Key)
+        {
+          keys.add((Key)key);
+        }
+      }
+      return keys;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T removeAttachment(Class<T> clazz)
+    {
+      Key key = new Key(clazz, null);
+      Object value = oldEx.getContextInstance().deleteTransientVariable(key);
+      return (T)value;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T removeAttachment(Class<T> clazz, String name)
+    {
+      Key key = new Key(clazz, name);
+      Object value = oldEx.getContextInstance().deleteTransientVariable(key);
+      return (T)value;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T removeAttachment(String name)
+    {
+      Key key = new Key(null, name);
+      Object value = oldEx.getContextInstance().deleteTransientVariable(key);
+      return (T)value;
+    }
   }
 }
