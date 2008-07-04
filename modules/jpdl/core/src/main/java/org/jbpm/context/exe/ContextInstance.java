@@ -257,7 +257,7 @@ public class ContextInstance extends ModuleInstance {
   /**
    * retrieves the transient variable for the given name.
    */
-  public Object getTransientVariable(String name) {
+  public Object getTransientVariable(Object name) {
     Object transientVariable = null;
     if (transientVariables!= null) {
       transientVariable = transientVariables.get(name);
@@ -268,7 +268,7 @@ public class ContextInstance extends ModuleInstance {
   /**
    * sets the transient variable for the given name to the given value.
    */
-  public void setTransientVariable(String name, Object value) {
+  public void setTransientVariable(Object name, Object value) {
     if (transientVariables == null) {
       transientVariables = new HashMap();
     }
@@ -278,7 +278,7 @@ public class ContextInstance extends ModuleInstance {
   /**
    * tells if a transient variable with the given name is present.
    */
-  public boolean hasTransientVariable(String name) {
+  public boolean hasTransientVariable(Object name) {
     if (transientVariables == null) {
       return false;
     }
@@ -304,7 +304,7 @@ public class ContextInstance extends ModuleInstance {
   /**
    * removes the transient variable.
    */
-  public void deleteTransientVariable(String name) {
+  public void deleteTransientVariable(Object name) {
     if (transientVariables == null)
       return;
     transientVariables.remove(name);
