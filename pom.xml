@@ -356,14 +356,6 @@
     </plugins>
   </build>
   
-  <!-- DistributionManagement -->
-  <distributionManagement>
-    <site>
-      <id>jbws.dyndns.org</id>
-      <url>file:///home/tdiesler/workspace/jbpm-site</url>
-    </site>
-  </distributionManagement>
-
   <!-- Profiles -->
   <profiles>
 
