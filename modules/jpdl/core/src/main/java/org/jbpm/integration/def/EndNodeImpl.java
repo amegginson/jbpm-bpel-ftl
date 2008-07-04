@@ -23,8 +23,8 @@ package org.jbpm.integration.def;
 
 // $Id$
 
-import org.jboss.bpm.def.EndNode;
-import org.jboss.bpm.def.ProcessDefinition;
+import org.jboss.bpm.process.EndNode;
+import org.jboss.bpm.process.ProcessDefinition;
 
 /**
  * TODO

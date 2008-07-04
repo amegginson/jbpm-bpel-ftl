@@ -23,8 +23,8 @@ package org.jbpm.integration.def;
 
 //$Id$
 
-import org.jboss.bpm.def.Node;
-import org.jboss.bpm.def.internal.AbstractProcessDefinition;
+import org.jboss.bpm.process.Node;
+import org.jboss.bpm.process.internal.AbstractProcessDefinition;
 
 /**
  * A jBPM3 implementation of a process definition

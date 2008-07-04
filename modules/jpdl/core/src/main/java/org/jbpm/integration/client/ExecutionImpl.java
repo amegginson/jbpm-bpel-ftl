@@ -28,11 +28,11 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.jboss.bpm.Context;
 import org.jboss.bpm.client.Execution;
+import org.jboss.bpm.client.ExecutionContext;
 import org.jboss.bpm.client.ProcessInstance;
 import org.jboss.bpm.client.internal.AbstractExecution;
-import org.jboss.bpm.def.Node;
+import org.jboss.bpm.process.Node;
 
 /**
  * Represents an execution of a process instance. 
@@ -43,7 +43,7 @@ import org.jboss.bpm.def.Node;
 public class ExecutionImpl extends AbstractExecution
 {
   private org.jbpm.graph.exe.Execution oldEx;
-  private Context context = new ContextImpl();
+  private ExecutionContext context = new ContextImpl();
 
   ExecutionImpl(ProcessInstance pi, org.jbpm.graph.exe.Execution oldEx)
   {
@@ -80,12 +80,12 @@ public class ExecutionImpl extends AbstractExecution
   }
 
   @Override
-  public Context getContext()
+  public ExecutionContext getContext()
   {
     return context;
   }
   
-  private class ContextImpl extends Context
+  private class ContextImpl extends ExecutionContext
   {
     @SuppressWarnings("unchecked")
     public <T> T addAttachment(Class<T> clazz, Object value)
@@ -135,7 +135,7 @@ public class ExecutionImpl extends AbstractExecution
       return (T)value;
     }
 
-    public Collection<Key> getAttachments()
+    public Collection<Key> getAttachmentKeys()
     {
       Set<Key> keys = new HashSet<Key>();
       Iterator<?> itKeys = oldEx.getContextInstance().getTransientVariables().keySet().iterator();

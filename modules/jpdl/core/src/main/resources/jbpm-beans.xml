@@ -7,7 +7,7 @@
   <!-- The process engine -->
   <bean name="jBPMProcessEngine" class="org.jbpm.integration.client.ProcessEngineImpl">
     <property name="processDefinitionManager"><inject bean="jBPMProcessDefinitionManager"/></property>
-    <property name="processInstanceManager"><inject bean="jBPMProcessInstanceManager"/></property>
+    <property name="processInstanceFactory"><inject bean="jBPMProcessInstanceFactory"/></property>
     <property name="executionManager"><inject bean="jBPMExecutionManager"/></property>
   </bean>
 
@@ -17,7 +17,7 @@
   </bean>
 
   <!-- The process instance manager -->
-  <bean name="jBPMProcessInstanceManager" class="org.jbpm.integration.client.ProcessInstanceManagerImpl">
+  <bean name="jBPMProcessInstanceFactory" class="org.jbpm.integration.client.ProcessInstanceFactoryImpl">
     <property name="processEngine"><inject bean="jBPMProcessEngine" state="Instantiated"/></property>
   </bean>
 

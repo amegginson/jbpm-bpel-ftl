@@ -24,7 +24,7 @@ package org.jbpm.integration.client;
 // $Id$
 
 import org.jboss.bpm.client.Execution;
-import org.jboss.bpm.client.ExecutionFactory;
+import org.jboss.bpm.client.ExecutionManager;
 import org.jboss.bpm.client.ProcessEngine;
 import org.jboss.bpm.client.ProcessInstance;
 import org.jbpm.integration.def.ProcessDefinitionImpl;
@@ -35,7 +35,7 @@ import org.jbpm.integration.def.ProcessDefinitionImpl;
  * @author thomas.diesler@jboss.com
  * @since 18-Jun-2008
  */
-public class ExecutionManagerImpl extends ExecutionFactory
+public class ExecutionManagerImpl extends ExecutionManager
 {
 
   public void setProcessEngine(ProcessEngine engine)

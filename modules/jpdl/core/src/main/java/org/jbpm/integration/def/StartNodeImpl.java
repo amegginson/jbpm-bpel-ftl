@@ -23,8 +23,8 @@ package org.jbpm.integration.def;
 
 //$Id$
 
-import org.jboss.bpm.def.ProcessDefinition;
-import org.jboss.bpm.def.StartNode;
+import org.jboss.bpm.process.ProcessDefinition;
+import org.jboss.bpm.process.StartNode;
 
 /**
  * TODO

@@ -24,7 +24,7 @@ package org.jbpm.integration.client;
 //$Id$
 
 import org.jboss.bpm.client.internal.AbstractProcessInstance;
-import org.jboss.bpm.def.ProcessDefinition;
+import org.jboss.bpm.process.ProcessDefinition;
 
 /**
  * TODO

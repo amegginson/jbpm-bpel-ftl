@@ -23,7 +23,7 @@ package org.jbpm.integration.client;
 
 //$Id$
 
-import org.jboss.bpm.client.ExecutionFactory;
+import org.jboss.bpm.client.ExecutionManager;
 import org.jboss.bpm.client.ProcessDefinitionManager;
 import org.jboss.bpm.client.ProcessEngine;
 import org.jboss.bpm.client.ProcessInstanceFactory;
@@ -34,17 +34,21 @@ import org.jboss.bpm.client.ProcessInstanceFactory;
  * @author thomas.diesler@jboss.com
  * @since 18-Jun-2008
  */
-public class ProcessEngineImpl extends ProcessEngine {
+public class ProcessEngineImpl extends ProcessEngine
+{
 
-  public void setProcessDefinitionManager(ProcessDefinitionManager processDefinitionManager) {
+  public void setProcessDefinitionManager(ProcessDefinitionManager processDefinitionManager)
+  {
     this.processDefinitionManager = processDefinitionManager;
   }
 
-  public void setProcessInstanceManager(ProcessInstanceFactory processInstanceManager) {
-    this.processInstanceFactory = processInstanceManager;
+  public void setProcessInstanceFactory(ProcessInstanceFactory processInstanceFactory)
+  {
+    this.processInstanceFactory = processInstanceFactory;
   }
 
-  public void setExecutionManager(ExecutionFactory executionManager) {
-    this.executionFactory = executionManager;
+  public void setExecutionManager(ExecutionManager executionManager)
+  {
+    this.executionManager = executionManager;
   }
 }
