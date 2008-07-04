@@ -25,7 +25,7 @@ package org.jbpm.integration.client;
 
 import org.jboss.bpm.client.ProcessEngine;
 import org.jboss.bpm.client.ProcessInstance;
-import org.jboss.bpm.client.ProcessInstanceFactory;
+import org.jboss.bpm.client.ProcessInstanceManager;
 import org.jboss.bpm.process.ProcessDefinition;
 
 /**
@@ -34,7 +34,7 @@ import org.jboss.bpm.process.ProcessDefinition;
  * @author thomas.diesler@jboss.com
  * @since 18-Jun-2008
  */
-public class ProcessInstanceFactoryImpl extends ProcessInstanceFactory
+public class ProcessInstanceManagerImpl extends ProcessInstanceManager
 {
   public void setProcessEngine(ProcessEngine engine)
   {

@@ -28,10 +28,10 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.jboss.bpm.client.Execution;
-import org.jboss.bpm.client.ExecutionContext;
 import org.jboss.bpm.client.ProcessInstance;
 import org.jboss.bpm.client.internal.AbstractExecution;
+import org.jboss.bpm.process.Execution;
+import org.jboss.bpm.process.ExecutionContext;
 import org.jboss.bpm.process.Node;
 
 /**

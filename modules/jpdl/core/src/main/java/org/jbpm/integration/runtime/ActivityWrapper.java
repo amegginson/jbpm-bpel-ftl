@@ -23,7 +23,7 @@ package org.jbpm.integration.runtime;
 
 // $Id$
 
-import org.jboss.bpm.client.Execution;
+import org.jboss.bpm.process.Execution;
 import org.jboss.bpm.runtime.Activity;
 import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.graph.def.Action;
