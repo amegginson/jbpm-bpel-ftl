@@ -304,10 +304,10 @@ public class ContextInstance extends ModuleInstance {
   /**
    * removes the transient variable.
    */
-  public void deleteTransientVariable(Object name) {
+  public Object deleteTransientVariable(Object name) {
     if (transientVariables == null)
-      return;
-    transientVariables.remove(name);
+      return null;
+    return transientVariables.remove(name);
   }
 
   
