@@ -34,10 +34,11 @@ import junit.framework.TestCase;
 import org.jbpm.file.def.FileDefinitionFileSystemConfigTest;
 import org.jbpm.util.ClassLoaderUtil;
 
-public class SerializabilityTest extends TestCase {
+public class SerializabilityTest extends TestCase
+{
 
   String testRootDir = FileDefinitionFileSystemConfigTest.class.getProtectionDomain().getCodeSource().getLocation().getFile().toString();
-  
+
   static Set excusedClasses = new HashSet(Arrays.asList(new String[] {
       "org.jbpm.ant.DeployProcessTask",
       "org.jbpm.ant.JbpmSchemaTask",
@@ -68,6 +69,7 @@ public class SerializabilityTest extends TestCase {
       "org.jbpm.instantiation.FieldInstantiator",
       "org.jbpm.instantiation.ProcessClassLoader",
       "org.jbpm.instantiation.XmlInstantiator",
+      "org.jbpm.integration",
       "org.jbpm.JbpmConfiguration",
       "org.jbpm.jmx.JbpmService",
       "org.jbpm.job.executor.JobExecutorThread",
@@ -119,50 +121,55 @@ public class SerializabilityTest extends TestCase {
       "org.jbpm.JbpmContextTestHelper"
   }));
 
-  public void testForNonSerializableClasses() {
-    File jbpmRoot = new File(testRootDir+"../classes/");
+  public void testForNonSerializableClasses()
+  {
+    File jbpmRoot = new File(testRootDir + "../classes/");
     scanForClasses(jbpmRoot, "");
   }
-  
-  private void scanForClasses(File rootClassDir, String packageDir) {
-    File packageDirFile = new File(rootClassDir.getPath()+"/"+packageDir);
+
+  private void scanForClasses(File rootClassDir, String packageDir)
+  {
+    File packageDirFile = new File(rootClassDir.getPath() + "/" + packageDir);
     File[] files = packageDirFile.listFiles();
-    for (int i=0; i<files.length; i++) {
-      if (files[i].isDirectory()) {
-        String newPackageDir = ( "".equals(packageDir) ? files[i].getName() : packageDir+"/"+files[i].getName() );
+    for (int i = 0; i < files.length; i++)
+    {
+      if (files[i].isDirectory())
+      {
+        String newPackageDir = ("".equals(packageDir) ? files[i].getName() : packageDir + "/" + files[i].getName());
         // log.debug("descending into directory "+newPackageDir);
         scanForClasses(rootClassDir, newPackageDir);
-        
-      } else if ( (files[i].isFile())
-                  && (files[i].getName().endsWith(".class"))
-                ) {
+
+      }
+      else if ((files[i].isFile()) && (files[i].getName().endsWith(".class")))
+      {
         // log.debug("found class file "+files[i].getName());
-        String classFilePath = packageDir+"/"+files[i].getName();
+        String classFilePath = packageDir + "/" + files[i].getName();
         String className = classFilePath.replace('/', '.');
-        className = className.substring(0, className.length()-6);
+        className = className.substring(0, className.length() - 6);
         assertSerializabilityOfClass(className);
       }
     }
   }
 
-  private void assertSerializabilityOfClass(String className) {
+  private void assertSerializabilityOfClass(String className)
+  {
     Class clazz = ClassLoaderUtil.loadClass(className);
-    
-    if ( ! ( (Serializable.class.isAssignableFrom(clazz))
-             || (Modifier.isAbstract(clazz.getModifiers()))
-             || (isExcused(className))
-           )
-       ) {
-      fail(className+" is NOT Serializable");
+
+    if (!((Serializable.class.isAssignableFrom(clazz)) || (Modifier.isAbstract(clazz.getModifiers())) || (isExcused(className))))
+    {
+      fail(className + " is NOT Serializable");
     }
   }
 
-  boolean isExcused(String className) {
+  boolean isExcused(String className)
+  {
     boolean isExcused = false;
     Iterator iter = excusedClasses.iterator();
-    while (iter.hasNext() && !isExcused) {
-      String excusedClassName = (String) iter.next();
-      if (className.startsWith(excusedClassName)) {
+    while (iter.hasNext() && !isExcused)
+    {
+      String excusedClassName = (String)iter.next();
+      if (className.startsWith(excusedClassName))
+      {
         isExcused = true;
       }
     }
