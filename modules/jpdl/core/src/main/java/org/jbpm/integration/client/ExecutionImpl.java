@@ -31,8 +31,8 @@ import java.util.Set;
 import org.jboss.bpm.client.ProcessInstance;
 import org.jboss.bpm.client.internal.AbstractExecution;
 import org.jboss.bpm.process.Execution;
-import org.jboss.bpm.process.ExecutionContext;
 import org.jboss.bpm.process.Node;
+import org.jboss.bpm.runtime.Token;
 
 /**
  * Represents an execution of a process instance. 
@@ -43,7 +43,7 @@ import org.jboss.bpm.process.Node;
 public class ExecutionImpl extends AbstractExecution
 {
   private org.jbpm.graph.exe.Execution oldEx;
-  private ExecutionContext context = new ContextImpl();
+  private Token context = new ContextImpl();
 
   ExecutionImpl(ProcessInstance pi, org.jbpm.graph.exe.Execution oldEx)
   {
@@ -80,12 +80,12 @@ public class ExecutionImpl extends AbstractExecution
   }
 
   @Override
-  public ExecutionContext getContext()
+  public Token getContext()
   {
     return context;
   }
   
-  private class ContextImpl extends ExecutionContext
+  private class ContextImpl extends Token
   {
     @SuppressWarnings("unchecked")
     public <T> T addAttachment(Class<T> clazz, Object value)
