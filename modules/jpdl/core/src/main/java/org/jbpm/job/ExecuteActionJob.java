@@ -34,7 +34,7 @@ public class ExecuteActionJob extends Job {
       action.execute(executionContext);
     }
 
-    jbpmContext.save(token);
+    jbpmContext.save(processInstance);
 
     return true;
   }

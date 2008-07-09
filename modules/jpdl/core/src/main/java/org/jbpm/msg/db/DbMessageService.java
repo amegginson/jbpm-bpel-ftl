@@ -37,9 +37,8 @@ public class DbMessageService implements MessageService {
   
   private static final long serialVersionUID = 1L;
 
-  JbpmConfiguration jbpmConfiguration;
   JobSession jobSession = null;
-  Collection destinations = null;
+  JobExecutor jobExecutor = null;
   boolean hasProducedJobs = false;
   
   public DbMessageService() {
@@ -47,8 +46,8 @@ public class DbMessageService implements MessageService {
     if (jbpmContext==null) {
       throw new JbpmException("instantiation of the DbMessageService requires a current JbpmContext");
     }
-    this.jbpmConfiguration = jbpmContext.getJbpmConfiguration();
-    this.jobSession = jbpmContext.getJobSession();
+    jobSession = jbpmContext.getJobSession();
+    jobExecutor = jbpmContext.getJbpmConfiguration().getJobExecutor();
   }
 
   public void send(Job job) {
@@ -58,11 +57,10 @@ public class DbMessageService implements MessageService {
   }
 
   public void close() {
-    JobExecutor jobExecutor = jbpmConfiguration.getJobExecutor();
     if ( (hasProducedJobs)
          && (jobExecutor!=null)
        ) {
-      log.debug("messages were produced the jobExecutor will be signalled");
+      log.debug("messages were produced, job executor will be signalled");
       synchronized(jobExecutor) {
         jobExecutor.notify();
       }

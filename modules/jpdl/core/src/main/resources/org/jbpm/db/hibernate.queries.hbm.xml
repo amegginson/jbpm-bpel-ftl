@@ -314,19 +314,19 @@
     ]]>
   </query>
 
-  <query name="JobSession.getTimersForProcessInstance">
+  <query name="JobSession.deleteTimersForProcessInstance">
     <![CDATA[
-      select timer
-      from org.jbpm.job.Timer timer
+      delete from org.jbpm.job.Timer timer
       where timer.processInstance = :processInstance
+        and timer.lockOwner is null
     ]]>
   </query>
 
-  <query name="JobSession.getExecuteNodeJobsForProcessInstance">
+  <query name="JobSession.deleteExecuteNodeJobsForProcessInstance">
     <![CDATA[
-      select job
-      from org.jbpm.job.ExecuteNodeJob job
+      delete from org.jbpm.job.ExecuteNodeJob job
       where job.processInstance = :processInstance
+        and job.lockOwner is null
     ]]>
   </query>
 

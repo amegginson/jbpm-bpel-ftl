@@ -25,7 +25,7 @@ public class ExecuteNodeJob extends Job {
     token.unlock(this.toString());
     ExecutionContext executionContext = new ExecutionContext(token);
     node.execute(executionContext);
-    jbpmContext.save(token);
+    jbpmContext.save(processInstance);
     return true;
   }
   

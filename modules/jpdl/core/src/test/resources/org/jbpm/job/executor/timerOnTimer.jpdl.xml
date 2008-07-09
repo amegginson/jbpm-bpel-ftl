@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<process-definition name="timerTest" xmlns="urn:jbpm.org:jpdl-3.2"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="urn:jbpm.org:jpdl-3.2 http://jbpm.org/xsd/jpdl-3.2.xsd">
+
+  <start-state name="start">
+    <transition name="" to="timerTest" />
+  </start-state>
+
+  <task-node name="timerTest" end-tasks="true">
+    <event type="node-enter">
+      <action expression="#{timerTestWorkflow.logNodeEnter}" />
+    </event>
+    <event type="node-leave">
+      <action expression="#{timerTestWorkflow.logNodeLeave}" />
+    </event>
+    <transition name="doneFirst" to="secondTimerTest" />
+    <task name="timerTestTask" description="TimerTestTask">
+      <assignment actor-id="admin" />
+      <event type="task-create">
+        <action expression="#{timerTestWorkflow.logTaskCreate}" />
+      </event>
+      <event type="timer-create">
+        <action expression="#{timerTestWorkflow.logTimerCreate}" />
+      </event>
+      <timer duedate="1 second" transition="doneFirst">
+        <action expression="#{timerTestWorkflow.logTimerFired}" />
+      </timer>
+    </task>
+  </task-node>
+
+  <task-node name="secondTimerTest">
+    <task name="secondTimerTestTask" description="SecondTimerTestTask">
+      <assignment actor-id="admin" />
+      <event type="task-create">
+        <action expression="#{timerTestWorkflow.logTaskCreate}" />
+      </event>
+      <event type="timer-create">
+        <action expression="#{timerTestWorkflow.logTimerCreate}" />
+      </event>
+      <timer duedate="1 second" transition="doneSecond">
+        <action expression="#{timerTestWorkflow.logTimerFired}" />
+      </timer>
+    </task>
+    <transition name="doneSecond" to="end" />
+  </task-node>
+
+  <end-state name="end" />
+
+</process-definition>

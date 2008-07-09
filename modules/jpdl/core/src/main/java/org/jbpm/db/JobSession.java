@@ -15,7 +15,6 @@ import org.jbpm.JbpmException;
 import org.jbpm.graph.def.Action;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.exe.Token;
-import org.jbpm.job.ExecuteNodeJob;
 import org.jbpm.job.Job;
 import org.jbpm.job.Timer;
 import org.jbpm.svc.save.SaveOperation;
@@ -194,30 +193,18 @@ public class JobSession {
         return;
       }
 
-      // the bulk delete was replaced with a query and session.deletes on 
-      // the retrieved elements to prevent stale object exceptions.  
-      // With a bulk delete, the hibernate session is not aware and gives a problem 
-      // if a later session.delete doesn't return 1.
       log.debug("deleting timers for process instance "+processInstance);
       Session session = jbpmContext.getSession();
-      Query query = session.getNamedQuery("JobSession.getTimersForProcessInstance");
+      Query query = session.getNamedQuery("JobSession.deleteTimersForProcessInstance");
       query.setParameter("processInstance", processInstance);
-      List timers = query.list();
-      for (Iterator i = timers.iterator(); i.hasNext();) {
-        Timer timer = (Timer) i.next();
-        session.delete(timer);
-      }
-      log.debug(timers.size()+" remaining timers for '"+processInstance+"' were deleted");
+      int entityCount = query.executeUpdate();
+      log.debug(entityCount+" remaining timers for '"+processInstance+"' were deleted");
 
       log.debug("deleting execute-node-jobs for process instance "+processInstance);
-      query = session.getNamedQuery("JobSession.getExecuteNodeJobsForProcessInstance");
+      query = session.getNamedQuery("JobSession.deleteExecuteNodeJobsForProcessInstance");
       query.setParameter("processInstance", processInstance);
-      List jobs = query.list();
-      for (Iterator i = jobs.iterator(); i.hasNext();) {
-        ExecuteNodeJob job = (ExecuteNodeJob) i.next();
-        session.delete(job);
-      }
-      log.debug(jobs.size()+" remaining execute-node-jobs for '"+processInstance+"' are deleted");
+      entityCount = query.executeUpdate();
+      log.debug(entityCount+" remaining execute-node-jobs for '"+processInstance+"' are deleted");
     }
     
   }

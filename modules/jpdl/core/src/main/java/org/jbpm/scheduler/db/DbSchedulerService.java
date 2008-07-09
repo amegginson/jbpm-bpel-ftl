@@ -21,26 +21,39 @@
  */
 package org.jbpm.scheduler.db;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.jbpm.JbpmContext;
 import org.jbpm.JbpmException;
 import org.jbpm.db.JobSession;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.exe.Token;
 import org.jbpm.job.Timer;
+import org.jbpm.job.executor.JobExecutor;
 import org.jbpm.scheduler.SchedulerService;
 
 public class DbSchedulerService implements SchedulerService {
 
   private static final long serialVersionUID = 1L;
+
+  private static final Log log = LogFactory.getLog(DbSchedulerService.class);
   
   JobSession jobSession = null;
-  
+  JobExecutor jobExecutor = null;
+  boolean hasProducedJobs = false;
+
   public DbSchedulerService() {
-    this.jobSession = JbpmContext.getCurrentJbpmContext().getJobSession();
+    JbpmContext jbpmContext = JbpmContext.getCurrentJbpmContext();
+    if (jbpmContext==null) {
+      throw new JbpmException("instantiation of the DbSchedulerService requires a current JbpmContext");
+    }
+    this.jobSession = jbpmContext.getJobSession();
+    this.jobExecutor = jbpmContext.getJbpmConfiguration().getJobExecutor();
   }
   
   public void createTimer(Timer timerJob) {
     jobSession.saveJob(timerJob);
+    hasProducedJobs = true;
   }
 
   public void deleteTimersByName(String timerName, Token token) {
@@ -55,5 +68,11 @@ public class DbSchedulerService implements SchedulerService {
   }
 
   public void close() {
+    if (hasProducedJobs && jobExecutor != null) {
+      log.debug("timers were produced, job executor will be signalled");
+      synchronized (jobExecutor) {
+        jobExecutor.notify();
+      }
+    }
   }
 }

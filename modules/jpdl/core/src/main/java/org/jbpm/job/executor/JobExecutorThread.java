@@ -2,7 +2,6 @@ package org.jbpm.job.executor;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Date;
@@ -19,6 +18,7 @@ import org.jbpm.job.Job;
 import org.jbpm.job.Timer;
 import org.jbpm.persistence.JbpmPersistenceException;
 import org.jbpm.persistence.db.StaleObjectLogConfigurer;
+import org.jbpm.svc.Services;
 
 public class JobExecutorThread extends Thread {
 
@@ -48,65 +48,59 @@ public class JobExecutorThread extends Thread {
   volatile boolean isActive = true;
 
   public void run() {
-    try {
-      currentIdleInterval = idleInterval;
-      while (isActive) {
-        try {
-          Collection acquiredJobs = acquireJobs();
+    currentIdleInterval = idleInterval;
+    while (isActive) {
+      try {
+        Collection acquiredJobs = acquireJobs();
 
-          if (! acquiredJobs.isEmpty()) {
-            Iterator iter = acquiredJobs.iterator();
-            while (iter.hasNext() && isActive) {
-              Job job = (Job) iter.next();
-              executeJob(job);
-            }
+        if (! acquiredJobs.isEmpty()) {
+          Iterator iter = acquiredJobs.iterator();
+          while (iter.hasNext() && isActive) {
+            Job job = (Job) iter.next();
+            executeJob(job);
+          }
 
-          } else { // no jobs acquired
-            if (isActive) {
-              long waitPeriod = getWaitPeriod();
-              if (waitPeriod>0) {
-                synchronized(jobExecutor) {
-                  jobExecutor.wait(waitPeriod);
-                }
+        } else { // no jobs acquired
+          if (isActive) {
+            long waitPeriod = getWaitPeriod();
+            if (waitPeriod>0) {
+              synchronized(jobExecutor) {
+                jobExecutor.wait(waitPeriod);
               }
             }
           }
-          
-          // no exception so resetting the currentIdleInterval
-          currentIdleInterval = idleInterval;
+        }
+        
+        // no exception so resetting the currentIdleInterval
+        currentIdleInterval = idleInterval;
 
-        } catch (InterruptedException e) {
-          log.info((isActive? "active" : "inactive")+" job executor thread '"+getName()+"' got interrupted");
-        } catch (Exception e) {
-          log.error("exception in job executor thread. waiting "+currentIdleInterval+" milliseconds", e);
-          try {
-            synchronized(jobExecutor) {
-              jobExecutor.wait(currentIdleInterval);
-            }
-          } catch (InterruptedException e2) {
-            log.debug("delay after exception got interrupted", e2);
+      } catch (InterruptedException e) {
+        log.info((isActive? "active" : "inactive")+" job executor thread '"+getName()+"' got interrupted");
+      } catch (Exception e) {
+        log.error("exception in job executor thread. waiting "+currentIdleInterval+" milliseconds", e);
+        try {
+          synchronized(jobExecutor) {
+            jobExecutor.wait(currentIdleInterval);
           }
-          // after an exception, the current idle interval is doubled to prevent 
-          // continuous exception generation when e.g. the db is unreachable
-          currentIdleInterval <<= 1;
-          if (currentIdleInterval > maxIdleInterval || currentIdleInterval < 0) {
-            currentIdleInterval = maxIdleInterval;
-          }
+        } catch (InterruptedException e2) {
+          log.debug("delay after exception got interrupted", e2);
+        }
+        // after an exception, the current idle interval is doubled to prevent 
+        // continuous exception generation when e.g. the db is unreachable
+        currentIdleInterval <<= 1;
+        if (currentIdleInterval > maxIdleInterval || currentIdleInterval < 0) {
+          currentIdleInterval = maxIdleInterval;
         }
       }
-    } catch (Exception e) {
-      // NOTE that Error's are not caught because that might halt the JVM and mask the original Error.
-      log.error("exception in job executor thread", e);
-    } finally {
-      log.info(getName()+" leaves cyberspace");
     }
+    log.info(getName()+" leaves cyberspace");
   }
 
   protected Collection acquireJobs() {
     Collection acquiredJobs;
     synchronized (jobExecutor) {
-      Collection jobsToLock = new ArrayList();
       log.debug("acquiring jobs for execution...");
+      Collection jobsToLock = Collections.EMPTY_LIST;
       JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
       try {
         JobSession jobSession = jbpmContext.getJobSession();
@@ -116,11 +110,11 @@ public class JobExecutorThread extends Thread {
           if (job.isExclusive()) {
             log.debug("exclusive acquirable job found ("+job+"). querying for other exclusive jobs to lock them all in one tx...");
             List otherExclusiveJobs = jobSession.findExclusiveJobs(getName(), job.getProcessInstance());
-            jobsToLock.addAll(otherExclusiveJobs);
+            jobsToLock = otherExclusiveJobs;
             log.debug("trying to obtain a process-instance exclusive locks for '"+otherExclusiveJobs+"'");
           } else {
             log.debug("trying to obtain a lock for '"+job+"'");
-            jobsToLock.add(job);
+            jobsToLock = Collections.singletonList(job);
           }
           
           Iterator iter = jobsToLock.iterator();
@@ -145,17 +139,13 @@ public class JobExecutorThread extends Thread {
           log.debug("obtained lock on jobs: "+acquiredJobs);
         }
         catch (JbpmPersistenceException e) {
-          // if this is a stale object exception, the jbpm configuration has control over the logging
-          if ("org.hibernate.StaleObjectStateException".equals(e.getCause().getClass().getName())) {
-            log.info("problem committing job acquisition transaction: optimistic locking failed");
-            StaleObjectLogConfigurer.staleObjectExceptionsLog.error("problem committing job acquisition transaction: optimistic locking failed", e);
+          // if this is a stale object exception, keep it quiet
+          if (Services.isCausedByStaleState(e)) {
+            log.debug("optimistic locking failed, couldn't obtain lock on jobs: "+jobsToLock);
+            acquiredJobs = Collections.EMPTY_LIST;
           } else {
-            // TODO run() will log this exception, log it here too?
-            log.error("problem committing job acquisition transaction", e);
             throw e;
           }
-          acquiredJobs = Collections.EMPTY_LIST;
-          log.debug("couldn't obtain lock on jobs: "+jobsToLock); 
         }
       }
     }
@@ -173,7 +163,6 @@ public class JobExecutorThread extends Thread {
         if (job.execute(jbpmContext)) {
           jobSession.deleteJob(job);
         }
-
       } catch (Exception e) {
         log.debug("exception while executing '"+job+"'", e);
         StringWriter sw = new StringWriter();
@@ -187,7 +176,6 @@ public class JobExecutorThread extends Thread {
       if (totalLockTimeInMillis>maxLockTime) {
         jbpmContext.setRollbackOnly();
       }
-
     } finally {
       try {
         jbpmContext.close();

@@ -35,7 +35,10 @@ public class Timer extends Job {
   }
 
   public boolean execute(JbpmContext jbpmContext) throws Exception {
-    boolean deleteThisJob = true;
+    if (processInstance.hasEnded()) {
+      // happens when a repeating timer is blocked at the time the process instance ends
+      return true;
+    }
 
     ExecutionContext executionContext = new ExecutionContext(token);
     executionContext.setTimer(this);
@@ -52,7 +55,7 @@ public class Timer extends Job {
     // then execute the action if there is one
     if (action!=null) {
       try {
-        log.debug("executing timer '"+this+"'");
+        log.debug("executing '"+this+"'");
         if (graphElement!=null) {
           graphElement.executeAction(action, executionContext);
         } else {
@@ -61,27 +64,18 @@ public class Timer extends Job {
       } catch (Exception actionException) {
         // NOTE that Error's are not caught because that might halt the JVM and mask the original Error.
         log.warn("timer action threw exception", actionException);
-
-        // we put the exception in t
-        Exception t = actionException;
-        try {
-          // if there is a graphElement connected to this timer...
-          if (graphElement != null) {
+        // if there is a graphElement connected to this timer...
+        if (graphElement != null) {
+          try {
             // we give that graphElement a chance to catch the exception
             graphElement.raiseException(actionException, executionContext);
             log.debug("timer exception got handled by '"+graphElement+"'");
-            t = null;
+          } catch (Exception handlerException) {
+            // if the exception handler rethrows or the original exception results in a DelegationException...
+            throw handlerException;
           }
-        } catch (Exception rethrowOrDelegationException) {
-          // NOTE that Error's are not caught because that might halt the JVM and mask the original Error.
-          // if the exception handler rethrows or the original exception results in a DelegationException...
-          t = rethrowOrDelegationException;
-        }
-        
-        if (t!=null) {
-          // This is either the original exception wrapped as a delegation exception
-          // or an exception that was throws from an exception handler
-          throw t;
+        } else {
+          throw actionException;
         }
       }
     }
@@ -100,20 +94,17 @@ public class Timer extends Job {
     
     // if repeat is specified, reschedule the job
     if (repeat!=null) {
-      deleteThisJob = false;
-
       // suppose that it took the timer runner thread a 
       // very long time to execute the timers.
       // then the repeat action dueDate could already have passed.
       while (dueDate.getTime()<=System.currentTimeMillis()) {
-        dueDate = businessCalendar
-              .add(dueDate, 
-                new Duration(repeat));
+        dueDate = businessCalendar.add(dueDate, new Duration(repeat));
       }
-      log.debug("updated timer for repetition '"+this+"' in '"+(dueDate.getTime()-System.currentTimeMillis())+"' millis");
-    } 
+      log.debug("updated '"+this+"' for repetition on '"+formatDueDate(dueDate)+"'");
+      return false;
+    }
     
-    return deleteThisJob;
+    return true;
   }
   
   public String toString() {

@@ -31,6 +31,7 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.hibernate.StaleStateException;
 import org.jbpm.JbpmContext;
 import org.jbpm.JbpmException;
 import org.jbpm.graph.exe.ProcessInstance;
@@ -234,8 +235,8 @@ public class Services implements Serializable {
             log.debug("closing service '"+serviceName+"': "+service);
             service.close();
           } catch (JbpmPersistenceException e) {
-            // if this is a stale object exception, the jbpm configuration has control over the logging
-            if ("org.hibernate.StaleObjectStateException".equals(e.getCause().getClass().getName())) {
+            // if this is a stale state exception, the jbpm configuration has control over the logging
+            if (isCausedByStaleState(e)) {
               log.info("problem closing service '"+serviceName+"': optimistic locking failed");
               StaleObjectLogConfigurer.staleObjectExceptionsLog.error("problem closing service '"+serviceName+"': optimistic locking failed", e);
             } else {
@@ -261,6 +262,14 @@ public class Services implements Serializable {
         }
       }
     }
+  }
+
+  public static boolean isCausedByStaleState(JbpmPersistenceException persistenceException) {
+    for (Throwable cause = persistenceException.getCause(); cause != null; cause = cause.getCause()) {
+      if (cause instanceof StaleStateException)
+        return true;
+    }
+    return false;
   }
 
   public static void assignId(Object object) {
