@@ -19,44 +19,55 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jbpm.integration.def;
+package org.jbpm.integration.model;
 
 //$Id$
 
-import org.jboss.bpm.process.Node;
-import org.jboss.bpm.process.internal.AbstractProcessDefinition;
+import org.jboss.bpm.model.Process;
+import org.jboss.bpm.model.internal.AbstractStartEvent;
+import org.jboss.bpm.runtime.Token;
+import org.jbpm.context.exe.ContextInstance;
+import org.jbpm.graph.def.GraphElement;
+import org.jbpm.graph.def.Node;
+import org.jbpm.graph.exe.Execution;
+import org.jbpm.integration.runtime.ExecutionContextImpl;
 
 /**
- * A jBPM3 implementation of a process definition
+ * TODO
  * 
  * @author thomas.diesler@jboss.com
  * @since 18-Jun-2008
  */
-public class ProcessDefinitionImpl extends AbstractProcessDefinition
+public class StartEventImpl extends AbstractStartEvent
 {
-  public org.jbpm.graph.def.ProcessDefinition oldPD;
-
-  public ProcessDefinitionImpl(org.jbpm.graph.def.ProcessDefinition oldPD)
+  private Execution oldEx;
+  
+  StartEventImpl(Process proc, Node oldNode)
   {
-    this.oldPD = oldPD;
-    init(oldPD.getName());
-  }
-
-  // Provide public access
-  public void addNode(Node apiNode)
-  {
-    super.addNode(apiNode);
+    setProcess(proc);
+    setImplObject(oldNode);
   }
 
   @Override
-  public String getName()
+  public void execute(Token token)
   {
-    return oldPD.getName();
+    super.execute(token);
+    oldEx.signal();
   }
 
   @Override
-  protected void setName(String name)
+  protected void executeOverwrite(Token token)
   {
-    oldPD.setName(name);
+    // Create a new Execution and copy the attachments
+    GraphElement oldEl = (GraphElement)getImplObject();
+    oldEx = new Execution(oldEl.getProcessDefinition());
+    ContextInstance ctxInst = oldEx.getContextInstance();
+    new ExecutionContextImpl(ctxInst).copyAttachments(token.getExecutionContext());
+    ctxInst.setTransientVariable(Process.class.getName(), getProcess());
+  }
+
+  public Execution getExecution()
+  {
+    return oldEx;
   }
 }

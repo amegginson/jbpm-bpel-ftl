@@ -25,42 +25,54 @@ import org.dom4j.Element;
 import org.jbpm.graph.def.Event;
 import org.jbpm.graph.def.Node;
 import org.jbpm.graph.def.Transition;
-import org.jbpm.graph.exe.*;
+import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.jpdl.xml.JpdlXmlReader;
 
-public class EndState extends Node {
+public class EndState extends Node
+{
 
   private static final long serialVersionUID = 1L;
-  
+
   String endCompleteProcess = null;
 
-  public EndState() {
+  public EndState()
+  {
   }
-  
-  public static final String[] supportedEventTypes = new String[]{Event.EVENTTYPE_NODE_ENTER};
-  public String[] getSupportedEventTypes() {
+
+  public static final String[] supportedEventTypes = new String[] { Event.EVENTTYPE_NODE_ENTER };
+
+  public String[] getSupportedEventTypes()
+  {
     return supportedEventTypes;
   }
 
-  public EndState(String name) {
+  public EndState(String name)
+  {
     super(name);
   }
-  
-  public void read(Element nodeElement, JpdlXmlReader jpdlXmlReader) {
+
+  public void read(Element nodeElement, JpdlXmlReader jpdlXmlReader)
+  {
     endCompleteProcess = nodeElement.attributeValue("end-complete-process");
   }
 
-  public void execute(ExecutionContext executionContext) {
-    if ( (endCompleteProcess!=null)
-         && (endCompleteProcess.equalsIgnoreCase("true"))
-       ) {
+  public void execute(ExecutionContext executionContext)
+  {
+    if ((endCompleteProcess != null) && (endCompleteProcess.equalsIgnoreCase("true")))
+    {
       executionContext.getProcessInstance().end();
-    } else {
+    }
+    else
+    {
       executionContext.getToken().end();
     }
+
+    // Call execute on an API FlowObject
+    callExecutableFlowObject(executionContext);
   }
-  
-  public Transition addLeavingTransition(Transition t) {
+
+  public Transition addLeavingTransition(Transition t)
+  {
     throw new UnsupportedOperationException("can't add a leaving transition to an end-state");
   }
 }

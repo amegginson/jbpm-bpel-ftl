@@ -21,21 +21,26 @@
  */
 package org.jbpm.graph.node;
 
-import org.jbpm.graph.def.*;
-import org.jbpm.graph.exe.*;
+import org.jbpm.graph.def.Node;
+import org.jbpm.graph.exe.ExecutionContext;
 
-public class State extends Node {
-  
+public class State extends Node
+{
   private static final long serialVersionUID = 1L;
 
-  public State() {
+  public State()
+  {
     this(null);
   }
-  
-  public State(String name) {
-    super( name );
+
+  public State(String name)
+  {
+    super(name);
   }
 
-  public void execute(ExecutionContext executionContext) {
+  public void execute(ExecutionContext executionContext)
+  {
+    // Call execute on an API FlowObject
+    callExecutableFlowObject(executionContext);
   }
 }

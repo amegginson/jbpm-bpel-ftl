@@ -19,12 +19,14 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jbpm.integration.client;
+package org.jbpm.integration.model;
 
 //$Id$
 
-import org.jboss.bpm.client.internal.AbstractProcessInstance;
-import org.jboss.bpm.process.ProcessDefinition;
+import org.jboss.bpm.model.Process;
+import org.jboss.bpm.model.internal.AbstractEndEvent;
+import org.jboss.bpm.runtime.Token;
+import org.jbpm.graph.def.Node;
 
 /**
  * TODO
@@ -32,11 +34,17 @@ import org.jboss.bpm.process.ProcessDefinition;
  * @author thomas.diesler@jboss.com
  * @since 18-Jun-2008
  */
-public class ProcessInstanceImpl extends AbstractProcessInstance
+public class EndEventImpl extends AbstractEndEvent
 {
-  ProcessInstanceImpl(ProcessDefinition pdef)
+  EndEventImpl(Process proc, Node oldNode)
   {
-    super(pdef);
-    init(null);
+    setProcess(proc);
+    setImplObject(oldNode);
+  }
+
+  @Override
+  protected void executeOverwrite(Token token)
+  {
+    // nothing to do
   }
 }

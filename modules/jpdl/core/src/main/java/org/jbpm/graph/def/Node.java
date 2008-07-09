@@ -32,11 +32,16 @@ import java.util.Map;
 import java.util.Set;
 
 import org.dom4j.Element;
+import org.jboss.bpm.model.FlowObject;
+import org.jboss.bpm.model.Process;
 import org.jbpm.JbpmException;
+import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.graph.action.ActionTypes;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.graph.exe.Token;
 import org.jbpm.graph.log.NodeLog;
+import org.jbpm.integration.model.ProcessImpl;
+import org.jbpm.integration.runtime.TokenImpl;
 import org.jbpm.job.ExecuteNodeJob;
 import org.jbpm.jpdl.xml.JpdlXmlReader;
 import org.jbpm.jpdl.xml.Parsable;
@@ -44,10 +49,11 @@ import org.jbpm.msg.MessageService;
 import org.jbpm.svc.Services;
 import org.jbpm.util.Clock;
 
-public class Node extends GraphElement implements Parsable {
-  
+public class Node extends GraphElement implements Parsable
+{
+
   private static final long serialVersionUID = 1L;
-  
+
   protected List leavingTransitions = null;
   transient Map leavingTransitionMap = null;
   protected Set arrivingTransitions = null;
@@ -58,8 +64,12 @@ public class Node extends GraphElement implements Parsable {
 
   // event types //////////////////////////////////////////////////////////////
 
-  public static final String[] supportedEventTypes = new String[]{Event.EVENTTYPE_NODE_ENTER,Event.EVENTTYPE_NODE_LEAVE,Event.EVENTTYPE_BEFORE_SIGNAL,Event.EVENTTYPE_AFTER_SIGNAL};
-  public String[] getSupportedEventTypes() {
+  public static final String[] supportedEventTypes = new String[] { 
+    Event.EVENTTYPE_NODE_ENTER, Event.EVENTTYPE_NODE_LEAVE, 
+    Event.EVENTTYPE_BEFORE_SIGNAL,Event.EVENTTYPE_AFTER_SIGNAL };
+
+  public String[] getSupportedEventTypes()
+  {
     return supportedEventTypes;
   }
 
@@ -68,22 +78,27 @@ public class Node extends GraphElement implements Parsable {
   /**
    * creates an unnamed node.
    */
-  public Node() {
+  public Node()
+  {
   }
 
   /**
    * creates a node with the given name.
    */
-  public Node(String name) {
+  public Node(String name)
+  {
     super(name);
   }
 
-  public void read(Element nodeElement, JpdlXmlReader jpdlXmlReader) {
+  public void read(Element nodeElement, JpdlXmlReader jpdlXmlReader)
+  {
     action = jpdlXmlReader.readSingleAction(nodeElement);
   }
-  
-  public void write(Element nodeElement) {
-    if (action!=null) {
+
+  public void write(Element nodeElement)
+  {
+    if (action != null)
+    {
       String actionName = ActionTypes.getActionName(action.getClass());
       Element actionElement = nodeElement.addElement(actionName);
       action.write(actionElement);
@@ -91,22 +106,25 @@ public class Node extends GraphElement implements Parsable {
   }
 
   // leaving transitions //////////////////////////////////////////////////////
-  
-  public List getLeavingTransitions() {
+
+  public List getLeavingTransitions()
+  {
     return leavingTransitions;
   }
 
   /**
    * are the leaving {@link Transition}s, mapped by their name (java.lang.String).
    */
-  public Map getLeavingTransitionsMap() {
-    if ( (leavingTransitionMap==null)
-         && (leavingTransitions!=null) ){
+  public Map getLeavingTransitionsMap()
+  {
+    if ((leavingTransitionMap == null) && (leavingTransitions != null))
+    {
       // initialize the cached leaving transition map
       leavingTransitionMap = new HashMap();
       ListIterator iter = leavingTransitions.listIterator(leavingTransitions.size());
-      while (iter.hasPrevious()) {
-        Transition leavingTransition = (Transition) iter.previous();
+      while (iter.hasPrevious())
+      {
+        Transition leavingTransition = (Transition)iter.previous();
         leavingTransitionMap.put(leavingTransition.getName(), leavingTransition);
       }
     }
@@ -115,11 +133,15 @@ public class Node extends GraphElement implements Parsable {
 
   /**
    * creates a bidirection relation between this node and the given leaving transition.
+   * 
    * @throws IllegalArgumentException if leavingTransition is null.
    */
-  public Transition addLeavingTransition(Transition leavingTransition) {
-    if (leavingTransition == null) throw new IllegalArgumentException("can't add a null leaving transition to an node");
-    if (leavingTransitions == null) leavingTransitions = new ArrayList();
+  public Transition addLeavingTransition(Transition leavingTransition)
+  {
+    if (leavingTransition == null)
+      throw new IllegalArgumentException("can't add a null leaving transition to an node");
+    if (leavingTransitions == null)
+      leavingTransitions = new ArrayList();
     leavingTransitions.add(leavingTransition);
     leavingTransition.from = this;
     leavingTransitionMap = null;
@@ -128,12 +150,17 @@ public class Node extends GraphElement implements Parsable {
 
   /**
    * removes the bidirection relation between this node and the given leaving transition.
+   * 
    * @throws IllegalArgumentException if leavingTransition is null.
    */
-  public void removeLeavingTransition(Transition leavingTransition) {
-    if (leavingTransition == null) throw new IllegalArgumentException("can't remove a null leavingTransition from an node");
-    if (leavingTransitions != null) {
-      if (leavingTransitions.remove(leavingTransition)) {
+  public void removeLeavingTransition(Transition leavingTransition)
+  {
+    if (leavingTransition == null)
+      throw new IllegalArgumentException("can't remove a null leavingTransition from an node");
+    if (leavingTransitions != null)
+    {
+      if (leavingTransitions.remove(leavingTransition))
+      {
         leavingTransition.from = null;
         leavingTransitionMap = null;
       }
@@ -142,61 +169,69 @@ public class Node extends GraphElement implements Parsable {
 
   /**
    * checks for the presence of a leaving transition with the given name.
-   * @return true if this node has a leaving transition with the given name,
-   *         false otherwise.
+   * 
+   * @return true if this node has a leaving transition with the given name, false otherwise.
    */
-  public boolean hasLeavingTransition(String transitionName) {
-    if (leavingTransitions==null) return false;
+  public boolean hasLeavingTransition(String transitionName)
+  {
+    if (leavingTransitions == null)
+      return false;
     return getLeavingTransitionsMap().containsKey(transitionName);
   }
 
   /**
-   * retrieves a leaving transition by name. note that also the leaving
-   * transitions of the supernode are taken into account.
+   * retrieves a leaving transition by name. note that also the leaving transitions of the supernode are taken into account.
    */
-  public Transition getLeavingTransition(String transitionName) {
+  public Transition getLeavingTransition(String transitionName)
+  {
     Transition transition = null;
-    if (leavingTransitions!=null) {
-      transition = (Transition) getLeavingTransitionsMap().get(transitionName);
+    if (leavingTransitions != null)
+    {
+      transition = (Transition)getLeavingTransitionsMap().get(transitionName);
     }
-    if ( (transition==null)
-         && (superState!=null)
-       ) {
-      transition = superState.getLeavingTransition(transitionName); 
+    if ((transition == null) && (superState != null))
+    {
+      transition = superState.getLeavingTransition(transitionName);
     }
     return transition;
   }
 
   /**
-   * true if this transition has leaving transitions. 
+   * true if this transition has leaving transitions.
    */
-  public boolean hasNoLeavingTransitions() {
-    return ( ( (leavingTransitions == null) 
-               || (leavingTransitions.size() == 0) ) 
-             && ( (superState==null) 
-                  || (superState.hasNoLeavingTransitions() ) ) );
+  public boolean hasNoLeavingTransitions()
+  {
+    return (((leavingTransitions == null) || (leavingTransitions.size() == 0)) && ((superState == null) || (superState.hasNoLeavingTransitions())));
   }
 
   /**
-   * generates a new name for a transition that will be added as a leaving transition. 
+   * generates a new name for a transition that will be added as a leaving transition.
    */
-  public String generateNextLeavingTransitionName() {
+  public String generateNextLeavingTransitionName()
+  {
     String name = null;
-    if (leavingTransitions!=null && containsName(leavingTransitions, null)) {
+    if (leavingTransitions != null && containsName(leavingTransitions, null))
+    {
       int n = 1;
-      while (containsName(leavingTransitions, Integer.toString(n))) n++;
+      while (containsName(leavingTransitions, Integer.toString(n)))
+        n++;
       name = Integer.toString(n);
     }
     return name;
   }
 
-  boolean containsName(List leavingTransitions, String name) {
+  boolean containsName(List leavingTransitions, String name)
+  {
     Iterator iter = leavingTransitions.iterator();
-    while (iter.hasNext()) {
-      Transition transition = (Transition) iter.next();
-      if ( (name==null) && (transition.getName()==null) ) {
+    while (iter.hasNext())
+    {
+      Transition transition = (Transition)iter.next();
+      if ((name == null) && (transition.getName() == null))
+      {
         return true;
-      } else if ( (name!=null) && (name.equals(transition.getName())) ) {
+      }
+      else if ((name != null) && (name.equals(transition.getName())))
+      {
         return true;
       }
     }
@@ -208,12 +243,15 @@ public class Node extends GraphElement implements Parsable {
   /**
    * is the default leaving transition.
    */
-  public Transition getDefaultLeavingTransition() {
+  public Transition getDefaultLeavingTransition()
+  {
     Transition defaultTransition = null;
-    if ( (leavingTransitions!=null)
-         && (leavingTransitions.size()>0) ) {
-      defaultTransition = (Transition) leavingTransitions.get(0);
-    } else if ( superState!=null ){
+    if ((leavingTransitions != null) && (leavingTransitions.size() > 0))
+    {
+      defaultTransition = (Transition)leavingTransitions.get(0);
+    }
+    else if (superState != null)
+    {
       defaultTransition = superState.getDefaultLeavingTransition();
     }
     return defaultTransition;
@@ -222,16 +260,17 @@ public class Node extends GraphElement implements Parsable {
   /**
    * moves one leaving transition from the oldIndex and inserts it at the newIndex.
    */
-  public void reorderLeavingTransition( int oldIndex, int newIndex ) {
-    if ( (leavingTransitions!=null)
-         && (Math.min(oldIndex, newIndex)>=0)
-         && (Math.max(oldIndex, newIndex)<leavingTransitions.size()) ) {
+  public void reorderLeavingTransition(int oldIndex, int newIndex)
+  {
+    if ((leavingTransitions != null) && (Math.min(oldIndex, newIndex) >= 0) && (Math.max(oldIndex, newIndex) < leavingTransitions.size()))
+    {
       Object o = leavingTransitions.remove(oldIndex);
       leavingTransitions.add(newIndex, o);
     }
   }
 
-  public List getLeavingTransitionsList() {
+  public List getLeavingTransitionsList()
+  {
     return leavingTransitions;
   }
 
@@ -240,46 +279,55 @@ public class Node extends GraphElement implements Parsable {
   /**
    * are the arriving transitions.
    */
-  public Set getArrivingTransitions() {
+  public Set getArrivingTransitions()
+  {
     return arrivingTransitions;
   }
 
   /**
-   * add a bidirection relation between this node and the given arriving
-   * transition.
+   * add a bidirection relation between this node and the given arriving transition.
+   * 
    * @throws IllegalArgumentException if t is null.
    */
-  public Transition addArrivingTransition(Transition arrivingTransition) {
-    if (arrivingTransition == null) throw new IllegalArgumentException("can't add a null arrivingTransition to a node");
-    if (arrivingTransitions == null) arrivingTransitions = new HashSet();
+  public Transition addArrivingTransition(Transition arrivingTransition)
+  {
+    if (arrivingTransition == null)
+      throw new IllegalArgumentException("can't add a null arrivingTransition to a node");
+    if (arrivingTransitions == null)
+      arrivingTransitions = new HashSet();
     arrivingTransitions.add(arrivingTransition);
     arrivingTransition.to = this;
     return arrivingTransition;
   }
 
   /**
-   * removes the bidirection relation between this node and the given arriving
-   * transition.
+   * removes the bidirection relation between this node and the given arriving transition.
+   * 
    * @throws IllegalArgumentException if t is null.
    */
-  public void removeArrivingTransition(Transition arrivingTransition) {
-    if (arrivingTransition == null) throw new IllegalArgumentException("can't remove a null arrivingTransition from a node");
-    if (arrivingTransitions != null) {
-      if (arrivingTransitions.remove(arrivingTransition)) {
+  public void removeArrivingTransition(Transition arrivingTransition)
+  {
+    if (arrivingTransition == null)
+      throw new IllegalArgumentException("can't remove a null arrivingTransition from a node");
+    if (arrivingTransitions != null)
+    {
+      if (arrivingTransitions.remove(arrivingTransition))
+      {
         arrivingTransition.to = null;
       }
     }
   }
-  
+
   // various //////////////////////////////////////////////////////////////////
 
   /**
-   * is the {@link SuperState} or the {@link ProcessDefinition} in which this 
-   * node is contained.
+   * is the {@link SuperState} or the {@link ProcessDefinition} in which this node is contained.
    */
-  public GraphElement getParent() {
+  public GraphElement getParent()
+  {
     GraphElement parent = processDefinition;
-    if (superState!=null) parent = superState;
+    if (superState != null)
+      parent = superState;
     return parent;
   }
 
@@ -288,7 +336,8 @@ public class Node extends GraphElement implements Parsable {
   /**
    * called by a transition to pass execution to this node.
    */
-  public void enter(ExecutionContext executionContext) {
+  public void enter(ExecutionContext executionContext)
+  {
     Token token = executionContext.getToken();
 
     // update the runtime context information
@@ -296,7 +345,7 @@ public class Node extends GraphElement implements Parsable {
 
     // fire the leave-node event for this node
     fireEvent(Event.EVENTTYPE_NODE_ENTER, executionContext);
-    
+
     // keep track of node entrance in the token, so that a node-log can be generated at node leave time.
     token.setNodeEnter(Clock.getCurrentTime());
 
@@ -305,61 +354,94 @@ public class Node extends GraphElement implements Parsable {
     executionContext.setTransitionSource(null);
 
     // execute the node
-    if (isAsync) {
+    if (isAsync)
+    {
       ExecuteNodeJob job = createAsyncContinuationJob(token);
-      MessageService messageService = (MessageService) Services.getCurrentService(Services.SERVICENAME_MESSAGE);
+      MessageService messageService = (MessageService)Services.getCurrentService(Services.SERVICENAME_MESSAGE);
       messageService.send(job);
       token.lock(job.toString());
-    } else {
+    }
+    else
+    {
       execute(executionContext);
     }
   }
 
-  protected ExecuteNodeJob createAsyncContinuationJob(Token token) {
+  protected ExecuteNodeJob createAsyncContinuationJob(Token token)
+  {
     ExecuteNodeJob job = new ExecuteNodeJob(token);
     job.setNode(this);
     job.setDueDate(new Date());
     job.setExclusive(isAsyncExclusive);
     return job;
   }
-  
+
   /**
    * override this method to customize the node behaviour.
    */
-  public void execute(ExecutionContext executionContext) {
+  public void execute(ExecutionContext executionContext)
+  {
+    // Call execute on an API FlowObject
+    callExecutableFlowObject(executionContext);
+    
     // if there is a custom action associated with this node
-    if (action!=null) {
-      try {
+    if (action != null)
+    {
+      try
+      {
         // execute the action
         executeAction(action, executionContext);
 
-      } catch (Exception exception) {
+      }
+      catch (Exception exception)
+      {
         // NOTE that Error's are not caught because that might halt the JVM and mask the original Error.
         // search for an exception handler or throw to the client
         raiseException(exception, executionContext);
       }
 
-    } else {
+    }
+    else
+    {
       // let this node handle the token
       // the default behaviour is to leave the node over the default transition.
       leave(executionContext);
     }
   }
 
+  // Call execute on an API FlowObject
+  protected void callExecutableFlowObject(ExecutionContext executionContext)
+  {
+    ContextInstance ctxInst = executionContext.getContextInstance();
+    ProcessImpl proc = (ProcessImpl)ctxInst.getTransientVariable(Process.class.getName());
+    if (proc != null)
+    {
+      FlowObject fo = proc.findFlowObject(this);
+      if (fo == null)
+        throw new IllegalStateException("Cannot find flow object: " + getName());
+      
+      TokenImpl token = new TokenImpl(proc, ctxInst);
+      fo.execute(token);
+    }
+  }
+  
   /**
    * called by the implementation of this node to continue execution over the default transition.
    */
-  public void leave(ExecutionContext executionContext) {
+  public void leave(ExecutionContext executionContext)
+  {
     leave(executionContext, getDefaultLeavingTransition());
   }
 
   /**
    * called by the implementation of this node to continue execution over the specified transition.
    */
-  public void leave(ExecutionContext executionContext, String transitionName) {
+  public void leave(ExecutionContext executionContext, String transitionName)
+  {
     Transition transition = getLeavingTransition(transitionName);
-    if (transition==null) {
-      throw new JbpmException("transition '"+transitionName+"' is not a leaving transition of node '"+this+"'");
+    if (transition == null)
+    {
+      throw new JbpmException("transition '" + transitionName + "' is not a leaving transition of node '" + this + "'");
     }
     leave(executionContext, transition);
   }
@@ -367,17 +449,20 @@ public class Node extends GraphElement implements Parsable {
   /**
    * called by the implementation of this node to continue execution over the given transition.
    */
-  public void leave(ExecutionContext executionContext, Transition transition) {
-    if (transition==null) throw new JbpmException("can't leave node '"+this+"' without leaving transition");
+  public void leave(ExecutionContext executionContext, Transition transition)
+  {
+    if (transition == null)
+      throw new JbpmException("can't leave node '" + this + "' without leaving transition");
     Token token = executionContext.getToken();
     token.setNode(this);
     executionContext.setTransition(transition);
-    
+
     // fire the leave-node event for this node
     fireEvent(Event.EVENTTYPE_NODE_LEAVE, executionContext);
-    
+
     // log this node
-    if (token.getNodeEnter()!=null) {
+    if (token.getNodeEnter() != null)
+    {
       addNodeLog(token);
     }
 
@@ -389,15 +474,18 @@ public class Node extends GraphElement implements Parsable {
     transition.take(executionContext);
   }
 
-  protected void addNodeLog(Token token) {
+  protected void addNodeLog(Token token)
+  {
     token.addLog(new NodeLog(this, token.getNodeEnter(), Clock.getCurrentTime()));
   }
 
-  /////////////////////////////////////////////////////////////////////////////
-  
-  public ProcessDefinition getProcessDefinition() {
+  // ///////////////////////////////////////////////////////////////////////////
+
+  public ProcessDefinition getProcessDefinition()
+  {
     ProcessDefinition pd = this.processDefinition;
-    if (superState!=null) {
+    if (superState != null)
+    {
       pd = superState.getProcessDefinition();
     }
     return pd;
@@ -407,34 +495,45 @@ public class Node extends GraphElement implements Parsable {
   /**
    * updates the name of this node
    */
-  public void setName(String name) {
-    if (isDifferent(this.name, name)) {
+  public void setName(String name)
+  {
+    if (isDifferent(this.name, name))
+    {
       String oldName = this.name;
-      if (superState!=null) {
-        if ( superState.hasNode(name) ) {
-          throw new IllegalArgumentException("couldn't set name '"+name+"' on node '"+this+"'cause the superState of this node has already another child node with the same name");
+      if (superState != null)
+      {
+        if (superState.hasNode(name))
+        {
+          throw new IllegalArgumentException("couldn't set name '" + name + "' on node '" + this
+              + "'cause the superState of this node has already another child node with the same name");
         }
         Map nodes = superState.getNodesMap();
         nodes.remove(oldName);
-        nodes.put(name,this);
-      } else if (processDefinition!=null) {
-        if ( processDefinition.hasNode(name) ) {
-          throw new IllegalArgumentException("couldn't set name '"+name+"' on node '"+this+"'cause the process definition of this node has already another node with the same name");
+        nodes.put(name, this);
+      }
+      else if (processDefinition != null)
+      {
+        if (processDefinition.hasNode(name))
+        {
+          throw new IllegalArgumentException("couldn't set name '" + name + "' on node '" + this
+              + "'cause the process definition of this node has already another node with the same name");
         }
         Map nodeMap = processDefinition.getNodesMap();
         nodeMap.remove(oldName);
-        nodeMap.put(name,this);
+        nodeMap.put(name, this);
       }
       this.name = name;
     }
   }
-  
-  boolean isDifferent(String name1, String name2) {
-    if ((name1!=null)
-        && (name1.equals(name2))) {
+
+  boolean isDifferent(String name1, String name2)
+  {
+    if ((name1 != null) && (name1.equals(name2)))
+    {
       return false;
-    } else if ( (name1==null)
-                && (name2==null) ) {
+    }
+    else if ((name1 == null) && (name2 == null))
+    {
       return false;
     }
     return true;
@@ -443,45 +542,62 @@ public class Node extends GraphElement implements Parsable {
   /**
    * the slash separated name that includes all the superstate names.
    */
-  public String getFullyQualifiedName() {
+  public String getFullyQualifiedName()
+  {
     String fullyQualifiedName = name;
-    if (superState!=null) {
-      fullyQualifiedName = superState.getFullyQualifiedName()+"/"+name;
+    if (superState != null)
+    {
+      fullyQualifiedName = superState.getFullyQualifiedName() + "/" + name;
     }
     return fullyQualifiedName;
   }
 
   /** indicates wether this node is a superstate. */
-  public boolean isSuperStateNode() {
+  public boolean isSuperStateNode()
+  {
     return false;
   }
 
   /** returns a list of child nodes (only applicable for {@link SuperState})s. */
-  public List getNodes() {
+  public List getNodes()
+  {
     return null;
   }
 
   // getters and setters //////////////////////////////////////////////////////
-  
-  public SuperState getSuperState() {
+
+  public SuperState getSuperState()
+  {
     return superState;
   }
-  public Action getAction() {
+
+  public Action getAction()
+  {
     return action;
   }
-  public void setAction(Action action) {
+
+  public void setAction(Action action)
+  {
     this.action = action;
   }
-  public boolean isAsync() {
+
+  public boolean isAsync()
+  {
     return isAsync;
   }
-  public void setAsync(boolean isAsync) {
+
+  public void setAsync(boolean isAsync)
+  {
     this.isAsync = isAsync;
   }
-  public boolean isAsyncExclusive() {
+
+  public boolean isAsyncExclusive()
+  {
     return isAsyncExclusive;
   }
-  public void setAsyncExclusive(boolean isAsyncExclusive) {
+
+  public void setAsyncExclusive(boolean isAsyncExclusive)
+  {
     this.isAsyncExclusive = isAsyncExclusive;
   }
 }

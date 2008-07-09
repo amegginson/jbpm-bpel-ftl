@@ -23,10 +23,9 @@ package org.jbpm.integration.client;
 
 //$Id$
 
-import org.jboss.bpm.client.ExecutionManager;
-import org.jboss.bpm.client.ProcessDefinitionManager;
 import org.jboss.bpm.client.ProcessEngine;
-import org.jboss.bpm.client.ProcessInstanceManager;
+import org.jboss.bpm.client.ProcessManager;
+import org.jboss.bpm.client.SignalManager;
 
 /**
  * A process engine with public access
@@ -36,19 +35,13 @@ import org.jboss.bpm.client.ProcessInstanceManager;
  */
 public class ProcessEngineImpl extends ProcessEngine
 {
-
-  public void setProcessDefinitionManager(ProcessDefinitionManager processDefinitionManager)
+  public void setProcessManager(ProcessManager processManager)
   {
-    this.processDefinitionManager = processDefinitionManager;
+    this.processManager = processManager;
   }
 
-  public void setProcessInstanceManager(ProcessInstanceManager processInstanceManager)
+  public void setSignalManager(SignalManager signalManager)
   {
-    this.processInstanceManager = processInstanceManager;
-  }
-
-  public void setExecutionManager(ExecutionManager executionManager)
-  {
-    this.executionManager = executionManager;
+    this.signalManager = signalManager;
   }
 }

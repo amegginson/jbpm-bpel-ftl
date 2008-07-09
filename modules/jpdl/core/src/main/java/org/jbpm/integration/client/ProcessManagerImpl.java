@@ -23,19 +23,24 @@ package org.jbpm.integration.client;
 
 // $Id$
 
-import org.jboss.bpm.client.ExecutionManager;
+import java.io.IOException;
+import java.net.URL;
+
+import org.jboss.bpm.InvalidProcessException;
 import org.jboss.bpm.client.ProcessEngine;
-import org.jboss.bpm.client.ProcessInstance;
-import org.jboss.bpm.process.Execution;
-import org.jbpm.integration.def.ProcessDefinitionImpl;
+import org.jboss.bpm.client.ProcessManager;
+import org.jboss.bpm.model.Process;
+import org.jbpm.graph.def.ProcessDefinition;
+import org.jbpm.integration.model.ProcessAdapter;
+import org.jbpm.jpdl.JpdlException;
 
 /**
- * TODO
+ * An implementation of a process manager
  * 
  * @author thomas.diesler@jboss.com
  * @since 18-Jun-2008
  */
-public class ExecutionManagerImpl extends ExecutionManager
+public class ProcessManagerImpl extends ProcessManager
 {
 
   public void setProcessEngine(ProcessEngine engine)
@@ -44,11 +49,36 @@ public class ExecutionManagerImpl extends ExecutionManager
   }
 
   @Override
-  protected Execution createExecutionOverride(ProcessInstance pi)
+  protected Process createProcessOverride(String jpdl)
   {
-    ProcessDefinitionImpl apiPD = (ProcessDefinitionImpl)pi.getProcessDefinition();
-    org.jbpm.graph.exe.Execution oldEx = new org.jbpm.graph.exe.Execution(apiPD.oldPD);
-    ExecutionImpl ex = new ExecutionImpl(pi, oldEx);
-    return ex;
+    ProcessDefinition oldPD;
+    try
+    {
+      oldPD = ProcessDefinition.parseXmlString(jpdl);
+    }
+    catch (JpdlException ex)
+    {
+      throw new InvalidProcessException(ex);
+    }
+    Process pdef = ProcessAdapter.buildProcess(oldPD);
+    addProcess(pdef);
+    return pdef;
+  }
+
+  @Override
+  protected Process createProcessOverride(URL jpdl) throws IOException
+  {
+    ProcessDefinition oldPD;
+    try
+    {
+      oldPD = ProcessDefinition.parseXmlInputStream(jpdl.openStream());
+    }
+    catch (JpdlException ex)
+    {
+      throw new InvalidProcessException(ex);
+    }
+    Process pdef = ProcessAdapter.buildProcess(oldPD);
+    addProcess(pdef);
+    return pdef;
   }
 }

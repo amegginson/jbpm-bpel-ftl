@@ -25,10 +25,10 @@ import java.io.Serializable;
 import java.util.Map;
 
 import org.dom4j.Element;
-import org.jboss.bpm.runtime.Activity;
+import org.jboss.bpm.model.Task;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.instantiation.Delegation;
-import org.jbpm.integration.runtime.ActivityWrapper;
+import org.jbpm.integration.runtime.TaskWrapper;
 import org.jbpm.jpdl.el.impl.JbpmExpressionEvaluator;
 import org.jbpm.jpdl.xml.JpdlXmlReader;
 import org.jbpm.jpdl.xml.Parsable;
@@ -152,9 +152,9 @@ public class Action implements ActionHandler, Parsable, Serializable
     {
       ActionHandler actionHandler;
       Object obj = actionDelegation.getInstance();
-      if (obj instanceof Activity)
+      if (obj instanceof Task)
       {
-        actionHandler = new ActivityWrapper(this, (Activity)obj);
+        actionHandler = new TaskWrapper(this);
       }
       else
       {

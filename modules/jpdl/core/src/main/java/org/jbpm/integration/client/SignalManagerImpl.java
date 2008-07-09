@@ -19,39 +19,30 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jbpm.integration.def;
+package org.jbpm.integration.client;
 
-//$Id$
+// $Id$
 
-import org.jboss.bpm.process.ProcessDefinition;
-import org.jboss.bpm.process.internal.AbstractNode;
+import org.jboss.bpm.client.ProcessEngine;
+import org.jboss.bpm.client.SignalManager;
+import org.jboss.bpm.runtime.Signal;
 
 /**
- * TODO
+ * An implementation of a signal manager
  * 
  * @author thomas.diesler@jboss.com
  * @since 18-Jun-2008
  */
-public class NodeImpl extends AbstractNode
+public class SignalManagerImpl extends SignalManager
 {
-  private org.jbpm.graph.def.Node oldNode;
-  
-  NodeImpl(ProcessDefinition def, org.jbpm.graph.def.Node oldNode)
+  public void setProcessEngine(ProcessEngine engine)
   {
-    super(def);
-    this.oldNode = oldNode;
-    init(oldNode.getName());
+    this.engine = engine;
   }
 
   @Override
-  public String getName()
+  public void throwSignal(Signal signal)
   {
-    return oldNode.getName();
-  }
-
-  @Override
-  protected void setName(String name)
-  {
-    oldNode.setName(name);
+    super.throwSignal(signal);
   }
 }

@@ -19,32 +19,39 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jbpm.integration.client;
+package org.jbpm.integration.runtime;
 
 // $Id$
 
-import org.jboss.bpm.client.ProcessEngine;
-import org.jboss.bpm.client.ProcessInstance;
-import org.jboss.bpm.client.ProcessInstanceManager;
-import org.jboss.bpm.process.ProcessDefinition;
+import org.jboss.bpm.model.Process;
+import org.jboss.bpm.runtime.ExecutionContext;
+import org.jboss.bpm.runtime.internal.AbstractToken;
+import org.jbpm.context.exe.ContextInstance;
 
 /**
- * TODO
+ * An implementation of an API token
  * 
  * @author thomas.diesler@jboss.com
  * @since 18-Jun-2008
  */
-public class ProcessInstanceManagerImpl extends ProcessInstanceManager
+public class TokenImpl extends AbstractToken
 {
-  public void setProcessEngine(ProcessEngine engine)
+  private Process proc;
+  
+  public TokenImpl(Process proc, ContextInstance ctxInst)
   {
-    this.engine = engine;
+    this.proc = proc;
+    setImplObject(ctxInst);
   }
 
-  @Override
-  protected ProcessInstance createProcessInstanceOverride(ProcessDefinition pdef)
+  public Process getProcess()
   {
-    ProcessInstance pinst = new ProcessInstanceImpl(pdef);
-    return pinst;
+    return proc;
+  }
+
+  public ExecutionContext getExecutionContext()
+  {
+    ContextInstance ctxInst = (ContextInstance)getImplObject();
+    return new ExecutionContextImpl(ctxInst);
   }
 }

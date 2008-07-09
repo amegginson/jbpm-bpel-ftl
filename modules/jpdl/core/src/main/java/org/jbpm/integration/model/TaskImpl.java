@@ -19,23 +19,63 @@
  * Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
  * 02110-1301 USA, or see the FSF site: http://www.fsf.org.
  */
-package org.jbpm.integration.def;
+package org.jbpm.integration.model;
 
-// $Id$
+//$Id$
 
-import org.jboss.bpm.process.EndNode;
-import org.jboss.bpm.process.ProcessDefinition;
+import org.jboss.bpm.model.Process;
+import org.jboss.bpm.model.Task;
+import org.jboss.bpm.model.internal.AbstractTask;
+import org.jboss.bpm.runtime.Token;
+import org.jbpm.graph.def.GraphElement;
+import org.jbpm.graph.def.Node;
 
 /**
- * TODO
+ * A jBPM3 implementation of a flow object
  * 
  * @author thomas.diesler@jboss.com
  * @since 18-Jun-2008
  */
-public class EndNodeImpl extends NodeImpl implements EndNode
+public class TaskImpl extends AbstractTask
 {
-  public EndNodeImpl(ProcessDefinition def, org.jbpm.graph.def.Node oldNode)
+  private Task delegate;
+  
+  TaskImpl(Process proc, Node oldNode, Task task)
   {
-    super(def, oldNode);
+    setProcess(proc);
+    setImplObject(oldNode);
+    init(oldNode.getName());
+    this.delegate = task;
+  }
+
+  public String getName()
+  {
+    GraphElement oldEl = (GraphElement)getImplObject();
+    return oldEl.getName();
+  }
+
+  public void setName(String name)
+  {
+    GraphElement oldEl = (GraphElement)getImplObject();
+    oldEl.setName(name);
+  }
+
+  @Override
+  public void execute(Token token)
+  {
+    if (delegate != null)
+    {
+      delegate.execute(token);
+    }
+    else
+    {
+      super.execute(token);
+    }
+  }
+
+  @Override
+  protected void executeOverwrite(Token token)
+  {
+    // nothing to do 
   }
 }

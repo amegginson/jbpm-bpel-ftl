@@ -6,23 +6,17 @@
   
   <!-- The process engine -->
   <bean name="jBPMProcessEngine" class="org.jbpm.integration.client.ProcessEngineImpl">
-    <property name="processDefinitionManager"><inject bean="jBPMProcessDefinitionManager"/></property>
-    <property name="processInstanceManager"><inject bean="jBPMProcessInstanceManager"/></property>
-    <property name="executionManager"><inject bean="jBPMExecutionManager"/></property>
+    <property name="processManager"><inject bean="jBPMProcessManager"/></property>
+    <property name="signalManager"><inject bean="jBPMSignalManager"/></property>
   </bean>
 
   <!-- The process definition manager -->
-  <bean name="jBPMProcessDefinitionManager" class="org.jbpm.integration.client.ProcessDefinitionManagerImpl">
-    <property name="processEngine"><inject bean="jBPMProcessEngine" state="Instantiated"/></property>
-  </bean>
-
-  <!-- The process instance manager -->
-  <bean name="jBPMProcessInstanceManager" class="org.jbpm.integration.client.ProcessInstanceManagerImpl">
+  <bean name="jBPMProcessManager" class="org.jbpm.integration.client.ProcessManagerImpl">
     <property name="processEngine"><inject bean="jBPMProcessEngine" state="Instantiated"/></property>
   </bean>
 
   <!-- The execution manager -->
-  <bean name="jBPMExecutionManager" class="org.jbpm.integration.client.ExecutionManagerImpl">
+  <bean name="jBPMSignalManager" class="org.jbpm.integration.client.SignalManagerImpl">
     <property name="processEngine"><inject bean="jBPMProcessEngine" state="Instantiated"/></property>
   </bean>
 
