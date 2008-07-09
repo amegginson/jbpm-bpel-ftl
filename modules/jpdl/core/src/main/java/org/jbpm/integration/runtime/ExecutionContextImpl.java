@@ -28,7 +28,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.jboss.bpm.client.Attachments;
+import org.jboss.bpm.runtime.Attachments;
 import org.jboss.bpm.runtime.ExecutionContext;
 import org.jbpm.context.exe.ContextInstance;
 
