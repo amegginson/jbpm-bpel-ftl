@@ -278,12 +278,13 @@ public class JbpmConfiguration implements Serializable {
             log.info("using jbpm configuration resource '"+resource+"'");
             InputStream jbpmCfgXmlStream = ClassLoaderUtil.getStream(resource);
 
-            // if a resource SHOULD BE used, but is not found in the classpath
-            // throw exception (otherwise, the user wants to load own stuff
-            // but is confused, if it is not found and not loaded, without
+            // if a custom resource is to be used, but is not found in the classpath
+            // log a warning (otherwise, users who want to load custom stuff
+            // will be confused if the resource is not found and not loaded, without
             // any notice)
-            if (jbpmCfgXmlStream==null)
-              throw new JbpmException("jbpm configuration resource '"+resource+"' is not available");
+            if (jbpmCfgXmlStream==null && !"jbpm.cfg.xml".equals(resource)) {
+              log.warn("jbpm configuration resource '"+resource+"' is not available");
+            }
 
             ObjectFactory objectFactory = parseObjectFactory(jbpmCfgXmlStream);
             instance = createJbpmConfiguration(objectFactory);
