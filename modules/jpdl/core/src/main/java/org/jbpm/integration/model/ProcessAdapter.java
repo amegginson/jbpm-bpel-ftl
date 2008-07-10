@@ -54,18 +54,7 @@ public class ProcessAdapter
       FlowObject flowObject = NodeAdapter.adaptNode(apiProc, oldNode);
       apiProc.addFlowObject(flowObject);
     }
-
-    // validate
-    validateProcess(apiProc);
-
     return apiProc;
-  }
-
-  private static void validateProcess(Process apiProc)
-  {
-    // These methods are expected to throw exceptions if there are no such states
-    apiProc.getStartEvent();
-    apiProc.getEndEvents();
   }
 
   static class NodeAdapter
@@ -92,12 +81,12 @@ public class ProcessAdapter
             throw new InvalidProcessException("Cannot find action on event: " + event);
           if (actions.size() > 1)
             throw new InvalidProcessException("Multiple actions not supported: " + event);
-            
+
           Action action = (Action)actions.get(0);
           Object obj = action.getActionDelegation().getInstance();
           if (obj instanceof Task == false)
             throw new InvalidProcessException("Node action is not of type Task");
-          
+
           delegate = (Task)obj;
         }
         flowObject = new TaskImpl(apiProc, oldNode, delegate);

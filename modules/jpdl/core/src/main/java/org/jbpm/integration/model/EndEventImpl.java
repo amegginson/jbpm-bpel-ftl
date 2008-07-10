@@ -25,6 +25,7 @@ package org.jbpm.integration.model;
 
 import org.jboss.bpm.model.EndEvent;
 import org.jboss.bpm.model.Process;
+import org.jbpm.graph.def.GraphElement;
 import org.jbpm.graph.def.Node;
 
 /**
@@ -39,5 +40,17 @@ public class EndEventImpl extends EndEvent
   {
     setProcess(proc);
     setImplObject(oldNode);
+  }
+
+  public String getName()
+  {
+    GraphElement oldEl = (GraphElement)getImplObject();
+    return oldEl.getName();
+  }
+
+  public void setName(String name)
+  {
+    GraphElement oldEl = (GraphElement)getImplObject();
+    oldEl.setName(name);
   }
 }
