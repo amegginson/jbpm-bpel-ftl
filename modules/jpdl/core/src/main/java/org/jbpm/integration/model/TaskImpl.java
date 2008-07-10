@@ -43,7 +43,6 @@ public class TaskImpl extends Task
   {
     setProcess(proc);
     setImplObject(oldNode);
-    init(oldNode.getName());
     this.delegate = task;
   }
 
