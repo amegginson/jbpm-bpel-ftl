@@ -25,7 +25,6 @@ package org.jbpm.integration.model;
 
 import org.jboss.bpm.model.Process;
 import org.jboss.bpm.model.Task;
-import org.jboss.bpm.model.internal.AbstractTask;
 import org.jboss.bpm.runtime.Token;
 import org.jbpm.graph.def.GraphElement;
 import org.jbpm.graph.def.Node;
@@ -36,7 +35,7 @@ import org.jbpm.graph.def.Node;
  * @author thomas.diesler@jboss.com
  * @since 18-Jun-2008
  */
-public class TaskImpl extends AbstractTask
+public class TaskImpl extends Task
 {
   private Task delegate;
   
@@ -71,11 +70,5 @@ public class TaskImpl extends AbstractTask
     {
       super.execute(token);
     }
-  }
-
-  @Override
-  protected void executeOverwrite(Token token)
-  {
-    // nothing to do 
   }
 }

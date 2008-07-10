@@ -26,10 +26,9 @@ package org.jbpm.integration.model;
 import java.util.List;
 
 import org.jboss.bpm.InvalidProcessException;
+import org.jboss.bpm.model.FlowObject;
 import org.jboss.bpm.model.Process;
 import org.jboss.bpm.model.Task;
-import org.jboss.bpm.model.internal.AbstractFlowObject;
-import org.jboss.bpm.runtime.BasicTask;
 import org.jbpm.graph.def.Action;
 import org.jbpm.graph.def.Event;
 import org.jbpm.graph.def.Node;
@@ -52,7 +51,7 @@ public class ProcessAdapter
     List<org.jbpm.graph.def.Node> oldNodes = oldPD.getNodes();
     for (org.jbpm.graph.def.Node oldNode : oldNodes)
     {
-      AbstractFlowObject flowObject = NodeAdapter.adaptNode(apiProc, oldNode);
+      FlowObject flowObject = NodeAdapter.adaptNode(apiProc, oldNode);
       apiProc.addFlowObject(flowObject);
     }
 
@@ -71,9 +70,9 @@ public class ProcessAdapter
 
   static class NodeAdapter
   {
-    static AbstractFlowObject adaptNode(Process apiProc, Node oldNode)
+    static FlowObject adaptNode(Process apiProc, Node oldNode)
     {
-      AbstractFlowObject flowObject;
+      FlowObject flowObject;
       if (oldNode instanceof StartState)
       {
         flowObject = new StartEventImpl(apiProc, oldNode);
@@ -102,11 +101,10 @@ public class ProcessAdapter
           delegate = (Task)obj;
         }
         flowObject = new TaskImpl(apiProc, oldNode, delegate);
-        if (delegate instanceof BasicTask)
+        if (delegate != null)
         {
-          BasicTask basic = (BasicTask)delegate;
-          basic.setProcess(apiProc);
-          basic.setName(oldNode.getName());
+          delegate.setProcess(apiProc);
+          delegate.setName(oldNode.getName());
         }
       }
       else

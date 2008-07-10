@@ -25,7 +25,7 @@ package org.jbpm.integration.client;
 
 import org.jboss.bpm.client.ProcessEngine;
 import org.jboss.bpm.client.SignalManager;
-import org.jboss.bpm.runtime.Signal;
+import org.jboss.bpm.model.Signal;
 
 /**
  * An implementation of a signal manager

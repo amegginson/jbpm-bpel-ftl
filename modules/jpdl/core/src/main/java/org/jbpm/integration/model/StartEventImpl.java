@@ -24,7 +24,7 @@ package org.jbpm.integration.model;
 //$Id$
 
 import org.jboss.bpm.model.Process;
-import org.jboss.bpm.model.internal.AbstractStartEvent;
+import org.jboss.bpm.model.StartEvent;
 import org.jboss.bpm.runtime.Token;
 import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.graph.def.GraphElement;
@@ -38,7 +38,7 @@ import org.jbpm.integration.runtime.ExecutionContextImpl;
  * @author thomas.diesler@jboss.com
  * @since 18-Jun-2008
  */
-public class StartEventImpl extends AbstractStartEvent
+public class StartEventImpl extends StartEvent
 {
   private Execution oldEx;
   

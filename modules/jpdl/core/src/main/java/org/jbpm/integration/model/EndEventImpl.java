@@ -23,9 +23,8 @@ package org.jbpm.integration.model;
 
 //$Id$
 
+import org.jboss.bpm.model.EndEvent;
 import org.jboss.bpm.model.Process;
-import org.jboss.bpm.model.internal.AbstractEndEvent;
-import org.jboss.bpm.runtime.Token;
 import org.jbpm.graph.def.Node;
 
 /**
@@ -34,17 +33,11 @@ import org.jbpm.graph.def.Node;
  * @author thomas.diesler@jboss.com
  * @since 18-Jun-2008
  */
-public class EndEventImpl extends AbstractEndEvent
+public class EndEventImpl extends EndEvent
 {
   EndEventImpl(Process proc, Node oldNode)
   {
     setProcess(proc);
     setImplObject(oldNode);
-  }
-
-  @Override
-  protected void executeOverwrite(Token token)
-  {
-    // nothing to do
   }
 }

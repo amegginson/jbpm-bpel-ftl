@@ -25,8 +25,6 @@ package org.jbpm.integration.model;
 
 import org.jboss.bpm.model.FlowObject;
 import org.jboss.bpm.model.Process;
-import org.jboss.bpm.model.internal.AbstractFlowObject;
-import org.jboss.bpm.model.internal.AbstractProcess;
 import org.jboss.bpm.runtime.Token;
 import org.jbpm.graph.def.GraphElement;
 import org.jbpm.graph.def.ProcessDefinition;
@@ -38,7 +36,7 @@ import org.jbpm.graph.exe.Execution;
  * @author thomas.diesler@jboss.com
  * @since 18-Jun-2008
  */
-public class ProcessImpl extends AbstractProcess
+public class ProcessImpl extends Process
 {
   public ProcessImpl(ProcessDefinition oldPD)
   {
@@ -47,7 +45,7 @@ public class ProcessImpl extends AbstractProcess
   }
 
   // Provide public access
-  public void addFlowObject(AbstractFlowObject flowObject)
+  public void addFlowObject(FlowObject flowObject)
   {
     super.addFlowObject(flowObject);
   }
@@ -57,7 +55,7 @@ public class ProcessImpl extends AbstractProcess
     FlowObject fo = null;
     for (FlowObject aux : getFlowObjects())
     {
-      if (((AbstractFlowObject)aux).getImplObject() == graphElement)
+      if (((FlowObject)aux).getImplObject() == graphElement)
       {
         fo = aux;
         break;
