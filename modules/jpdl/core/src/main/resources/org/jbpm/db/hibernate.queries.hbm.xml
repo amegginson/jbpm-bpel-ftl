@@ -429,14 +429,6 @@
       and ti.end IS NULL
     ]]>
   </query>
- 
-  <query name="GraphSession.findAllTokensOfProcessInstance">
-    <![CDATA[
-      select token
-      from org.jbpm.graph.exe.Token token
-      where token.processInstance = :instance
-    ]]>
-  </query>
 
   <query name="TaskMgmtSession.findTaskForNode">
     <![CDATA[
