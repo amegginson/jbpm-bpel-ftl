@@ -41,11 +41,20 @@ public class TaskImpl extends Task
   
   TaskImpl(Process proc, Node oldNode, Task task)
   {
-    setProcess(proc);
     setImplObject(oldNode);
     this.delegate = task;
   }
 
+  protected void initialize(Process proc)
+  {
+    super.initialize(proc);
+    if (delegate != null)
+    {
+      delegate.setProcess(proc);
+      delegate.setName(getName());
+    }
+  }
+  
   public String getName()
   {
     GraphElement oldEl = (GraphElement)getImplObject();

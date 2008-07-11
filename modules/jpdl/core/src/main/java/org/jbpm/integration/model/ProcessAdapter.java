@@ -90,11 +90,6 @@ public class ProcessAdapter
           delegate = (Task)obj;
         }
         flowObject = new TaskImpl(apiProc, oldNode, delegate);
-        if (delegate != null)
-        {
-          delegate.setProcess(apiProc);
-          delegate.setName(oldNode.getName());
-        }
       }
       else
       {

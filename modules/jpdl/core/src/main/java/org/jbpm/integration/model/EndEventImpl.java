@@ -38,7 +38,6 @@ public class EndEventImpl extends EndEvent
 {
   EndEventImpl(Process proc, Node oldNode)
   {
-    setProcess(proc);
     setImplObject(oldNode);
   }
 
