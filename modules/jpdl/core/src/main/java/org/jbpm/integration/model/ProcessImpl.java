@@ -23,6 +23,7 @@ package org.jbpm.integration.model;
 
 //$Id$
 
+import org.jboss.bpm.client.ProcessManager;
 import org.jboss.bpm.model.FlowObject;
 import org.jboss.bpm.model.Process;
 import org.jboss.bpm.runtime.Token;
@@ -42,7 +43,17 @@ public class ProcessImpl extends Process
   public ProcessImpl(ProcessDefinition oldPD)
   {
     this.oldPD = oldPD;
-    init(oldPD.getName());
+    initName(oldPD.getName());
+  }
+
+  private void initName(String name)
+  {
+    if (name == null)
+    {
+      ProcessManager pdm = ProcessManager.locateProcessManager();
+      name = "AnonymousProcess#" + pdm.getProcesses().size();
+      setName(name);
+    }
   }
 
   // Provide public access
