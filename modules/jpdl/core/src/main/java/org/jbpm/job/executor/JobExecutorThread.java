@@ -10,14 +10,11 @@ import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.hibernate.Hibernate;
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
 import org.jbpm.db.JobSession;
 import org.jbpm.job.Job;
-import org.jbpm.job.Timer;
 import org.jbpm.persistence.JbpmPersistenceException;
-import org.jbpm.persistence.db.StaleObjectLogConfigurer;
 import org.jbpm.svc.Services;
 
 public class JobExecutorThread extends Thread {
@@ -104,12 +101,13 @@ public class JobExecutorThread extends Thread {
       JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
       try {
         JobSession jobSession = jbpmContext.getJobSession();
+        String lockOwner = getName();
         log.debug("querying for acquirable job...");
-        Job job = jobSession.getFirstAcquirableJob(getName());
+        Job job = jobSession.getFirstAcquirableJob(lockOwner);
         if (job!=null) {
           if (job.isExclusive()) {
             log.debug("exclusive acquirable job found ("+job+"). querying for other exclusive jobs to lock them all in one tx...");
-            List otherExclusiveJobs = jobSession.findExclusiveJobs(getName(), job.getProcessInstance());
+            List otherExclusiveJobs = jobSession.findExclusiveJobs(lockOwner, job.getProcessInstance());
             jobsToLock = otherExclusiveJobs;
             log.debug("trying to obtain a process-instance exclusive locks for '"+otherExclusiveJobs+"'");
           } else {
@@ -117,18 +115,19 @@ public class JobExecutorThread extends Thread {
             jobsToLock = Collections.singletonList(job);
           }
           
-          Iterator iter = jobsToLock.iterator();
-          while (iter.hasNext()) {
+          Date lockTime = new Date();
+          for (Iterator iter = jobsToLock.iterator(); iter.hasNext();) {
             job = (Job) iter.next();
-            job.setLockOwner(getName());
-            job.setLockTime(new Date());
+            job.setLockOwner(lockOwner);
+            job.setLockTime(lockTime);
             // jbpmContext.getSession().update(job);
           }
 
           // HACKY HACK : this is a workaround for a hibernate problem that is fixed in hibernate 3.2.1
-          if (job instanceof Timer) {
-            Hibernate.initialize(((Timer)job).getGraphElement());
-          }
+          // TODO is this still needed?
+          // if (job instanceof Timer) {
+          //   Hibernate.initialize(((Timer)job).getGraphElement());
+          // }
         } else {
           log.debug("no acquirable jobs in job table");
         }
@@ -141,7 +140,7 @@ public class JobExecutorThread extends Thread {
         catch (JbpmPersistenceException e) {
           // if this is a stale object exception, keep it quiet
           if (Services.isCausedByStaleState(e)) {
-            log.debug("optimistic locking failed, couldn't obtain lock on jobs: "+jobsToLock);
+            log.debug("optimistic locking failed, couldn't obtain lock on jobs "+jobsToLock);
             acquiredJobs = Collections.EMPTY_LIST;
           } else {
             throw e;
@@ -180,13 +179,10 @@ public class JobExecutorThread extends Thread {
       try {
         jbpmContext.close();
       } catch (JbpmPersistenceException e) {
-        // if this is a stale object exception, the jbpm configuration has control over the logging
-        if ("org.hibernate.StaleObjectStateException".equals(e.getCause().getClass().getName())) {
-          log.info("problem committing job execution transaction: optimistic locking failed");
-          StaleObjectLogConfigurer.staleObjectExceptionsLog.error("problem committing job execution transaction: optimistic locking failed", e);
+        // if this is a stale object exception, keep it quiet
+        if (Services.isCausedByStaleState(e)) {
+          log.debug("optimistic locking failed, couldn't complete job "+job);
         } else {
-          // TODO run() will log this exception, log it here too?
-          log.error("problem committing job execution transaction", e);
           throw e;
         }
       }
