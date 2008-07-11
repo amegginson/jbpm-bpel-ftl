@@ -23,15 +23,20 @@ package org.jbpm.integration.model;
 
 // $Id$
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.jboss.bpm.InvalidProcessException;
 import org.jboss.bpm.model.FlowObject;
+import org.jboss.bpm.model.MultipleOutFlowSupport;
 import org.jboss.bpm.model.Process;
+import org.jboss.bpm.model.SequenceFlow;
+import org.jboss.bpm.model.SingleOutFlowSupport;
 import org.jboss.bpm.model.Task;
 import org.jbpm.graph.def.Action;
 import org.jbpm.graph.def.Event;
 import org.jbpm.graph.def.Node;
+import org.jbpm.graph.def.Transition;
 import org.jbpm.graph.node.EndState;
 import org.jbpm.graph.node.StartState;
 import org.jbpm.graph.node.State;
@@ -65,10 +70,12 @@ public class ProcessAdapter
       if (oldNode instanceof StartState)
       {
         flowObject = new StartEventImpl(apiProc, oldNode);
+        initTranstions(flowObject, oldNode);
       }
       else if (oldNode instanceof EndState)
       {
         flowObject = new EndEventImpl(apiProc, oldNode);
+        initTranstions(flowObject, oldNode);
       }
       else if (oldNode instanceof State)
       {
@@ -90,12 +97,43 @@ public class ProcessAdapter
           delegate = (Task)obj;
         }
         flowObject = new TaskImpl(apiProc, oldNode, delegate);
+        initTranstions(flowObject, oldNode);
       }
       else
       {
         throw new InvalidProcessException("Unsupported node type: " + oldNode);
       }
       return flowObject;
+    }
+
+    private static void initTranstions(FlowObject flowObject, Node oldNode)
+    {
+      if (flowObject instanceof SingleOutFlowSupport)
+      {
+        SingleOutFlowSupport sof = (SingleOutFlowSupport)flowObject;
+        List outTrans = oldNode.getLeavingTransitions();
+        if (outTrans != null && outTrans.size() > 0)
+        {
+          Transition trans = (Transition)outTrans.get(0);
+          SequenceFlow flow = new SequenceFlow(trans.getTo().getName());
+          sof.setOutFlow(flow);
+        }
+      }
+      if (flowObject instanceof MultipleOutFlowSupport)
+      {
+        MultipleOutFlowSupport mof = (MultipleOutFlowSupport)flowObject;
+        List outTrans = oldNode.getLeavingTransitions();
+        if (outTrans != null && outTrans.size() > 0)
+        {
+          Iterator it = outTrans.iterator();
+          while (it.hasNext())
+          {
+            Transition trans = (Transition)it.next();
+            SequenceFlow flow = new SequenceFlow(trans.getTo().getName());
+            mof.addOutFlow(flow);
+          }
+        }
+      }
     }
   }
 }
