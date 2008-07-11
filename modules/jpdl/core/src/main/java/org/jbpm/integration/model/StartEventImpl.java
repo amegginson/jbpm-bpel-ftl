@@ -27,7 +27,6 @@ import org.jboss.bpm.model.Process;
 import org.jboss.bpm.model.StartEvent;
 import org.jboss.bpm.runtime.Token;
 import org.jbpm.context.exe.ContextInstance;
-import org.jbpm.graph.def.GraphElement;
 import org.jbpm.graph.def.Node;
 import org.jbpm.graph.exe.Execution;
 import org.jbpm.integration.runtime.ExecutionContextImpl;
@@ -40,11 +39,12 @@ import org.jbpm.integration.runtime.ExecutionContextImpl;
  */
 public class StartEventImpl extends StartEvent
 {
+  private Node oldNode;
   private Execution oldEx;
   
   StartEventImpl(Process proc, Node oldNode)
   {
-    setImplObject(oldNode);
+    this.oldNode = oldNode;
   }
 
   @Override
@@ -58,8 +58,7 @@ public class StartEventImpl extends StartEvent
   protected void executeOverwrite(Token token)
   {
     // Create a new Execution and copy the attachments
-    GraphElement oldEl = (GraphElement)getImplObject();
-    oldEx = new Execution(oldEl.getProcessDefinition());
+    oldEx = new Execution(oldNode.getProcessDefinition());
     ContextInstance ctxInst = oldEx.getContextInstance();
     new ExecutionContextImpl(ctxInst).copyAttachments(token.getExecutionContext());
     ctxInst.setTransientVariable(Process.class.getName(), getProcess());

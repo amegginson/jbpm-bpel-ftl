@@ -416,7 +416,7 @@ public class Node extends GraphElement implements Parsable
     ProcessImpl proc = (ProcessImpl)ctxInst.getTransientVariable(Process.class.getName());
     if (proc != null)
     {
-      FlowObject fo = proc.findFlowObject(this);
+      FlowObject fo = proc.findFlowObject(getName());
       if (fo == null)
         throw new IllegalStateException("Cannot find flow object: " + getName());
       

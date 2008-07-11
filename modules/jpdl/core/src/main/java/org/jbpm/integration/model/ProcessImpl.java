@@ -26,7 +26,6 @@ package org.jbpm.integration.model;
 import org.jboss.bpm.model.FlowObject;
 import org.jboss.bpm.model.Process;
 import org.jboss.bpm.runtime.Token;
-import org.jbpm.graph.def.GraphElement;
 import org.jbpm.graph.def.ProcessDefinition;
 import org.jbpm.graph.exe.Execution;
 
@@ -38,9 +37,11 @@ import org.jbpm.graph.exe.Execution;
  */
 public class ProcessImpl extends Process
 {
+  private ProcessDefinition oldPD;
+  
   public ProcessImpl(ProcessDefinition oldPD)
   {
-    setImplObject(oldPD);
+    this.oldPD = oldPD;
     init(oldPD.getName());
   }
 
@@ -50,30 +51,14 @@ public class ProcessImpl extends Process
     super.addFlowObject(flowObject);
   }
 
-  public FlowObject findFlowObject(GraphElement graphElement)
-  {
-    FlowObject fo = null;
-    for (FlowObject aux : getFlowObjects())
-    {
-      if (((FlowObject)aux).getImplObject() == graphElement)
-      {
-        fo = aux;
-        break;
-      }
-    }
-    return fo;
-  }
-  
   public String getName()
   {
-    GraphElement oldEl = (GraphElement)getImplObject();
-    return oldEl.getName();
+    return oldPD.getName();
   }
 
   public void setName(String name)
   {
-    GraphElement oldEl = (GraphElement)getImplObject();
-    oldEl.setName(name);
+    oldPD.setName(name);
   }
 
   public void executeOverwrite(Token token)
