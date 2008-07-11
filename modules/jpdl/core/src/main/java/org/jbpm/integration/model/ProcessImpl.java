@@ -26,12 +26,10 @@ package org.jbpm.integration.model;
 import org.jboss.bpm.client.ProcessManager;
 import org.jboss.bpm.model.FlowObject;
 import org.jboss.bpm.model.Process;
-import org.jboss.bpm.runtime.Token;
 import org.jbpm.graph.def.ProcessDefinition;
-import org.jbpm.graph.exe.Execution;
 
 /**
- * A jBPM3 implementation of a process definition
+ * An implementation of a Process
  * 
  * @author thomas.diesler@jboss.com
  * @since 18-Jun-2008
@@ -70,19 +68,5 @@ public class ProcessImpl extends Process
   public void setName(String name)
   {
     oldPD.setName(name);
-  }
-
-  public void executeOverwrite(Token token)
-  {
-    Process proc = token.getProcess();
-    StartEventImpl start = (StartEventImpl)proc.getStartEvent();
-    start.execute(token);
-    
-    // Repeatetly signal the Execution until we reach the end
-    Execution oldEx = start.getExecution();
-    while (oldEx.getRootToken().hasEnded() == false)
-    {
-      oldEx.signal();
-    }
   }
 }

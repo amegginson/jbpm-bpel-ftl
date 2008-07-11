@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.dom4j.Element;
+import org.jboss.bpm.model.ExecutableFlowObject;
 import org.jboss.bpm.model.FlowObject;
 import org.jboss.bpm.model.Process;
 import org.jbpm.JbpmException;
@@ -421,7 +422,7 @@ public class Node extends GraphElement implements Parsable
         throw new IllegalStateException("Cannot find flow object: " + getName());
       
       TokenImpl token = new TokenImpl(proc, ctxInst);
-      fo.execute(token);
+      ((ExecutableFlowObject)fo).execute(token);
     }
   }
   

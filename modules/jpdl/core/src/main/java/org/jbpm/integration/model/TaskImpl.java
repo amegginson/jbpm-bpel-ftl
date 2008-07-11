@@ -23,6 +23,7 @@ package org.jbpm.integration.model;
 
 //$Id$
 
+import org.jboss.bpm.client.SignalManager;
 import org.jboss.bpm.model.Process;
 import org.jboss.bpm.model.Task;
 import org.jboss.bpm.runtime.Token;
@@ -65,16 +66,20 @@ public class TaskImpl extends Task
     oldNode.setName(name);
   }
 
-  @Override
   public void execute(Token token)
   {
-    if (delegate != null)
+    SignalManager sm = SignalManager.locateSignalManager();
+    sm.throwSignal(getEnterSignal());
+    try
     {
-      delegate.execute(token);
+      if (delegate != null)
+      {
+        delegate.execute(token);
+      }
     }
-    else
+    finally
     {
-      super.execute(token);
+      sm.throwSignal(getExitSignal());
     }
   }
 }

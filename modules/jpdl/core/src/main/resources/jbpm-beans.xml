@@ -5,18 +5,24 @@
   <bean name="KernelLocator" class="org.jboss.kernel.plugins.util.KernelLocator"/>
   
   <!-- The process engine -->
-  <bean name="jBPMProcessEngine" class="org.jbpm.integration.client.ProcessEngineImpl">
+  <bean name="jBPMProcessEngine" class="org.jboss.bpm.client.internal.ProcessEngineImpl">
     <property name="processManager"><inject bean="jBPMProcessManager"/></property>
+    <property name="executionManager"><inject bean="jBPMExecutionManager"/></property>
     <property name="signalManager"><inject bean="jBPMSignalManager"/></property>
   </bean>
 
-  <!-- The process definition manager -->
+  <!-- The process manager -->
   <bean name="jBPMProcessManager" class="org.jbpm.integration.client.ProcessManagerImpl">
     <property name="processEngine"><inject bean="jBPMProcessEngine" state="Instantiated"/></property>
   </bean>
 
   <!-- The execution manager -->
-  <bean name="jBPMSignalManager" class="org.jbpm.integration.client.SignalManagerImpl">
+  <bean name="jBPMExecutionManager" class="org.jbpm.integration.client.ExecutionManagerImpl">
+    <property name="processEngine"><inject bean="jBPMProcessEngine" state="Instantiated"/></property>
+  </bean>
+
+  <!-- The execution manager -->
+  <bean name="jBPMSignalManager" class="org.jboss.bpm.client.internal.SignalManagerImpl">
     <property name="processEngine"><inject bean="jBPMProcessEngine" state="Instantiated"/></property>
   </bean>
 

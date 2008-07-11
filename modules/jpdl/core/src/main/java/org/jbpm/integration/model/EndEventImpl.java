@@ -23,8 +23,10 @@ package org.jbpm.integration.model;
 
 //$Id$
 
+import org.jboss.bpm.client.SignalManager;
 import org.jboss.bpm.model.EndEvent;
 import org.jboss.bpm.model.Process;
+import org.jboss.bpm.runtime.Token;
 import org.jbpm.graph.def.Node;
 
 /**
@@ -50,5 +52,20 @@ public class EndEventImpl extends EndEvent
   public void setName(String name)
   {
     oldNode.setName(name);
+  }
+
+  @Override
+  public void execute(Token token)
+  {
+    SignalManager sm = SignalManager.locateSignalManager();
+    sm.throwSignal(getEnterSignal());
+    try
+    {
+      super.execute(token);
+    }
+    finally
+    {
+      sm.throwSignal(getExitSignal());
+    }
   }
 }
