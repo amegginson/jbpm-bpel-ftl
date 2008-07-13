@@ -32,17 +32,11 @@ import java.util.Map;
 import java.util.Set;
 
 import org.dom4j.Element;
-import org.jboss.bpm.model.ExecutableFlowObject;
-import org.jboss.bpm.model.FlowObject;
-import org.jboss.bpm.model.Process;
 import org.jbpm.JbpmException;
-import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.graph.action.ActionTypes;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.graph.exe.Token;
 import org.jbpm.graph.log.NodeLog;
-import org.jbpm.integration.model.ProcessImpl;
-import org.jbpm.integration.runtime.TokenImpl;
 import org.jbpm.job.ExecuteNodeJob;
 import org.jbpm.jpdl.xml.JpdlXmlReader;
 import org.jbpm.jpdl.xml.Parsable;
@@ -382,9 +376,6 @@ public class Node extends GraphElement implements Parsable
    */
   public void execute(ExecutionContext executionContext)
   {
-    // Call execute on an API FlowObject
-    callExecutableFlowObject(executionContext);
-    
     // if there is a custom action associated with this node
     if (action != null)
     {
@@ -410,22 +401,6 @@ public class Node extends GraphElement implements Parsable
     }
   }
 
-  // Call execute on an API FlowObject
-  protected void callExecutableFlowObject(ExecutionContext executionContext)
-  {
-    ContextInstance ctxInst = executionContext.getContextInstance();
-    ProcessImpl proc = (ProcessImpl)ctxInst.getTransientVariable(Process.class.getName());
-    if (proc != null)
-    {
-      FlowObject fo = proc.findFlowObject(getName());
-      if (fo == null)
-        throw new IllegalStateException("Cannot find flow object: " + getName());
-      
-      TokenImpl token = new TokenImpl(proc, ctxInst);
-      ((ExecutableFlowObject)fo).execute(token);
-    }
-  }
-  
   /**
    * called by the implementation of this node to continue execution over the default transition.
    */

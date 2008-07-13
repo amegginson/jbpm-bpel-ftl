@@ -60,9 +60,8 @@ public class ProcessManagerImpl extends ProcessManager
     {
       throw new InvalidProcessException(ex);
     }
-    Process pdef = ProcessAdapter.buildProcess(oldPD);
-    addProcess(pdef);
-    return pdef;
+    Process proc = ProcessAdapter.buildProcess(oldPD);
+    return proc;
   }
 
   @Override
@@ -77,8 +76,7 @@ public class ProcessManagerImpl extends ProcessManager
     {
       throw new InvalidProcessException(ex);
     }
-    Process pdef = ProcessAdapter.buildProcess(oldPD);
-    addProcess(pdef);
-    return pdef;
+    Process proc = ProcessAdapter.buildProcess(oldPD);
+    return proc;
   }
 }

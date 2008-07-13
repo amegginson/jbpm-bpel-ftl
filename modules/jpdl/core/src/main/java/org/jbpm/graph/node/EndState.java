@@ -66,9 +66,6 @@ public class EndState extends Node
     {
       executionContext.getToken().end();
     }
-
-    // Call execute on an API FlowObject
-    callExecutableFlowObject(executionContext);
   }
 
   public Transition addLeavingTransition(Transition t)

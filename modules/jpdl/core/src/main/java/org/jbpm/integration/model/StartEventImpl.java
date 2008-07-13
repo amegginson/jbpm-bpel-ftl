@@ -23,14 +23,9 @@ package org.jbpm.integration.model;
 
 //$Id$
 
-import org.jboss.bpm.client.SignalManager;
 import org.jboss.bpm.model.Process;
 import org.jboss.bpm.model.StartEvent;
-import org.jboss.bpm.runtime.Token;
-import org.jbpm.context.exe.ContextInstance;
 import org.jbpm.graph.def.Node;
-import org.jbpm.graph.exe.Execution;
-import org.jbpm.integration.runtime.ExecutionContextImpl;
 
 /**
  * TODO
@@ -41,32 +36,9 @@ import org.jbpm.integration.runtime.ExecutionContextImpl;
 public class StartEventImpl extends StartEvent
 {
   private Node oldNode;
-  private Execution oldEx;
 
   StartEventImpl(Process proc, Node oldNode)
   {
     this.oldNode = oldNode;
-  }
-
-  public Execution getExecution()
-  {
-    return oldEx;
-  }
-
-  public void execute(Token token)
-  {
-    SignalManager sm = SignalManager.locateSignalManager();
-    sm.throwSignal(getEnterSignal());
-    try
-    {
-      this.oldEx = new Execution(oldNode.getProcessDefinition());
-      ContextInstance ctxInst = oldEx.getContextInstance();
-      new ExecutionContextImpl(ctxInst).copyAttachments(token.getExecutionContext());
-      ctxInst.setTransientVariable(Process.class.getName(), getProcess());
-    }
-    finally
-    {
-      sm.throwSignal(getExitSignal());
-    }
   }
 }

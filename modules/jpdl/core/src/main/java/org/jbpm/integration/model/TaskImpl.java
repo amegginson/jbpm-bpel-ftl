@@ -23,10 +23,9 @@ package org.jbpm.integration.model;
 
 //$Id$
 
-import org.jboss.bpm.client.SignalManager;
+import org.jboss.bpm.model.ExecutionHandler;
 import org.jboss.bpm.model.Process;
 import org.jboss.bpm.model.Task;
-import org.jboss.bpm.runtime.Token;
 import org.jbpm.graph.def.Node;
 
 /**
@@ -38,24 +37,13 @@ import org.jbpm.graph.def.Node;
 public class TaskImpl extends Task
 {
   private Node oldNode;
-  private Task delegate;
-  
-  TaskImpl(Process proc, Node oldNode, Task task)
+
+  TaskImpl(Process proc, Node oldNode, ExecutionHandler handler)
   {
     this.oldNode = oldNode;
-    this.delegate = task;
+    setExecutionHandler(handler);
   }
 
-  protected void initialize(Process proc)
-  {
-    super.initialize(proc);
-    if (delegate != null)
-    {
-      delegate.setProcess(proc);
-      delegate.setName(getName());
-    }
-  }
-  
   public String getName()
   {
     return oldNode.getName();
@@ -64,22 +52,5 @@ public class TaskImpl extends Task
   public void setName(String name)
   {
     oldNode.setName(name);
-  }
-
-  public void execute(Token token)
-  {
-    SignalManager sm = SignalManager.locateSignalManager();
-    sm.throwSignal(getEnterSignal());
-    try
-    {
-      if (delegate != null)
-      {
-        delegate.execute(token);
-      }
-    }
-    finally
-    {
-      sm.throwSignal(getExitSignal());
-    }
   }
 }

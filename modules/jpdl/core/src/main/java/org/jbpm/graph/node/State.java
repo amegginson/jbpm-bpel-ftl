@@ -22,7 +22,6 @@
 package org.jbpm.graph.node;
 
 import org.jbpm.graph.def.Node;
-import org.jbpm.graph.exe.ExecutionContext;
 
 public class State extends Node
 {
@@ -36,11 +35,5 @@ public class State extends Node
   public State(String name)
   {
     super(name);
-  }
-
-  public void execute(ExecutionContext executionContext)
-  {
-    // Call execute on an API FlowObject
-    callExecutableFlowObject(executionContext);
   }
 }

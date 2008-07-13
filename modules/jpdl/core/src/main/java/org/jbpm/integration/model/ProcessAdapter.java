@@ -27,6 +27,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.jboss.bpm.InvalidProcessException;
+import org.jboss.bpm.model.ExecutionHandler;
 import org.jboss.bpm.model.FlowObject;
 import org.jboss.bpm.model.MultipleOutFlowSupport;
 import org.jboss.bpm.model.Process;
@@ -79,7 +80,7 @@ public class ProcessAdapter
       }
       else if (oldNode instanceof State)
       {
-        Task delegate = null;
+        ExecutionHandler delegate = null;
         Event event = oldNode.getEvent(Event.EVENTTYPE_NODE_ENTER);
         if (event != null)
         {
@@ -91,10 +92,10 @@ public class ProcessAdapter
 
           Action action = (Action)actions.get(0);
           Object obj = action.getActionDelegation().getInstance();
-          if (obj instanceof Task == false)
-            throw new InvalidProcessException("Node action is not of type Task");
+          if (obj instanceof ExecutionHandler == false)
+            throw new InvalidProcessException("Node action is not of type ExecutionHandler");
 
-          delegate = (Task)obj;
+          delegate = (ExecutionHandler)obj;
         }
         flowObject = new TaskImpl(apiProc, oldNode, delegate);
         initTranstions(flowObject, oldNode);

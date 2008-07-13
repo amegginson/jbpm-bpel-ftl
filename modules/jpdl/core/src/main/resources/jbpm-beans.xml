@@ -17,7 +17,7 @@
   </bean>
 
   <!-- The execution manager -->
-  <bean name="jBPMExecutionManager" class="org.jbpm.integration.client.ExecutionManagerImpl">
+  <bean name="jBPMExecutionManager" class="org.jboss.bpm.client.internal.ExecutionManagerImpl">
     <property name="processEngine"><inject bean="jBPMProcessEngine" state="Instantiated"/></property>
   </bean>
 
