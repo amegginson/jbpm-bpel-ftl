@@ -1,0 +1,42 @@
+<html>
+<body>
+<h1>Door</h1>
+
+<p>This example shows the tradeoff between implementing the behaviour of a door in plain Java and using 
+a jPDL process.  This is intended for developers to learn about the aspects that are handled better in 
+a process versus plain programming.
+</p>
+
+<p>This example consists of the following files:</p>
+
+<ul>
+  <li><code>src/main/java/org/jbpm/examples/doorjava/Door.java</code> - The plain Java implementation of 
+  the door behaviour.
+  </li>
+  <li><code>src/test/java/org/jbpm/examples/doorjava/DoorTest.java</code> - A plain JUnit test that shows 
+  the operation of the Door class.
+  </li>
+</ul>
+
+<ul>
+  <li><code>src/main/java/org/jbpm/examples/doorprocess/processdefinition.xml</code> - The jPDL process 
+  definition file that specifies the door process.
+  </li>
+  <li><code>src/main/java/org/jbpm/examples/doorprocess/gpd.xml</code> - The graphical information for the 
+  jPDL process file that is used by the graphical eclipse editor.
+  </li>
+  <li><code>src/test/java/org/jbpm/examples/doorprocess/DoorProcessTest.java</code> - The plain JUnit test
+  that shows how to work with the jPDL door process.
+  </li>
+</ul>
+
+<p>This example requires the following JBoss Rules libraries be on the runtime classpath:
+
+<ul>
+<li>jbpm-jpdl.jar</li>
+<li>commons-logging.jar</li>
+<li>junit-3.8.1.jar</li>
+</ul>
+
+</body>
+</html>

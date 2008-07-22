@@ -1,0 +1,68 @@
+<project name="jbpm.sar" basedir="." default="install">
+
+  <!-- project specific properties -->
+  <property name="artifact.name" value="jbpm.sar" />
+  <property name="module.name" value="jboss" />
+  <property name="jbpm.root" value="../.." />
+  <property file="../version.properties" />
+
+  <!-- properties files -->
+  <property file="${user.home}/jbpm/build.properties" />
+  <property file="${jbpm.root}/build/profiles/${profile}.profile.properties" />
+  <property file="${jbpm.root}/build/build.properties" />
+  
+  <!-- import base project build file -->
+  <import file="${jbpm.root}/build/base.project.build.xml"/>
+
+  <target name="package" depends="jpdl.jar, identity.jar">
+    <ant antfile="../jmx/build.xml" inheritall="false" />
+    <antcall target="create.config" />
+    <antcall target="package.sar" />
+  </target>
+
+  <!-- 
+  Values for jbpm.sar.config.profile can be :
+    datasource
+    cmt
+    default
+  This property can be overwritten in the ${user.home}/jbpm/build.properties properties file
+  -->
+  <property name="jbpm.sar.config.profile" value="datasource" />
+
+  <target name="create.config">
+    <mkdir dir="target/config" />
+    <unjar src="${local.repository}/${lib.jbpm.jpdl.dir}/jbpm.config.profile.${jbpm.sar.config.profile}.jar"
+           dest="target/config" />
+    <replace file="target/config/hibernate.cfg.xml">
+      <replacetoken><![CDATA[<!-- identity mappings (begin) ===]]></replacetoken>
+      <replacevalue><![CDATA[<!-- identity mappings (begin) -->]]></replacevalue>
+    </replace>
+    <replace file="target/config/hibernate.cfg.xml">
+      <replacetoken><![CDATA[==== identity mappings (end) -->]]></replacetoken>
+      <replacevalue><![CDATA[<!-- identity mappings (end) -->]]></replacevalue>
+    </replace>
+    <jar jarfile="target/jbpm.config.profile.${jbpm.sar.config.profile}.with.identity.jar">
+      <fileset dir="target/config" />
+    </jar>
+  </target>
+
+  <target name="package.sar">
+    <jar destfile="target/jbpm.sar">
+      <fileset dir="src/main/resources" />
+      <!-- sar.config.type must be local.tx or cmt -->
+      <fileset dir="target">
+        <include name="jbpm.config.profile.${jbpm.sar.config.profile}.with.identity.jar" />
+      </fileset>
+      <fileset dir="${local.repository}/${lib.jbpm.jpdl.dir}">
+        <include name="jbpm-jpdl.jar" />
+      </fileset>
+      <fileset dir="${local.repository}/${lib.jbpm.identity.dir}">
+        <include name="jbpm-identity.jar" />
+      </fileset>
+      <fileset dir="${local.repository}/${lib.jbpm.jboss.dir}">
+        <include name="jbpm-jmx.jar" />
+      </fileset>
+    </jar> 
+  </target>
+
+</project>

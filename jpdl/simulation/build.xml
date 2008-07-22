@@ -1,0 +1,95 @@
+<project name="jbpm.simulation.jar" basedir="." default="package.jar">
+
+  <!-- project specific properties -->
+  <property name="jbpm.root" value="../.." />
+
+  <!-- properties files -->
+  <property file="${user.home}/jbpm/build.properties" />
+  <property file="${jbpm.root}/build/profiles/${profile}.profile.properties" />
+  <property file="${jbpm.root}/build/build.properties" />
+
+  <!-- import base project build file -->
+  <import file="${jbpm.root}/build/base.project.build.xml"/>
+  
+  <!-- project specific targets -->
+  <target name="compile.dependencies" depends="define.libs.classpath">
+    <path id="compile.classpath">
+      <path refid="libs.classpath" />
+      <path location="${lib.jbpm.jpdl.jar.local}" />
+      <path location="${lib.jbpm.identity.jar.local}" />
+    </path>
+  </target>
+
+  <target name="compile.test.dependencies" depends="define.libs.classpath, identity.jar">
+    <path id="compile.test.classpath">
+      <path refid="compile.classpath" />
+      <pathelement location="target/classes"/>
+    </path>
+  </target>
+  
+  <target name="install.jar" depends="package.jar" description="packages the jar and copies it to the local repository">
+    <mkdir dir="${local.repository}/${lib.jbpm.jpdl.dir}" />
+    <copy file="target/${lib.jbpm.jpdl.sim.jar.file}" todir="${local.repository}/${lib.jbpm.jpdl.dir}" />
+  </target>
+
+  <target name="create.manifest">
+    <mkdir dir="target/META-INF" />
+    <manifest file="target/META-INF/MANIFEST.MF">
+      <attribute name="Implementation-Title" value="jBPM Simulation Library"/>
+      <attribute name="Implementation-Version" value="${lib.jbpm.jpdl.version} (date:${now})"/>
+      <attribute name="Implementation-URL" value="http://www.jboss.org/"/>
+      <attribute name="Implementation-Vendor" value="JBoss Inc."/>
+      <attribute name="Implementation-Vendor-Id" value="http://www.jboss.org/"/>
+    </manifest>
+  </target>
+  
+  <target name="package.jar" depends="compile, create.manifest">
+    <jar jarfile="target/${lib.jbpm.jpdl.sim.jar.file}" manifest="target/META-INF/MANIFEST.MF">
+      <fileset dir="target/classes" />
+    </jar>
+  </target>
+
+  <!-- JPDL SOURCES ZIP : jbpm-simulation-src.zip -->
+
+  <target name="install.src" depends="package.src" description="install.src">
+    <mkdir dir="${local.repository}/${lib.jbpm.jpdl.dir}" />
+    <copy file="target/${lib.jbpm.jpdl.sim.src.file}" todir="${local.repository}/${lib.jbpm.jpdl.dir}" />
+  </target>
+
+  <target name="package.src" depends="create.manifest">
+    <jar jarfile="target/${lib.jbpm.jpdl.sim.src.file}" manifest="target/META-INF/MANIFEST.MF">
+      <fileset dir="src/main/java" />
+    </jar>
+  </target>
+
+  <!-- JPDL JAVADOCS : jbpm-jpdl-javadoc.zip -->
+  
+  <target name="install.javadoc" depends="package.javadoc" description="install.javadoc">
+    <mkdir dir="${local.repository}/${lib.jbpm.jpdl.dir}" />
+    <copy file="target/${lib.jbpm.jpdl.sim.javadoc.file}" todir="${local.repository}/${lib.jbpm.jpdl.dir}" />
+  </target>
+
+  <target name="package.javadoc" >
+    <uptodate property="jpdl.javadoc.uptodate" targetfile="target/javadoc/index.html">
+      <srcfiles dir="src/main/java" includes="**/*.java"/>
+    </uptodate>
+    <antcall target="generate.javadoc" />
+    <zip destfile="target/${lib.jbpm.jpdl.sim.javadoc.file}">
+      <fileset dir="target/javadoc" />
+    </zip>
+  </target>
+  
+  <target name="generate.javadoc" depends="define.libs.classpath" unless="jpdl.javadoc.uptodate">
+    <javadoc destdir="target/javadoc"
+             windowtitle="jBPM jPDL Simulation ${lib.jbpm.jpdl.version}"
+             overview="src/main/java/package.html">
+      <classpath>
+        <path location="${lib.jbpm.jpdl.jar.local}" />
+        <path refid="libs.classpath" />
+      </classpath>
+      <packageset dir="src/main/java" />
+    </javadoc>
+  </target>
+  
+  
+</project>

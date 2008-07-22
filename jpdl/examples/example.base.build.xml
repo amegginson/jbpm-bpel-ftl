@@ -1,0 +1,107 @@
+<project name="jbpm.jpdl.example.base" basedir="." default="test">
+
+	<property file="${user.home}/jbpm/build.properties" />
+  <property file="../../../build/build.properties" />
+  <path id="classpath">
+    <fileset dir="${local.repository}">
+      <include name="${lib.jbpm.jpdl.jar.path}"/>
+      <include name="${lib.jbpm.jpdl.config.path}"/>
+      <include name="${lib.jbpm.identity.jar.path}"/>
+      <include name="${lib.activation.path}" />
+      <include name="${lib.antlr.path}" />
+      <include name="${lib.asm.path}" />
+      <include name="${lib.asm.attr.path}" />
+      <include name="${lib.bsh.path}"/>
+      <include name="${lib.cglib.path}"/>
+      <include name="${lib.commons.logging.path}"/>
+      <include name="${lib.commons.collections.path}" />
+      <include name="${lib.dom4j.path}"/>
+      <include name="${lib.hibernate.path}"/>
+      <include name="${lib.hsqldb.path}"/>
+      <include name="${lib.javamail.path}"/>
+      <include name="${lib.jboss.j2ee.path}"/>
+      <include name="${lib.junit.path}"/>
+      <include name="${lib.log4j.path}"/>
+    </fileset>
+  </path>
+
+  <!-- BEGIN DIST CLASSPATH
+  <path id="classpath">
+    <fileset dir="../..">
+      <include name="*.jar" />
+      <include name="lib/*.jar" />
+    </fileset>
+    <pathelement location="../../config"/>
+  </path>
+  END DIST CLASSPATH -->
+
+  <target name="clean">
+    <delete dir="target" />
+  </target>
+
+  <target name="compile">
+    <mkdir dir="target/classes" />
+    <javac classpathref="classpath" 
+           srcdir="src/main/java" 
+           destdir="target/classes">
+    </javac>
+    <copy todir="target/classes">
+      <fileset dir="src/main/java">
+        <exclude name="**/*.java" />
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="package" depends="compile">
+    <zip destfile="target/${jpdl.file.name}">
+      <fileset dir="src/main/jpdl" />
+      <fileset dir="target">
+        <include name="classes/**" />
+      </fileset>
+    </zip>
+  </target>
+
+  <target name="compile.test">
+    <mkdir dir="target/test.classes" />
+    <javac classpathref="classpath" 
+           srcdir="src/test/java" 
+           destdir="target/test.classes">
+    	<classpath>
+    		<path refid="classpath" />
+        <pathelement location="target/classes"/>
+    	</classpath>
+    </javac>
+    <copy todir="target/test.classes">
+      <fileset dir="src/test/java">
+        <exclude name="**/*.java" />
+      </fileset>
+    </copy>
+  </target>
+
+  <path id="test.classpath">
+    <pathelement location="src/main/config"/>
+    <pathelement location="src/main/jpdl"/>
+    <pathelement location="target/classes"/>
+    <pathelement location="target/test.classes"/>
+    <path refid="classpath" />
+  </path>
+
+  <target name="test" depends="compile, compile.test">
+    <delete dir="target/test.results" />
+    <mkdir dir="target/test.results/xml" />
+    <junit printsummary="yes" fork="yes" forkmode="once" showoutput="false">
+      <classpath refid="test.classpath" />
+      <formatter type="xml" />
+      <batchtest todir="target/test.results/xml">
+        <fileset dir="target/test.classes">
+          <include name="**/*Test.class" />
+        </fileset>
+      </batchtest>
+    </junit>
+    <junitreport todir="target/test.results/xml">
+      <fileset dir="." includes="**/TEST-*.xml"/>
+      <report todir="target/test.results" />
+    </junitreport>
+  </target>
+  
+</project>

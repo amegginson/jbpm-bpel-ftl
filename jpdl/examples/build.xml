@@ -1,0 +1,173 @@
+<project name="jbpm.jpdl.examples" basedir="." default="install.examples">
+
+  <!-- project specific properties -->
+  <property name="jbpm.root" value="../.." />
+
+  <!-- properties files -->
+  <property file="${user.home}/jbpm/build.properties" />
+  <property file="${jbpm.root}/build/profiles/${profile}.profile.properties" />
+  <property file="${jbpm.root}/build/build.properties" />
+
+  <!-- import base project build file -->
+  <import file="${jbpm.root}/build/base.project.build.xml"/>
+
+  <target name="clean" description="delete the target dirs in the example subprojects">
+    <delete dir="target" />
+    <delete includeemptydirs="true">
+      <fileset dir=".">
+        <include name="*/target/**" />
+      </fileset>
+    </delete>
+  </target>
+
+  <target name="create.manifest">
+    <mkdir dir="target/META-INF" />
+    <manifest file="target/META-INF/MANIFEST.MF">
+      <attribute name="Implementation-Title" value="jBPM Examples"/>
+      <attribute name="Implementation-Version" value="${lib.jbpm.jpdl.version} (date:${now})"/>
+      <attribute name="Implementation-URL" value="http://www.jboss.org/"/>
+      <attribute name="Implementation-Vendor" value="JBoss Inc."/>
+      <attribute name="Implementation-Vendor-Id" value="http://www.jboss.org/"/>
+    </manifest>
+  </target>
+  
+  <target name="install.examples" depends="package.examples">
+    <mkdir dir="${local.repository}/${lib.jbpm.jpdl.dir}" />
+    <copy file="target/${lib.jbpm.jpdl.examples.file}" todir="${local.repository}/${lib.jbpm.jpdl.dir}" />
+  </target>
+
+  <target name="package.examples" depends="create.manifest, build.examples" description="package all the examples">
+    <mkdir dir="target" />
+    <condition property="skip.generate.base.build">
+      <and>
+        <available file="target/example.base.build.xml" />
+        <uptodate srcfile="example.base.build.xml" targetfile="target/example.base.build.xml" />
+      </and>
+    </condition>
+    <antcall target="generate.base.build" />
+    <jar destfile="target/jbpm-jpdl-examples.jar" manifest="target/META-INF/MANIFEST.MF">
+      <fileset dir=".">
+        <exclude name="example.base.build.xml" />
+        <exclude name="build.xml" />
+        <exclude name="identities.xml" />
+        <exclude name="CVS" />
+        <exclude name="CVS/**" />
+        <exclude name="**/CVS" />
+        <exclude name="**/CVS/**" />
+        <exclude name="*/target/classes" />
+        <exclude name="target/**" />
+      </fileset>
+      <fileset dir="target">
+        <include name="example.base.build.xml" />
+      </fileset>
+    </jar>
+  </target>
+
+  <target name="generate.base.build" unless="skip.generate.base.build">
+    <mkdir dir="target" />
+    <copy file="example.base.build.xml" todir="target" />
+    <replace file="target/example.base.build.xml">
+      <replacetoken><![CDATA[
+  <property file="../../../build/build.properties" />
+  <path id="classpath">
+    <fileset dir="${local.repository}">
+      <include name="${lib.jbpm.jpdl.jar.path}"/>
+      <include name="${lib.jbpm.jpdl.config.path}"/>
+      <include name="${lib.jbpm.identity.jar.path}"/>
+      <include name="${lib.activation.path}" />
+      <include name="${lib.antlr.path}" />
+      <include name="${lib.asm.path}" />
+      <include name="${lib.asm.attr.path}" />
+      <include name="${lib.bsh.path}"/>
+      <include name="${lib.cglib.path}"/>
+      <include name="${lib.commons.logging.path}"/>
+      <include name="${lib.commons.collections.path}" />
+      <include name="${lib.dom4j.path}"/>
+      <include name="${lib.hibernate.path}"/>
+      <include name="${lib.hsqldb.path}"/>
+      <include name="${lib.javamail.path}"/>
+      <include name="${lib.jboss.j2ee.path}"/>
+      <include name="${lib.junit.path}"/>
+      <include name="${lib.log4j.path}"/>
+    </fileset>
+  </path>
+
+  <!-- BEGIN DIST CLASSPATH]]></replacetoken>
+      <replacevalue></replacevalue>
+    </replace>
+    <replace file="target/example.base.build.xml">
+      <replacetoken><![CDATA[END DIST CLASSPATH -->]]></replacetoken>
+      <replacevalue></replacevalue>
+    </replace>
+  </target>
+  
+  <target name="build.examples">
+    <ant antfile="websale/build.xml" target="package" inheritall="false" />
+  	<ant antfile="raise/build.xml" target="package" inheritall="false" />
+    <ant antfile="businesstrip/build.xml" target="package" inheritall="false" />
+  </target>
+
+  <target name="install.examplesdb" depends="package.examplesdb">
+    <mkdir dir="${local.repository}/${lib.jbpm.jpdl.dir}" />
+    <copy file="target/${lib.jbpm.jpdl.examplesdb.file}" todir="${local.repository}/${lib.jbpm.jpdl.dir}" />
+  </target>
+
+  <target name="package.examplesdb">
+    <uptodate property="jpdl.exampledb.uptodate" targetfile="target/${lib.jbpm.jpdl.examplesdb.file}">
+      <srcfiles dir="." includes="*/**" />
+    </uptodate>
+    <antcall target="package.examplesdb.unless.uptodate" />
+  </target>
+
+  <target name="package.examplesdb.unless.uptodate" depends="jpdl.jar, jpdl.config, jpdl.db, jpdl.examples, identity.jar, define.libs.classpath"
+          unless="jpdl.exampledb.uptodate">
+
+    <!-- create the hibernate configuration -->
+    <mkdir dir="target/dbconfig" />
+    <unzip dest="target/dbconfig" src="${lib.jbpm.jpdl.config.local}" />
+    <replace file="target/dbconfig/hibernate.cfg.xml"
+             token="jdbc:hsqldb:mem:jbpm"
+             value="jdbc:hsqldb:file:${basedir}/target/db/jbpmDB" />
+    <replace file="target/dbconfig/hibernate.cfg.xml">
+      <replacetoken><![CDATA[identity mappings (begin) ===]]></replacetoken>
+      <replacevalue><![CDATA[identity mappings (begin) -->]]></replacevalue>
+    </replace>
+    <replace file="target/dbconfig/hibernate.cfg.xml">
+      <replacetoken><![CDATA[==== identity mappings (end)]]></replacetoken>
+      <replacevalue><![CDATA[<!-- identity mappings (end)]]></replacevalue>
+    </replace>
+
+    <!-- define the jbpm tasks with the hibernate configurations in the classpath -->
+    <taskdef resource="org/jbpm/ant/jbpm.ant.tasks.properties">
+      <classpath>
+        <pathelement path="target/dbconfig" />
+        <pathelement location="${lib.jbpm.jpdl.jar.local}"/>
+        <pathelement location="${lib.jbpm.identity.jar.local}"/>
+        <path refid="libs.classpath"/>
+      </classpath>
+    </taskdef>
+  
+    <!-- create the jbpm schema -->
+    <jbpmschema actions="create" quiet="true" />
+
+    <!-- load the identities -->
+    <loadidentities file="identities.xml" />
+
+    <!-- create and deploy the websale example -->
+    <mkdir dir="target/examples" />
+    <unzip dest="target/examples" src="${lib.jbpm.jpdl.examples.local}" />
+    <deployprocess process="target/examples/websale/target/websale.jpdl" />
+  	<deployprocess process="target/examples/businesstrip/target/businesstrip.jpdl" />
+  	<deployprocess process="target/examples/raise/target/raise.jpdl" />
+
+    <!-- shutdown the hsqldb -->
+    <shutdownhsqldb />
+
+    <!-- zip the hsqldb db files -->
+    <zip destfile="target/${lib.jbpm.jpdl.examplesdb.file}">
+      <fileset dir="target/db" />
+    </zip>
+
+  </target>
+
+</project>

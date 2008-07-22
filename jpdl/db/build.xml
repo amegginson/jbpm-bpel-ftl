@@ -1,0 +1,566 @@
+<project name="jbpm.jpdl.db" default="install.db" basedir=".">
+
+  <!-- project specific properties -->
+  <property name="jbpm.root" value="../.." />
+
+  <!-- properties files -->
+  <property file="${user.home}/jbpm/build.properties" />
+  <property file="${jbpm.root}/build/profiles/${profile}.profile.properties" />
+  <property file="${jbpm.root}/build/build.properties" />
+
+  <!-- import base project build file -->
+  <import file="${jbpm.root}/build/base.project.build.xml" />
+
+  <!-- project specific targets -->
+  <target name="create.manifest">
+    <mkdir dir="target/META-INF" />
+    <manifest file="target/META-INF/MANIFEST.MF">
+      <attribute name="Implementation-Title" value="jBPM DB Scripts"/>
+      <attribute name="Implementation-Version" value="${lib.jbpm.jpdl.version} (date:${now})"/>
+      <attribute name="Implementation-URL" value="http://www.jboss.org/"/>
+      <attribute name="Implementation-Vendor" value="JBoss Inc."/>
+      <attribute name="Implementation-Vendor-Id" value="http://www.jboss.org/"/>
+    </manifest>
+  </target>
+  
+  <target name="install.db" depends="package.db">
+    <mkdir dir="${local.repository}/${lib.jbpm.jpdl.dir}" />
+    <copy file="target/${lib.jbpm.jpdl.db.file}" todir="${local.repository}/${lib.jbpm.jpdl.dir}" />
+  </target>
+
+  <target name="package.db" 
+          depends="create.manifest, generate.scripts"
+          description="packages the sql scripts">
+    <jar jarfile="target/${lib.jbpm.jpdl.db.file}"
+         manifest="target/META-INF/MANIFEST.MF">
+      <fileset dir="target/ddl" />
+    </jar>
+  </target>
+  
+  <target name="generate.scripts"
+          description="generate ddl scripts">
+    <condition property="jpdl.db.scripts.are.uptodate">
+      <and>
+        <uptodate srcfile="src/main/config/db2.properties" targetfile="target/ddl/jbpm.jpdl.db2.sql" />
+        <uptodate srcfile="src/main/config/derby.properties" targetfile="target/ddl/jbpm.jpdl.derby.sql" />
+        <uptodate srcfile="src/main/config/firebird.properties" targetfile="target/ddl/jbpm.jpdl.firebird.sql" />
+        <uptodate srcfile="src/main/config/hsqldb.properties" targetfile="target/ddl/jbpm.jpdl.hsqldb.sql" />
+        <uptodate srcfile="src/main/config/informix.properties" targetfile="target/ddl/jbpm.jpdl.informix.sql" />
+        <uptodate srcfile="src/main/config/ingres.properties" targetfile="target/ddl/jbpm.jpdl.ingres.sql" />
+        <uptodate srcfile="src/main/config/interbase.properties" targetfile="target/ddl/jbpm.jpdl.interbase.sql" />
+        <uptodate srcfile="src/main/config/mckoi.properties" targetfile="target/ddl/jbpm.jpdl.mckoi.sql" />
+        <uptodate srcfile="src/main/config/mssql.properties" targetfile="target/ddl/jbpm.jpdl.mssql.sql" />
+        <uptodate srcfile="src/main/config/mysql.properties" targetfile="target/ddl/jbpm.jpdl.mysql.sql" />
+        <uptodate srcfile="src/main/config/oracle.properties" targetfile="target/ddl/jbpm.jpdl.oracle.sql" />
+        <uptodate srcfile="src/main/config/pointbase.properties" targetfile="target/ddl/jbpm.jpdl.pointbase.sql" />
+        <uptodate srcfile="src/main/config/postgresql.properties" targetfile="target/ddl/jbpm.jpdl.postgresql.sql" />
+        <uptodate srcfile="src/main/config/progress.properties" targetfile="target/ddl/jbpm.jpdl.progress.sql" />
+        <uptodate srcfile="src/main/config/sapdb.properties" targetfile="target/ddl/jbpm.jpdl.sapdb.sql" />
+        <uptodate srcfile="src/main/config/sybase.properties" targetfile="target/ddl/jbpm.jpdl.sybase.sql" />
+      </and>
+    </condition>
+    <antcall target="generate.scripts.if.necessary" />
+  </target>
+
+  <target name="generate.scripts.if.necessary"
+          depends="jpdl.config, jpdl.jar, identity.jar, define.libs.classpath"
+          unless="jpdl.db.scripts.are.uptodate">
+    <mkdir dir="target/classes" />
+    <!-- define the jbpm ant tasks from the properties file -->
+    <mkdir dir="target/config" />
+    <unzip src="${lib.jbpm.jpdl.config.local}" dest="target/config" />
+    <!-- remove the job executor servlet from the web.xml -->
+    <replace file="target/config/hibernate.cfg.xml">
+      <replacetoken><![CDATA[<!-- identity mappings (begin) ===]]></replacetoken>
+      <replacevalue><![CDATA[<!-- identity mappings (begin) -->]]></replacevalue>
+    </replace>
+    <replace file="target/config/hibernate.cfg.xml">
+      <replacetoken><![CDATA[==== identity mappings (end) -->]]></replacetoken>
+      <replacevalue><![CDATA[<!-- identity mappings (end) -->]]></replacevalue>
+    </replace>
+
+
+    <taskdef resource="org/jbpm/ant/jbpm.ant.tasks.properties">
+      <classpath>
+        <!-- this is the classpath used for defining the jbpm ant tasks -->
+        <pathelement location="src/main/config" />
+        <pathelement location="target/config" />
+        <pathelement location="${lib.jbpm.jpdl.jar.local}" />
+        <pathelement location="${lib.jbpm.identity.jar.local}" />
+        <path refid="libs.classpath" />
+      </classpath>
+    </taskdef>
+    <property name="scriptsdir" value="${basedir}/target/ddl" />
+    <mkdir dir="${scriptsdir}" />
+    <jbpmschema output="${scriptsdir}/jbpm.jpdl.db2.sql"        jbpmCfg="jbpm/db2.jbpm.cfg.xml" actions="create" text="true"/>
+    <jbpmschema output="${scriptsdir}/jbpm.jpdl.derby.sql"      jbpmCfg="jbpm/derby.jbpm.cfg.xml" actions="create" text="true"/>
+    <jbpmschema output="${scriptsdir}/jbpm.jpdl.firebird.sql"   jbpmCfg="jbpm/firebird.jbpm.cfg.xml" actions="create" text="true"/>
+    <jbpmschema output="${scriptsdir}/jbpm.jpdl.hsqldb.sql"     jbpmCfg="jbpm/hsqldb.jbpm.cfg.xml" actions="create" text="true"/>
+    <jbpmschema output="${scriptsdir}/jbpm.jpdl.informix.sql"   jbpmCfg="jbpm/informix.jbpm.cfg.xml" actions="create" text="true"/>
+    <jbpmschema output="${scriptsdir}/jbpm.jpdl.ingres.sql"     jbpmCfg="jbpm/ingres.jbpm.cfg.xml" actions="create" text="true"/>
+    <jbpmschema output="${scriptsdir}/jbpm.jpdl.interbase.sql"  jbpmCfg="jbpm/interbase.jbpm.cfg.xml" actions="create" text="true"/>
+    <jbpmschema output="${scriptsdir}/jbpm.jpdl.mckoi.sql"      jbpmCfg="jbpm/mckoi.jbpm.cfg.xml" actions="create" text="true"/>
+    <jbpmschema output="${scriptsdir}/jbpm.jpdl.mssql.sql"      jbpmCfg="jbpm/mssql.jbpm.cfg.xml" actions="create" text="true"/>
+    <jbpmschema output="${scriptsdir}/jbpm.jpdl.mysql.sql"      jbpmCfg="jbpm/mysql.jbpm.cfg.xml" actions="create" text="true"/>
+    <jbpmschema output="${scriptsdir}/jbpm.jpdl.oracle.sql"     jbpmCfg="jbpm/oracle.jbpm.cfg.xml" delimiter=";" actions="create" text="true"/>
+    <jbpmschema output="${scriptsdir}/jbpm.jpdl.pointbase.sql"  jbpmCfg="jbpm/pointbase.jbpm.cfg.xml" actions="create" text="true"/>
+    <jbpmschema output="${scriptsdir}/jbpm.jpdl.postgresql.sql" jbpmCfg="jbpm/postgresql.jbpm.cfg.xml" actions="create" text="true"/>
+    <jbpmschema output="${scriptsdir}/jbpm.jpdl.progress.sql"   jbpmCfg="jbpm/progress.jbpm.cfg.xml" actions="create" text="true"/>
+    <jbpmschema output="${scriptsdir}/jbpm.jpdl.sapdb.sql"      jbpmCfg="jbpm/sapdb.jbpm.cfg.xml" actions="create" text="true"/>
+    <jbpmschema output="${scriptsdir}/jbpm.jpdl.sybase.sql"     jbpmCfg="jbpm/sybase.jbpm.cfg.xml" actions="create" text="true"/>
+  </target>
+
+  <!-- TODO: finish/update the sybase update scripts -->
+  
+  <property name="src.file.name" value="jbpm-3.1.2.jar"/>
+  <property name="src.dir" value="build"/>
+  <property name="src" value="${src.dir}/${src.file.name}"/>
+  <property name="dest.file.name" value="jbpm-for-sybase-3.1.2.jar"/>
+  <property name="dest.dir" value="build"/>
+  <property name="dest" value="${dest.dir}/${dest.file.name}"/>
+  <property name="tmp.dir" value="build/jbpm-sybase-classes" />
+
+  <target name="create.sybase.jbpm.jar" description="creates the jbpm sybase java archive">
+    <ant antfile="build.xml" target="build.jbpm" />
+    <delete dir="${tmp.dir}" />
+    <unjar src="${src}" dest="${tmp.dir}" />
+    <antcall target="apply.updates" />
+    <jar destfile="${dest}" >
+      <fileset dir="${tmp.dir}" />
+    </jar>
+    <echo message="created ${dest}" />
+  </target>
+
+  <target name="apply.updates" description="applies sybase modifications to the jbpm java archive">
+    <!-- replace length="4000" with type="text" -->
+    <replace dir="${tmp.dir}">
+      <includesfile name="**/*.hbm.xml"/>
+      <replacetoken><![CDATA[length="4000"]]></replacetoken>
+      <replacevalue><![CDATA[type="text"]]></replacevalue>
+    </replace>
+    <!-- remove type="string_max" -->
+    <replace dir="${tmp.dir}">
+      <includesfile name="**/*.hbm.xml"/>
+      <replacetoken><![CDATA[type="string_max"]]></replacetoken>
+      <replacevalue><![CDATA[]]></replacevalue>
+    </replace>
+  </target>
+
+  
+
+<!--
+jbpm.db build script
+====================
+
+The jbm.db build script consists of a few major sections:
+
+- general setup
+- common tasks
+- database specific tasks
+
+A database specific task calls common tasks with the database name as a parameter
+and carries out its duties.
+
+The main tasks are the database script creation and the database test run.
+
+Following is a explanation of the flow for both. They start off with the same steps. 
+The explanation with use hsqldb as an example.
+
+1. "prepare" target compiles all jbpm.3 classes
+
+The database specific properties for hibernate in hsqldb/hibernate.properties 
+are picked up by JbpmSessionFactory, since the hsqldb folder is put on the 
+classpath in the path definition and the hibernate.properties file is setup 
+to be accessed with jbpm.hibernate.properties=hibernate.properties in 
+jbpm.properties.
+
+After this preparation the scripts targets
+
+2. "hsqldb.scripts" target calls the "db.scripts" target with the hsqldb parameter
+3. "db.scripts" target creates the scripts files in the build/hsqldb/scripts folder based 
+   on the db specific hibernate configuration
+   
+or the the test targets
+
+2. "hsqldb.test" target calls the "db.test" target with the hsqldb parameter
+3. "db.test" target runs all tests against the hsqldb database and creates a test report
+   in build/hsqldb/testresults
+   
+  <property file="build.properties" /> 
+  <property file="${jbpm.3.location}/build.properties" /> 
+
+  <path id="classpath.jbpm.test">
+    <fileset dir="${jbpm.3.location}/lib" includes="**/*.jar" />
+	<pathelement path="${basedir}" />
+  	<pathelement path="${jbpm.3.location}/build/classes.jbpm" />
+    <pathelement path="${jbpm.3.location}/build/classes.identity" /> 
+    <pathelement path="${jbpm.3.location}/build/classes.jbpm.test" />
+    <pathelement path="${jbpm.3.location}/build/classes.identity.test" />
+    <pathelement path="${jbpm.3.location}/src/config.files" />
+  	<pathelement path="${jbpm.3.location}/src/java.identity" />
+  </path> 
+ 
+  <target name="prepare" 
+    description="prepares for build by compiling jbpm3.">
+    <ant antfile="${jbpm.3.location}/build.xml" target="compile" inheritall="false" dir="${jbpm.3.location}"/>
+  </target> 
+  
+  <target name="db.scripts" description="helper target to generate the database scripts" depends="prepare">
+  	<delete dir="build/${db}/scripts" />
+    <mkdir dir="build/${db}/scripts" />
+    <java classname="org.jbpm.db.JbpmSchema" fork="true">
+      <classpath refid="classpath.${db}" />
+      <arg value="scripts"/> 
+      <arg value="${basedir}/build/${db}/scripts"/> 
+      <arg value="${db}"/> 
+      <arg value="${jbpm.3.location}/src/config.files/hibernate.cfg.xml"/> 
+      <arg value="${basedir}/${db}/hibernate.properties"/> 
+    </java> 
+  </target> 
+  
+  <target name="db.test" description="helper target to run database tests" depends="prepare">
+    <delete dir="build/${db}/testresults" />
+    <mkdir dir="build/${db}/testresults/xml" />
+    <junit printsummary="yes" fork="yes" forkmode="once" showoutput="true">
+      <classpath refid="classpath.${db}" />
+      <formatter type="xml" />
+      <batchtest todir="build/${db}/testresults/xml">
+        <fileset dir="${jbpm.3.location}/build/classes.jbpm.test">
+          <include name="**/*DbTest.class" />
+        </fileset>
+      </batchtest>
+    </junit>
+    <junit printsummary="yes" fork="yes" forkmode="once" showoutput="true">
+      <classpath refid="classpath.${db}" />
+      <formatter type="xml" />
+      <test name="org.jbpm.context.exe.HibernateCustomizationTest" 
+      	todir="build/${db}/testresults/xml" /> 
+    </junit>
+    <junitreport todir="build/${db}/testresults/xml">
+      <fileset dir="build/${db}/testresults/xml" includes="**/TEST-*.xml"/>
+      <report todir="build/${db}/testresults" />
+    </junitreport>
+  </target>   
+
+  <target name="clean" 
+  	description="deletes the build directory that contains all generated files">
+    <delete dir="build" />
+  </target> 
+
+  <target name="all" depends="all.scripts,all.tests" 
+    description="first generates all scripts, then runs all tests" />
+
+  <target name="all.tests" 
+    depends="daffodildb.test,derby.test,firebird.test,
+  	hsqldb.test,mssql.test,mysql.test,postgresql.test,sybase.test" 
+    description="test jBPM on all databases and produces html reports in the build directory"/> 
+
+  <target name="all.scripts" 
+    depends="prepare,daffodildb.scripts,derby.scripts,
+  	firebird.scripts,hsqldb.scripts,mssql.scripts,mysql.scripts,
+  	postgresql.scripts,sybase.scripts" 
+    description="generates all database scripts for all databases in the build directory"/> 
+
+  <path id="classpath.daffodildb"> 
+    <path refid="classpath.jbpm.test" />  
+    <pathelement path="build/daffodildb/resources" />
+  	<pathelement path="daffodildb" /> 
+  	<fileset dir="daffodildb/lib">
+  	        <include name="*.jar"/>
+    </fileset>
+  </path>  
+   
+  <target name="daffodildb.scripts" 
+    description="generate the daffodildb database scripts and put them in the build/daffodildb/scripts directory">
+    <antcall target="db.scripts">
+      <param name="db" value="daffodildb"/>
+    </antcall>
+  </target> 
+
+  <target name="daffodildb.test" 
+    description="test jBPM on a daffodildb database as configured in daffodildb/hibernate.properties">
+    <antcall target="db.test">
+      <param name="db" value="daffodildb"/>
+    </antcall>
+  </target> 
+	
+  <path id="classpath.db2"> 
+    <path refid="classpath.jbpm.test" />  
+    <pathelement path="build/db2/resources" />
+  	<pathelement path="db2" /> 
+  	<fileset dir="db2/lib">
+  	        <include name="*.jar"/>
+    </fileset>
+  </path>  
+
+  <target name="db2.scripts" 
+    description="generate the db2 database scripts and put them in the build/db2/scripts directory">
+    <antcall target="db.scripts">
+      <param name="db" value="db2"/>
+    </antcall>
+  </target> 
+
+  <target name="db2.test"
+    description="test jBPM on a db2 database as configured in db2/hibernate.properties">
+    <antcall target="db.test">
+      <param name="db" value="db2"/>
+    </antcall>
+  </target> 
+
+  <path id="classpath.derby"> 
+    <path refid="classpath.jbpm.test" />  
+    <pathelement path="build/derby/resources" />
+ 	<pathelement path="derby" /> 
+  	<fileset dir="derby/lib">
+  	        <include name="*.jar"/>
+    </fileset>
+  </path>  
+
+  <target name="derby.scripts"
+    description="generate the derby database scripts and put them in the build/derby/scripts directory">
+    <antcall target="db.scripts">
+      <param name="db" value="derby"/>
+    </antcall>
+  </target> 
+
+  <target name="derby.test"
+    description="test jBPM on a derby database as configured in derby/hibernate.properties">
+    <antcall target="db.test">
+      <param name="db" value="derby"/>
+    </antcall>
+  </target> 
+	
+  <path id="classpath.firebird"> 
+    <path refid="classpath.jbpm.test" />  
+    <pathelement path="build/firebird/resources" />
+  	<pathelement path="firebird" /> 
+  	<fileset dir="firebird/lib">
+  	        <include name="*.jar"/>
+    </fileset>
+  </path>  
+   
+  <target name="firebird.scripts"
+    description="generate the firebird database scripts and put them in the build/firebird/scripts directory">
+    <antcall target="db.scripts">
+      <param name="db" value="firebird"/>
+    </antcall>
+  </target> 
+
+  <target name="firebird.test"
+    description="test jBPM on a firebird database as configured in firebird/hibernate.properties">
+    <antcall target="db.test">
+      <param name="db" value="firebird"/>
+    </antcall>
+  </target> 
+	
+  <path id="classpath.hsqldb">
+    <path refid="classpath.jbpm.test" /> 
+    <pathelement path="build/hsqldb/resources" />
+  	<pathelement path="hsqldb" /> 
+  	<fileset dir="hsqldb/lib">
+  	        <include name="*.jar"/>
+    </fileset>
+  </path> 
+
+  <target name="hsqldb.scripts"
+    description="generate the hsqldb database scripts and put them in the build/hsqldb/scripts directory">
+    <antcall target="db.scripts">
+      <param name="db" value="hsqldb"/>
+    </antcall>
+  </target> 
+    
+  <target name="hsqldb.test"
+    description="test jBPM on a hsqldb database as configured in hsqldb/hibernate.properties">
+    <antcall target="db.test">
+      <param name="db" value="hsqldb"/>
+    </antcall>
+  </target> 
+	
+  <path id="classpath.oracle">
+    <path refid="classpath.jbpm.test" /> 
+    <pathelement path="build/oracle/resources" />
+  	<pathelement path="oracle" /> 
+  	<fileset dir="oracle/lib">
+  	        <include name="*.jar"/>
+    </fileset>
+  </path> 
+  
+  <target name="oracle.scripts"
+    description="generate the oracle database scripts and put them in the build/oracle/scripts directory">
+    <antcall target="db.scripts">
+      <param name="db" value="oracle"/>
+    </antcall>
+  </target> 
+  
+  <target name="oracle.test"
+    description="test jBPM on a oracle database as configured in oracle/hibernate.properties">
+    <antcall target="db.test">
+      <param name="db" value="oracle"/>
+    </antcall>
+  </target> 
+      		
+  <path id="classpath.postgresql">
+    <path refid="classpath.jbpm.test" /> 
+    <pathelement path="build/postgresql/resources" />
+  	<pathelement path="postgresql" /> 
+  	<fileset dir="postgresql/lib">
+  	        <include name="*.jar"/>
+    </fileset>
+
+  </path> 
+  
+  <target name="postgresql.scripts"
+    description="generate the postgresql database scripts and put them in the build/postgresql/scripts directory">
+    <antcall target="db.scripts">
+      <param name="db" value="postgresql"/>
+    </antcall>
+  </target> 
+  
+  <target name="postgresql.test"
+    description="test jBPM on a postgresql database as configured in postgresql/hibernate.properties">
+    <antcall target="db.test">
+      <param name="db" value="postgresql"/>
+    </antcall>
+  </target> 
+  		 
+  <path id="classpath.mssql">
+    <path refid="classpath.jbpm.test" />
+    <pathelement path="build/mssql/resources" />
+  	<pathelement path="mssql" /> 
+  	<fileset dir="mssql/lib">
+  	        <include name="*.jar"/>
+    </fileset>
+  </path>
+
+  <target name="mssql.scripts" 
+    description="generate the mssql database scripts and put them in the build/mssql/scripts directory">
+    <antcall target="db.scripts">
+      <param name="db" value="mssql"/>
+    </antcall>
+  </target> 
+
+  <target name="mssql.test"
+    description="test jBPM on a mssql database as configured in mssql/hibernate.properties">
+    <antcall target="db.test">
+      <param name="db" value="mssql"/>
+  </antcall>
+  </target> 
+
+ <path id="classpath.mysql">
+    <path refid="classpath.jbpm.test" />
+    <pathelement path="build/mysql/resources" />
+  	<pathelement path="mysql" /> 
+  	<fileset dir="mysql/lib">
+  	        <include name="*.jar"/>
+    </fileset>
+  </path>
+
+  <target name="mysql.scripts"
+    description="generate the mysql database scripts and put them in the build/mysql/scripts directory">
+    <antcall target="db.scripts">
+      <param name="db" value="mysql"/>
+    </antcall>
+  </target> 
+
+  <target name="mysql.test"
+    description="test jBPM on a mysql database as configured in mssql/hibernate.properties">
+    <antcall target="db.test">
+      <param name="db" value="mysql"/>
+  </antcall>
+  </target> 
+    		  
+  <path id="classpath.sybase"> 
+    <path refid="classpath.jbpm.test" />  
+    <pathelement path="build/sybase/resources" />
+  	<pathelement path="sybase" /> 
+  	<fileset dir="sybase/lib">
+  	        <include name="*.jar"/>
+    </fileset>
+  </path>  
+   
+  <target name="sybase.scripts"
+    description="generate the sybase database scripts and put them in the build/sybase/scripts directory">
+    <antcall target="db.scripts">
+      <param name="db" value="sybase"/>
+    </antcall>
+  </target> 
+
+  <target name="sybase.test"
+    description="test jBPM on a sybase database as configured in sybase/hibernate.properties">
+    <antcall target="db.test">
+      <param name="db" value="sybase"/>
+    </antcall>
+  </target> 
+
+  <target name="dist" depends="clean, all.scripts">
+    <mkdir dir="build/jbpm-db-${jbpm.version}" />
+    <copy todir="build/jbpm-db-${jbpm.version}">
+      <fileset dir="." />
+    </copy>
+    <zip destfile="build/jbpm-db-${jbpm.version}.zip" compress="true" filesonly="true" update="no">
+      <fileset dir="build" includes="jbpm-db-${jbpm.version}/**" />
+    </zip>
+  </target>
+
+	<path id="classpath.upgrade">
+    <path refid="classpath.jbpm.test" />
+    <fileset dir="${upgrade.libdir}">
+      <include name="*.jar" />
+    </fileset>
+  </path>
+
+  <target name="upgrade.db.script.and.start.stop.db">
+    <antcall target="start.hsqldb"/>
+    <antcall target="upgrade.db.script"/>
+  	<antcall target="stop.hsqldb"/>
+  </target>
+
+  <target name="upgrade.db.script">
+    <antcall target="upgrade.load.old.schema"/>
+    <antcall target="upgrade.hibernate.schema.update"/>
+  </target>
+
+  <target name="upgrade.load.old.schema">
+  	<property file="${upgrade.hibernate.properties}" />
+  	<sql driver="${hibernate.connection.driver_class}" 
+  		 password="${hibernate.connection.password}" 
+  		 userid="${hibernate.connection.username}"
+  		 url="${hibernate.connection.url}">
+  		<classpath refid="classpath.upgrade" />
+  		<fileset file="${upgrade.old.schema.script}" />
+  	</sql>
+  </target>
+
+  <target name="upgrade.hibernate.schema.update">
+  	<java classname="org.jbpm.db.compatibility.JbpmSchemaUpdate">
+  		<classpath refid="classpath.upgrade" />
+  	    <arg value="- -text"/> 
+  	    <arg value="- -config=${jbpm.3.location}/src/config.files/hibernate.cfg.xml"/> 
+  	    <arg value="- -properties=hsqldb/hibernate.properties"/>   		
+		<arg value="- -output=build/database.upgrade.sql" />
+  	</java>
+  </target>
+
+  <target name="start.hsqldb" depends="declare.jbpm.tasks">
+  	<delete dir="build/hsqldb/db" />
+	<starthsqldb lib="hsqldb/lib/hsqldb.jar" 
+	             database="build/hsqldb/db/localDB" 
+	             port="9001" /> 
+  </target> 
+	
+  <target name="stop.hsqldb">
+	<java classname="org.hsqldb.util.ShutdownServer" fork="true">
+	  <classpath refid="classpath.hsqldb"/>
+	  <arg line="-url jdbc:hsqldb:hsql://localhost:9001 -user sa"/>
+	</java> 
+  </target> 
+
+  <target name="declare.jbpm.tasks" depends="prepare">
+	<taskdef file="${jbpm.3.location}/src/java.jbpm/org/jbpm/ant/jbpm.ant.tasks.properties" format="properties">
+	  <classpath refid="classpath.jbpm.test" />
+	</taskdef>
+  </target>
+
+-->
+	  
+</project>

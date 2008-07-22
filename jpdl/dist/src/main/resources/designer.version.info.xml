@@ -1,0 +1,27 @@
+<jbpm-version-info name="jBPM jPDL 3.2.3"
+                   namespace="urn:jbpm.org:jpdl-3.2">
+
+  <classpathentry path="jbpm-jpdl.jar" src="src" />
+  <classpathentry path="jbpm-identity.jar" src="src" />
+
+  <classpathentry path="lib/activation.jar" />
+  <classpathentry path="lib/antlr-2.7.6.jar" />
+  <classpathentry path="lib/asm.jar"/>
+  <classpathentry path="lib/bsh.jar"/>
+  <classpathentry path="lib/cglib.jar"/>
+  <classpathentry path="lib/commons-collections.jar"/>
+  <classpathentry path="lib/commons-logging.jar"/>
+  <classpathentry path="lib/dom4j.jar"/>
+  <classpathentry path="lib/hibernate3.jar"/>
+  <classpathentry path="lib/hsqldb.jar"/>
+  <classpathentry path="lib/jboss-j2ee.jar"/>
+  <classpathentry path="lib/jcr-1.0.jar"/>
+  <classpathentry path="lib/junit.jar"/>
+  <classpathentry path="lib/log4j.jar"/>
+  <classpathentry path="lib/mail.jar"/>
+  <classpathentry path="lib/servlet-api.jar"/>
+  
+  <config path="config"/>
+  <examples path="examples" />
+
+</jbpm-version-info>
