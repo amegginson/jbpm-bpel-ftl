@@ -32,7 +32,7 @@ import org.jbpm.graph.def.ProcessDefinition;
  * <li>{@linkplain Scope scopes}</li>
  * <li>fault, compensation and termination {@linkplain Handler handlers}</li>
  * </ul>
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2008/02/01 05:43:08 $
  */
 public abstract class CompositeActivity extends Activity implements NodeCollection {

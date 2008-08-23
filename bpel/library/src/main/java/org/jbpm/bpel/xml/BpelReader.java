@@ -97,8 +97,8 @@ import org.jbpm.util.ClassLoaderUtil;
 /**
  * Converts a process document in XML format to a
  * {@linkplain BpelProcessDefinition process definition}.
- * @author Juan Cantú
- * @author Alejandro Guízar
+ * @author Juan Cantu
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/11/29 10:16:30 $
  */
 public class BpelReader {

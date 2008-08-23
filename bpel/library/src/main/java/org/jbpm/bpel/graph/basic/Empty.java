@@ -19,7 +19,7 @@ import org.jbpm.bpel.graph.def.BpelVisitor;
 
 /**
  * A "no-op" in a business process.
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/01/22 00:24:55 $
  */
 public class Empty extends Activity {

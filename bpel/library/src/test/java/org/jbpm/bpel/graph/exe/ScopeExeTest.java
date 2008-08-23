@@ -32,7 +32,7 @@ import org.jbpm.bpel.variable.def.VariableDefinition;
 import org.jbpm.graph.exe.Token;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2008/02/01 05:43:07 $
  */
 public class ScopeExeTest extends AbstractExeTestCase {

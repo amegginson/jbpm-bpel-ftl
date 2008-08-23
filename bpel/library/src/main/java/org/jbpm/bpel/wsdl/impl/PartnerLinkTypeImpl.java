@@ -24,7 +24,7 @@ import org.jbpm.bpel.wsdl.xml.WsdlConstants;
  * services. It does so by defining the "roles" played by each of the services
  * in the conversation and specifying the portType provided by each service to
  * receive messages within the context of the conversation.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2006/08/21 01:05:59 $
  */
 public class PartnerLinkTypeImpl extends NamedExtension implements

@@ -22,7 +22,7 @@ import org.jbpm.graph.exe.Token;
 /**
  * Defines that an activity is to be repeated as long as the specified
  * {@link #getCondition() condition} is true.
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2008/02/01 05:43:08 $
  */
 public class While extends RepetitiveActivity {

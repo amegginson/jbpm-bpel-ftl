@@ -20,7 +20,7 @@ import org.jbpm.bpel.graph.basic.Receive;
 import org.jbpm.bpel.graph.struct.Flow;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/07/26 00:39:11 $
  */
 public class FlowExeTest extends AbstractExeTestCase {

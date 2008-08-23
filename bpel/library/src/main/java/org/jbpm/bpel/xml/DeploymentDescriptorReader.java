@@ -47,8 +47,8 @@ import org.jbpm.util.ClassLoaderUtil;
 
 /**
  * Converts a deployment descriptor in XML format to an {@linkplain DeploymentDescriptor object}.
- * @author Juan Cantú
- * @author Alejandro Guízar
+ * @author Juan Cantu
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/10/13 02:53:27 $
  */
 public class DeploymentDescriptorReader {

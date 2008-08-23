@@ -26,7 +26,7 @@ import org.jbpm.graph.def.Action;
  * Sends a response to a message that was received by an
  * {@linkplain InboundMessageActivity inbound message activity} (IMA). The combination of an IMA and
  * a <tt>reply</tt> forms a request-response operation.
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/11/02 16:46:21 $
  */
 public class Reply extends Activity {

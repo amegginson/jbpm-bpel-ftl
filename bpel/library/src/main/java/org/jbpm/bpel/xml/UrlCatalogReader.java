@@ -23,7 +23,7 @@ import org.jbpm.bpel.integration.catalog.UrlCatalog;
 import org.jbpm.bpel.xml.util.XmlUtil;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/10/13 02:53:27 $
  */
 public class UrlCatalogReader implements ServiceCatalogReader {

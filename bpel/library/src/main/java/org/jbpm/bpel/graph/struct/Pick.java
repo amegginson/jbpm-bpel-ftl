@@ -35,7 +35,7 @@ import org.jbpm.scheduler.SchedulerService;
 /**
  * Blocks for one of several possible messages to arrive or for a time-out to occur. When one of
  * these triggers occurs, the associated child activity is performed.
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2008/02/01 05:43:08 $
  */
 public class Pick extends StructuredActivity implements InboundMessageActivity, TimeDrivenActivity {

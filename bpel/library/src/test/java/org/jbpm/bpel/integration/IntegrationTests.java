@@ -23,7 +23,7 @@ import org.jbpm.bpel.integration.catalog.UrlCatalogTest;
 import org.jbpm.bpel.integration.exe.CorrelationSetTest;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/10/13 02:53:27 $
  */
 public class IntegrationTests {

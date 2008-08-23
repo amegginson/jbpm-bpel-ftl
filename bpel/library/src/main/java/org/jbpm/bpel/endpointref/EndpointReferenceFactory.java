@@ -34,7 +34,7 @@ import org.jbpm.util.ClassLoaderUtil;
 /**
  * Manufactures the endpoint reference instance appropriate for a given value
  * element name and interpretation scheme combination.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/05/02 23:06:00 $
  */
 public abstract class EndpointReferenceFactory {

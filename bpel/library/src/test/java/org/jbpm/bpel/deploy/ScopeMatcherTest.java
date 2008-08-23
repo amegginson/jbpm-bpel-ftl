@@ -38,7 +38,7 @@ import org.jbpm.bpel.xml.DeploymentDescriptorReader;
 import org.jbpm.bpel.xml.util.XmlUtil;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/11/25 13:03:15 $
  */
 public class ScopeMatcherTest extends TestCase {

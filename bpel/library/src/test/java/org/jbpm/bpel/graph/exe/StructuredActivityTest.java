@@ -20,7 +20,7 @@ import org.jbpm.bpel.graph.struct.Sequence;
 import org.jbpm.bpel.graph.struct.StructuredActivity;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/03/22 13:32:55 $
  */
 public class StructuredActivityTest extends ActivityExeTest {

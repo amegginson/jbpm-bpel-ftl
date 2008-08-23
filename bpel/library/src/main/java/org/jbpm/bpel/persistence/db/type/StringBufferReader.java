@@ -19,7 +19,7 @@ import java.io.Reader;
 
 /**
  * A character stream whose source is a string buffer.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/03/05 12:58:13 $
  */
 public class StringBufferReader extends Reader {

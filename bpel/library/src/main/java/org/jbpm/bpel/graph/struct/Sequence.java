@@ -22,7 +22,7 @@ import org.jbpm.graph.def.Transition;
 
 /**
  * Defines a collection of activities to be performed sequentially in lexical order.
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2008/02/01 05:43:08 $
  */
 public class Sequence extends StructuredActivity {

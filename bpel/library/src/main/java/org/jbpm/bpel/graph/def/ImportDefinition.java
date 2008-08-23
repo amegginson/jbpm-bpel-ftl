@@ -43,7 +43,7 @@ import org.jbpm.module.exe.ModuleInstance;
 /**
  * Groups imported WSDL and XML Schema documents. Provides lookup facilites for the various elements
  * defined in those documents.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/10/17 22:02:52 $
  */
 public class ImportDefinition extends ModuleDefinition {

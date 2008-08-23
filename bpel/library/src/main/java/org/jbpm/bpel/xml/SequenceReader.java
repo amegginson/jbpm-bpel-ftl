@@ -25,7 +25,7 @@ import org.jbpm.bpel.graph.struct.Sequence;
 /**
  * Encapsulates the logic to create and connect process elements that make up
  * the <i>sequence</i> structure.
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/05/31 12:55:12 $
  */
 public class SequenceReader extends ActivityReader {

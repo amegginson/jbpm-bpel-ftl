@@ -23,7 +23,7 @@ import org.jbpm.jpdl.par.ProcessArchiveParser;
 import org.jbpm.jpdl.xml.Problem;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/05/03 12:25:52 $
  */
 public class BpelArchiveParser implements ProcessArchiveParser {

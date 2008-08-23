@@ -18,7 +18,7 @@ import javax.xml.namespace.QName;
 
 /**
  * Constant values used in WSDL extension definitions.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/11/25 13:03:13 $
  */
 public class WsdlConstants {

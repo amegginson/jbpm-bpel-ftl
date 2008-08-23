@@ -29,7 +29,7 @@ import org.jbpm.bpel.integration.def.ReceiveAction;
 import org.jbpm.graph.exe.Token;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/07/26 00:39:11 $
  */
 public class InitialActivitiesTest extends AbstractExeTestCase {

@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE eclipse-userlibraries [
-<!ENTITY software.installation.dir "c:/dev">
+<!ENTITY software.installation.dir "/home/aguizar">
 <!ENTITY jboss.home.4.0.3 "&software.installation.dir;/jboss-4.0.3.SP1">
 <!ENTITY jboss.home.4.0.4 "&software.installation.dir;/jboss-4.0.4.GA">
 <!ENTITY jboss.home.4.0.5 "&software.installation.dir;/jboss-4.0.5.GA">
 <!ENTITY jboss.home.4.2.0 "&software.installation.dir;/jboss-4.2.0.GA">
 <!ENTITY jboss.home.4.2.2 "&software.installation.dir;/jboss-4.2.2.GA">
+<!ENTITY jboss.home.4.2.3 "&software.installation.dir;/jboss-4.2.3.GA">
 ]>
 <eclipse-userlibraries version="2">
   <library name="JBoss 4.0.3" systemlibrary="false">
@@ -100,5 +101,25 @@
     <archive path="&jboss.home.4.2.2;/client/concurrent.jar" />
     <archive path="&jboss.home.4.2.2;/client/jboss-client.jar" />
     <archive path="&jboss.home.4.2.2;/client/jboss-common-client.jar" />
+  </library>
+  <library name="JBoss 4.2.3" systemlibrary="false">
+    <archive path="&jboss.home.4.2.3;/client/jboss-jaxws.jar" />
+    <archive path="&jboss.home.4.2.3;/client/jboss-saaj.jar" />
+    <archive path="&jboss.home.4.2.3;/client/jbossmq-client.jar" />
+    <archive path="&jboss.home.4.2.3;/client/jboss-remoting.jar" />
+    <archive path="&jboss.home.4.2.3;/client/jboss-serialization.jar" />
+    <archive path="&jboss.home.4.2.3;/client/jbosssx-client.jar" />
+    <archive path="&jboss.home.4.2.3;/client/jboss-transaction-client.jar" />
+    <archive path="&jboss.home.4.2.3;/client/jbossws-client.jar" />
+    <archive path="&jboss.home.4.2.3;/client/jbossws-common.jar" />
+    <archive path="&jboss.home.4.2.3;/client/jboss-xml-binding.jar" />
+    <archive path="&jboss.home.4.2.3;/client/jmx-client.jar" />
+    <archive path="&jboss.home.4.2.3;/client/jmx-invoker-adaptor-client.jar" />
+    <archive path="&jboss.home.4.2.3;/client/jnp-client.jar" />
+    <archive path="&jboss.home.4.2.3;/client/mail.jar" />
+    <archive path="&jboss.home.4.2.3;/client/activation.jar" />
+    <archive path="&jboss.home.4.2.3;/client/concurrent.jar" />
+    <archive path="&jboss.home.4.2.3;/client/jboss-client.jar" />
+    <archive path="&jboss.home.4.2.3;/client/jboss-common-client.jar" />
   </library>
 </eclipse-userlibraries>

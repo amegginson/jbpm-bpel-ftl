@@ -1,3 +1,17 @@
+/*
+ * JBoss, Home of Professional Open Source
+ * Copyright 2005, JBoss Inc., and individual contributors as indicated
+ * by the @authors tag.
+ *
+ * This is free software; you can redistribute it and/or modify it
+ * under the terms of the JBPM BPEL PUBLIC LICENSE AGREEMENT as
+ * published by JBoss Inc.; either version 1.0 of the License, or
+ * (at your option) any later version.
+ *
+ * This software is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ */
 package org.jbpm.bpel.web;
 
 import java.io.File;
@@ -21,6 +35,7 @@ import org.apache.commons.logging.LogFactory;
 
 import org.jbpm.JbpmConfiguration;
 import org.jbpm.JbpmContext;
+import org.jbpm.bpel.BpelException;
 import org.jbpm.bpel.graph.def.BpelProcessDefinition;
 import org.jbpm.bpel.persistence.db.BpelGraphSession;
 import org.jbpm.bpel.tools.WebModuleBuilder;
@@ -93,10 +108,7 @@ public class DeploymentServlet extends HttpServlet {
     FileItem fileItem = (FileItem) request.getAttribute(PARAM_PROCESS_ARCHIVE);
     String fileName = extractFileName(fileItem.getName());
     ProcessDefinition processDefinition = readProcessDefinition(fileItem.getInputStream(), fileName);
-    deployProcessDefinition(processDefinition);
-    // build and deploy web module, if the language is BPEL
-    if (processDefinition instanceof BpelProcessDefinition)
-      deployWebModule((BpelProcessDefinition) processDefinition, fileName);
+    deployProcessDefinition(processDefinition, fileName);
     // transfer web flow
     response.sendRedirect("processes.jsp");
   }
@@ -150,11 +162,12 @@ public class DeploymentServlet extends HttpServlet {
 
   private static String extractFileName(String filePath) {
     /*
-     * PORTABILITY INFO. Some browsers (e.g. internet explorer) send the file's absolute path. If
-     * this servlet ran on the client side, it could leverage the File class to extract the file
-     * name. However, since the separator char may differ between the client and the server, File is
-     * not reliable. This code splits the path around matches of all known file separators and takes
-     * the last fragment as the file name.
+     * PORTABILITY INFO. Some browsers (e.g. internet explorer) send the file's
+     * absolute path. If this servlet ran on the client side, it could leverage
+     * the File class to extract the file name. However, since the separator
+     * char may differ between the client and the server, File is not reliable.
+     * This code splits the path around matches of all known file separators and
+     * takes the last fragment as the file name.
      */
     String[] fragments = fileSeparatorPattern.split(filePath);
     return fragments[fragments.length - 1];
@@ -176,15 +189,18 @@ public class DeploymentServlet extends HttpServlet {
     }
   }
 
-  private void deployProcessDefinition(ProcessDefinition processDefinition) {
+  private void deployProcessDefinition(ProcessDefinition processDefinition, String fileName) {
     JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
     try {
       if (processDefinition instanceof BpelProcessDefinition) {
-        BpelGraphSession graphSession = BpelGraphSession.getContextInstance(jbpmContext);
-        graphSession.deployProcessDefinition((BpelProcessDefinition) processDefinition);
+        BpelProcessDefinition bpelProcessDefinition = (BpelProcessDefinition) processDefinition;
+        BpelGraphSession.getContextInstance(jbpmContext).deployProcessDefinition(
+            bpelProcessDefinition);
+        deployWebModule(bpelProcessDefinition, fileName);
       }
-      else
+      else {
         jbpmContext.deployProcessDefinition(processDefinition);
+      }
       log.info("deployed process definition: " + processDefinition.getName());
     }
     catch (RuntimeException e) {
@@ -196,8 +212,7 @@ public class DeploymentServlet extends HttpServlet {
     }
   }
 
-  private void deployWebModule(BpelProcessDefinition processDefinition, String fileName)
-      throws ServletException {
+  private void deployWebModule(BpelProcessDefinition processDefinition, String fileName) {
     File moduleFile = new File(deployDirectory, extractFilePrefix(fileName) + ".war");
 
     WebModuleBuilder builder = new WebModuleBuilder();
@@ -205,7 +220,7 @@ public class DeploymentServlet extends HttpServlet {
     builder.buildModule(processDefinition);
 
     if (builder.getProblemHandler().getProblemCount() > 0)
-      throw new ServletException("could not build web module for: " + processDefinition);
+      throw new BpelException("could not build web module for: " + processDefinition);
 
     log.info("deployed web module: " + moduleFile.getName());
   }

@@ -19,7 +19,7 @@ import java.io.Serializable;
 import org.apache.commons.lang.enums.Enum;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2008/02/01 05:43:09 $
  */
 public abstract class ScopeState extends Enum implements Serializable {

@@ -22,7 +22,7 @@ import org.jbpm.bpel.graph.scope.Compensate;
 
 /**
  * Translates <code>bpel:compensate</code> elements to {@link Compensate} instances.
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/11/29 10:16:30 $
  */
 public class CompensateReader extends ActivityReader {

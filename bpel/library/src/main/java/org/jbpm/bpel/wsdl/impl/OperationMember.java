@@ -30,7 +30,7 @@ import org.w3c.dom.Element;
 import com.ibm.wsdl.Constants;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/04/11 06:37:35 $
  */
 public abstract class OperationMember implements Serializable {

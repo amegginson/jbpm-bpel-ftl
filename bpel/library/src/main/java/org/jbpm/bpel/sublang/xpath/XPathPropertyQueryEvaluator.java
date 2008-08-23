@@ -32,7 +32,7 @@ import org.jbpm.bpel.xml.util.XmlUtil;
 
 /**
  * Default evaluator for property queries.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/09/12 23:20:16 $
  */
 class XPathPropertyQueryEvaluator extends XPathEvaluator implements PropertyQueryEvaluator {

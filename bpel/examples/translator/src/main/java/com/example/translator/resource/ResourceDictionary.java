@@ -10,7 +10,7 @@ import com.example.translator.TextNotTranslatable;
 import com.example.translator.spi.Dictionary;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/01/20 12:28:17 $
  */
 public class ResourceDictionary implements Dictionary {

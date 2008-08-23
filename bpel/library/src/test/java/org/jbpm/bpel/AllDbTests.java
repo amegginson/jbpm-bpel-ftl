@@ -78,7 +78,7 @@ import org.jbpm.bpel.wsdl.impl.PartnerLinkTypeImplDbTest;
 import org.jbpm.bpel.wsdl.impl.PropertyImplDbTest;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2008/01/30 08:15:35 $
  */
 public class AllDbTests {

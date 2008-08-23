@@ -21,6 +21,8 @@
 
   <target name="compile.test.dependencies"
           depends="define.libs.classpath, install.jar, install.config">
+  	<!-- install tools jar -->
+  	<ant antfile="../tools/build.xml" inheritall="no" />
     <path id="compile.test.classpath">
       <path refid="libs.classpath" />
       <pathelement location="${lib.jbpm.jpdl.jar.local}" />
@@ -31,8 +33,8 @@
 
   <target name="test.dependencies" depends="define.libs.classpath">
     <path id="test.classpath">
-      <path refid="libs.classpath" />
       <fileset dir="${jboss.home}/client" includes="*.jar" />
+      <path refid="libs.classpath" />
       <pathelement location="${lib.jbpm.jpdl.jar.local}" />
       <pathelement location="${lib.jbpm.bpel.jar.local}" />
       <pathelement location="${lib.jbpm.bpel.tools.jar.local}" />

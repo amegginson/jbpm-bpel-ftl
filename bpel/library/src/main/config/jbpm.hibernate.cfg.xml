@@ -26,7 +26,6 @@
     <!-- JTA transaction properties (begin) ===
     <property name="hibernate.transaction.factory_class">org.hibernate.transaction.JTATransactionFactory</property>
     <property name="hibernate.transaction.manager_lookup_class">org.hibernate.transaction.JBossTransactionManagerLookup</property>
-    <property name="jta.UserTransaction">UserTransaction</property>
     ==== JTA transaction properties (end) -->
 
     <!-- logging properties (begin) -->

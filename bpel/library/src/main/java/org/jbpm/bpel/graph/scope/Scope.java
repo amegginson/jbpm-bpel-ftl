@@ -60,7 +60,7 @@ import org.jbpm.instantiation.Delegation;
  * {@linkplain CorrelationSetDefinition correlation sets}, {@linkplain Handler event handlers},
  * {@linkplain Catch fault handlers}, a {@linkplain Handler compensation handler} and a
  * {@linkplain Handler termination handler}.
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2008/02/04 14:35:49 $
  */
 public class Scope extends CompositeActivity {

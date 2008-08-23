@@ -1,11 +1,8 @@
 package org.jbpm.scheduler.ejbtimer;
 
-import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.jbpm.JbpmException;
 import org.jbpm.ejb.LocalTimerEntityHome;
 import org.jbpm.job.Timer;
@@ -34,24 +31,23 @@ public class EntitySchedulerServiceFactory implements ServiceFactory {
 
   private static final long serialVersionUID = 1L;
 
-  private static final Log log = LogFactory.getLog(EntitySchedulerServiceFactory.class);
-
   String timerEntityHomeJndiName = "java:comp/env/ejb/LocalTimerEntityBean";
 
   private LocalTimerEntityHome timerEntityHome;
 
-  public EntitySchedulerServiceFactory() {
-    try {
-      Context initial = new InitialContext();
-      timerEntityHome = (LocalTimerEntityHome) initial.lookup(timerEntityHomeJndiName);
-    } catch (NamingException e) {
-      log.error("ejb timer entity lookup problem", e);
-      throw new JbpmException("ejb timer entity lookup problem", e);
+  public LocalTimerEntityHome getTimerEntityHome() {
+    if (timerEntityHome == null) {
+      try {
+        timerEntityHome = (LocalTimerEntityHome) new InitialContext().lookup(timerEntityHomeJndiName);
+      } catch (NamingException e) {
+        throw new JbpmException("ejb timer entity lookup problem", e);
+      }
     }
+    return timerEntityHome;
   }
 
   public Service openService() {
-    return new EntitySchedulerService(timerEntityHome);
+    return new EntitySchedulerService(getTimerEntityHome());
   }
 
   public void close() {

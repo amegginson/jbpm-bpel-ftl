@@ -24,7 +24,7 @@ import junit.framework.TestCase;
 import org.jbpm.bpel.tools.ModuleDeployTestSetup;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/11/06 22:06:25 $
  */
 public class HelloTest extends TestCase {

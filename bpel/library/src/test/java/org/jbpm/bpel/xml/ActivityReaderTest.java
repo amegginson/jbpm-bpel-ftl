@@ -25,7 +25,7 @@ import org.jbpm.bpel.graph.struct.Flow;
 /**
  * Tests the parsing of standard attributes and elements into a bpel activity using <empty>
  * elements.
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/10/13 02:53:24 $
  */
 public class ActivityReaderTest extends AbstractReaderTestCase {

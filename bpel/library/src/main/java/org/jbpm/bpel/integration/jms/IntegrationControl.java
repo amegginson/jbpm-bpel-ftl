@@ -25,6 +25,7 @@ import java.util.Vector;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
 import javax.jms.JMSException;
+import javax.jms.Session;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -64,7 +65,7 @@ import org.jbpm.graph.exe.Token;
 import org.jbpm.svc.Services;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2008/01/30 07:18:22 $
  */
 public class IntegrationControl {
@@ -104,6 +105,10 @@ public class IntegrationControl {
 
   public Connection getJmsConnection() {
     return jmsConnection;
+  }
+
+  public Session createJmsSession() throws JMSException {
+    return jmsConnection.createSession(false, Session.CLIENT_ACKNOWLEDGE);
   }
 
   public DeploymentDescriptor getDeploymentDescriptor() {

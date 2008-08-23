@@ -19,6 +19,9 @@
       <input>
         <soap:body use="literal" namespace="http://jbpm.org/examples/task" />
       </input>
+      <output>
+        <soap:body use="literal" namespace="http://jbpm.org/examples/task" />
+      </output>
     </operation>
     <operation name="getTaskList">
       <soap:operation soapAction="http://jbpm.org/examples/task/getTaskList" />

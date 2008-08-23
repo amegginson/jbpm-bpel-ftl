@@ -17,7 +17,7 @@ package org.jbpm.bpel.xml;
 import org.jbpm.bpel.graph.scope.Compensate;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/03/22 13:32:55 $
  */
 public class CompensateReaderTest extends AbstractReaderTestCase {

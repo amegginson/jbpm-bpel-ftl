@@ -22,7 +22,7 @@ import javax.xml.namespace.QName;
 /**
  * Creates a unique name and associates it with an XML Schema type. The intent
  * is to introduce a name that has semantic significance beyond the type itself.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/01/22 00:24:55 $
  */
 public interface Property extends ExtensibilityElement, Serializable {

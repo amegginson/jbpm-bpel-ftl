@@ -39,7 +39,7 @@ import org.jbpm.util.Clock;
 
 /**
  * Activities perform the process logic. They are divided into 2 classes: basic and structured.
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2008/02/01 05:43:08 $
  */
 public abstract class Activity extends Node {

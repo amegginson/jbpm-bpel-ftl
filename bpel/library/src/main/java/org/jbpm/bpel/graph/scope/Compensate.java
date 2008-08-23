@@ -27,7 +27,7 @@ import org.jbpm.graph.exe.ExecutionContext;
  * {@link CompensateScope compensateScope} must only be used within {@link Catch catch},
  * {@link Handler catchAll}, {@link Handler compensationHandler} and
  * {@link Handler terminationHandler}.
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/09/18 10:21:30 $
  */
 public class Compensate extends Activity implements Compensator {

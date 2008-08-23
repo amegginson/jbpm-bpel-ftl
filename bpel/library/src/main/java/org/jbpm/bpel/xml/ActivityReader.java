@@ -27,7 +27,7 @@ import org.jbpm.bpel.sublang.def.JoinCondition;
 import org.jbpm.bpel.xml.util.XmlUtil;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/07/20 22:35:40 $
  */
 public abstract class ActivityReader {

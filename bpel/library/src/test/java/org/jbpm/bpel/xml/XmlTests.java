@@ -26,7 +26,7 @@ import org.jbpm.bpel.xml.util.DurationTest;
 import org.jbpm.bpel.xml.util.XmlUtilTest;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/11/25 13:03:13 $
  */
 public class XmlTests {

@@ -24,7 +24,7 @@ import javax.xml.namespace.QName;
  * Characterizes the conversational relationship between two services. Defines
  * the {@linkplain Role roles} played by each service in the conversation and
  * specifies the portType provided by each service.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/01/22 00:24:55 $
  */
 public interface PartnerLinkType extends ExtensibilityElement, Serializable {

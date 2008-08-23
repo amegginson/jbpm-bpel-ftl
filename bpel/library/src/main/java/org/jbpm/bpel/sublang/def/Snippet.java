@@ -30,7 +30,7 @@ import org.jbpm.bpel.xml.BpelConstants;
 
 /**
  * Common base for {@linkplain Expression expressions} and {@linkplain PropertyQuery queries}.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/09/12 23:20:15 $
  */
 public abstract class Snippet implements Serializable {

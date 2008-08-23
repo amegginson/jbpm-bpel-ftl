@@ -21,7 +21,7 @@ import org.jbpm.bpel.graph.def.BpelVisitor;
  * Raises again the fault that was originally caught by the immediately
  * enclosing fault handler. The <tt>rethrow</tt> activity is only used within
  * a fault handler.
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/01/22 00:24:55 $
  */
 public class Rethrow extends Activity {

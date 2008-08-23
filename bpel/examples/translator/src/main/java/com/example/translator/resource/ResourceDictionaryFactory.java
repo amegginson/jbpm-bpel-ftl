@@ -11,7 +11,7 @@ import com.example.translator.spi.Dictionary;
 import com.example.translator.spi.DictionaryFactory;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2006/10/29 06:27:49 $
  */
 public class ResourceDictionaryFactory extends DictionaryFactory {

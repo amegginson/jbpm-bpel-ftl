@@ -21,7 +21,7 @@ import java.util.Map;
 
 /**
  * Binding of <tt>scope</tt> element.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/10/13 02:53:24 $
  */
 public class ScopeDescriptor {

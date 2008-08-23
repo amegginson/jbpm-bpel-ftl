@@ -55,7 +55,7 @@ import org.jbpm.bpel.xml.util.XmlUtil;
 
 /**
  * Utility methods for dealing with JWSDL objects.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/10/17 22:02:52 $
  */
 public class WsdlUtil {

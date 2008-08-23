@@ -86,6 +86,14 @@ lib/${lib.jbpm.bpel.container.name}" />
       <replacetoken><![CDATA[==== DataSource properties (end)]]></replacetoken>
       <replacevalue><![CDATA[<!-- DataSource properties (end)]]></replacevalue>
     </replace>
+    <replace file="target/config/jbpm.hibernate.cfg.xml">
+      <replacetoken><![CDATA[JTA transaction properties (begin) ===]]></replacetoken>
+      <replacevalue><![CDATA[JTA transaction properties (begin) -->]]></replacevalue>
+    </replace>
+    <replace file="target/config/jbpm.hibernate.cfg.xml">
+      <replacetoken><![CDATA[==== JTA transaction properties (end)]]></replacetoken>
+      <replacevalue><![CDATA[<!-- JTA transaction properties (end)]]></replacevalue>
+    </replace>
 
     <!-- include identity mappings -->
     <replace file="target/config/jbpm.hibernate.cfg.xml">
@@ -164,7 +172,7 @@ lib/${lib.jbpm.bpel.container.name}" />
 
   <target name="undeploy.ear"
           description="undeploy enterprise application from server">
-    <delete file="${jboss.home}/server/${jboss.server}/deploy/${lib.jbpm.bpel.application.name}" />
+    <delete file="${jboss.home}/server/${jboss.server}/deploy/${lib.jbpm.bpel.enterprise.file}" />
   </target>
 
 </project>

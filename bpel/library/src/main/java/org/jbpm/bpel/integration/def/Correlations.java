@@ -27,7 +27,7 @@ import org.jbpm.graph.exe.Token;
 /**
  * Groups the correlations ocurring in the message being sent or received in an
  * activity.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/03/22 13:32:55 $
  */
 public class Correlations implements Serializable {

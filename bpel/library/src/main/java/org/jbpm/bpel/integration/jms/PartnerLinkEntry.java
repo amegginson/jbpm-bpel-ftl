@@ -20,7 +20,7 @@ import org.jbpm.bpel.deploy.PartnerRoleDescriptor.InitiateMode;
 import org.jbpm.bpel.endpointref.EndpointReference;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/10/13 02:53:30 $
  */
 public class PartnerLinkEntry {

@@ -44,6 +44,7 @@
         <equals arg1="${jboss.version}" arg2="4.2.0.GA" />
         <equals arg1="${jboss.version}" arg2="4.2.1.GA" />
         <equals arg1="${jboss.version}" arg2="4.2.2.GA" />
+        <equals arg1="${jboss.version}" arg2="4.2.3.GA" />
       </or>
     </condition>
     <fail unless="lib.jbpm.bpel.container.jar.local"
@@ -57,41 +58,35 @@
   <target name="package.ear"
           description="build jbpm bpel enterprise app"
           depends="create.config, determine.container">
-    <manifest file="META-INF/MANIFEST.MF">
-      <attribute name="Implementation-Version" value="${lib.jbpm.bpel.version} (date:${now})" />
-      <attribute name="Implementation-URL" value="http://www.jboss.org/products/jbpm" />
-      <attribute name="Implementation-Vendor" value="JBoss Inc." />
-      <attribute name="Implementation-Vendor-Id" value="http://www.jboss.org/" />
-    </manifest>
-    <ear destfile="${lib.jbpm.bpel.application.name}"
-         appxml="META-INF/application.xml"
-         manifest="META-INF/MANIFEST.MF">
-      <!-- modules -->
-      <fileset file="${lib.jbpm.bpel.console.file}" />
-      <fileset file="${lib.jbpm.bpel.enterprise.file}" />
-      <!-- libraries -->
-      <zipfileset file="${lib.jbpm.jpdl.jar.local}" prefix="lib" />
-      <zipfileset file="${lib.jbpm.identity.jar.local}" prefix="lib" />
-      <zipfileset file="${lib.jbpm.bpel.jar.local}" prefix="lib" />
+  	<jar destfile="${lib.jbpm.bpel.application.name}" update="yes">
       <zipfileset file="${lib.jbpm.bpel.container.name}" prefix="lib" />
       <zipfileset file="${lib.jbpm.bpel.config.file}" prefix="lib" />
-      <!-- dependencies -->
-      <zipfileset file="${lib.commons.lang.local}" prefix="lib" />
-      <zipfileset file="${lib.jaxen.local}" prefix="lib" />
-    </ear>
+      <manifest>
+        <attribute name="Implementation-Version" value="${lib.jbpm.bpel.version} (date:${now})" />
+      </manifest>
+  	</jar>
   </target>
 
   <target name="deploy.ear"
           description="deploy jbpm bpel enterprise app to server"
           depends="package.ear">
-    <copy todir="${jboss.home}/server/${jboss.server}/deploy"
-          file="${lib.jbpm.bpel.application.name}" />
+    <copy todir="${jboss.home}/server/${jboss.server}/deploy">
+      <fileset dir="${basedir}">
+        <include name="jbpm-ds.xml" />
+        <include name="${lib.jbpm.bpel.application.name}" />
+      </fileset>
+    </copy>
   </target>
 
   <target name="undeploy.ear"
           description="undeploy jbpm bpel enterprise app from server"
           depends="package.ear">
-    <delete file="${jboss.home}/server/${jboss.server}/deploy/${lib.jbpm.bpel.application.name}" />
+    <delete>
+      <fileset dir="${jboss.home}/server/${jboss.server}/deploy">
+        <include name="${lib.jbpm.bpel.application.name}" />
+        <include name="jbpm-ds.xml" />
+      </fileset>
+    </delete>
   </target>
 
   <target name="main" description="main target" depends="deploy.ear" />

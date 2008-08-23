@@ -30,7 +30,7 @@ import org.jbpm.bpel.wsdl.Property;
 import org.jbpm.bpel.xml.BpelConstants;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2006/09/27 03:53:01 $
  */
 public class CorrelationSetInstance {

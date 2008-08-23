@@ -31,7 +31,7 @@ import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.exe.Token;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/08/08 11:09:17 $
  */
 public class ActivityExeTest extends TestCase {

@@ -23,13 +23,8 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageProducer;
 import javax.jms.Session;
-import javax.naming.InitialContext;
-import javax.naming.LinkRef;
 import javax.wsdl.Definition;
 import javax.xml.namespace.QName;
-
-import org.w3c.dom.Element;
-import org.xml.sax.InputSource;
 
 import org.jbpm.bpel.deploy.DeploymentDescriptor;
 import org.jbpm.bpel.graph.basic.Receive;
@@ -52,9 +47,11 @@ import org.jbpm.graph.def.Event;
 import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.graph.exe.Token;
 import org.jbpm.instantiation.Delegation;
+import org.w3c.dom.Element;
+import org.xml.sax.InputSource;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2008/06/12 08:18:54 $
  */
 public abstract class AbstractListenerTestCase extends AbstractDbTestCase {
@@ -163,26 +160,14 @@ public abstract class AbstractListenerTestCase extends AbstractDbTestCase {
     deploymentDescriptor.setName(processDefinition.getName());
     deploymentDescriptor.setTargetNamespace(processDefinition.getTargetNamespace());
 
-    InitialContext initialContext = new InitialContext();
-    try {
-      // link jms administered objects
-      initialContext.bind(IntegrationControl.CONNECTION_FACTORY_NAME, new LinkRef(
-          "ConnectionFactory"));
-      initialContext.rebind("pl", new LinkRef("queue/testQueue"));
-
-      // configure relation service factory
-      integrationControl = JmsIntegrationServiceFactory.getConfigurationInstance(jbpmConfiguration)
-          .getIntegrationControl(processDefinition);
-      integrationControl.setDeploymentDescriptor(deploymentDescriptor);
-      IntegrationControlHelper.setUp(integrationControl, jbpmContext);
-
-      // unlink jms administered objects
-      initialContext.unbind(IntegrationControl.CONNECTION_FACTORY_NAME);
-      initialContext.unbind("pl");
-    }
-    finally {
-      initialContext.close();
-    }
+    // configure integration components
+    JmsIntegrationServiceFactory integrationServiceFactory = JmsIntegrationServiceFactory.getConfigurationInstance(jbpmConfiguration);
+    integrationServiceFactory.setConnectionFactoryName("ConnectionFactory");
+    integrationServiceFactory.setRequestDestinationName("queue/A");
+    integrationServiceFactory.setResponseDestinationName("queue/B");
+    integrationControl = integrationServiceFactory.getIntegrationControl(processDefinition);
+    integrationControl.setDeploymentDescriptor(deploymentDescriptor);
+    IntegrationControlHelper.setUp(integrationControl, jbpmContext);
 
     jmsSession = integrationControl.getJmsConnection().createSession(false,
         Session.CLIENT_ACKNOWLEDGE);

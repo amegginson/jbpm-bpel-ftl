@@ -27,7 +27,7 @@ import org.jbpm.bpel.graph.struct.Sequence;
 import org.jbpm.bpel.integration.def.ReceiveAction;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/11/02 16:46:18 $
  */
 class StartListenersBuilder extends AbstractBpelVisitor {

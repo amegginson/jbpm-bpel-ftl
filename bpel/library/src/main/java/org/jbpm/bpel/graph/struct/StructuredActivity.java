@@ -31,7 +31,7 @@ import org.jbpm.graph.exe.Token;
 
 /**
  * Common base of structured activities.
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2008/02/01 05:43:08 $
  */
 public abstract class StructuredActivity extends CompositeActivity {

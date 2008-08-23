@@ -17,7 +17,7 @@ package org.jbpm.bpel.xml;
 import org.jbpm.bpel.graph.basic.Wait;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/02/19 18:32:39 $
  */
 public class WaitReaderTest extends AbstractReaderTestCase {

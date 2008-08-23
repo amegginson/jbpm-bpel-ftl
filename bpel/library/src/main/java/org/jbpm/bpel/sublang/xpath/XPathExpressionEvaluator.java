@@ -47,7 +47,7 @@ import org.jbpm.graph.exe.Token;
 /**
  * Evaluator for general expressions. When XPath 1.0 is used as an expression language, there is no
  * context node available.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/09/12 23:20:16 $
  */
 class XPathExpressionEvaluator extends XPathEvaluator implements ExpressionEvaluator {

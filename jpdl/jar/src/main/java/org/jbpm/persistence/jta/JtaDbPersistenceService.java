@@ -21,8 +21,6 @@
  */
 package org.jbpm.persistence.jta;
 
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
@@ -70,7 +68,7 @@ public class JtaDbPersistenceService extends DbPersistenceService {
   void beginJtaTransaction() {
     try {
     	log.debug("start user JTA transaction");
-    	userTransaction = getUserTransaction();
+    	userTransaction = ((JtaDbPersistenceServiceFactory) persistenceServiceFactory).getUserTransaction();
       userTransaction.begin();
     } catch (Exception e) {
       throw new JbpmException("couldn't start JTA transaction", e);
@@ -92,27 +90,6 @@ public class JtaDbPersistenceService extends DbPersistenceService {
       } catch (Exception e) {
         throw new JbpmException("couldn't commit JTA transaction", e);
       }
-    }
-  }
-
-  UserTransaction getUserTransaction() {
-    String jndiName = persistenceServiceFactory.getConfiguration().getProperty("jta.UserTransaction");
-    if (jndiName == null) {
-      /*
-       * EJB 2.1 section 20.9 The container must make the UserTransaction interface available to the
-       * enterprise beans that are allowed to use this interface (only session and message-
-       * driven beans with bean-managed transaction demarcation are allowed to use this 
-       * interface) in JNDI under the name java:comp/UserTransaction.
-       * J2EE 1.4 section 4.2.1.1 The J2EE platform must provide an object implementing the
-       * UserTransaction interface to all web components. The platform must publish the 
-       * UserTransaction object in JNDI under the name java:comp/UserTransaction.
-       */
-      jndiName = "java:comp/UserTransaction";
-    }
-    try {
-      return (UserTransaction) new InitialContext().lookup(jndiName);
-    } catch (NamingException e) {
-      throw new JbpmException("couldn't lookup UserTransaction in JNDI with name "+jndiName, e);
     }
   }
 

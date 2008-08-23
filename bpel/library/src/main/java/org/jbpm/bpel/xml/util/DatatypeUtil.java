@@ -31,7 +31,7 @@ import org.jbpm.bpel.xml.BpelConstants;
 
 /**
  * Data type conversion utilities.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2008/02/01 05:45:29 $
  */
 public class DatatypeUtil {

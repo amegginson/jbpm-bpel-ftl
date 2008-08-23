@@ -29,7 +29,7 @@ import org.jbpm.bpel.wsdl.PropertyAlias;
 import org.jbpm.bpel.xml.BpelConstants;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/09/12 23:20:17 $
  */
 public class PropertyAliasTest extends TestCase {

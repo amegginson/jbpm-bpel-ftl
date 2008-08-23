@@ -26,7 +26,7 @@ import org.jbpm.bpel.integration.def.ReceiveAction;
 import org.jbpm.graph.exe.Token;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/07/22 05:57:25 $
  */
 public class FromPartnerLink extends From {

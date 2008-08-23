@@ -29,7 +29,7 @@ import org.jbpm.jpdl.xml.Problem;
 
 /**
  * Binding of <tt>bpelApplication</tt> element.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/11/02 16:46:17 $
  */
 public class DeploymentDescriptor extends ScopeDescriptor {

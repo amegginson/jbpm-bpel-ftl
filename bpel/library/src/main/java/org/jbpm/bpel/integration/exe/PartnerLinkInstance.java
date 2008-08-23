@@ -23,7 +23,7 @@ import org.jbpm.bpel.endpointref.EndpointReference;
 import org.jbpm.bpel.integration.def.PartnerLinkDefinition;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/09/10 23:58:50 $
  */
 public class PartnerLinkInstance {

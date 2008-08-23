@@ -32,7 +32,7 @@ import org.jbpm.jpdl.par.ProcessArchive;
 import org.jbpm.jpdl.xml.Problem;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/07/20 22:35:40 $
  */
 public class ProcessArchiveTest extends TestCase {

@@ -402,7 +402,7 @@ public class SoapFormatter {
 
       SOAPElement accessor = SoapUtil.getElement(operationWrapper, partName);
       /*
-       * BPEL-243 - XML Schema Part 1 Second Edition, section 2.6.2: An element may be ·valid·
+       * BPEL-243 - XML Schema Part 1 Second Edition, section 2.6.2: An element may be valid
        * without content if it has the attribute xsi:nil with the value true
        */
       Boolean nil = DatatypeUtil.parseBoolean(accessor.getAttributeNS(
@@ -515,7 +515,7 @@ public class SoapFormatter {
             + binding);
       }
       /*
-       * BPEL-243 - XML Schema Part 1 Second Edition, section 2.6.2: An element may be ·valid·
+       * BPEL-243 - XML Schema Part 1 Second Edition, section 2.6.2: An element may be valid
        * without content if it has the attribute xsi:nil with the value true
        */
       Boolean nil = DatatypeUtil.parseBoolean(element.getAttributeNS(

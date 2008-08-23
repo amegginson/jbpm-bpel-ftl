@@ -29,7 +29,7 @@ import org.jbpm.graph.exe.ExecutionContext;
 
 /**
  * Generates a fault from inside the business process.
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/02/19 22:25:44 $
  */
 public class Throw extends Activity {

@@ -34,7 +34,7 @@ import org.jbpm.util.ClassLoaderUtil;
 
 /**
  * Evaluator factories produce BPEL expression and query evaluators.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/09/12 23:20:15 $
  */
 public abstract class EvaluatorFactory {

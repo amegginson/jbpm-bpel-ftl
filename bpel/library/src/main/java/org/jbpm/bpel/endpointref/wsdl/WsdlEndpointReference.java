@@ -26,7 +26,7 @@ import org.jbpm.bpel.endpointref.SoapEndpointReference;
 import org.jbpm.bpel.xml.util.XmlUtil;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/01/22 17:27:03 $
  */
 public class WsdlEndpointReference extends SoapEndpointReference {

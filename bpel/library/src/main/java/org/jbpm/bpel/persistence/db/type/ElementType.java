@@ -41,6 +41,7 @@ import org.xml.sax.SAXException;
 
 import org.jbpm.JbpmContext;
 import org.jbpm.bpel.xml.util.XmlUtil;
+import org.jbpm.configuration.ObjectFactory;
 
 /**
  * Mapping between a DOM {@linkplain Element element} and a {@linkplain Types#VARBINARY VARBINARY}
@@ -50,6 +51,8 @@ import org.jbpm.bpel.xml.util.XmlUtil;
  * @version $Revision$ $Date: 2008/02/01 05:46:43 $
  */
 public class ElementType implements UserType {
+
+  public static final String XML_DEFLATE_LEVEL = "jbpm.bpel.xml.deflate.level";
 
   private static final int[] SQL_TYPES = { Types.VARBINARY };
   private static final Log log = LogFactory.getLog(ElementType.class);
@@ -97,7 +100,7 @@ public class ElementType implements UserType {
       return null;
 
     // introduce inflater, if requested
-    Number deflateLevel = getXmlDeflateLevel();
+    Integer deflateLevel = getXmlDeflateLevel();
     if (deflateLevel != null)
       xmlStream = new InflaterInputStream(xmlStream);
 
@@ -136,7 +139,7 @@ public class ElementType implements UserType {
         ByteArrayOutputStream byteStream = new ByteArrayOutputStream();
 
         // deflate if requested
-        Number deflateLevel = getXmlDeflateLevel();
+        Integer deflateLevel = getXmlDeflateLevel();
         if (deflateLevel != null) {
           // introduce deflater stream
           Deflater deflater = new Deflater(deflateLevel.intValue());
@@ -171,15 +174,16 @@ public class ElementType implements UserType {
     }
   }
 
-  private static Number getXmlDeflateLevel() {
+  private static Integer getXmlDeflateLevel() {
     JbpmContext jbpmContext = JbpmContext.getCurrentJbpmContext();
     if (jbpmContext != null) {
-      Object deflateLevel = jbpmContext.getObjectFactory().createObject(
-          "jbpm.bpel.xml.deflate.level");
-      if (deflateLevel instanceof Number)
-        return (Number) deflateLevel;
-      else if (deflateLevel != null)
-        log.warn("xml deflate level is not a number: " + deflateLevel);
+      ObjectFactory objectFactory = jbpmContext.getObjectFactory();
+      if (objectFactory.hasObject(XML_DEFLATE_LEVEL)) {
+        Object deflateLevel = objectFactory.createObject(XML_DEFLATE_LEVEL);
+        if (deflateLevel instanceof Integer)
+          return (Integer) deflateLevel;
+        log.warn("xml deflate level is not an integer: " + deflateLevel);
+      }
     }
     return null;
   }

@@ -21,7 +21,7 @@ import org.jbpm.bpel.xml.BpelConstants;
 import org.jbpm.graph.def.Transition;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/10/13 02:53:25 $
  */
 public class ActivityDefTest extends TestCase {

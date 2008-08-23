@@ -27,7 +27,7 @@ import org.jbpm.bpel.xml.util.XmlUtil;
 /**
  * Encapsulates the logic to create and connect process elements that make up the <i>flow</i>
  * structure.
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2008/02/01 05:43:08 $
  */
 public class FlowReader extends ActivityReader {

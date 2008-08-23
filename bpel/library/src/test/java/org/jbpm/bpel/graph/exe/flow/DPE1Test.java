@@ -32,7 +32,7 @@ import org.jbpm.bpel.xml.util.XmlUtil;
 import org.jbpm.graph.exe.Token;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2008/02/01 05:43:09 $
  */
 public class DPE1Test extends AbstractExeTestCase {

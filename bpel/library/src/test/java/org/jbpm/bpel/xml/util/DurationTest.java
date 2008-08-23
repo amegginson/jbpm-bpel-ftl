@@ -19,7 +19,7 @@ import org.jbpm.bpel.xml.util.Duration;
 import junit.framework.TestCase;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2008/02/01 05:45:29 $
  */
 public class DurationTest extends TestCase {

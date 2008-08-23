@@ -34,6 +34,7 @@
   <target name="compile.test.dependencies">
     <path id="test.path">
       <path refid="jboss.path" />
+    	<pathelement location="${lib.junit.local}" />
       <pathelement location="${lib.jbpm.bpel.tools.jar.local}" />
       <pathelement location="${output.classes.dir}" />
       <pathelement location="../task/${output.classes.dir}" />

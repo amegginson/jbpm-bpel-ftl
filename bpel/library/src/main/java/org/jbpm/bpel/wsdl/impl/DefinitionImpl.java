@@ -19,7 +19,7 @@ import javax.wsdl.Input;
 import javax.wsdl.Output;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/02/19 22:29:42 $
  */
 public class DefinitionImpl extends com.ibm.wsdl.DefinitionImpl {

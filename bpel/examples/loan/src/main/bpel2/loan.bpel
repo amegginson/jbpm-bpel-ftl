@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<bpws:process exitOnStandardFault="yes" name="LoanApproval"
+<bpws:process name="LoanApproval"
   targetNamespace="http://jbpm.org/examples/loan"
   xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
   xmlns:jbpm="urn:jbpm.org:bpel-1.1" xmlns:loan="http://jbpm.org/examples/loan"
   xmlns:task="http://jbpm.org/examples/task"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <bpws:import importType="http://schemas.xmlsoap.org/wsdl/" location="loan.wsdl"
-    namespace="http://jbpm.org/examples/loan" />
-  <bpws:import importType="http://schemas.xmlsoap.org/wsdl/" location="interface/loaner.wsdl"
-    namespace="http://jbpm.org/examples/loan" />
-  <bpws:import importType="http://schemas.xmlsoap.org/wsdl/" location="interface/task.wsdl"
-    namespace="http://jbpm.org/examples/task" />
+  <bpws:import importType="http://schemas.xmlsoap.org/wsdl/"
+    location="loan.wsdl" namespace="http://jbpm.org/examples/loan" />
+  <bpws:import importType="http://schemas.xmlsoap.org/wsdl/"
+    location="interface/loaner.wsdl" namespace="http://jbpm.org/examples/loan" />
+  <bpws:import importType="http://schemas.xmlsoap.org/wsdl/"
+    location="interface/task.wsdl" namespace="http://jbpm.org/examples/task" />
   <bpws:partnerLinks>
-    <bpws:partnerLink myRole="loaner" name="borrower" partnerLinkType="loan:borrower-loaner" />
+    <bpws:partnerLink myRole="loaner" name="borrower"
+      partnerLinkType="loan:borrower-loaner" />
   </bpws:partnerLinks>
   <bpws:variables>
     <bpws:variable messageType="loan:loanRequest" name="loanRequest" />
@@ -23,8 +24,9 @@
     <bpws:correlationSet name="borrowerName" properties="loan:borrowerName" />
   </bpws:correlationSets>
   <bpws:sequence name="Main">
-    <bpws:receive createInstance="yes" name="AcceptLoanRequest" operation="requestLoan"
-      partnerLink="borrower" portType="loan:Loaner" variable="loanRequest">
+    <bpws:receive createInstance="yes" name="AcceptLoanRequest"
+      operation="requestLoan" partnerLink="borrower" portType="loan:Loaner"
+      variable="loanRequest">
       <bpws:correlations>
         <bpws:correlation initiate="yes" set="borrowerName" />
       </bpws:correlations>
@@ -41,12 +43,18 @@
         <bpws:scope name="EscalateToAgent">
           <bpws:partnerLinks>
             <bpws:partnerLink myRole="taskRequester" name="taskManager"
-              partnerLinkType="loan:taskRequester-taskManager" partnerRole="taskManager" />
+              partnerLinkType="loan:taskRequester-taskManager"
+              partnerRole="taskManager" />
           </bpws:partnerLinks>
           <bpws:variables>
-            <bpws:variable messageType="task:createTaskResponse" name="taskCreationResponse" />
-            <bpws:variable messageType="task:createTaskRequest" name="taskCreationRequest" />
-            <bpws:variable messageType="task:endTaskRequest" name="taskEndedNotification" />
+            <bpws:variable messageType="task:createTaskResponse"
+              name="taskCreationResponse" />
+            <bpws:variable messageType="task:createTaskRequest"
+              name="taskCreationRequest" />
+            <bpws:variable messageType="task:endTaskRequest"
+              name="taskEndedNotification" />
+            <bpws:variable messageType="task:endTaskResponse"
+              name="taskEndedConfirmation" />
           </bpws:variables>
           <bpws:correlationSets>
             <bpws:correlationSet name="evaluationTask" properties="loan:taskId" />
@@ -76,11 +84,13 @@
                 <bpws:to part="replyTo" variable="taskCreationRequest" />
               </bpws:copy>
             </bpws:assign>
-            <bpws:invoke inputVariable="taskCreationRequest" name="CreateEvaluationTask"
-              operation="createTask" outputVariable="taskCreationResponse" partnerLink="taskManager"
+            <bpws:invoke inputVariable="taskCreationRequest"
+              name="CreateEvaluationTask" operation="createTask"
+              outputVariable="taskCreationResponse" partnerLink="taskManager"
               portType="task:TaskManager">
               <bpws:correlations>
-                <bpws:correlation initiate="yes" pattern="in" set="evaluationTask" />
+                <bpws:correlation initiate="yes" pattern="in"
+                  set="evaluationTask" />
               </bpws:correlations>
             </bpws:invoke>
             <bpws:assign name="SetEvaluating" validate="no">
@@ -93,18 +103,26 @@
               <bpws:condition><![CDATA[$statusResponse.status = 'evaluating']]></bpws:condition>
               <bpws:pick name="EvaluationMenu">
                 <bpws:onMessage operation="taskEnded" partnerLink="taskManager"
-                  portType="task:TaskCallback" variable="taskEndedNotification">
+                  portType="task:TaskCallback"
+                  variable="taskEndedNotification">
                   <bpws:correlations>
                     <bpws:correlation initiate="no" set="evaluationTask" />
                   </bpws:correlations>
-                  <bpws:assign name="ReadEvaluationResult" validate="no">
-                    <bpws:copy>
-                      <bpws:from part="taskInfo" variable="taskEndedNotification">
-                        <bpws:query><![CDATA[loanStatus]]></bpws:query>
-                      </bpws:from>
-                      <bpws:to part="status" variable="statusResponse" />
-                    </bpws:copy>
-                  </bpws:assign>
+                  <bpws:sequence name="CloseEvaluationTaskSeq">
+                    <bpws:assign name="ReadEvaluationResult" validate="no">
+                      <bpws:copy>
+                        <bpws:from part="taskInfo"
+                          variable="taskEndedNotification">
+                          <bpws:query><![CDATA[loanStatus]]></bpws:query>
+                        </bpws:from>
+                        <bpws:to part="status" variable="statusResponse" />
+                      </bpws:copy>
+                    </bpws:assign>
+                    <bpws:reply name="ConfirmEvaluationTaskEnded"
+                      operation="taskEnded" partnerLink="taskManager"
+                      portType="task:TaskCallback"
+                      variable="taskEndedConfirmation" />
+                  </bpws:sequence>
                 </bpws:onMessage>
                 <bpws:onMessage operation="getLoanStatus" partnerLink="borrower"
                   portType="loan:Loaner" variable="statusRequest">
@@ -112,7 +130,8 @@
                     <bpws:correlation initiate="no" set="borrowerName" />
                   </bpws:correlations>
                   <bpws:reply name="NotifyEvaluating" operation="getLoanStatus"
-                    partnerLink="borrower" portType="loan:Loaner" variable="statusResponse" />
+                    partnerLink="borrower" portType="loan:Loaner"
+                    variable="statusResponse" />
                 </bpws:onMessage>
               </bpws:pick>
             </bpws:while>
@@ -120,13 +139,13 @@
         </bpws:scope>
       </bpws:else>
     </bpws:if>
-    <bpws:receive name="AcceptStatusRequest" operation="getLoanStatus" partnerLink="borrower"
-      portType="loan:Loaner" variable="statusRequest">
+    <bpws:receive name="AcceptStatusRequest" operation="getLoanStatus"
+      partnerLink="borrower" portType="loan:Loaner" variable="statusRequest">
       <bpws:correlations>
         <bpws:correlation initiate="no" set="borrowerName" />
       </bpws:correlations>
     </bpws:receive>
-    <bpws:reply name="SendStatus" operation="getLoanStatus" partnerLink="borrower"
-      portType="loan:Loaner" variable="statusResponse" />
+    <bpws:reply name="SendStatus" operation="getLoanStatus"
+      partnerLink="borrower" portType="loan:Loaner" variable="statusResponse" />
   </bpws:sequence>
 </bpws:process>

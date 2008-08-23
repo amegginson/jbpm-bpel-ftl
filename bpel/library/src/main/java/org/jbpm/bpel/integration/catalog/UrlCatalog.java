@@ -26,7 +26,7 @@ import org.apache.commons.logging.LogFactory;
 import org.jbpm.bpel.wsdl.xml.WsdlUtil;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/10/13 02:53:29 $
  */
 public class UrlCatalog extends DecoratorCatalog {

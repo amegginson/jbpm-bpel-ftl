@@ -28,7 +28,7 @@ import org.jbpm.bpel.graph.struct.Pick;
 import org.jbpm.bpel.integration.def.ReceiveAction;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/07/26 00:39:11 $
  */
 public class PickExeTest extends AbstractExeTestCase {

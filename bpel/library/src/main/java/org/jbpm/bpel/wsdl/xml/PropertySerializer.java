@@ -36,7 +36,7 @@ import org.jbpm.bpel.xml.util.XmlUtil;
 
 /**
  * Translates between <code>bpel:property</code> elements and {@link Property} instances.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/09/04 06:42:27 $
  */
 public class PropertySerializer implements ExtensionSerializer, ExtensionDeserializer, Serializable {

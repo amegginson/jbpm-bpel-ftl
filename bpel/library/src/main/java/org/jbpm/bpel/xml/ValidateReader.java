@@ -22,7 +22,7 @@ import org.jbpm.bpel.graph.def.CompositeActivity;
 import org.jbpm.bpel.variable.def.VariableDefinition;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/05/31 12:55:12 $
  */
 public class ValidateReader extends ActivityReader {

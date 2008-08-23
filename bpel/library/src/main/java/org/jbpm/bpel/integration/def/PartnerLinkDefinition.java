@@ -26,7 +26,7 @@ import org.jbpm.bpel.wsdl.PartnerLinkType;
 import org.jbpm.bpel.wsdl.PartnerLinkType.Role;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/09/10 23:58:50 $
  */
 public class PartnerLinkDefinition implements Serializable {

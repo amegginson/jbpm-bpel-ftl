@@ -21,4 +21,156 @@
     
   <para>The next diagram depicts the loan process.</para>
 
+  <figure id="tutorial.loan.main">
+    <title>Loan process</title>
+    <mediaobject><imageobject><imagedata align="center" fileref="images/loanMain.png" 
+      width="4.02in" depth="4.41in" scalefit="0" /></imageobject></mediaobject>
+  </figure>
+
+  <section id="tutorial.loan.def">
+
+    <title>Define the BPEL process</title>
+
+    <section id="tutorial.loan.def.bpel">
+
+      <title>Create the BPEL document</title>
+
+      <para>The process begins with the arrival of a loan application from a customer. The 
+        requested amount is evaluated. Loans under $1000 are approved automatically. Loans
+        over that quantity are submitted to an agent for further evaluation.</para>
+
+      <para>The borrower may ask for the loan application status at any time. The status
+        is either <emphasis>evaluating</emphasis>, <emphasis>approved</emphasis> or
+        <emphasis>rejected</emphasis>. Once the borrower is informed the loan has been
+        approved or rejected, the process ends.</para>
+
+      <programlisting><![CDATA[<process name="LoanApproval"
+  targetNamespace="http://jbpm.org/examples/loan"
+  xmlns="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+  xmlns:jbpm="urn:jbpm.org:bpel-1.1" xmlns:loan="http://jbpm.org/examples/loan"
+  xmlns:task="http://jbpm.org/examples/task"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <import importType="http://schemas.xmlsoap.org/wsdl/"
+    location="loan.wsdl" namespace="http://jbpm.org/examples/loan" />
+  <import importType="http://schemas.xmlsoap.org/wsdl/"
+    location="interface/loaner.wsdl" namespace="http://jbpm.org/examples/loan" />
+  <import importType="http://schemas.xmlsoap.org/wsdl/"
+    location="interface/task.wsdl" namespace="http://jbpm.org/examples/task" />
+  <partnerLinks>
+    <partnerLink myRole="loaner" name="borrower"
+      partnerLinkType="loan:borrower-loaner" />
+  </partnerLinks>
+  <variables>
+    <variable messageType="loan:loanRequest" name="loanRequest" />
+    <variable messageType="loan:statusResponse" name="statusResponse" />
+    <variable messageType="loan:statusRequest" name="statusRequest" />
+  </variables>
+  <correlationSets>
+    <correlationSet name="borrowerName" properties="loan:borrowerName" />
+  </correlationSets>
+  <sequence name="Main">
+    <receive createInstance="yes" name="AcceptLoanRequest"
+      operation="requestLoan" partnerLink="borrower" portType="loan:Loaner"
+      variable="loanRequest">
+      <correlations>
+        <correlation initiate="yes" set="borrowerName" />
+      </correlations>
+    </receive>
+    <if name="EvaluateAmount">
+      <condition>$loanRequest.amount &lt; 1000</condition>
+      <assign name="ApproveLoan" validate="no">
+        <copy>
+          <from>'approved'</from>
+          <to part="status" variable="statusResponse" />
+        </copy>
+      </assign>
+      <else>
+        <scope name="EscalateToAgent">
+          ...
+        </scope>
+      </else>
+    </if>
+    <receive name="AcceptStatusRequest" operation="getLoanStatus"
+      partnerLink="borrower" portType="loan:Loaner" variable="statusRequest">
+      <correlations>
+        <correlation initiate="no" set="borrowerName" />
+      </correlations>
+    </receive>
+    <reply name="SendStatus" operation="getLoanStatus"
+      partnerLink="borrower" portType="loan:Loaner" variable="statusResponse" />
+  </sequence>
+</process>]]></programlisting>
+
+      <para>Large loans are made available to agents as follows. The task manager service
+        is contacted to create a new task. Said service returns the identifier given to
+        the task. The process sits down while awaiting a task end notification. Once the
+        message arrives, the loan veredict is extracted from the message and made available
+        to the borrower.</para>
+
+      <figure id="tutorial.loan.evaluation">
+        <title>Loan evaluation</title>
+        <mediaobject><imageobject><imagedata align="center" fileref="images/loanEvaluation.png" 
+          width="6.1in" depth="6in" scalefit="0" /></imageobject></mediaobject>
+      </figure>
+
+    </section>
+
+    <section id="tutorial.loan.def.wsdl">
+    
+      <title>Create/obtain the WSDL interface documents</title>
+
+      <para>TODO</para>
+
+    </section>
+
+    <section id="tutorial.loan.def.deploy">
+    
+      <title>Deploy the process definition</title>
+
+      <para>To deploy the process to the jBPM BPEL application, run the next ant target.</para>
+
+      <synopsis>ant deploy.process</synopsis>
+
+      <para>Launch the task manager service by changing to the <literal>task</literal> directory
+        and executing the target below.</para>
+
+      <synopsis>ant deploy.webservice</synopsis>
+
+    </section>
+
+  </section>
+
+  <section id="tutorial.loan.client">
+
+    <title>Build the WSEE application client</title>
+
+    <para>TODO</para>
+
+  </section>
+
+  <section id="tutorial.loan.test">
+
+    <title>Test the process</title>
+
+    <para>The test case <literal>LoanerTest</literal> is provided to verify the correctness of
+      the loan approval process.</para>
+
+    <section id="tutorial.loan.test.run">
+
+      <title>Test execution</title>
+
+      <para>To execute the JUnit test, call:</para>
+
+      <synopsis>ant test</synopsis>
+
+      <para>The listing below displays the expected test results.</para>
+
+      <screen>test:
+    [junit] Running org.jbpm.bpel.tutorial.loan.LoanerTest
+    [junit] Tests run: 2, Failures: 0, Errors: 0, Time elapsed: 4.754 sec</screen>
+
+    </section>
+
+  </section>
+
 </chapter>

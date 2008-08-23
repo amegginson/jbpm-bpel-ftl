@@ -27,7 +27,7 @@ import org.jbpm.bpel.graph.def.Import;
 import org.jbpm.jpdl.par.ProcessArchive;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/10/13 02:53:28 $
  */
 public class DescriptorArchiveParserTest extends TestCase {

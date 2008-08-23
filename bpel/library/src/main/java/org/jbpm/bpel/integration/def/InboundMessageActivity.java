@@ -20,7 +20,7 @@ import org.jbpm.graph.exe.Token;
  * Contract that inbound message activities must adhere for receiving
  * {@linkplain ReceiveAction reception} notifications from the jBPM BPEL partner
  * integration service.
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/07/02 23:55:04 $
  */
 public interface InboundMessageActivity {

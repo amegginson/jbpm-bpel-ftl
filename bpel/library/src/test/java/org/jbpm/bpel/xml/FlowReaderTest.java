@@ -18,7 +18,7 @@ import org.jbpm.bpel.graph.def.Activity;
 import org.jbpm.bpel.graph.struct.Flow;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2006/09/27 03:53:01 $
  */
 public class FlowReaderTest extends AbstractReaderTestCase {

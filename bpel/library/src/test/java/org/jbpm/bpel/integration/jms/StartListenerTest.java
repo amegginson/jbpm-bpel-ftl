@@ -17,7 +17,7 @@ package org.jbpm.bpel.integration.jms;
 import javax.jms.JMSException;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/11/02 16:46:19 $
  */
 public class StartListenerTest extends AbstractListenerTestCase {

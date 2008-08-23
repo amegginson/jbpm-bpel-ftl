@@ -25,7 +25,7 @@ import org.jbpm.bpel.xml.BpelConstants;
 
 /**
  * Reference to a single imported document, either WSDL or XML Schema.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/10/13 02:53:26 $
  */
 public class Import implements Serializable {

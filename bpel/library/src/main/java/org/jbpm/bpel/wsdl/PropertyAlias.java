@@ -30,7 +30,7 @@ import org.jbpm.bpel.sublang.def.PropertyQuery;
  * becomes an alias for the message part and/or location, and can be used as
  * such in {@linkplain Expression expressions} and
  * {@linkplain Assign assignments}.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/09/12 23:20:19 $
  */
 public interface PropertyAlias extends ExtensibilityElement, Serializable {

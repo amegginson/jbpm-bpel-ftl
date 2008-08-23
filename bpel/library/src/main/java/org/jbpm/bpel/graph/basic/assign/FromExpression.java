@@ -23,7 +23,7 @@ import org.jbpm.graph.exe.Token;
 /**
  * <code>&lt;from&gt;</code> variant that allows processes to perform simple computations on
  * properties and variables.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/07/22 05:57:25 $
  */
 public class FromExpression extends From {

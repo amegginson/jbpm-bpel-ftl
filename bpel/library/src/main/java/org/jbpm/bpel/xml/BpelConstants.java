@@ -18,7 +18,7 @@ import javax.xml.namespace.QName;
 
 /**
  * Constant values used in BPEL process definitions.
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/11/29 10:17:06 $
  */
 public class BpelConstants {

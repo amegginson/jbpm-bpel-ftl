@@ -27,8 +27,6 @@ import javax.jms.MessageConsumer;
 import javax.jms.MessageProducer;
 import javax.jms.ObjectMessage;
 import javax.jms.Session;
-import javax.naming.InitialContext;
-import javax.naming.LinkRef;
 import javax.wsdl.Definition;
 import javax.wsdl.Port;
 import javax.xml.namespace.QName;
@@ -67,7 +65,7 @@ import org.jbpm.bpel.xml.util.DatatypeUtil;
 import org.jbpm.bpel.xml.util.XmlUtil;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2008/06/12 08:18:55 $
  */
 public class SoapHandlerTest extends AbstractDbTestCase {
@@ -194,7 +192,8 @@ public class SoapHandlerTest extends AbstractDbTestCase {
     super.setUp();
 
     // create bpel definition
-    BpelProcessDefinition processDefinition = new BpelProcessDefinition("testProcess", BpelConstants.NS_EXAMPLES);
+    BpelProcessDefinition processDefinition = new BpelProcessDefinition("testProcess",
+        BpelConstants.NS_EXAMPLES);
 
     definition = WsdlUtil.getFactory()
         .newWSDLReader()
@@ -235,29 +234,15 @@ public class SoapHandlerTest extends AbstractDbTestCase {
     DeploymentDescriptor deploymentDescriptor = new DeploymentDescriptor();
     deploymentDescriptor.setName(processDefinition.getName());
 
-    InitialContext initialContext = new InitialContext();
-    try {
-      // link jms administered objects
-      initialContext.rebind(IntegrationControl.CONNECTION_FACTORY_NAME, new LinkRef(
-          "ConnectionFactory"));
-      initialContext.rebind("rpcPl", new LinkRef("queue/testQueue"));
-      initialContext.rebind("docPl", new LinkRef("queue/testQueue"));
-
-      // configure relation context
-      integrationControl = JmsIntegrationServiceFactory.getConfigurationInstance(jbpmConfiguration)
-          .getIntegrationControl(processDefinition);
-      integrationControl.setDeploymentDescriptor(deploymentDescriptor);
-      // bind port entries and lookup destinations
-      IntegrationControlHelper.setUp(integrationControl, jbpmContext);
-
-      // unlink jms administered objects
-      initialContext.unbind(IntegrationControl.CONNECTION_FACTORY_NAME);
-      initialContext.unbind("rpcPl");
-      initialContext.unbind("docPl");
-    }
-    finally {
-      initialContext.close();
-    }
+    // configure integration components
+    JmsIntegrationServiceFactory integrationServiceFactory = JmsIntegrationServiceFactory.getConfigurationInstance(jbpmConfiguration);
+    integrationServiceFactory.setConnectionFactoryName("ConnectionFactory");
+    integrationServiceFactory.setRequestDestinationName("queue/A");
+    integrationServiceFactory.setResponseDestinationName("queue/B");
+    integrationControl = integrationServiceFactory.getIntegrationControl(processDefinition);
+    integrationControl.setDeploymentDescriptor(deploymentDescriptor);
+    // bind port entries and lookup destinations
+    IntegrationControlHelper.setUp(integrationControl, jbpmContext);
   }
 
   protected void tearDown() throws Exception {
@@ -493,7 +478,8 @@ public class SoapHandlerTest extends AbstractDbTestCase {
     Connection connection = integrationControl.getJmsConnection();
     Session session = connection.createSession(false, Session.CLIENT_ACKNOWLEDGE);
     try {
-      Destination replyTo = integrationControl.getIntegrationServiceFactory().getResponseDestination();
+      Destination replyTo = integrationControl.getIntegrationServiceFactory()
+          .getResponseDestination();
       MessageProducer producer = session.createProducer(replyTo);
       // create parts map
       Map responseParts = createOutputRpcParts();
@@ -555,7 +541,8 @@ public class SoapHandlerTest extends AbstractDbTestCase {
     Connection connection = integrationControl.getJmsConnection();
     Session session = connection.createSession(false, Session.CLIENT_ACKNOWLEDGE);
     try {
-      Destination replyTo = integrationControl.getIntegrationServiceFactory().getResponseDestination();
+      Destination replyTo = integrationControl.getIntegrationServiceFactory()
+          .getResponseDestination();
       MessageProducer producer = session.createProducer(replyTo);
       // create parts map
       Map responseParts = createOutputDocParts();

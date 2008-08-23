@@ -40,7 +40,7 @@ import org.jbpm.bpel.xml.util.DatatypeUtil;
 import org.jbpm.bpel.xml.util.XmlUtil;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2008/01/30 07:19:06 $
  */
 public class SoapCallerTest extends TestCase {

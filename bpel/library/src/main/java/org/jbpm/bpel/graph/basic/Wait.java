@@ -29,7 +29,7 @@ import org.jbpm.scheduler.SchedulerService;
 /**
  * Suspends the process instance for a given time period or until a certain
  * point in time has been reached.
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/07/02 23:55:04 $
  */
 public class Wait extends Activity implements TimeDrivenActivity {

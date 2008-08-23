@@ -35,7 +35,7 @@ import org.jbpm.bpel.xml.util.DatatypeUtil;
 import org.jbpm.bpel.xml.util.XmlUtil;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/09/04 06:42:26 $
  */
 public class BpelConverterTest extends TestCase {

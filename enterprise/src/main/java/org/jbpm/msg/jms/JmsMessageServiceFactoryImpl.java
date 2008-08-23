@@ -30,8 +30,6 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.jbpm.JbpmException;
 import org.jbpm.ejb.impl.JobListenerBean;
 import org.jbpm.svc.Service;
@@ -59,7 +57,6 @@ import org.jbpm.svc.ServiceFactory;
 public class JmsMessageServiceFactoryImpl implements ServiceFactory {
 
   private static final long serialVersionUID = 1L;
-  private static final Log log = LogFactory.getLog(JmsMessageServiceFactoryImpl.class);
   
   String connectionFactoryJndiName = "java:comp/env/jms/JbpmConnectionFactory";
   String destinationJndiName = "java:comp/env/jms/JobQueue";
@@ -68,37 +65,55 @@ public class JmsMessageServiceFactoryImpl implements ServiceFactory {
   private ConnectionFactory connectionFactory;
   private Destination destination;
 
-  public JmsMessageServiceFactoryImpl() {
-    try {
-      Context initial = new InitialContext();
-      connectionFactory = (ConnectionFactory) initial.lookup(connectionFactoryJndiName);
-      destination = (Destination) initial.lookup(destinationJndiName);
-      initial.close();
+  public ConnectionFactory getConnectionFactory() {
+    if (connectionFactory == null) {
+      try {
+        connectionFactory = (ConnectionFactory) lookup(connectionFactoryJndiName);
+      }
+      catch (NamingException e) {
+        throw new JbpmException("could not retrieve message connection factory", e);
+      }
     }
-    catch (NamingException e) {
-      log.error("jms object lookup problem", e);
-      throw new JbpmException("jms object lookup problem", e);
+    return connectionFactory;
+  }
+
+  public Destination getDestination() {
+    if (destination == null) {
+      try {
+        destination = (Destination) lookup(destinationJndiName);
+      }
+      catch (NamingException e) {
+        throw new JbpmException("could not retrieve message destination", e);
+      }
+    }
+    return destination;
+  }
+
+  private static Object lookup(String name) throws NamingException {
+    Context initialContext = new InitialContext();
+    try {
+      return initialContext.lookup(name);
+    }
+    finally {
+      initialContext.close();
     }
   }
 
   public Service openService() {
-    Connection connection = null;
-    Session session = null;
-    
     try {
-      connection = connectionFactory.createConnection();
-      
+      Connection connection = getConnectionFactory().createConnection();
+
       // If you use an XA connection factory in JBoss, the parameters will be ignored.  It will always take part in the global JTA transaction.
       // If you use a non XQ connection factory, the first parameter specifies whether you want to have all message productions and 
       // consumptions as part of one transaction (TRUE) or whether you want all productions and consumptions to be instantanious (FALSE)
       // Of course, we never want messages to be received before the current jbpm transaction commits so we just set it to true.
-      session = connection.createSession(true, Session.SESSION_TRANSACTED);
-      
-    } catch (JMSException e) {
+      Session session = connection.createSession(true, Session.SESSION_TRANSACTED);
+
+      return new JmsMessageServiceImpl(connection, session, getDestination(), isCommitEnabled);
+    }
+    catch (JMSException e) {
       throw new JbpmException("couldn't open jms message session", e);
     }
-    
-    return new JmsMessageServiceImpl(connection, session, destination, isCommitEnabled);
   }
 
   public void close() {

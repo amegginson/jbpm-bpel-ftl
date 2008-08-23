@@ -14,7 +14,6 @@
  */
 package org.jbpm.bpel.integration.def;
 
-import java.io.Serializable;
 import java.util.Map;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -27,10 +26,10 @@ import org.jbpm.graph.exe.Token;
 
 /**
  * @author Juan Cantu
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/07/26 00:36:13 $
  */
-public class InvokeAction extends MessageAction implements Serializable {
+public class InvokeAction extends MessageAction {
 
   private VariableDefinition inputVariable;
   private VariableDefinition outputVariable;

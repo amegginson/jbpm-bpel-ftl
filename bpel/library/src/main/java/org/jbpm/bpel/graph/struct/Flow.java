@@ -34,7 +34,7 @@ import org.jbpm.graph.exe.Token;
  * Specifies one or more activities to be performed concurrently. {@link LinkDefinition links} can
  * be used within a <tt>flow</tt> to define explicit control dependencies between nested child
  * activities.
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2008/02/01 05:43:08 $
  */
 public class Flow extends StructuredActivity {

@@ -34,7 +34,7 @@ import org.jbpm.bpel.sublang.exe.PropertyQueryEvaluator;
 
 /**
  * A factory for expressions and queries written in XPath 1.0.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/09/12 23:20:16 $
  */
 public class XPathEvaluatorFactory extends EvaluatorFactory {

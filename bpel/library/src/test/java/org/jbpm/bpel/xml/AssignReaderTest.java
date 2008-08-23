@@ -39,8 +39,8 @@ import org.jbpm.bpel.sublang.def.Expression;
 import org.jbpm.bpel.sublang.def.VariableQuery;
 
 /**
- * @author Juan Cantú
- * @author Alejandro Guízar
+ * @author Juan Cantu
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/09/12 23:20:21 $
  */
 public class AssignReaderTest extends AbstractReaderTestCase {

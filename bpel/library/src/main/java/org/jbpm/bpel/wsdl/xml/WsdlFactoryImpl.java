@@ -27,7 +27,7 @@ import org.jbpm.bpel.wsdl.impl.PropertyImpl;
 /**
  * Enhances the WSDL4J implementation of the {@link WSDLFactory} to accommodate
  * extension definitions introduced by BPEL.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/01/22 00:24:55 $
  */
 public class WsdlFactoryImpl extends com.ibm.wsdl.factory.WSDLFactoryImpl {

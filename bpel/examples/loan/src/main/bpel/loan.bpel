@@ -51,6 +51,7 @@
             <variable name="taskCreationResponse" messageType="task:createTaskResponse" />
             <variable name="taskCreationRequest" messageType="task:createTaskRequest" />
             <variable name="taskEndedNotification" messageType="task:endTaskRequest" />
+            <variable name="taskEndedConfirmation" messageType="task:endTaskResponse" />
           </variables>
 
           <correlationSets>
@@ -105,13 +106,21 @@
                     <correlation set="evaluationTask" />
                   </correlations>
 
-                  <assign name="ReadEvaluationResult">
-                    <copy>
-                      <from variable="taskEndedNotification" part="taskInfo"
-                        query="/taskInfo/loanStatus" />
-                      <to part="status" variable="statusResponse" />
-                    </copy>
-                  </assign>
+                  <sequence name="CloseEvaluationTaskSeq">
+
+                    <assign name="ReadEvaluationResult">
+                      <copy>
+                        <from variable="taskEndedNotification" part="taskInfo"
+                          query="/taskInfo/loanStatus" />
+                        <to part="status" variable="statusResponse" />
+                      </copy>
+                    </assign>
+
+                    <reply name="ConfirmEvaluationTaskEnded" partnerLink="taskManager"
+                      portType="task:TaskCallback" operation="taskEnded"
+                      variable="taskEndedConfirmation" />
+
+                  </sequence>
 
                 </onMessage>
 

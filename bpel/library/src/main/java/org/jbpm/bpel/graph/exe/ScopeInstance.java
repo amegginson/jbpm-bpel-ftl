@@ -49,7 +49,7 @@ import org.jbpm.graph.exe.Token;
 import org.jbpm.scheduler.SchedulerService;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2008/06/11 19:58:04 $
  */
 public class ScopeInstance implements Serializable, Compensator {

@@ -27,7 +27,7 @@ import org.jbpm.graph.exe.Token;
 /**
  * An implementation of {@link VariableContext} that resolves variable bindings
  * from the values in the scope of the enclosed {@link Token token}.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/05/29 01:09:34 $
  */
 public class TokenVariableContext implements VariableContext, Serializable {

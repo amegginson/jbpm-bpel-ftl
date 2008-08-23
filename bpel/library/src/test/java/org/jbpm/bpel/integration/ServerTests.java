@@ -26,7 +26,7 @@ import org.jbpm.bpel.integration.server.SoapHandlerTest;
 import org.jbpm.bpel.integration.soap.SoapUtilTest;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2008/01/30 07:19:06 $
  */
 public class ServerTests {

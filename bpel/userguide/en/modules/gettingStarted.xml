@@ -60,7 +60,7 @@
 
         <row>
           <entry>Host</entry>
-          <entry>anoncvs.forge.jboss.com</entry>
+          <entry>anoncvs.jboss.org</entry>
         </row>
 
         <row>
@@ -154,6 +154,13 @@
           <row>
             <entry>1.5.0</entry>
             <entry>4.2.2.GA</entry>
+            <entry>default</entry>
+            <entry/>
+          </row>
+
+          <row>
+            <entry>1.5.0</entry>
+            <entry>4.2.3.GA</entry>
             <entry>default</entry>
             <entry/>
           </row>
@@ -264,9 +271,11 @@
         <para>Among the properties in <literal>jbpm.hibernate.cfg.xml</literal>, <literal>
           hibernate.connection.datasource</literal> is of particular interest. This property
           specifies the name of a data source in the JNDI registry. The preset value,
-          <literal>java:/DefaultDS</literal>, references a predeployed data source in
-          JBoss AS.</para>
-                  
+          <literal>java:JbpmDS</literal>, references the data source contained in the 
+          <literal>jbpm-ds.xml</literal> descriptor, located in the <literal>deploy</literal>
+          directory. The build file there deploys the data source before the jBPM BPEL 
+          enterprise app to ensure the <literal>java:JbpmDS</literal> name is bound.</para>
+
       </section>
       
       <section id="getstarted.setup.config.jbpm">
@@ -342,7 +351,7 @@ jboss.server=default]]></programlisting>
       
     <section id="getstarted.setup.deploy">
     
-      <title>Deployment</title>
+      <title>Application deployment</title>
       
       <para>Before deploying the service, start JBoss in the server configuration of your choice
         (see <ulink url="http://tinyurl.com/rjqkb">Server Configurations</ulink>). Afterward,
@@ -383,9 +392,18 @@ jboss.server=default]]></programlisting>
 
     </section>
 
-    <section id="getstarted.setup.restart">
+  </section>
 
-      <title>Remarks on server restart</title>
+  <section id="getstarted.server">
+
+    <title>Application server notes</title>
+
+    <para>The present section documents known features in JBoss which may affect jBPM BPEL
+      deployments.</para>
+
+    <section id="getstarted.server.restart">
+
+      <title>Server restart</title>
 
       <para>The predefined deployment order in JBoss AS results in exceptional behavior when
         jBPM BPEL application is up and running, one or more process definitions have been
@@ -403,15 +421,18 @@ jboss.server=default]]></programlisting>
 
       <orderedlist>
       
-        <listitem><para>Locate the <literal>MainDeployer</literal> service under the 
-          <literal>jboss.system</literal> category in the JMX agent view.</para></listitem>
+        <listitem><para>Locate the <literal>org.jboss.deployment.MainDeployer-xmbean.xml
+          </literal> file under the <literal>conf/xmdesc</literal> directory of your 
+          preferred server profile. For the default profile, the location is 
+          <literal>jboss-&lt;version&gt;/server/default/conf/xmdesc</literal>.</para>
+          </listitem>
 
-        <listitem><para>Scroll down until you see the <literal>EnhancedSuffixOrder</literal> 
-          attribute.</para></listitem>
+        <listitem><para>Look for the <literal>EnhancedSuffixOrder</literal> attribute.</para>
+          </listitem>
 
         <listitem>
 
-          <para>In the value text field, insert the <literal>jbpm-bpel.jar</literal> suffix
+          <para>In the value element, insert the <literal>jbpm-bpel.jar</literal> suffix
             anywhere you see fit, <emphasis>before</emphasis> the <literal>.war</literal> suffix. 
             For example,</para>
 
@@ -419,14 +440,127 @@ jboss.server=default]]></programlisting>
 
         </listitem>
 
-        <listitem><para>Apply the changes. The actual suffix order will not change till the next 
-          restart.</para></listitem>
+        <listitem><para>Save the file. The change will not apply till the next restart.</para>
+          </listitem>
 
       </orderedlist>
-      
-      <note><para>The above attribute can be set directly in this file as well:</para>
-        <para><literal>conf/xmdesc/org.jboss.deployment.MainDeployer-xmbean.xml</literal></para>
-        </note>
+
+    </section>
+
+    <section id="getstarted.server.transactions">
+
+      <title>Transaction manager</title>
+
+      <para>From JBoss AS 4.2 onwards, a new transaction manager based on technology
+        acquired from Arjuna replaced the traditional transaction manager. jBPM BPEL relies
+        on the transaction manager to ensure consistent changes to the transactional resources
+        it employs, namely the data source, the EJB timer service and the JMS connection 
+        factory.</para>
+
+      <para>While jBPM BPEL works transparently with either transaction manager, it is worth
+        noting that the Arjuna based one is less lenient to non-XA resources. Many databases
+        do not provide XA data sources. Transaction managers are able to deal with at most 
+        one local transaction resource, by enlisting it as the last resource. Beyond that, 
+        consistency cannot be guaranteed.</para>
+
+      <para>In a pristine JBoss AS 4.2 installation, the EJB timer service is backed by an 
+        HSQL data source, which is <emphasis>not</emphasis> XA enabled. If jBPM BPEL is
+        also bound to a local transaction data source, the transaction manager will complain
+        about multiple last resources being enlisted, and mark the transaction for roll back.
+        </para>
+
+      <para>There are quite a few ways out of the above embroilment.</para>
+
+      <orderedlist>
+
+        <listitem><para>Bind jBPM BPEL, the EJB timer service, or both, to an XA data source.
+          </para></listitem>
+
+        <listitem><para>Bind jBPM BPEL and the EJB timer service to the same data source.</para>
+          </listitem>
+
+        <listitem><para>Disable EJB timer persistence.</para></listitem>
+
+        <listitem><para>Configure the new transaction manager to allow multiple last resources.
+          </para></listitem>
+
+        <listitem><para>Revert to the old transaction manager, which allows multiple last 
+          resources.</para></listitem>
+
+      </orderedlist>
+
+      <para>Indeed, the first proposal is the only real solution; the rest are workarounds.
+        However, using an XA data source during process development and testing may not be
+        convenient or feasible.</para>
+
+      <para>To change the EJB timer service data source, proceed as follows.</para>
+
+      <orderedlist>
+
+        <listitem><para>Locate file <literal>ejb-deployer.xml</literal> in the 
+          <literal>deploy</literal> directory of your server profile.</para></listitem>
+
+        <listitem>
+
+          <para>Look for the 
+            <literal>jboss.ejb:service=EJBTimerService,persistencePolicy=database</literal>
+            managed bean.</para>
+
+          <programlisting><![CDATA[<mbean code="org.jboss.ejb.txtimer.DatabasePersistencePolicy"
+name="jboss.ejb:service=EJBTimerService,persistencePolicy=database">
+  <!-- DataSourceBinding ObjectName -->
+  <depends optional-attribute-name="DataSource">
+    jboss.jca:service=DataSourceBinding,name=DefaultDS
+  </depends>
+  <!-- The plugin that handles database persistence -->
+  <attribute name="DatabasePersistencePlugin">
+    org.jboss.ejb.txtimer.GeneralPurposeDatabasePersistencePlugin
+  </attribute>
+  <!-- The timers table name -->
+  <attribute name="TimersTable">TIMERS</attribute>
+</mbean>]]></programlisting>
+
+        </listitem>
+
+        <listitem><para>Set the <literal>DataSource</literal> attribute to the data source
+          of your liking.</para></listitem>
+
+      </orderedlist>
+
+      <para>To disable EJB timer persistence, look for the <literal>
+        jboss.ejb:service=EJBTimerService</literal> bean in <literal>ejb-deployer.xml</literal>.
+        Set the <literal>PersistencePolicy</literal> to <literal>
+        jboss.ejb:service=EJBTimerService,persistencePolicy=noop</literal>.</para>
+
+      <para>The solutions that involve changes in the transaction manager
+        are documented in the <ulink url="http://wiki.jboss.org/wiki/DeployJbpm3.2WebAppUnderJBoss4.2.x">
+        wiki knowledge base</ulink>.</para>
+
+    </section>
+
+    <section>
+
+      <title>Logging</title>
+
+      <para>The Hibernate <ulink 
+        url="http://www.hibernate.org/hib_docs/v3/reference/en/html/performance.html#performance-fetching-proxies">
+        user guide</ulink> documents some pitfalls that developers must be aware of while
+        developing polymorphic classes. Hibernate even goes the extra mile and emits a warning
+        the moment a second proxy is acquired for a given persistence object. The next console
+        output corresponds to one such warning.</para> 
+
+      <screen>WARN [ProxyWarnLog] Narrowing proxy to class org.jbpm.bpel.graph.def.CompositeActivity&nextLine;
+- this operation breaks ==</screen>
+
+      <para>jBPM's extensive use of polymorphism triggers many of these warnings, despite
+        being legitimate and perfectly safe. If the above warning annoys you, it can be turned
+        off in the log4j configuration file <literal>jboss-log4j.xml</literal>, placed in the
+        <literal>conf</literal> directory of your server profile. Just add the category below.</para>
+
+      <programlisting><![CDATA[<!-- Turn off proxy warnings -->
+<category name="org.hibernate.engine.StatefulPersistenceContext.ProxyWarnLog">
+   <priority value="OFF"/>
+</category>]]></programlisting>
 
     </section>
 

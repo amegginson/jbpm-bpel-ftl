@@ -23,7 +23,7 @@ import org.jbpm.graph.exe.ExecutionContext;
 
 /**
  * Updates the values of variables with new data.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/07/22 05:54:37 $
  */
 public class Assign extends Activity {

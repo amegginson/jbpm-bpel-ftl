@@ -30,7 +30,7 @@ import org.jbpm.graph.exe.Token;
 
 /**
  * Selects exactly one activity for execution from a set of choices.
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2008/02/01 05:43:08 $
  */
 public class If extends StructuredActivity {

@@ -39,7 +39,7 @@ import org.jbpm.bpel.variable.def.VariableDefinition;
 import org.jbpm.bpel.variable.def.VariableType;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/03/16 00:04:38 $
  */
 public class ScopeReaderTest extends AbstractReaderTestCase {

@@ -28,7 +28,7 @@ import org.jbpm.graph.exe.Token;
 /**
  * Each correlation set is a named group of properties used to identify an
  * application-level conversation within a process instance.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/03/22 13:32:55 $
  */
 public class CorrelationSetDefinition implements Serializable {

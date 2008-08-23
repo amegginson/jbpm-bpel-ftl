@@ -21,7 +21,7 @@ import org.jbpm.bpel.integration.catalog.ServiceCatalog;
 /**
  * Contract that readers must fulfill in order to convert {@linkplain Element DOM elements} to
  * {@linkplain ServiceCatalog service catalogs}.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/08/28 05:41:58 $
  */
 public interface ServiceCatalogReader {

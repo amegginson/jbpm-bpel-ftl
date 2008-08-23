@@ -36,7 +36,7 @@ import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.exe.Token;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2008/02/04 14:35:48 $
  */
 public class FromPropertyTest extends TestCase {

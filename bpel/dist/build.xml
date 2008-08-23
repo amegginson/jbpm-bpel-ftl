@@ -59,11 +59,7 @@
 
     <!-- deployables -->
     <copy todir="target/runtime/deploy">
-      <fileset file="${lib.jbpm.bpel.console.local}" />
       <fileset file="${lib.jbpm.bpel.enterprise.local}" />
-    </copy>
-    <copy todir="target/runtime/deploy/META-INF">
-      <fileset file="${jbpm.root}/bpel/enterprise/src/main/resources/ear/application.xml" />
     </copy>
 
     <!-- product libraries -->
@@ -174,7 +170,7 @@
     <copy tofile="target/runtime/jboss.eula.txt" file="${license.eula.local}" />
 
     <!-- distribution resources -->
-    <copy todir="target/runtime">
+    <copy todir="target/runtime" overwrite="yes">
       <fileset dir="src/main/resources/runtime" />
     </copy>
 

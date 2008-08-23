@@ -26,7 +26,7 @@ import org.jbpm.bpel.integration.def.ReplyAction;
 import org.jbpm.bpel.variable.def.MessageType;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/10/13 02:53:24 $
  */
 public class ReplyReaderTest extends AbstractReaderTestCase {

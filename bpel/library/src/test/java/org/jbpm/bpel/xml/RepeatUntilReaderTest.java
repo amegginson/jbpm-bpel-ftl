@@ -18,7 +18,7 @@ import org.jbpm.bpel.graph.def.Activity;
 import org.jbpm.bpel.graph.struct.RepeatUntil;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2008/01/30 08:15:35 $
  */
 public class RepeatUntilReaderTest extends AbstractReaderTestCase {

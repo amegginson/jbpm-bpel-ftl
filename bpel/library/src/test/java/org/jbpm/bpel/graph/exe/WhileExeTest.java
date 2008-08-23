@@ -25,7 +25,7 @@ import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.graph.exe.Token;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2008/01/30 08:15:34 $
  */
 public class WhileExeTest extends AbstractExeTestCase {

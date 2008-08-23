@@ -25,7 +25,7 @@ import org.jbpm.bpel.wsdl.xml.WsdlConstants;
 /**
  * A property alias maps a global property to a location in a specific message
  * part. The property name becomes an alias for the message part and location.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/09/12 23:20:20 $
  */
 public class PropertyAliasImpl extends AbstractExtension implements

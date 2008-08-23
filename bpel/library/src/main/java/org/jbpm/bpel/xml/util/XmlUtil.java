@@ -60,7 +60,7 @@ import org.jbpm.util.ClassLoaderUtil;
 
 /**
  * Utility methods for dealing with JAXP objects.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/11/25 13:03:14 $
  */
 public class XmlUtil {

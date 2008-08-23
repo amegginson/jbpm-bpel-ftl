@@ -20,7 +20,7 @@ import org.jbpm.bpel.graph.def.Activity;
 import org.jbpm.bpel.graph.struct.If;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/07/26 11:19:17 $
  */
 public class IfReaderTest extends AbstractReaderTestCase {

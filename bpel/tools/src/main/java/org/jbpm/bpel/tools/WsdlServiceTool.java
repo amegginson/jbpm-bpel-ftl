@@ -82,8 +82,8 @@ import org.jbpm.jpdl.xml.Problem;
 
 /**
  * Generates WSDL binding and service definitions.
- * @author Alejandro Guízar
- * @author Juan Cantú
+ * @author Alejandro Guizar
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2008/02/05 05:37:34 $
  */
 public class WsdlServiceTool {

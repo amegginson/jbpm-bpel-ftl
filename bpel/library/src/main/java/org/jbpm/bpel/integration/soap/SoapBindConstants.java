@@ -18,7 +18,7 @@ import javax.xml.namespace.QName;
 import javax.xml.soap.SOAPConstants;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/04/11 06:37:35 $
  */
 public class SoapBindConstants {

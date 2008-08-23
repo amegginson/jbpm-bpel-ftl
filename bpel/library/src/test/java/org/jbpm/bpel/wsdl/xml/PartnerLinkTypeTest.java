@@ -22,7 +22,7 @@ import junit.framework.TestCase;
 import org.jbpm.bpel.wsdl.PartnerLinkType;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/06/09 23:36:38 $
  */
 public class PartnerLinkTypeTest extends TestCase {

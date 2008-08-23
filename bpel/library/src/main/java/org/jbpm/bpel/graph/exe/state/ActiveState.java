@@ -18,7 +18,7 @@ import org.jbpm.bpel.graph.exe.ScopeInstance;
 import org.jbpm.bpel.graph.exe.ScopeState;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2008/02/01 05:43:08 $
  */
 public abstract class ActiveState extends ScopeState {

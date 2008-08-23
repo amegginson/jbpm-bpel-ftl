@@ -34,7 +34,7 @@ import org.jbpm.scheduler.SchedulerService;
  * Defines a notification to be delivered by the jBPM scheduler to a
  * {@linkplain TimeDrivenActivity time-driven activity} at a specific instant in the future, once or
  * repeteadly.
- * @author Juan Cantú
+ * @author Juan Cantu
  * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/07/20 21:02:25 $
  */

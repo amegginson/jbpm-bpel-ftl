@@ -14,6 +14,10 @@ import org.jbpm.graph.exe.Token;
 import org.jbpm.job.Timer;
 import org.jbpm.scheduler.SchedulerService;
 
+/**
+ * @author Tom Baeyens
+ * @deprecated replaced by {@link EntitySchedulerService}
+ */
 public class EjbSchedulerService implements SchedulerService {
   
   private static final long serialVersionUID = 1L;

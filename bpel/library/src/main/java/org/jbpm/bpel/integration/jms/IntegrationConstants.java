@@ -19,7 +19,7 @@ import javax.xml.namespace.QName;
 import org.jbpm.bpel.endpointref.wsa.WsaConstants;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/11/25 13:07:15 $
  */
 public class IntegrationConstants {

@@ -24,7 +24,7 @@ import org.jbpm.bpel.graph.exe.flow.AcyclicGraphTest;
 import org.jbpm.bpel.graph.exe.flow.LinkScopingTest;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2008/01/30 08:15:34 $
  */
 public class GraphExeTests {

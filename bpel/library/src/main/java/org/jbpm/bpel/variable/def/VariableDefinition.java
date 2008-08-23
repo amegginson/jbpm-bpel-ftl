@@ -30,7 +30,7 @@ import org.jbpm.graph.exe.Token;
 /**
  * Variables hold messages that are exchanged, as well as intermediate data used in business logic
  * and in composing messages sent to partners.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2008/02/01 05:43:09 $
  */
 public class VariableDefinition implements Serializable {

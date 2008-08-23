@@ -30,7 +30,7 @@ import org.jbpm.bpel.xml.BpelConstants;
 
 /**
  * Metadata related to a WSDL message type.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/09/12 23:20:21 $
  */
 public class MessageType extends VariableType {

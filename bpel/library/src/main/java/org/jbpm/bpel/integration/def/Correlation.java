@@ -21,7 +21,7 @@ import org.apache.commons.lang.enums.Enum;
 /**
  * Indicates a correlation set ocurring in the message being sent or received in
  * an activity.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/05/31 12:42:19 $
  */
 public class Correlation implements Serializable {

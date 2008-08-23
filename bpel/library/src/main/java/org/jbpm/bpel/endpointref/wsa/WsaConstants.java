@@ -15,7 +15,7 @@
 package org.jbpm.bpel.endpointref.wsa;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/01/22 17:27:03 $
  */
 public class WsaConstants {

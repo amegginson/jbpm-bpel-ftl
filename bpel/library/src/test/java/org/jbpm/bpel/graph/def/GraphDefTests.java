@@ -26,7 +26,7 @@ import org.jbpm.bpel.graph.struct.SequenceDefTest;
 import org.jbpm.bpel.graph.struct.WhileDefTest;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2008/01/30 08:15:34 $
  */
 public class GraphDefTests {

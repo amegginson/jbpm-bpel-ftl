@@ -20,7 +20,7 @@ import org.jbpm.bpel.graph.basic.Validate;
 import org.jbpm.bpel.variable.def.VariableDefinition;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2006/09/27 03:53:01 $
  */
 public class ValidateReaderTest extends AbstractReaderTestCase {

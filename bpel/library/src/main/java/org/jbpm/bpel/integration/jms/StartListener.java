@@ -41,7 +41,7 @@ import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.exe.Token;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2008/06/12 08:18:54 $
  */
 public class StartListener implements MessageListener {
@@ -65,8 +65,7 @@ public class StartListener implements MessageListener {
     // save integration control
     this.integrationControl = integrationControl;
 
-    jmsSession = integrationControl.getJmsConnection().createSession(false,
-        Session.CLIENT_ACKNOWLEDGE);
+    jmsSession = integrationControl.createJmsSession();
 
     // create message consumer
     Destination destination = integrationControl.getPartnerLinkEntry(receiveAction.getPartnerLink())
@@ -98,8 +97,7 @@ public class StartListener implements MessageListener {
 
     this.integrationControl = other.integrationControl;
 
-    jmsSession = integrationControl.getJmsConnection().createSession(false,
-        Session.CLIENT_ACKNOWLEDGE);
+    jmsSession = integrationControl.createJmsSession();
     messageConsumer = jmsSession.createConsumer(getDestination(other.messageConsumer),
         other.messageConsumer.getMessageSelector());
 

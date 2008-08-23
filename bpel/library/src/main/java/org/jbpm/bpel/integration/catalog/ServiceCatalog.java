@@ -20,7 +20,7 @@ import javax.wsdl.Service;
 import javax.xml.namespace.QName;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2006/08/21 01:06:10 $
  */
 public interface ServiceCatalog {

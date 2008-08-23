@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions name="task" targetNamespace="http://jbpm.org/examples/task"
   xmlns="http://schemas.xmlsoap.org/wsdl/" xmlns:tns="http://jbpm.org/examples/task"
-  xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-  xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing">
-  <types>    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-      targetNamespace="http://jbpm.org/examples/task">
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing">
+  <types>    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"      targetNamespace="http://jbpm.org/examples/task">
       <xsd:complexType name="TaskInfo">
         <xsd:sequence>
-          <xsd:any namespace="##other" processContents="lax" minOccurs="0" maxOccurs="unbounded" />
+          <xsd:any namespace="##other" processContents="lax" minOccurs="0"
+            maxOccurs="unbounded" />
         </xsd:sequence>
         <xsd:attribute name="taskId" type="xsd:long" />
         <xsd:attribute name="name" type="xsd:string" />
@@ -16,11 +15,11 @@
       </xsd:complexType>
       <xsd:complexType name="TaskList">
         <xsd:sequence>
-          <xsd:element name="taskInfo" type="tns:TaskInfo" minOccurs="0" maxOccurs="unbounded" />
+          <xsd:element name="taskInfo" type="tns:TaskInfo"
+            minOccurs="0" maxOccurs="unbounded" />
         </xsd:sequence>
       </xsd:complexType>
-    </xsd:schema>    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">      <xsd:import namespace="http://schemas.xmlsoap.org/ws/2004/08/addressing"
-        schemaLocation="addressing.xsd" />
+    </xsd:schema>    <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">      <xsd:import namespace="http://schemas.xmlsoap.org/ws/2004/08/addressing"        schemaLocation="addressing.xsd" />
     </xsd:schema>
   </types>
   <message name="createTaskRequest">
@@ -33,6 +32,7 @@
   <message name="endTaskRequest">
     <part name="taskInfo" type="tns:TaskInfo" />
   </message>
+  <message name="endTaskResponse" />
   <message name="getTaskListRequest">
     <part name="actorId" type="xsd:string" />
   </message>
@@ -46,6 +46,7 @@
     </operation>
     <operation name="endTask">
       <input message="tns:endTaskRequest" />
+      <output message="tns:endTaskResponse" />
     </operation>
     <operation name="getTaskList">
       <input message="tns:getTaskListRequest" />
@@ -55,6 +56,7 @@
   <portType name="TaskCallback">
     <operation name="taskEnded">
       <input message="tns:endTaskRequest" />
+      <output message="tns:endTaskResponse" />
     </operation>
   </portType>
 </definitions>

@@ -25,7 +25,7 @@ import org.jbpm.bpel.integration.catalog.UrlCatalog;
 import junit.framework.TestCase;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/10/13 02:53:23 $
  */
 public class UrlCatalogTest extends TestCase {

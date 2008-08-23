@@ -33,6 +33,14 @@
     <url-pattern>/registration</url-pattern>
   </servlet-mapping>
 
+  <listener>
+    <description>
+      Loads and closes the jBPM configuration when the servlet context is initialized and
+      destroyed, respectively.
+    </description>
+    <listener-class>org.jbpm.bpel.web.JbpmConfigurationLoader</listener-class>
+  </listener>
+
   <resource-ref>
     <description>
       Logical name of the data source that provides connections to the persistence service.
@@ -80,13 +88,13 @@
   </message-destination-ref>
 
   <message-destination-ref>
-    <message-destination-ref-name>jms/JbpmRequestQueue</message-destination-ref-name>
+    <message-destination-ref-name>jms/RequestQueue</message-destination-ref-name>
     <message-destination-type>javax.jms.Queue</message-destination-type>
     <message-destination-usage>ConsumesProduces</message-destination-usage>
   </message-destination-ref>
 
   <message-destination-ref>
-    <message-destination-ref-name>jms/JbpmResponseQueue</message-destination-ref-name>
+    <message-destination-ref-name>jms/ResponseQueue</message-destination-ref-name>
     <message-destination-type>javax.jms.Queue</message-destination-type>
     <message-destination-usage>ConsumesProduces</message-destination-usage>
   </message-destination-ref>

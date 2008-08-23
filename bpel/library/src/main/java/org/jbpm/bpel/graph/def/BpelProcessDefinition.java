@@ -39,7 +39,7 @@ import org.jbpm.util.ClassLoaderUtil;
 
 /**
  * BPEL process definitions model the behavior of a participant in a business interaction.
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/10/17 22:02:52 $
  */
 public class BpelProcessDefinition extends ProcessDefinition {

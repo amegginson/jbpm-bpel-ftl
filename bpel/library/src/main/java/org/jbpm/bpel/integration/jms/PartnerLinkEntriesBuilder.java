@@ -40,7 +40,7 @@ import org.jbpm.bpel.graph.scope.Scope;
 import org.jbpm.bpel.integration.def.PartnerLinkDefinition;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/10/13 02:53:30 $
  */
 class PartnerLinkEntriesBuilder extends AbstractBpelVisitor {

@@ -17,14 +17,10 @@ package org.jbpm.bpel.integration.def;
 import java.util.Map;
 import java.util.Random;
 
-import javax.naming.InitialContext;
-import javax.naming.LinkRef;
 import javax.xml.namespace.QName;
 import javax.xml.transform.dom.DOMSource;
 
 import junit.framework.Test;
-
-import org.w3c.dom.Element;
 
 import org.jbpm.bpel.deploy.DeploymentDescriptor;
 import org.jbpm.bpel.deploy.PartnerLinkDescriptor;
@@ -50,6 +46,7 @@ import org.jbpm.bpel.xml.util.DatatypeUtil;
 import org.jbpm.bpel.xml.util.XmlUtil;
 import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.exe.Token;
+import org.w3c.dom.Element;
 
 /**
  * @author Alejandro Guizar
@@ -101,30 +98,17 @@ public class InvokeActionTest extends AbstractDbTestCase {
     deploymentDescriptor.setServiceCatalog(catalog);
     deploymentDescriptor.addPartnerLink(partnerLink);
 
-    // link jms administered objects
-    InitialContext initialContext = new InitialContext();
-    try {
-      initialContext.rebind("pl", new LinkRef("queue/testQueue"));
-      initialContext.rebind(IntegrationControl.CONNECTION_FACTORY_NAME, new LinkRef(
-          "ConnectionFactory"));
-
-      // configure relation service factory
-      integrationControl = JmsIntegrationServiceFactory.getConfigurationInstance(jbpmConfiguration)
-          .getIntegrationControl(processDefinition);
-      integrationControl.setDeploymentDescriptor(deploymentDescriptor);
-      IntegrationControlHelper.setUp(integrationControl, jbpmContext);
-
-      // unlink jms administered objects
-      initialContext.unbind("pl");
-      initialContext.unbind(IntegrationControl.CONNECTION_FACTORY_NAME);
-    }
-    finally {
-      initialContext.close();
-    }
+    // configure integration components
+    JmsIntegrationServiceFactory integrationServiceFactory = JmsIntegrationServiceFactory.getConfigurationInstance(jbpmConfiguration);
+    integrationServiceFactory.setConnectionFactoryName("ConnectionFactory");
+    integrationControl = integrationServiceFactory.getIntegrationControl(processDefinition);
+    integrationControl.setDeploymentDescriptor(deploymentDescriptor);
+    // bind port entries and lookup destinations
+    IntegrationControlHelper.setUp(integrationControl, jbpmContext);
   }
 
   protected void tearDown() throws Exception {
-    // finalize relation service factory
+    // unbind port entries
     IntegrationControlHelper.tearDown(integrationControl);
     // tear down db
     super.tearDown();
@@ -162,8 +146,8 @@ public class InvokeActionTest extends AbstractDbTestCase {
         token);
     messageValue.setPart("clientName", clientName);
     /*
-     * call status operation - quote is an one-way operation, so the status change might not be
-     * reflected immediately
+     * call status operation - quote is an one-way operation, so the status
+     * change might not be reflected immediately
      */
     Thread.sleep(500);
     ReceiveAction.getIntegrationService(jbpmContext).invoke(statusInvoker, token);

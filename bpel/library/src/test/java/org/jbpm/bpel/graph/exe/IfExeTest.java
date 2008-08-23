@@ -27,7 +27,7 @@ import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.graph.exe.Token;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/03/22 13:32:55 $
  */
 public class IfExeTest extends AbstractExeTestCase {

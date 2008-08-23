@@ -51,7 +51,7 @@ import org.jbpm.bpel.xml.util.DatatypeUtil;
 import org.jbpm.bpel.xml.util.XmlUtil;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/09/12 23:20:20 $
  */
 public class AssignReader extends ActivityReader {

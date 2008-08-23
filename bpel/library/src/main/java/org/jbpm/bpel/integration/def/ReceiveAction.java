@@ -14,7 +14,6 @@
  */
 package org.jbpm.bpel.integration.def;
 
-import java.io.Serializable;
 import java.util.Map;
 
 import org.apache.commons.lang.builder.ToStringBuilder;
@@ -29,10 +28,10 @@ import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.exe.Token;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/07/26 00:39:10 $
  */
-public class ReceiveAction extends MessageAction implements Serializable {
+public class ReceiveAction extends MessageAction {
 
   private String messageExchange;
 

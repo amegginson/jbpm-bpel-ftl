@@ -493,11 +493,10 @@ public class JbpmConfiguration implements Serializable {
     try {
       
       synchronized (instances) {
-        Iterator iter = instances.keySet().iterator();
+        Iterator iter = instances.values().iterator();
         while(iter.hasNext()) {
-          String resource = (String) iter.next();
-          if (this==instances.get(resource)) {
-            instances.remove(resource);
+          if (this==iter.next()) {
+            iter.remove();
             break;
           }
         }

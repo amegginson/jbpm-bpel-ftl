@@ -40,7 +40,7 @@ import org.jbpm.bpel.wsdl.xml.WsdlUtil;
 import org.jbpm.bpel.xml.util.XmlUtil;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/10/13 02:53:24 $
  */
 public abstract class AbstractReaderTestCase extends TestCase {

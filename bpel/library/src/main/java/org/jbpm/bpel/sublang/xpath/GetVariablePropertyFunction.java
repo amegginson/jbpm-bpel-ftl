@@ -37,7 +37,7 @@ import org.jbpm.bpel.variable.def.VariableDefinition;
  * <code><i>any</i> bpws:getVariableProperty(<i>string</i> variableName,
  * <i>string</i> propertyName)</code>
  * </p>
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/07/26 00:16:08 $
  */
 public class GetVariablePropertyFunction implements Function {

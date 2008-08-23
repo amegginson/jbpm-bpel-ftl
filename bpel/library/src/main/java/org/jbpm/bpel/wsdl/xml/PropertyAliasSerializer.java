@@ -43,7 +43,7 @@ import org.jbpm.graph.action.Script;
 /**
  * Translates between <code>bpel:propertyAlias</code> elements and {@link PropertyAlias}
  * instances.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/09/12 23:20:17 $
  */
 public class PropertyAliasSerializer implements ExtensionSerializer, ExtensionDeserializer,

@@ -22,7 +22,7 @@ import org.jbpm.bpel.xml.util.XmlUtil;
 
 /**
  * Metadata related to an XML Schema type, simple or complex.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/01/22 00:24:55 $
  */
 public class SchemaType extends XmlType {

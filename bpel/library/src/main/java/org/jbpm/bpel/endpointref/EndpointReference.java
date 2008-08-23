@@ -31,7 +31,7 @@ import org.jbpm.bpel.xml.util.XmlUtil;
 /**
  * Endpoint references are the means for dynamic communication of port-specific data for services.
  * This class represents the least common denominator of data needed to identify a service endpoint.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/08/28 05:42:00 $
  */
 public abstract class EndpointReference {

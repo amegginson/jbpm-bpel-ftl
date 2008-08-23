@@ -30,7 +30,7 @@ import org.jaxen.function.StringFunction;
  * <p>
  * <code><i>boolean</i> bpws:getLinkStatus(<i>string</i> linkName)</code>
  * </p>
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/07/26 00:16:08 $
  */
 public class GetLinkStatusFunction implements Function {

@@ -31,7 +31,7 @@ import org.jbpm.jpdl.xml.Problem;
 /**
  * Converts an definition descriptor in XML format to an
  * {@linkplain DefinitionDescriptor object model}.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/10/13 02:53:27 $
  */
 public class DefinitionDescriptorReader {

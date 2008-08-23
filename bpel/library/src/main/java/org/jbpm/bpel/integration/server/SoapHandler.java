@@ -77,7 +77,7 @@ import org.jbpm.bpel.xml.util.XmlUtil;
 import org.jbpm.util.ClassLoaderUtil;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/11/25 13:06:55 $
  */
 public class SoapHandler implements Handler {
@@ -159,8 +159,7 @@ public class SoapHandler implements Handler {
         .getJbpmConfiguration()
         .createJbpmContext();
     try {
-      Session jmsSession = integrationControl.getJmsConnection().createSession(false,
-          Session.CLIENT_ACKNOWLEDGE);
+      Session jmsSession = integrationControl.createJmsSession();
       try {
         SOAPMessage soapMessage = ((SOAPMessageContext) messageContext).getMessage();
         ObjectMessage jmsRequest = sendRequest(soapMessage, jmsSession, jbpmContext);

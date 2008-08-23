@@ -39,7 +39,7 @@ import org.jbpm.bpel.xml.util.XmlUtil;
 /**
  * Translates between <code>plt:partnerLinkType</code> elements and {@link PartnerLinkType}
  * instances.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/09/04 06:42:27 $
  */
 public class PartnerLinkTypeSerializer implements ExtensionDeserializer, ExtensionSerializer,

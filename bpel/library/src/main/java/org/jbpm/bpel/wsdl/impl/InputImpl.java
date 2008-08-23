@@ -17,7 +17,7 @@ package org.jbpm.bpel.wsdl.impl;
 import javax.wsdl.Input;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2006/08/21 01:05:59 $
  */
 public class InputImpl extends OperationMember implements Input {

@@ -36,7 +36,7 @@ import org.jbpm.bpel.variable.exe.MessageValue;
  * <code><i>any</i> bpws:getVariableData(<i>string</i> variableName,
  * <i>string</i> partName?, <i>string</i> locationPath?)</code>
  * </p>
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/09/12 23:20:16 $
  */
 public class GetVariableDataFunction implements Function {

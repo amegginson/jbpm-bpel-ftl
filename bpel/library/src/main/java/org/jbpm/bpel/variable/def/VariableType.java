@@ -31,7 +31,7 @@ import org.jbpm.util.EqualsUtil;
 
 /**
  * Common base for metadata related to a kind of variable declaration.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/09/04 06:42:27 $
  */
 public abstract class VariableType implements Serializable {

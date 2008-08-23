@@ -27,7 +27,7 @@ import org.jbpm.graph.exe.Token;
 
 /**
  * Blocks for a matching message to arrive.
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/11/02 16:46:21 $
  */
 public class Receive extends Activity implements InboundMessageActivity {

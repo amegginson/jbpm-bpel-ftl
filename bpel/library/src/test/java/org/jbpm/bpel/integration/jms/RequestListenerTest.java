@@ -25,7 +25,7 @@ import org.jbpm.graph.exe.ProcessInstance;
 import org.jbpm.graph.exe.Token;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/08/08 11:20:32 $
  */
 public class RequestListenerTest extends AbstractListenerTestCase {
@@ -62,6 +62,9 @@ public class RequestListenerTest extends AbstractListenerTestCase {
   }
 
   protected void closeListener() throws JMSException {
-    // we created a one-shot request listener, no need to close it
+    RequestListener requestListener = integrationControl.removeRequestListener(receiveAction, token);
+    // request listener might have been executed and removed already
+    if (requestListener != null)
+      requestListener.close();
   }
 }

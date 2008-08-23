@@ -21,6 +21,7 @@ import java.util.Map;
 import javax.jms.ConnectionFactory;
 import javax.jms.Destination;
 import javax.jms.JMSException;
+import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 
@@ -35,7 +36,7 @@ import org.jbpm.svc.Service;
 import org.jbpm.svc.ServiceFactory;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2008/06/12 08:18:54 $
  */
 public class JmsIntegrationServiceFactory implements ServiceFactory {
@@ -43,8 +44,8 @@ public class JmsIntegrationServiceFactory implements ServiceFactory {
   // injected objects, see jbpm.cfg.xml
   private JbpmConfiguration jbpmConfiguration;
   private String connectionFactoryName = "java:comp/env/jms/JbpmConnectionFactory";
-  private String requestDestinationName = "java:comp/env/jms/JbpmRequestQueue";
-  private String responseDestinationName = "java:comp/env/jms/JbpmResponseQueue";
+  private String requestDestinationName = "java:comp/env/jms/RequestQueue";
+  private String responseDestinationName = "java:comp/env/jms/ResponseQueue";
 
   private ConnectionFactory connectionFactory;
   private Destination requestDestination;
@@ -69,6 +70,18 @@ public class JmsIntegrationServiceFactory implements ServiceFactory {
         log.warn("could not disable inbound message activities", e);
       }
     }
+  }
+
+  public void setConnectionFactoryName(String connectionFactoryName) {
+    this.connectionFactoryName = connectionFactoryName;
+  }
+
+  public void setRequestDestinationName(String requestDestinationName) {
+    this.requestDestinationName = requestDestinationName;
+  }
+
+  public void setResponseDestinationName(String responseDestinationName) {
+    this.responseDestinationName = responseDestinationName;
   }
 
   public JbpmConfiguration getJbpmConfiguration() {
@@ -116,7 +129,7 @@ public class JmsIntegrationServiceFactory implements ServiceFactory {
   }
 
   private static Object lookup(String name) throws NamingException {
-    InitialContext initialContext = new InitialContext();
+    Context initialContext = new InitialContext();
     try {
       return initialContext.lookup(name);
     }
@@ -126,13 +139,13 @@ public class JmsIntegrationServiceFactory implements ServiceFactory {
   }
 
   public IntegrationControl getIntegrationControl(ProcessDefinition processDefinition) {
-    Long processId = new Long(processDefinition.getId());
+    Long processDefinitionId = new Long(processDefinition.getId());
     synchronized (integrationControls) {
-      IntegrationControl integrationControl = (IntegrationControl) integrationControls.get(processId);
+      IntegrationControl integrationControl = (IntegrationControl) integrationControls.get(processDefinitionId);
       if (integrationControl == null) {
         log.debug("creating integration control: processDefinition=" + processDefinition);
         integrationControl = new IntegrationControl(this);
-        integrationControls.put(processId, integrationControl);
+        integrationControls.put(processDefinitionId, integrationControl);
       }
       return integrationControl;
     }

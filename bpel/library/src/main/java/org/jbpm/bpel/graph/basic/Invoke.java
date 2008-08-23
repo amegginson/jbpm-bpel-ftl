@@ -26,7 +26,7 @@ import org.jbpm.graph.exe.ExecutionContext;
 
 /**
  * Calls a one-way or request-response operation on an endpoint offered by a partner.
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2008/01/30 07:18:22 $
  */
 public class Invoke extends Activity {

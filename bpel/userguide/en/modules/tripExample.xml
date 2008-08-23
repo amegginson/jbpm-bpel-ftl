@@ -543,11 +543,11 @@
         WSDL definitions. It imports <literal>ticket.wsdl</literal> to access 
         the definitions specific to the ticket issuer.</para>
         
-      <para>Deploy the process definition to the jBPM database calling:</para>
+      <para>Deploy the process definition to the jBPM BPÈL application by calling:</para>
       
       <synopsis>ant deploy.process</synopsis>
       
-      <para>The <literal>deploy-process</literal> target builds the process archive
+      <para>The <literal>deploy.process</literal> target builds the process archive
         <literal>trip.zip</literal> and submits it to the deployment servlet.
         In a typical deployment the server prints these messages:</para>
         
@@ -564,13 +564,13 @@ TripReservation
       <para>Back in the description of the process, we mentioned a partner service that
         generates unique trip locators. Make sure you deploy that service before any
         reservation is placed, or the process will malfunction and your virtual travelers
-        will be very angry. Change to the <literal>ticket</literal> directory and trigger
+        will be very angry. Change to the <literal>ticket</literal> directory and launch
         the following target.</para>
 
       <synopsis>ant deploy.webservice</synopsis>
-      
+
       <para>The next few lines confirm a successful deployment.</para>
-      
+
       <screen>18:12:44,421 INFO  [DefaultEndpointRegistry] register: jboss.ws:context=ticket,&nextLine;
 endpoint=ticketIssuerServlet
 18:12:44,437 INFO  [TomcatDeployer] deploy, ctxPath=/ticket, warUrl=...
@@ -579,13 +579,13 @@ endpoint=ticketIssuerServlet
       <para>The JBossWS service endpoints page should be showing a picture similar to the
         next one. Of course, the host address and port shown may vary, depending on your
         server bind address.</para>
-        
+
       <figure id="tutorial.trip.endpoints">
         <title>Endpoints page</title>
         <mediaobject><imageobject><imagedata fileref="images/tripEndpoints.png" align="center"
           width="6.03in" depth="4.61in" scalefit="0" /></imageobject></mediaobject>
       </figure>
-      
+
       <note><para>It is worth pointing BPEL endpoints are intermixed with Java and EJB
         endpoints in the list. For all intents and purposes, BPEL endpoints are no different.
         </para></note>
@@ -609,7 +609,7 @@ endpoint=ticketIssuerServlet
     
   </section>
   
-    <section id="tutorial.trip.client">
+  <section id="tutorial.trip.client">
 
     <title>Build the WSEE application client</title>
     

@@ -21,7 +21,7 @@ import org.jbpm.bpel.sublang.def.Expression;
 import org.jbpm.graph.exe.Token;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/07/22 05:57:25 $
  */
 public class ToExpression extends To {

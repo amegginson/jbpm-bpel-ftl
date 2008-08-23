@@ -37,7 +37,7 @@ import org.jbpm.bpel.wsdl.PartnerLinkType.Role;
 import org.jbpm.bpel.xml.util.XmlUtil;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/07/26 00:36:13 $
  */
 public class InvokeReader extends ActivityReader {

@@ -27,7 +27,7 @@ import org.jbpm.graph.exe.Token;
 /**
  * Fault handlers attached to a scope provide a way to define custom error
  * recovery activities.
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/03/16 00:04:38 $
  */
 public class Catch extends Handler {

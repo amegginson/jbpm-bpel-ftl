@@ -19,7 +19,7 @@ import org.jbpm.graph.exe.Token;
 /**
  * Contract that activities must fulfill in order to receive {@linkplain AlarmAction alarm}
  * notifications from the jBPM scheduler service.
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/08/28 05:41:58 $
  */
 public interface TimeDrivenActivity {

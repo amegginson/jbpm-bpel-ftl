@@ -46,7 +46,7 @@ import org.jbpm.jpdl.xml.Problem;
  * Allows the {@linkplain BpelReader BPEL reader} to retrieve descriptions recursively imported by
  * the WSDL documents referenced in the {@linkplain BpelProcessDefinition process definition} or in
  * the {@linkplain DefinitionDescriptor definition descriptor}.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/10/13 02:53:27 $
  */
 public class ProcessWsdlLocator implements WSDLLocator {

@@ -27,7 +27,7 @@ import org.jbpm.bpel.xml.util.XmlUtil;
 /**
  * Encapsulates the logic to create and connect process elements that make up
  * the <i>if</i> structure.
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/05/31 12:55:12 $
  */
 public class IfReader extends ActivityReader {

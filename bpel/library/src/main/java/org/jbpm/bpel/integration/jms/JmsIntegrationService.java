@@ -48,7 +48,7 @@ import org.jbpm.bpel.wsdl.xml.WsdlUtil;
 import org.jbpm.graph.exe.Token;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2008/01/30 07:18:22 $
  */
 public class JmsIntegrationService implements IntegrationService {
@@ -76,7 +76,7 @@ public class JmsIntegrationService implements IntegrationService {
 
   void jmsReceive(ReceiveAction receiveAction, Token token, IntegrationControl integrationControl,
       boolean oneShot) throws JMSException {
-    Session jmsSession = createJmsSession(integrationControl);
+    Session jmsSession = integrationControl.createJmsSession();
     RequestListener requestListener = new RequestListener(receiveAction, token, integrationControl,
         jmsSession, oneShot);
     requestListeners.add(requestListener);
@@ -94,7 +94,7 @@ public class JmsIntegrationService implements IntegrationService {
 
   void jmsReceive(List receivers, Token token, IntegrationControl integrationControl)
       throws JMSException {
-    Session jmsSession = createJmsSession(integrationControl);
+    Session jmsSession = integrationControl.createJmsSession();
     Iterator receiverIt = receivers.iterator();
     while (receiverIt.hasNext()) {
       ReceiveAction receiveAction = (ReceiveAction) receiverIt.next();
@@ -102,11 +102,6 @@ public class JmsIntegrationService implements IntegrationService {
           integrationControl, jmsSession);
       requestListeners.add(requestListener);
     }
-  }
-
-  private static Session createJmsSession(IntegrationControl integrationControl)
-      throws JMSException {
-    return integrationControl.getJmsConnection().createSession(false, Session.CLIENT_ACKNOWLEDGE);
   }
 
   public void cancelReception(ReceiveAction receiveAction, Token token) {
@@ -136,14 +131,14 @@ public class JmsIntegrationService implements IntegrationService {
 
   public void reply(ReplyAction replyAction, Token token) {
     try {
-      replyOutstandingRequest(replyAction, token);
+      jmsReply(replyAction, token);
     }
     catch (JMSException e) {
       throw new BpelException("could not send reply", e);
     }
   }
 
-  private void replyOutstandingRequest(ReplyAction replyAction, Token token) throws JMSException {
+  private void jmsReply(ReplyAction replyAction, Token token) throws JMSException {
     // extract the output parts
     Map parts = replyAction.writeMessage(token);
 
@@ -152,7 +147,7 @@ public class JmsIntegrationService implements IntegrationService {
     IntegrationControl integrationControl = getIntegrationControl(token);
     OutstandingRequest request = integrationControl.removeOutstandingRequest(replyAction, token);
 
-    Session jmsSession = createJmsSession(integrationControl);
+    Session jmsSession = integrationControl.createJmsSession();
     try {
       request.sendReply(parts, replyAction.getFaultName(), jmsSession);
     }

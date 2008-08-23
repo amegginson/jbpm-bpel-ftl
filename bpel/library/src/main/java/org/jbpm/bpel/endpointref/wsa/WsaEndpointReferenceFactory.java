@@ -20,7 +20,7 @@ import org.jbpm.bpel.endpointref.EndpointReference;
 import org.jbpm.bpel.endpointref.EndpointReferenceFactory;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/08/02 18:56:28 $
  */
 public class WsaEndpointReferenceFactory extends EndpointReferenceFactory {

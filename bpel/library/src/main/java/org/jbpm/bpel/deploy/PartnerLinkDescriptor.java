@@ -16,7 +16,7 @@ package org.jbpm.bpel.deploy;
 
 /**
  * Binding of <tt>partnerLink</tt> element.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/10/13 02:53:24 $
  */
 public class PartnerLinkDescriptor {

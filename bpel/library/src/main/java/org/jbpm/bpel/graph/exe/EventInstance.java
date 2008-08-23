@@ -19,7 +19,7 @@ import org.jbpm.bpel.graph.scope.Scope;
 import org.jbpm.graph.exe.Token;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2008/02/04 14:35:47 $
  */
 class EventInstance extends ScopeInstance {

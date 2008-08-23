@@ -47,7 +47,7 @@ import org.jbpm.bpel.xml.BpelConstants;
 
 /**
  * Provides support for the dynamic invocation of a service endpoint bound to SOAP.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2008/01/30 07:18:22 $
  */
 public class SoapCaller implements Caller {

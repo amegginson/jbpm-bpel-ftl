@@ -34,7 +34,7 @@ import org.jbpm.bpel.wsdl.xml.WsdlUtil;
 
 /**
  * Captures enough detail to uniquely identify service endpoints bound to SOAP.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/08/28 05:42:00 $
  */
 public abstract class SoapEndpointReference extends EndpointReference {

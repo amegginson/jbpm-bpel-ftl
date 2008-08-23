@@ -24,7 +24,7 @@ import org.jbpm.bpel.variable.def.VariableDefinition;
 /**
  * Validates the values of variables against their associated XML and WSDL data
  * definition.
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/01/22 00:24:55 $
  */
 public class Validate extends Activity {

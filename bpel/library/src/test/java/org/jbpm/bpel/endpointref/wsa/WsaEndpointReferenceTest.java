@@ -27,7 +27,7 @@ import org.jbpm.bpel.xml.util.DatatypeUtil;
 import org.jbpm.bpel.xml.util.XmlUtil;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/09/04 06:42:27 $
  */
 public class WsaEndpointReferenceTest extends SoapEndpointReferenceTestCase {

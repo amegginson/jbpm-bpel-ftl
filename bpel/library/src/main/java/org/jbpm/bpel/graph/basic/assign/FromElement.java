@@ -21,7 +21,7 @@ import org.jbpm.graph.exe.Token;
 /**
  * <code>&lt;from&gt;</code> variant that allows an element literal to be given as the source
  * value to assign to a destination.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/07/22 05:57:25 $
  */
 public class FromElement extends From {

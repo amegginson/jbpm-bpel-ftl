@@ -30,7 +30,7 @@ import org.jbpm.graph.exe.Token;
 /**
  * Evaluator for expressions in join conditions. Only link status can be used within join conditions
  * and only join conditions can make use of link status.
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/07/22 05:57:25 $
  */
 class XPathJoinConditionEvaluator extends XPathExpressionEvaluator {

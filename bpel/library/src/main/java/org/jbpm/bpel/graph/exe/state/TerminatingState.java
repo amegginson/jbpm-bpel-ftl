@@ -19,7 +19,7 @@ import org.jbpm.bpel.graph.exe.ScopeState;
 import org.jbpm.bpel.graph.scope.Handler;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2008/02/01 05:43:08 $
  */
 public class TerminatingState extends ScopeState {

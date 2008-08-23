@@ -16,13 +16,13 @@
   </resource-ref>
 
   <message-destination-ref>
-    <message-destination-ref-name>jms/JbpmRequestQueue</message-destination-ref-name>
-    <jndi-name>queue/A</jndi-name>
+    <message-destination-ref-name>jms/RequestQueue</message-destination-ref-name>
+    <jndi-name>queue/JbpmRequestQueue</jndi-name>
   </message-destination-ref>
 
   <message-destination-ref>
-    <message-destination-ref-name>jms/JbpmResponseQueue</message-destination-ref-name>
-    <jndi-name>queue/B</jndi-name>
+    <message-destination-ref-name>jms/ResponseQueue</message-destination-ref-name>
+    <jndi-name>queue/JbpmResponseQueue</jndi-name>
   </message-destination-ref>
 
 </jboss-web>

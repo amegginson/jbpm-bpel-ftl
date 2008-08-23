@@ -158,31 +158,12 @@ public class TaskManager_Impl implements TaskManager, ServiceLifecycle {
 
   public void endTask(TaskInfo taskInfo) {
     JbpmContext jbpmContext = jbpmConfiguration.createJbpmContext();
+    String replyAddress;
     try {
       // end task instance
       TaskInstance taskInstance = jbpmContext.loadTaskInstance(taskInfo.getTaskId().longValue());
+      replyAddress = (String) taskInstance.getVariable(REPLY_ADDRESS_VARIABLE);
       taskInstance.end();
-
-      // acquire endpoint proxy
-      TaskCallback taskCallback = (TaskCallback) taskCallbackService.getPort(TaskCallback.class);
-
-      // configure callback address
-      String address = (String) taskInstance.getVariable(REPLY_ADDRESS_VARIABLE);
-      Stub taskCallbackStub = (Stub) taskCallback;
-      taskCallbackStub._setProperty(Stub.ENDPOINT_ADDRESS_PROPERTY, address);
-
-      log.debug("calling back endpoint at: " + address);
-      taskCallback.taskEnded(taskInfo);
-    }
-    catch (ServiceException e) {
-      log.error("could not get callback endpoint proxy", e);
-      jbpmContext.setRollbackOnly();
-      throw new SOAPFaultException(SERVER_CODE, "task callback failed", null, null);
-    }
-    catch (RemoteException e) {
-      log.error("endpoint callback failed", e);
-      jbpmContext.setRollbackOnly();
-      throw new SOAPFaultException(SERVER_CODE, "task callback failed", null, null);
     }
     catch (RuntimeException e) {
       jbpmContext.setRollbackOnly();
@@ -192,6 +173,25 @@ public class TaskManager_Impl implements TaskManager, ServiceLifecycle {
       jbpmContext.close();
     }
 
+    try {
+      // acquire endpoint proxy
+      TaskCallback taskCallback = (TaskCallback) taskCallbackService.getPort(TaskCallback.class);
+
+      // configure callback address
+      Stub taskCallbackStub = (Stub) taskCallback;
+      taskCallbackStub._setProperty(Stub.ENDPOINT_ADDRESS_PROPERTY, replyAddress);
+
+      log.debug("calling back endpoint at: " + replyAddress);
+      taskCallback.taskEnded(taskInfo);      
+    }
+    catch (ServiceException e) {
+      log.error("could not get callback endpoint proxy", e);
+      throw new SOAPFaultException(SERVER_CODE, "task callback failed", null, null);
+    }
+    catch (RemoteException e) {
+      log.error("endpoint callback failed", e);
+      throw new SOAPFaultException(SERVER_CODE, "task callback failed", null, null);
+    }
   }
 
   public TaskList getTaskList(String actorId) {
@@ -212,7 +212,6 @@ public class TaskManager_Impl implements TaskManager, ServiceLifecycle {
 
         taskInfos[i] = taskInfo;
       }
-
       return new TaskList(taskInfos);
     }
     finally {

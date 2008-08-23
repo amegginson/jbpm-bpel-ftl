@@ -18,7 +18,7 @@ import javax.xml.namespace.QName;
 
 /**
  * Represents extensibility elements having a qualified name.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2006/08/21 01:05:59 $
  */
 public class NamedExtension extends AbstractExtension {

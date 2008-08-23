@@ -40,7 +40,7 @@ import org.jbpm.bpel.wsdl.PropertyAlias;
 import org.jbpm.bpel.wsdl.impl.PropertyAliasImpl;
 
 /**
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2007/10/13 02:53:24 $
  */
 public class BpelReaderTest extends AbstractReaderTestCase {

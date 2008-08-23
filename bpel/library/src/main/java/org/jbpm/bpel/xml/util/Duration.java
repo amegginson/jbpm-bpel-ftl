@@ -24,7 +24,7 @@ import java.util.regex.Pattern;
  * Duration represents an interval of time. The value space of duration is a six-dimensional space
  * where the coordinates designate the Gregorian year, month, day, hour, minute, and second
  * components defined in <a href="http://www.w3.org/TR/xmlschema-2/#ISO8601">ISO 8601</a>.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2008/02/01 05:45:29 $
  * @see <a href="http://www.w3.org/TR/xmlschema-2/#duration"> XML Schema Part 2: Datatypes
  * &sect;3.2.6</a>

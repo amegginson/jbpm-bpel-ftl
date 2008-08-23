@@ -21,7 +21,7 @@ import javax.xml.namespace.QName;
 
 /**
  * Basic implementation of a WSDL extensibility element.
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2006/08/21 01:05:59 $
  */
 public abstract class AbstractExtension implements ExtensibilityElement,

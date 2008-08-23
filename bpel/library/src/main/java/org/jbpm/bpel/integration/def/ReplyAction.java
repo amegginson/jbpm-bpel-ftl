@@ -14,7 +14,6 @@
  */
 package org.jbpm.bpel.integration.def;
 
-import java.io.Serializable;
 import java.util.Map;
 
 import javax.xml.namespace.QName;
@@ -28,10 +27,10 @@ import org.jbpm.graph.exe.ExecutionContext;
 import org.jbpm.graph.exe.Token;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/02/19 18:56:18 $
  */
-public class ReplyAction extends MessageAction implements Serializable {
+public class ReplyAction extends MessageAction {
 
   private static final long serialVersionUID = 1L;
 

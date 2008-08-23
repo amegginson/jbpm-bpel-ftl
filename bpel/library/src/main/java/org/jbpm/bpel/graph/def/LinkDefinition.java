@@ -27,7 +27,7 @@ import org.jbpm.graph.exe.Token;
 /**
  * Establishes explicit control dependencies between nested child activities within a
  * {@link Flow flow}.
- * @author Juan Cantú
+ * @author Juan Cantu
  * @version $Revision$ $Date: 2008/02/01 05:43:08 $
  */
 public class LinkDefinition implements Serializable {

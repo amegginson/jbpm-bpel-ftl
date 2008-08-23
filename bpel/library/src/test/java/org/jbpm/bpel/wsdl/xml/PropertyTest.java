@@ -23,7 +23,7 @@ import org.jbpm.bpel.wsdl.Property;
 import org.jbpm.bpel.xml.BpelConstants;
 
 /**
- * @author Alejandro Guízar
+ * @author Alejandro Guizar
  * @version $Revision$ $Date: 2007/06/09 23:36:38 $
  */
 public class PropertyTest extends TestCase {
