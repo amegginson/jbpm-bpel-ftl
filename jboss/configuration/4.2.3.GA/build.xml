@@ -1,4 +1,4 @@
-<project name="jbpm.jboss.configuration.4.2.2.GA" basedir="." default="package">
+<project name="jbpm.jboss.configuration.4.2.3.GA" basedir="." default="package">
 
   <!-- project specific properties -->
   <property name="jbpm.root" value="../../.." />

@@ -17,8 +17,8 @@
 	<!-- Give user a chance to override without editing this file or typing -D -->
 	<property file="${basedir}/build.properties" />
 
-	<property name="profile" value="dev" />
-	<property file="build-${profile}.properties" />
+	<property name="bam.profile" value="dev" />
+	<property file="build-${bam.profile}.properties" />
 
 	<!-- set global properties for this build -->
 	<property name="project.name" value="bamconsole" />
@@ -137,8 +137,8 @@
 				<include name="ejb-jar.xml" />
 			</fileset>
 		</copy>
-		<copy tofile="${jar.dir}/META-INF/persistence.xml" file="${basedir}/resources/META-INF/persistence-${profile}.xml" overwrite="true" />
-		<copy tofile="${jar.dir}/import.sql" file="${basedir}/resources/import-${profile}.sql" overwrite="true" />
+		<copy tofile="${jar.dir}/META-INF/persistence.xml" file="${basedir}/resources/META-INF/persistence-${bam.profile}.xml" overwrite="true" />
+		<copy tofile="${jar.dir}/import.sql" file="${basedir}/resources/import-${bam.profile}.sql" overwrite="true" />
 	</target>
 
 	<target name="war" depends="compile" description="Build the distribution .war file">
@@ -235,7 +235,7 @@
 		<fail unless="jboss.home">jboss.home not set</fail>
 		<copy todir="${deploy.dir}">
 			<fileset dir="${basedir}/resources">
-				<include name="${project.name}-${profile}-ds.xml" />
+				<include name="${project.name}-${bam.profile}-ds.xml" />
 			</fileset>
 		</copy>
 	</target>
@@ -263,7 +263,7 @@
 				<exclude name="**/*.jar" />
 			</fileset>
 		</delete>
-		<delete file="${deploy.dir}/${project.name}-${profile}-ds.xml" failonerror="no" />
+		<delete file="${deploy.dir}/${project.name}-${bam.profile}-ds.xml" failonerror="no" />
 		<delete dir="${ear.deploy.dir}" failonerror="no" />
 	</target>
 
@@ -503,7 +503,7 @@
 	</target>
 
 	<target name="install" depends="package" description="Copy the ear and the datasource to the local repository">
-		<copy tofile="${dist.dir}/${project.name}-ds.xml" file="${basedir}/resources/${project.name}-${profile}-ds.xml" />
+		<copy tofile="${dist.dir}/${project.name}-ds.xml" file="${basedir}/resources/${project.name}-${bam.profile}-ds.xml" />
 		<copy tofile="${lib.jbpm.bamconsole.local}" file="${dist.dir}/${project.name}.ear" />
 		<copy tofile="${lib.jbpm.bamconsole.datasource.local}" file="${dist.dir}/${project.name}-ds.xml" />
 	</target>
