@@ -12,7 +12,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
-package org.jbpm.bpel.sublang.xpath;
+package org.jbpm.bpel.sublang.xpathnative;
 
 import java.util.Set;
 
