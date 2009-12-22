@@ -1,0 +1,34 @@
+***************
+*** 31,37 ****
+   */
+  
+  /* this will be defined if LDAP support was compiled into apr-util */
+- #define APR_HAS_LDAP		    1
+  
+  /* identify the LDAP toolkit used */
+  #define APR_HAS_NETSCAPE_LDAPSDK    0
+--- 31,37 ----
+   */
+  
+  /* this will be defined if LDAP support was compiled into apr-util */
++ #define APR_HAS_LDAP		    0
+  
+  /* identify the LDAP toolkit used */
+  #define APR_HAS_NETSCAPE_LDAPSDK    0
+***************
+*** 39,45 ****
+  #define APR_HAS_NOVELL_LDAPSDK      0
+  #define APR_HAS_MOZILLA_LDAPSDK     0
+  #define APR_HAS_OPENLDAP_LDAPSDK    0
+- #define APR_HAS_MICROSOFT_LDAPSDK   1
+  #define APR_HAS_TIVOLI_LDAPSDK      0
+  #define APR_HAS_ZOS_LDAPSDK         0
+  #define APR_HAS_OTHER_LDAPSDK       0
+--- 39,45 ----
+  #define APR_HAS_NOVELL_LDAPSDK      0
+  #define APR_HAS_MOZILLA_LDAPSDK     0
+  #define APR_HAS_OPENLDAP_LDAPSDK    0
++ #define APR_HAS_MICROSOFT_LDAPSDK   0
+  #define APR_HAS_TIVOLI_LDAPSDK      0
+  #define APR_HAS_ZOS_LDAPSDK         0
+  #define APR_HAS_OTHER_LDAPSDK       0
