@@ -25,6 +25,7 @@
     <ant antfile="bpel/service/build.xml" target="clean" inheritall="false" />
     <ant antfile="bpel/userguide/build.xml" target="clean" inheritall="false" />
     <ant antfile="bpel/examples/build.xml" target="clean" inheritall="false" />
+    <ant antfile="bpel/dist/build.xml" target="clean" inheritall="false" />
     <ant antfile="bamconsole/build.xml" target="clean" inheritall="false" />
   </target>
   
