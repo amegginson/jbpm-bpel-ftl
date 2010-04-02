@@ -6,7 +6,7 @@ import org.jbpm.jsf.taskformlayout.ui.UIDataArea;
 import org.jbpm.jsf.taskformlayout.ui.UIDataSection;
 import org.jbpm.jsf.taskformlayout.renderer.DataFormRenderer;
 
-import com.sun.facelets.tag.AbstractTagLibrary;
+import com.sun.facelets.tag.AbstractTagJni;
 
 import javax.faces.context.FacesContext;
 import javax.faces.application.Application;
@@ -15,8 +15,8 @@ import javax.faces.render.RenderKit;
 /**
  *
  */
-public abstract class TaskFormLayoutBaseLibrary extends AbstractTagLibrary {
-    public TaskFormLayoutBaseLibrary(final String namespace) {
+public abstract class TaskFormLayoutBaseJni extends AbstractTagJni {
+    public TaskFormLayoutBaseJni(final String namespace) {
         super(namespace);
 
         final FacesContext facesContext = FacesContext.getCurrentInstance();

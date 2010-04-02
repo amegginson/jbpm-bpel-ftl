@@ -3,8 +3,8 @@ package org.jbpm.jsf.taskform;
 /**
  *
  */
-public final class TaskFormLibrary extends TaskFormBaseLibrary {
-    public TaskFormLibrary() {
+public final class TaskFormJni extends TaskFormBaseJni {
+    public TaskFormJni() {
         super("http://jbpm.org/jbpm4jsf/tf");
 
 

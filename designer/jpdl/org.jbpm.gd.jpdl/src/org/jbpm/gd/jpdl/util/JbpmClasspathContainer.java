@@ -51,7 +51,7 @@ public class JbpmClasspathContainer implements IClasspathContainer, Constants {
 
 	private static XPathFactory xPathFactory = XPathFactory.newInstance();
 	
-	IClasspathEntry[] jbpmLibraryEntries;
+	IClasspathEntry[] jbpmJniEntries;
 	JbpmInstallation jbpmInstallation;
 
 	IJavaProject javaProject = null;
@@ -63,14 +63,14 @@ public class JbpmClasspathContainer implements IClasspathContainer, Constants {
 	}
 
 	public IClasspathEntry[] getClasspathEntries() {
-		if (jbpmLibraryEntries == null) {
-			jbpmLibraryEntries = createJbpmLibraryEntries(javaProject);
+		if (jbpmJniEntries == null) {
+			jbpmJniEntries = createJbpmJniEntries(javaProject);
 		}
-		return jbpmLibraryEntries;
+		return jbpmJniEntries;
 	}
 
 	public String getDescription() {
-		return "jBPM Library [" + jbpmInstallation.name + "]";
+		return "jBPM Jni [" + jbpmInstallation.name + "]";
 	}
 		
 	public int getKind() {
@@ -81,7 +81,7 @@ public class JbpmClasspathContainer implements IClasspathContainer, Constants {
 		return new Path("JBPM/" + jbpmInstallation.name);
 	}
 
-	private IClasspathEntry[] createJbpmLibraryEntries(IJavaProject project) {
+	private IClasspathEntry[] createJbpmJniEntries(IJavaProject project) {
 		Map jarNames = getJarNames();
 		ArrayList entries = new ArrayList();
 		Iterator iterator = jarNames.keySet().iterator();
@@ -89,7 +89,7 @@ public class JbpmClasspathContainer implements IClasspathContainer, Constants {
 			IPath jarPath = (IPath)iterator.next();
 			IPath srcPath = (IPath)jarNames.get(jarPath);
 			IPath srcRoot = null;
-			entries.add(JavaCore.newLibraryEntry(
+			entries.add(JavaCore.newJniEntry(
 					jarPath, 
 					srcPath, 
 					srcRoot));

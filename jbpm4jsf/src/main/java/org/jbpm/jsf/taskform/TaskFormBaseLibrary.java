@@ -4,7 +4,7 @@ import org.jbpm.jsf.taskform.ui.UITaskFormCancelButton;
 import org.jbpm.jsf.taskform.ui.UITaskFormSaveButton;
 import org.jbpm.jsf.taskform.ui.UITaskFormTransitionButton;
 
-import com.sun.facelets.tag.AbstractTagLibrary;
+import com.sun.facelets.tag.AbstractTagJni;
 
 import javax.faces.context.FacesContext;
 import javax.faces.application.Application;
@@ -12,8 +12,8 @@ import javax.faces.application.Application;
 /**
  *
  */
-public abstract class TaskFormBaseLibrary extends AbstractTagLibrary {
-    public TaskFormBaseLibrary(final String namespace) {
+public abstract class TaskFormBaseJni extends AbstractTagJni {
+    public TaskFormBaseJni(final String namespace) {
         super(namespace);
 
         final FacesContext facesContext = FacesContext.getCurrentInstance();

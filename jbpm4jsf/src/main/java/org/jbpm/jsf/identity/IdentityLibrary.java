@@ -13,13 +13,13 @@ import org.jbpm.jsf.identity.handler.LoadGroupHandler;
 import org.jbpm.jsf.identity.handler.LoadUserHandler;
 import org.jbpm.jsf.identity.handler.VerifyUserHandler;
 
-import com.sun.facelets.tag.AbstractTagLibrary;
+import com.sun.facelets.tag.AbstractTagJni;
 
 /**
  *
  */
-public final class IdentityLibrary extends AbstractTagLibrary {
-    public IdentityLibrary() {
+public final class IdentityJni extends AbstractTagJni {
+    public IdentityJni() {
         super("http://jbpm.org/jbpm4jsf/identity");
 
         // Actions

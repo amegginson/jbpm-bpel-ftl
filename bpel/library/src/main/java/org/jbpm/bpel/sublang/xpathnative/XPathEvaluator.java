@@ -265,7 +265,7 @@ abstract class XPathEvaluator extends BaseXPath {
     return (Node) singleResult;
   }
 
-  protected static FunctionContext readFunctionLibrary(String configName) {
+  protected static FunctionContext readFunctionJni(String configName) {
     // get functions resource name
     String resource = JbpmConfiguration.Configs.getString(configName);
 

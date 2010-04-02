@@ -47,7 +47,7 @@ class XPathPropertyQueryEvaluator extends XPathEvaluator implements PropertyQuer
 
   private static final Log log = LogFactory.getLog(XPathPropertyQueryEvaluator.class);
 
-  private static final FunctionContext functionLibrary = readFunctionLibrary(FUNCTIONS_CONFIG_NAME);
+  private static final FunctionContext functionJni = readFunctionJni(FUNCTIONS_CONFIG_NAME);
 
   XPathPropertyQueryEvaluator(String text) throws JaxenException {
     super(text);
@@ -79,6 +79,6 @@ class XPathPropertyQueryEvaluator extends XPathEvaluator implements PropertyQuer
   }
 
   protected FunctionContext createFunctionContext() {
-    return functionLibrary;
+    return functionJni;
   }
 }

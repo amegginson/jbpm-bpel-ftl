@@ -39,7 +39,7 @@ import org.jbpm.jsf.core.handler.GetTaskFormInfoHandler;
 import org.jbpm.jsf.core.handler.TaskFormHandler;
 import org.jbpm.jsf.core.ui.UITaskForm;
 
-import com.sun.facelets.tag.AbstractTagLibrary;
+import com.sun.facelets.tag.AbstractTagJni;
 
 import javax.faces.context.FacesContext;
 import javax.faces.application.Application;
@@ -47,8 +47,8 @@ import javax.faces.application.Application;
 /**
  *
  */
-public final class CoreLibrary extends AbstractTagLibrary {
-    public CoreLibrary() {
+public final class CoreJni extends AbstractTagJni {
+    public CoreJni() {
         super("http://jbpm.org/jbpm4jsf/core");
 
         final FacesContext facesContext = FacesContext.getCurrentInstance();

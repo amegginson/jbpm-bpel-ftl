@@ -1,5 +1,5 @@
 /**
- * JSF Tag Library for jBPM applications.
+ * JSF Tag Jni for jBPM applications.
  */
 @org.jboss.gravel.common.annotation.TldTagLib(
     fileName = "core.tld",

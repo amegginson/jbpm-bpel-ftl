@@ -43,14 +43,14 @@ class XPathJoinConditionEvaluator extends XPathExpressionEvaluator {
 
   private static final long serialVersionUID = 1L;
 
-  private static final FunctionContext functionLibrary = readFunctionLibrary(FUNCTIONS_CONFIG_NAME);
+  private static final FunctionContext functionJni = readFunctionJni(FUNCTIONS_CONFIG_NAME);
 
   XPathJoinConditionEvaluator(String text) throws JaxenException {
     super(text);
   }
 
   protected FunctionContext createFunctionContext() {
-    return functionLibrary;
+    return functionJni;
   }
 
   /**

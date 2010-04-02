@@ -61,7 +61,7 @@ class XPathExpressionEvaluator extends XPathEvaluator implements ExpressionEvalu
   private static final long serialVersionUID = 1L;
   private static final Log log = LogFactory.getLog(XPathExpressionEvaluator.class);
 
-  private static final FunctionContext functionLibrary = readFunctionLibrary(FUNCTIONS_CONFIG_NAME);
+  private static final FunctionContext functionJni = readFunctionJni(FUNCTIONS_CONFIG_NAME);
 
   XPathExpressionEvaluator(String text) throws JaxenException {
     super(text);
@@ -115,14 +115,14 @@ class XPathExpressionEvaluator extends XPathEvaluator implements ExpressionEvalu
   }
 
   protected FunctionContext createFunctionContext() {
-    return functionLibrary;
+    return functionJni;
   }
 
   /**
    * Gets a context for XPath evaluation. The context for an expression expression is:
    * <ul>
    * <li>the variable bindings are the variables in the scope of the given token</li>
-   * <li>the function library is {@link #functionLibrary}</li>
+   * <li>the function library is {@link #functionJni}</li>
    * <li>the namespace declarations are taken from the snippet</li>
    * </ul>
    * @param token an instance of {@link Token}

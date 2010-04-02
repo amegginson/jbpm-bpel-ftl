@@ -50,7 +50,7 @@ class XPathVariableQueryEvaluator extends XPathEvaluator implements VariableQuer
 
   private static final Log log = LogFactory.getLog(XPathVariableQueryEvaluator.class);
 
-  private static final FunctionContext functionLibrary = readFunctionLibrary(FUNCTIONS_CONFIG_NAME);
+  private static final FunctionContext functionJni = readFunctionJni(FUNCTIONS_CONFIG_NAME);
 
   XPathVariableQueryEvaluator(String text) throws JaxenException {
     super(text);
@@ -83,7 +83,7 @@ class XPathVariableQueryEvaluator extends XPathEvaluator implements VariableQuer
   }
 
   protected FunctionContext createFunctionContext() {
-    return functionLibrary;
+    return functionJni;
   }
 
   private Context getContext(Node contextNode, Token token) {

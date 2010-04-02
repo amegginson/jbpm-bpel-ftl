@@ -157,7 +157,7 @@ public class NewProcessProjectWizard extends Wizard implements INewWizard {
 	private void addJRELibraries(IJavaProject javaProject) throws JavaModelException {		
 		ArrayList entries = new ArrayList();
 		entries.addAll(Arrays.asList(javaProject.getRawClasspath()));
-		entries.addAll(Arrays.asList(PreferenceConstants.getDefaultJRELibrary()));
+		entries.addAll(Arrays.asList(PreferenceConstants.getDefaultJREJni()));
 		javaProject.setRawClasspath((IClasspathEntry[])entries.toArray(new IClasspathEntry[entries.size()]), null);
 	}
 	
@@ -190,7 +190,7 @@ public class NewProcessProjectWizard extends Wizard implements INewWizard {
 		return PreferencesManager.INSTANCE.getJbpmInstallation(getCoreJbpmName());
 	}
 	
-	private void createJbpmLibraryContainer(IJavaProject javaProject) throws JavaModelException {
+	private void createJbpmJniContainer(IJavaProject javaProject) throws JavaModelException {
 		JavaCore.setClasspathContainer(
 				new Path("JBPM/" + getJbpmInstallation().name),
 				new IJavaProject[] { javaProject },
@@ -203,7 +203,7 @@ public class NewProcessProjectWizard extends Wizard implements INewWizard {
 	}
 	
 	private void addJbpmLibraries(IJavaProject javaProject) throws JavaModelException {
-		createJbpmLibraryContainer(javaProject);
+		createJbpmJniContainer(javaProject);
 		ArrayList entries = new ArrayList();
 		entries.addAll(Arrays.asList(javaProject.getRawClasspath()));
 		entries.add(JavaCore.newContainerEntry(new Path("JBPM/" + getJbpmInstallation().name)));
